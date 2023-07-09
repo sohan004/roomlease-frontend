@@ -12,7 +12,7 @@ import { FaSearch, FaStar } from "react-icons/fa";
 const Section1 = () => {
     return (
         <div className=' home'>
-            <div className='max-w-[1120px] mx-auto px-4'>
+            <div className='max-w-[1440px] mx-auto px-4'>
             <div className='flex items-end gap-20 flex-col lg:flex-row pt-12 lg:pt-20 px-3 '>
                 <div className='w-full lg:w-2/4 text-center lg:text-start'>
                     <h1 className='text-4xl lg:text-6xl font-bold'>Buy, rent, or sell your property easily</h1>
@@ -91,7 +91,7 @@ const Section1 = () => {
                             </div>
                         </div>
                     </div>
-                    <img src={homeImg} alt="" className='w-full mt-20' />
+                    <img src={homeImg} alt="" className='w-full -mt-20' />
                     <div className='bg-[#131D3A] text-white p-5 absolute bottom-0 right-0 rounded-ss-xl'>
                         <div className='flex items-center gap-9'>
                             <h1 className='text-lg font-semibold '>Excelent</h1>

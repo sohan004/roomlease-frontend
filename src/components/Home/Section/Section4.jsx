@@ -4,7 +4,7 @@ import ico3 from '../../../assets/sec4Icon/Icon.svg'
 const Section4 = () => {
     return (
         <div className="mt-12 lg:mt-28  bg-[#100A55]  py-12 lg:py-24">
-            <div className="max-w-[1120px] mx-auto px-4">
+            <div className="max-w-[1440px] mx-auto px-4">
                 <div className="flex items-center flex-col gap-y-6 lg:flex-row justify-between text-center lg:text-left  text-white">
                     <div className="w-full lg:w-2/5">
                         <h1 className="font-bold text-4xl leading-[50px]">We make it easy for <span className="text-[#7065F0]">tenants</span> and <span className="text-[#7065F0]">landlords.</span></h1>
@@ -44,7 +44,7 @@ const Section4 = () => {
                 </div>
             </div>
             <p className='h-[2px] bg-[#312F4B] my-16'></p>
-            <div className='grid grid-cols-1 lg:grid-cols-3 max-w-[1120px] mx-auto px-4 gap-y-12'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 max-w-[1440px] mx-auto px-4 gap-y-12'>
                 <div className='text-white flex flex-col justify-center items-center text-center w-full lg:border-r-2'>
                     <h1 className='text-[40px]'>7.4%</h1>
                     <p className='mt-2 opacity-70 pb-12 '>Property Return Rate</p>
@@ -58,7 +58,6 @@ const Section4 = () => {
                 <div className='text-white flex flex-col justify-center items-center text-center w-full '>
                     <h1 className='text-[40px]'>2,540</h1>
                     <p className='mt-2 opacity-70 pb-12 '>Daily Completed Transactions</p>
-                    <p className='w-16 h-[2px] lg:hidden bg-slate-400 mx-auto'></p>
                 </div>
             </div>
         </div>
