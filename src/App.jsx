@@ -1,9 +1,10 @@
 
 import { useState } from 'react';
-import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav'
 import logo from './assets/Frame.svg'
 import logo11 from './assets/🦆 icon _arrow circle right_.svg'
+import Footer from './components/Footer/Footer';
+import { NavLink, Outlet } from 'react-router-dom';
 const App = () => {
   const [tf, setTf] = useState(false)
 
@@ -16,7 +17,7 @@ const App = () => {
         </div>
 
         <div className='flex flex-col items-start px-14 my-12 gap-8'>
-          <p className='font-medium'>Rent</p>
+        <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink>
           <p className='font-medium'>Buy</p>
           <p className='font-medium'>Sell</p>
           <p className='font-medium'>Manage Property</p>
@@ -43,7 +44,8 @@ const App = () => {
       }}
         className={tf ? 'opacity-5 duration-500' : 'opacity-100 duration-500'}>
         <Nav setTf={setTf}></Nav>
-        <Home></Home>
+        <Outlet></Outlet>
+        <Footer></Footer>
       </div>
     </>
   );

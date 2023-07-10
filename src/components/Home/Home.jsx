@@ -1,4 +1,3 @@
-import Footer from "../Footer/Footer";
 import Section1 from "./Section/Section1";
 import Section2 from "./Section/Section2";
 import Section3 from "./Section/Section3";
@@ -15,7 +14,6 @@ const Home = () => {
             </div>
             <Section4></Section4>
             <Section5></Section5>
-            <Footer></Footer>
         </>
     );
 };
