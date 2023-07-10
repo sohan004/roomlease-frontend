@@ -77,9 +77,9 @@ const Section3 = () => {
                         <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
                         <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
                         <div className='flex items-center justify-between'>
-                            <p className='font-medium text-slate-600 flex items-center gap-2'><img src={ico1} alt="" />{p.bed} Beds</p>
-                            <p className='font-medium text-slate-600 flex items-center gap-2'><img src={ico2} alt="" />{p.bath} Bathroom</p>
-                            <p className='font-medium text-slate-600 flex items-center gap-2'><img src={ico9} alt="" />{p.size} m<sup>2</sup></p>
+                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p.bed} Beds</p>
+                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p.bath} Bathroom</p>
+                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p.size} m<sup>2</sup></p>
                         </div>
                     </div>
                 </div>)}
@@ -98,9 +98,9 @@ const Section3 = () => {
                         <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
                         <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
                         <div className='flex items-center justify-between'>
-                            <p className='font-medium text-slate-600 flex items-center gap-2'><img src={ico1} alt="" />{p.bed} Beds</p>
-                            <p className='font-medium text-slate-600 flex items-center gap-2'><img src={ico2} alt="" />{p.bath} Bathroom</p>
-                            <p className='font-medium text-slate-600 flex items-center gap-2'><img src={ico9} alt="" />{p.size} m<sup>2</sup></p>
+                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p.bed} Beds</p>
+                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p.bath} Bathroom</p>
+                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p.size} m<sup>2</sup></p>
                         </div>
                     </div>
                 </div>)}
