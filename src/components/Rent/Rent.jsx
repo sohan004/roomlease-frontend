@@ -11,6 +11,7 @@ import ico9 from '../../assets/sec3Icon/Square Meters.svg'
 import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
 import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -19,6 +20,7 @@ const options = [
 ];
 
 const Rent = () => {
+    const navigate = useNavigate()
     const [selectedOption, setSelectedOption] = useState(null);
     const [data, setData] = useState([])
     useEffect(() => {
@@ -129,7 +131,7 @@ const Rent = () => {
 
                 {/* popular card */}
                 <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mb-8 mt-12'>
-                    {popular.map(p => <div key={p.id} className='w-full border rounded-lg  border-[#F0EFFB]'>
+                    {popular.map(p => <div onClick={() => navigate(`/details/${p.id}`)} key={p.id} className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer'>
                         <img src={img} className='w-full rounded-lg -z-0' alt="" />
                         <div className='bg-[#7065F0]  text-white relative -mt-6 -left-2  flex items-center gap-1 p-2 w-28 rounded-e-lg rounded-ss-lg'>
                             <img src={ico4} alt="" />
@@ -154,7 +156,7 @@ const Rent = () => {
 
                 {/* non popular */}
                 <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                    {currentItems.map(p => <div key={p.id} className='w-full border rounded-lg  border-[#F0EFFB]'>
+                    {currentItems.map(p => <div onClick={() => navigate(`/details/${p.id}`)} key={p.id} className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer'>
                         <img src={img} className='w-full rounded-lg -z-0' alt="" />
                         <div className='px-6 pt-6 pb-8'>
                             <div className='flex items-center justify-between'>
@@ -175,7 +177,7 @@ const Rent = () => {
                 {/* pagination */}
                 <div className="">
                     <ReactPaginate
-                    containerClassName="flex justify-center w-[316px] items-center justify-between mx-auto overflow-hidden mt-[48px] w-full"
+                        containerClassName="flex justify-center w-[316px] items-center justify-between mx-auto overflow-hidden mt-[48px] "
                         breakLabel="..."
                         nextLabel=">"
                         onPageChange={handlePageClick}
