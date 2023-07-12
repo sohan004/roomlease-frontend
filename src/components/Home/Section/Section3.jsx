@@ -62,7 +62,7 @@ const Section3 = () => {
 
             {/* popular data */}
             <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mb-8 mt-12'>
-                {popular.map(p => <div key={p.id} className='w-full border rounded-lg  border-[#F0EFFB]'>
+                {popular.map(p => <div key={p.id} className='w-full border rounded-lg bg-white  border-[#F0EFFB]'>
                     <img src={img} className='w-full rounded-lg -z-0' alt="" />
                     <div className='bg-[#7065F0]  text-white relative -mt-6 -left-2  flex items-center gap-1 p-2 w-28 rounded-e-lg rounded-ss-lg'>
                         <img src={ico4} alt="" />
@@ -88,7 +88,7 @@ const Section3 = () => {
 
             {/* non popular data */}
             <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                {popular.map(p => <div key={p.id} className='w-full border rounded-lg  border-[#F0EFFB]'>
+                {popular.map(p => <div key={p.id} className='w-full border rounded-lg bg-white  border-[#F0EFFB]'>
                     <img src={img} className='w-full rounded-lg -z-0' alt="" />
                     <div className='px-6 pt-6 pb-8'>
                         <div className='flex items-center justify-between'>
