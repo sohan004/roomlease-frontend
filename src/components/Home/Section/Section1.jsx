@@ -9,6 +9,7 @@ import img from '../../../assets/linkedin-sales-solutions-pAtA8xe_iVM-unsplash 1
 import coma from '../../../assets/”.png'
 import homeImg from '../../../assets/Image.png'
 import { FaSearch, FaStar } from "react-icons/fa";
+import { NavLink } from 'react-router-dom'
 const Section1 = () => {
     return (
         <div className=' home'>
@@ -33,13 +34,13 @@ const Section1 = () => {
                             <p className='font-bold'>Barcelona, Spain</p>
                         </div>
                         <div className='px-7 '>
-                            <button className='btn bg-[#7065F0] text-white ms-3'>Browse Properties</button>
+                            <NavLink to='/map'><button className='btn bg-[#7065F0] text-white ms-3'>Browse Properties</button></NavLink>
                         </div>
                     </div>
 
                     <div className='bg-white p-4 rounded-md shadow-lg w-full lg:hidden flex items-center justify-around  '>
                         <input type="text" name="sear" className='p-2 rounded-lg bg-white border-0 ' placeholder='search location' />
-                        <FaSearch className='bg-[#7065F0] p-2 text-4xl text-stone-50 rounded-lg' />
+                       <NavLink to='/map'><FaSearch className='bg-[#7065F0] p-2 text-4xl text-stone-50 rounded-lg' /></NavLink>
                     </div>
                     <div className='flex  mt-12 gap-8 lg:gap-20 justify-center text-left'>
                         <div>

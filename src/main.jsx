@@ -8,6 +8,7 @@ import Rent from './components/Rent/Rent.jsx'
 import Details from './components/Details/Details.jsx'
 import SignIn from './components/Account/SignIn.jsx'
 import SignUp from './components/Account/SignUp.jsx'
+import Map from './components/Map/Map.jsx'
 
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/details/:id',
         element: <Details></Details>
+      },
+      {
+        path: '/map',
+        element: <Map></Map>
       },
       {
         path: '/sign_in',

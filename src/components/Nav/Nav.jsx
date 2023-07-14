@@ -1,9 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/Frame.svg'
 import menu from '../../assets/menu.svg'
 
 
 const Nav = ({setTf}) => {
+    const navigate = useNavigate()
     return (
         <>
             <div className='bg-[#EDECFB]'>
@@ -11,7 +12,7 @@ const Nav = ({setTf}) => {
 
                     <div className='flex items-center gap-14 '>
 
-                        <div className='flex items-center gap-1'>
+                        <div onClick={()=>navigate('/')} className='flex cursor-pointer items-center gap-1'>
                             <img src={logo} alt="" />
                             <p className='font-bold text-xl text-[#100A55]'>Estatery</p>
                         </div>
