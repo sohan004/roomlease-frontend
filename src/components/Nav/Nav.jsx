@@ -28,7 +28,7 @@ const Nav = ({setTf}) => {
                     </div>
 
                     <div className='hidden lg:block'>
-                       <NavLink to='/sign_in'> <button className='btn border border-2 bg-transparent border-[#d6d4f5]'>Login</button></NavLink>
+                       <NavLink to='/sign_in'> <button className='btn  border-2 bg-transparent border-[#d6d4f5]'>Login</button></NavLink>
                         <NavLink to='/sign_up'><button className='btn bg-[#7065F0] text-white ms-3'>Sign Up</button></NavLink>
                     </div>
                     <img onClick={()=>setTf(true)} src={menu} className=' lg:hidden'  alt="" />
