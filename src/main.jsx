@@ -9,6 +9,8 @@ import Details from './components/Details/Details.jsx'
 import SignIn from './components/Account/SignIn.jsx'
 import SignUp from './components/Account/SignUp.jsx'
 import Map from './components/Map/Map.jsx'
+import NewListingPage1 from './components/NewListing/NewListingPage1.jsx'
+import NewListingPage2 from './components/NewListing/NewListingPage2.jsx'
 
 
 const router = createBrowserRouter([
@@ -41,7 +43,15 @@ const router = createBrowserRouter([
         element: <SignUp></SignUp>
       },
     ]
-  }
+  },
+  {
+    path: '/new_listing1',
+    element: <NewListingPage1></NewListingPage1>
+  },
+  {
+    path: '/new_listing2',
+    element: <NewListingPage2></NewListingPage2>
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -65,7 +65,7 @@ const Map = () => {
     return (
         <div>
 
-            {/* modile map bottom bar */}
+            {/* popartise bottom bar start  */}
             <div onClick={() => openOf()} className={`bg-white fixed lg:hidden w-full duration-500 h-full ${up ? 'overflow-y-auto top-0 rounded-t-0' : 'top-[89%] rounded-t-3xl'}  z-30`}>
                 <p onClick={() => setUp(false)} className='h-[5px] w-14 bg-slate-300 rounded-full mx-auto mt-2 mb-5 '></p>
 
@@ -78,15 +78,13 @@ const Map = () => {
                             <img src={arrow} alt="" />
                             <p className='font-medium'>Search</p>
                         </div>
-                        <button onClick={()=>setRight(true)} className="btn border lg:hidden border-gray-400 bg-transparent"><img src={filter} alt="" /></button>
+                        <button onClick={() => setRight(true)} className="btn border lg:hidden border-gray-400 bg-transparent"><img src={filter} alt="" /></button>
                     </div>
                     <div className='flex items-center flex-grow gap-4 bg-[#F7F7FD] px-4 py-3 border-2 border-[#E0DEF7] rounded-lg mt-6'>
                         <img src={search} alt="" />
                         <input type="text" name="" className=' px-2 border-0 bg-transparent flex-grow ' placeholder='Search...' />
                     </div>
                 </div>
-
-
 
 
                 <div className={`${up ? 'grid grid-cols-1' : 'opacity-0'}  duration-500 mt-8 gap-4 px-4 `}>
@@ -108,23 +106,17 @@ const Map = () => {
                     </div>)}
                 </div>
             </div>
-
-
-
-
-
-
-
+            {/* popartise bottom bar end */}
 
 
             <div className="max-w-[1440px] mx-auto px-4 relative  overflow-hidden">
 
-                {/* search filter side bar */}
-                <div className={`bg-white overflow-y-auto  duration-500 absolute w-full  lg:w-[423px] h-full ${right ? 'lg:right-0 lg:left-auto top-5 left-0' : 'lg:-right-[150%] lg:top-0 top-[200%]'} border lg:border-0 rounded-t-3xl lg:rounded-t-0 top-0 z-40 py-8 px-6 lg:px-12 `}>
-                    <p onClick={()=>setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
+                {/* search filter side bar start*/}
+                <div className={`bg-white overflow-y-auto  duration-500 fixed lg:absolute w-full  lg:w-[423px] h-full ${right ? 'lg:right-0 lg:left-auto top-7 lg:top-0 left-0' : 'lg:-right-[150%] lg:top-0 top-[200%]'} border lg:border-0 rounded-t-3xl lg:rounded-t-0 top-0 z-40 py-8 px-6 lg:px-12 `}>
+                    <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
                     <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
                     <p className='font-semibold   mb-3 '>Category</p>
-                    <div  className='flex items-center gap-3 pb-6 mb-6 border-b'>
+                    <div className='flex items-center gap-3 pb-6 mb-6 border-b'>
                         <button className='btn bg-[#7065F0] text-white '>Houses</button>
                         <button className='btn bg-transparent border border-black '>Apartment</button>
                         <button className='btn bg-transparent border border-black '>Rooms</button>
@@ -153,19 +145,20 @@ const Map = () => {
                     <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 13 - 24 months</p>
                     <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 24+ months</p>
                     <div className='flex justify-center items-center gap-6 mt-16'>
-                    <button className='btn text-[#7065F0]  flex-grow'>Reset</button>
-                    <button className='btn bg-[#7065F0] text-white flex-grow '>Apply</button>
+                        <button className='btn text-[#7065F0]  flex-grow'>Reset</button>
+                        <button className='btn bg-[#7065F0] text-white flex-grow '>Apply</button>
                     </div>
-
                 </div>
+                {/* search filter side bar end*/}
 
 
-                <div  onClick={() => {
+
+                <div onClick={() => {
                     if (!right) {
                         return
                     }
                     setRight(false)
-                }}  className={`flex flex-col-reverse   relative duration-500 lg:flex-row ${right ? 'opacity-50' : 'opacity-100'}`}>
+                }} className={`flex flex-col-reverse   relative duration-500 lg:flex-row ${right ? 'opacity-50' : 'opacity-100'}`}>
                     <div className="w-full lg:w-2/4">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1042159.3194971556!2d-70.73944298691842!3d43.82295373468856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cb3c4d1e99f0edf%3A0xe8598f7ba299c815!2sWhite%20Mountain%20National%20Forest!5e0!3m2!1sen!2sbd!4v1689147394916!5m2!1sen!2sbd" width="100%" className='rounded-lg h-[540px] lg:h-[947px]'  ></iframe>
                     </div>
