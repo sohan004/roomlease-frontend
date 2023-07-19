@@ -14,6 +14,8 @@ import book from '../../assets/login-signup-icon/Icon (1).svg'
 import arrow from '../../assets/login-signup-icon/Icon.svg'
 import eye from '../../assets/login-signup-icon/eye.svg'
 import logo from '../../assets/Frame.svg'
+import { useState } from 'react';
+import { baseURL } from '../../App';
 
 
 const SignUp = () => {
@@ -26,6 +28,63 @@ const SignUp = () => {
         bath: 2,
         size: '5 x 7',
     }
+
+    const [isTenant, setIsTenant] = useState(true)
+    const [fullName, setFullName] = useState('')
+    const [subUrb, setSubUrb] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPass, setConfirmPass] = useState('')
+    const [spareRoom, setSpareRoom] = useState('')
+
+
+    const handleSignup = () => {
+        if (fullName === '' || subUrb === '' || email === '' || password === '' || confirmPass === '') {
+            alert('Please fill all the fields')
+            return
+        }
+        else if (password !== confirmPass) {
+            alert('Password and confirm password does not match')
+            return
+        }
+        else if (password.length < 6) {
+            alert('Password must be at least 6 characters')
+            return
+        }
+
+        fetch(`${baseURL}/account/signup/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                full_name: fullName,
+                suburb: subUrb,
+                email: email,
+                password: password,
+                confirm_password: confirmPass
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                //console.log(data)
+                if (data.success) {
+                    alert('Signup successful')
+                    localStorage.setItem('room-lease-token', data.token)
+                    window.location.href = '/setting_profile'
+                }
+                else if (data.message) {
+                    alert(data.message)
+                } else {
+                    alert('Signup failed')
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Signup failed')
+            })
+    }
+
     return (
         <div className="flex  flex-col lg:flex-row">
             <div className="w-full lg:w-2/4 pt-12 lg:pt-20 flex justify-center">
@@ -34,17 +93,25 @@ const SignUp = () => {
                     ">Welcome back</h1>
                     <p className="mb-8 mt-2 text-center lg:text-left">Welcome back! Please enter your details.</p>
 
-                    <p className="text-sm font-medium mb-2">Name</p>
-                    <input type="text" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Full name" />
-
+                    <p className="text-sm font-medium mb-2">Full Name</p>
+                    <input type="text" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                    
+                    <p className="text-sm font-medium mb-2 mt-4">Suburb</p>
+                    <input type="text" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Suburb" value={subUrb} onChange={(e) => setSubUrb(e.target.value)} />
 
                     <p className="text-sm font-medium mb-2 mt-4">Email</p>
-                    <input type="email" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="hi@example.com" />
+                    <input type="email" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="hi@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                     <p className="text-sm font-medium mb-2 mt-4">Password</p>
                     <div className='relative'>
-                        <input type="password" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Enter Password" />
-                        <img src={eye} className='absolute right-5 top-2/4 -translate-y-2/4' alt="" />
+                        <input type="password" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        {/* <img src={eye} className='absolute right-5 top-2/4 -translate-y-2/4' alt="" /> */}
+                    </div>
+
+                    <p className="text-sm font-medium mb-2 mt-4">Confirm Password</p>
+                    <div className='relative'>
+                        <input type="password" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Confirm Password" value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} />
+                        {/* <img src={eye} className='absolute right-5 top-2/4 -translate-y-2/4' alt="" /> */}
                     </div>
 
                     <div className='mt-2 flex items-center justify-between'>
@@ -52,9 +119,23 @@ const SignUp = () => {
                         <p className="  text-sm font-medium text-[#7065F0] ">Forgot Password?</p>
                     </div>
 
-                    <p className='my-8 flex items-center gap-2'><input type="checkbox" name="" className='border ' />I am a property manager</p>
+                    {!isTenant && 
+                    <>
+                        <p className="text-sm font-medium mb-2 mt-4">Number of spare rooms </p>
+                        <select name=""  className='w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] ' value={spareRoom} onChange={(e) => setSpareRoom(e.target.value)}>
+                            <option value="" selected>Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </>}
 
-                    <button className="w-full bg-[#7065F0] text-white btn">Sign Up</button>
+                    <p className='my-8 flex items-center gap-2'><input type="checkbox" name="" className='border ' checked={isTenant} onChange={() => setIsTenant(!isTenant)} />
+                        I am a Tenant
+                    </p>
+
+                    <button onClick={handleSignup} className="w-full bg-[#7065F0] text-white btn">Sign Up</button>
                     <button className="w-full bg-transparent border border-[#E0DEF7] mt-4 mb-8 btn"><img src={google} alt="" />Continue with Google</button>
                     <p className='text-sm opacity-80 text-center'>Already have an account? <Link className='font-bold border-b border-black' to="/sign_in"> Login</Link></p>
                 </div>

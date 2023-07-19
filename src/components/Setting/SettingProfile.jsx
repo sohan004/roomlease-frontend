@@ -4,19 +4,48 @@ import ball from '../../assets/settingIcon/Icon.svg'
 import profileImg from '../../assets/settingIcon/Icon (2).svg'
 import arrowDown from '../../assets/settingIcon/Icon (1).svg'
 import google from '../../assets/settingIcon/google.svg'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import { Link } from "react-router-dom";
+import { baseURL } from "../../App";
 
 
 const SettingProfile = () => {
     const [value, setValue] = useState('p')
     const [con, setCon] = useState({ phone: '' })
+    const [userData, setUserData] = useState({})
+
+
+    useEffect(() => {
+        fetch(`${baseURL}/account/profile/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('room-lease-token')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                //console.log(data)
+                if (data.success) {
+                    setUserData(data.data)
+                }
+                else if (data.message) {
+                    alert(data.message)
+                } else {
+                    alert('Something went wrong')
+                }
+            })
+    }, [])
+
     return (
         <div className="bg-[#F7F7FD]">
             <div className="border-b bg-white">
                 <div className="max-w-[1440px] mx-auto px-4  py-6 lg:py-9 flex items-center justify-between">
-                    <p className="text-sm lg:hidden flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> Back <span className="">to Dashboard</span></p>
+                    
+                        <p className="text-sm lg:hidden flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> <Link to='/'>Back <span className="">to Dashboard</span></Link></p>
+                    
                     <div className="hidden lg:flex items-center  gap-12">
                         <img src={logo} className="bg-[#7065F0] p-2 rounded-lg" alt="" />
                         <p className="text-2xl font-bold ">Settings</p>
@@ -36,7 +65,7 @@ const SettingProfile = () => {
                 </div>
             </div>
             <div className="bg-white">
-                <p className="  max-w-[1440px] mx-auto px-4  py-6 lg:py-9 text-sm hidden lg:flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> Back <span className="">to Dashboard</span></p>
+                <p className="  max-w-[1440px] mx-auto px-4  py-6 lg:py-9 text-sm hidden lg:flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> <Link to='/'>Back <span className="">to Dashboard</span></Link></p>
                 <div className=" max-w-[1440px] mx-auto px-4 lg:hidden">
                     <h1 className="text-2xl font-bold py-6">Settings</h1>
                     <div className="flex ">
@@ -74,11 +103,11 @@ const SettingProfile = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                             <div>
                                 <p className="font-medium text-sm mb-2">Display Name <span className="opacity-50">(Visible to others)</span></p>
-                                <input defaultValue={'Francis'} type="text" name="" className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg" />
+                                <input defaultValue={userData?.first_name} type="text" name="" className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg" />
                             </div>
                             <div>
                                 <p className="font-medium text-sm mb-2">Name<span className="opacity-50"> (Your given name)</span></p>
-                                <input defaultValue={'Francis'} type="text" name="" className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg" />
+                                <input defaultValue={userData?.last_name} type="text" name="" className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg" />
                             </div>
                             <div className="col-span-1 lg:col-span-2">
                                 <p className="font-medium text-sm mb-2">Number</p>
