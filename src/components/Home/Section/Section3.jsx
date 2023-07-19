@@ -42,7 +42,7 @@ const Section3 = () => {
     ]
     return (
         <div >
-            <h1 className='text-center text-black text-4xl font-bold mt-44'>Based on your location</h1>
+            <h1 className='text-center text-black text-4xl font-bold mt-24'>Based on your location</h1>
             <p className='text-center mb-16 mt-4'>Some of our picked properties near you location.</p>
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 '>
                 <div className='order-2 lg:order-1 w-full bg-[#F7F7FD] flex items-center justify-between border p-2 border-[#E0DEF7] rounded-lg'>

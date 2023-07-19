@@ -14,7 +14,7 @@ const Section1 = () => {
     return (
         <div className=' home'>
             <div className='max-w-[1440px] mx-auto px-4'>
-            <div className='flex items-end gap-20 flex-col lg:flex-row pt-12 lg:pt-20 px-3 '>
+            <div className='flex items-start gap-20 flex-col lg:flex-row pt-12 lg:pt-20 px-3 '>
                 <div className='w-full lg:w-2/4 text-center lg:text-start'>
                     <h1 className='text-4xl lg:text-6xl font-bold'>Buy, rent, or sell your property easily</h1>
                     <p className='font-medium mb-12 mt-8'>A great platform to buy, sell, or even rent your properties without any commisions.</p>
