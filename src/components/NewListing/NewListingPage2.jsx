@@ -161,7 +161,7 @@ const NewListingPage2 = () => {
 
                 </div>
                 <div className="flex justify-center lg:items-center gap-4 justify-end my-8 ">
-                  <button className="btn text-[#7065F0] w-2/4  lg:w-40 bg-[#F7F7FD]">Previous</button>
+                  <NavLink to='/new_listing1'><button className="btn text-[#7065F0] w-2/4  lg:w-40 bg-[#F7F7FD]">Previous</button></NavLink>
                     <button className="btn text-white  w-2/4 lg:w-40 bg-[#7065F0]">Next</button>
                 </div>
 

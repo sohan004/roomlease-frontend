@@ -1,7 +1,6 @@
 import { FaArrowLeft } from "react-icons/fa";
 import logo from '../../assets/Frame.svg'
 import arow from '../../assets/newlistingIcon/Icon.svg'
-import Footer from "../Footer/Footer";
 import { NavLink } from "react-router-dom";
 
 const NewListingPage1 = () => {
