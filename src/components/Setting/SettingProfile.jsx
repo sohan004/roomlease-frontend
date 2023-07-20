@@ -10,13 +10,16 @@ import PhoneInput from 'react-phone-number-input'
 import { Link } from "react-router-dom";
 import { baseURL } from "../../App";
 import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const SettingProfile = () => {
     const [value, setValue] = useState('p')
     const [con, setCon] = useState({ phone: '' })
     const [userData, setUserData] = useState({})
-
+    const [profilePicture, setProfilePicture] = useState(null)
+    console.log(userData);
     useEffect(() => {
         if (!localStorage.getItem('room-lease-token')) {
             window.location.href = '/sign-in'
@@ -31,7 +34,6 @@ const SettingProfile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if (data.success) {
                     setUserData(data.data)
                 }
@@ -46,15 +48,29 @@ const SettingProfile = () => {
                     localStorage.removeItem('room-lease-token')
                     window.location.href = '/sign-in'
                 }
-                 else {
-                    alert('Something went wrong')
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong',
+                    })
                 }
             })
     }, [])
 
+
     const changeProfilePicture = () => {
         if (!profilePicture) {
-            alert('Please select a picture')
+            toast.error('Please select a picture', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            })
             return
         }
         const formData = new FormData()
@@ -70,6 +86,7 @@ const SettingProfile = () => {
             .then(data => {
                 console.log(data)
                 if (data.success) {
+                    window.upload_img.close()
                     Swal.fire({
                         position: 'top-center',
                         icon: 'success',
@@ -80,8 +97,18 @@ const SettingProfile = () => {
                     window.location.reload()
                 }
                 else if (data.message) {
-                    alert(data.message)
+                    toast.error(data.message, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    })
                 } else if (data.detail === "Invalid token.") {
+                    window.upload_img.close()
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -90,8 +117,17 @@ const SettingProfile = () => {
                     localStorage.removeItem('room-lease-token')
                     window.location.href = '/sign-in'
                 }
-                 else {
-                    alert('Something went wrong')
+                else {
+                    toast.error('Something went wrong', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    })
                 }
             })
 
@@ -118,9 +154,27 @@ const SettingProfile = () => {
                     setUserData({ ...userData, profile_picture: null })
                 }
                 else if (data.message) {
-                    alert(data.message)
+                    toast.error(data.message, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    })
                 } else {
-                    alert('Something went wrong')
+                    toast.error('Something went wrong', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    })
                 }
             })
     }
@@ -130,9 +184,9 @@ const SettingProfile = () => {
         <div className="bg-[#F7F7FD]">
             <div className="border-b bg-white">
                 <div className="max-w-[1440px] mx-auto px-4  py-6 lg:py-9 flex items-center justify-between">
-                    
-                        <p className="text-sm lg:hidden flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> <Link to='/'>Back <span className="">to Dashboard</span></Link></p>
-                    
+
+                    <p className="text-sm lg:hidden flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> <Link to='/'>Back <span className="">to Dashboard</span></Link></p>
+
                     <div className="hidden lg:flex items-center  gap-12">
                         <img src={logo} className="bg-[#7065F0] p-2 rounded-lg" alt="" />
                         <p className="text-2xl font-bold ">Settings</p>
@@ -179,10 +233,10 @@ const SettingProfile = () => {
                         <p className="font-medium mt-6 mb-4">Avatar</p>
                         <div className="flex gap-6 items-center mb-6 pb-6 border-b-2">
                             <div>
-                                <img className="bg-[#E0DEF7] p-6 rounded-full" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
+                                <img className="bg-[#E0DEF7] p-3 rounded-full h-40 w-40" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
                             </div>
                             <div className="flex flex-col lg:flex-row gap-4 ">
-                                <button onClick={changeProfilePicture} className="btn bg-[#7065F0] w-[155px] lg:w-[105px] text-white">Upload</button>
+                                <button onClick={() => window.upload_img.showModal()} className="btn bg-[#7065F0] w-[155px] lg:w-[105px] text-white">Upload</button>
                                 <button onClick={deleteProfilePicture} className="btn border-2 w-[155px] lg:w-[105px] border-[#E0DEF7] bg-transparent text-[#7065F0]">Remove</button>
                             </div>
                         </div>
@@ -306,6 +360,23 @@ const SettingProfile = () => {
                         </div>
                     </div>}
                 </div>
+
+
+
+                <dialog id="upload_img" className="modal">
+                    <div method="dialog" className="modal-box">
+                        <div className="flex flex-col items-center gap-7 mb-14">
+                            <h3 className="font-bold text-lg text-center">Upload Profile Picture</h3>
+                            <input onChange={e => setProfilePicture(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-xs" />
+                        </div>
+                        <div className="modal-action mt-7">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button onClick={() => changeProfilePicture()} className="btn btn-primary">save chenges</button>
+                            <button onClick={()=>window.upload_img.close()} className="btn">Close</button>
+                        </div>
+                    </div>
+                </dialog>
+                <ToastContainer></ToastContainer>
             </div>
         </div>
     );
