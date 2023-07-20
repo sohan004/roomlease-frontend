@@ -16,8 +16,6 @@ const SettingProfile = () => {
     const [value, setValue] = useState('p')
     const [con, setCon] = useState({ phone: '' })
     const [userData, setUserData] = useState({})
-    const [profilePicture, setProfilePicture] = useState(null)
-
 
     useEffect(() => {
         if (!localStorage.getItem('room-lease-token')) {
