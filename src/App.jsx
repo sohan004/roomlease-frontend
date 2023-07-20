@@ -5,6 +5,9 @@ import logo from './assets/Frame.svg'
 import logo11 from './assets/🦆 icon _arrow circle right_.svg'
 import Footer from './components/Footer/Footer';
 import { NavLink, Outlet } from 'react-router-dom';
+
+export const baseURL = 'https://roomlease.pythonanywhere.com'
+
 const App = () => {
   const [tf, setTf] = useState(false)
 

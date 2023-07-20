@@ -14,6 +14,8 @@ import book from '../../assets/login-signup-icon/Icon (1).svg'
 import arrow from '../../assets/login-signup-icon/Icon.svg'
 import eye from '../../assets/login-signup-icon/eye.svg'
 import logo from '../../assets/Frame.svg'
+import { useState } from 'react';
+import { baseURL } from '../../App';
 
 
 const SignIn = () => {
@@ -26,6 +28,42 @@ const SignIn = () => {
         bath: 2,
         size: '5 x 7',
     }
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleLogin = () => {
+        if (email === '' || password === '') {
+            alert('Please fill all the fields')
+            return
+        }
+        fetch(`${baseURL}/account/login/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then(res => res.json())
+            .then(data => {
+                //console.log(data)
+                if (data.success) {
+                    alert('Signup successful')
+                    localStorage.setItem('room-lease-token', data.token)
+                    window.location.href = '/setting_profile'
+                }
+                else if (data.message) {
+                    alert(data.message)
+                } else {
+                    alert('Signup failed')
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Signup failed')
+            })
+    }
+
     return (
         <div className="flex  flex-col lg:flex-row">
             <div className="w-full lg:w-2/4 pt-12 lg:pt-20 flex justify-center">
@@ -35,16 +73,16 @@ const SignIn = () => {
                     <p className="mb-8 mt-2 text-center lg:text-left">Welcome back! Please enter your details.</p>
 
                     <p className="text-sm font-medium mb-2">Email</p>
-                    <input type="email" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="hi@example.com" />
+                    <input type="email" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="hi@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
 
                     <p className="text-sm font-medium mb-2 mt-4">Password</p>
                     <div className='relative'>
-                    <input type="password" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Enter Password" />
-                    <img src={eye} className='absolute right-5 top-2/4 -translate-y-2/4' alt="" />
+                    <input type="password" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Enter Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    {/* <img src={eye} className='absolute right-5 top-2/4 -translate-y-2/4' alt="" /> */}
                     </div>
 
                     <p className="mt-2 mb-8 text-sm font-medium text-[#7065F0] text-center">Forgot Password?</p>
-                    <button className="w-full bg-[#7065F0] text-white btn">Login</button>
+                    <button onClick={handleLogin} className="w-full bg-[#7065F0] text-white btn">Login</button>
                     <button className="w-full bg-transparent border border-[#E0DEF7] mt-4 mb-8 btn"><img src={google} alt="" />Continue with Google</button>
                     <p className='text-sm opacity-80 text-center'>Don’t have an account? <Link className='font-bold border-b border-black' to="/sign_up">Sign up for free</Link></p>
                 </div>
