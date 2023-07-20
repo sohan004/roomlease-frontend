@@ -15,6 +15,7 @@ const SettingProfile = () => {
     const [value, setValue] = useState('p')
     const [con, setCon] = useState({ phone: '' })
     const [userData, setUserData] = useState({})
+    console.log(userData);
 
 
     useEffect(() => {
