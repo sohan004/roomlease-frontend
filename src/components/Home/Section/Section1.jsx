@@ -16,8 +16,8 @@ const Section1 = () => {
             <div className='max-w-[1440px] mx-auto px-4'>
             <div className='flex items-start gap-20 flex-col lg:flex-row pt-12 lg:pt-20 px-3 '>
                 <div className='w-full lg:w-2/4 text-center lg:text-start'>
-                    <h1 className='text-4xl lg:text-6xl font-bold'>Buy, rent, or sell your property easily</h1>
-                    <p className='font-medium mb-12 mt-8'>A great platform to buy, sell, or even rent your properties without any commisions.</p>
+                    <h1 className='text-4xl lg:text-6xl font-bold'>Find Your Perfect Room Rental</h1>
+                    <p className='font-medium mb-12 mt-8'>- Your gateway to dream room rentals with top-notch amenities and unbeatable prices. Find your perfect space today!</p>
                     <div className='pt-3 border border-[#F0EFFB
             ] rounded-t-lg flex items-center mx-auto lg:mx-0 bg-white w-full justify-between lg:max-w-[220px] '>
                         <p className='font-semibold px-4 border-b-2 border-[#7065F0] text-[#7065F0] pb-1 flex-grow'>Rent</p>
@@ -72,7 +72,7 @@ const Section1 = () => {
                                     <p className='my-2 font-medium text-slate-600'>Moved with</p>
                                     <div className='flex items-center gap-1'>
                                         <img className='' src={logo} alt="" />
-                                        <p className='font-bold text-[#100A55]'>Estatery</p>
+                                        <p className='font-bold text-[#100A55]'>RoomLease</p>
                                     </div>
                                 </div>
                             </div>

@@ -16,7 +16,7 @@ const App = () => {
       <div className={`fixed lg:hidden bg-white shadow-2xl duration-500 z-50  w-[85%] py-6 h-full ${!tf ? '-left-[150%]' : 'left-0'}`}>
         <div className="flex items-center gap-1 justify-center">
           <img src={logo} alt="" />
-          <p className='font-bold text-xl text-[#100A55]'>Estatery</p>
+          <p className='font-bold text-xl text-[#100A55]'>RoomLease </p>
         </div>
 
         <div className='flex flex-col items-start px-14 my-12 gap-8'>
@@ -28,8 +28,8 @@ const App = () => {
         </div>
 
         <div className='text-center'>
-         <NavLink to='/sign_in'> <button className='btn  border-2 bg-transparent border-[#d6d4f5]'>Login</button></NavLink>
-          <NavLink to='/sign_up'><button className='btn bg-[#7065F0] text-white ms-3'>Sign Up</button></NavLink>
+         <NavLink to='/sign-in'> <button className='btn  border-2 bg-transparent border-[#d6d4f5]'>Login</button></NavLink>
+          <NavLink to='/sign-up'><button className='btn bg-[#7065F0] text-white ms-3'>Sign Up</button></NavLink>
         </div>
 
         <div className='absolute top-16 -right-4'>

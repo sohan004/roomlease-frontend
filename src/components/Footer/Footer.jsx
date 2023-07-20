@@ -12,7 +12,7 @@ const Footer = () => {
                 <div className="w-full lg:w-1/4">
                     <div className='flex items-center gap-1'>
                         <img src={logo} alt="" />
-                        <p className='font-bold text-2xl text-[#100A55]'>Estatery</p>
+                        <p className='font-bold text-2xl text-[#100A55]'>RoomLease</p>
                     </div>
                 </div>
                 <div className="w-full lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
@@ -58,7 +58,7 @@ const Footer = () => {
             </div>
             <p className='h-[2px] bg-slate-200 mt-12 mb-8'></p>
             <div className='max-w-[1440px] mx-auto px-4 flex lg:justify-between justify-center items-center flex-col lg:flex-row gap-6 opacity-60'>
-                <p>©{currentYear} Estatery. All rights reserved</p>
+                <p>©{currentYear} RoomLease. All rights reserved</p>
                 <div className='flex items-center gap-10'>
                     <img src={fb} alt="" />
                     <img src={ins} alt="" />

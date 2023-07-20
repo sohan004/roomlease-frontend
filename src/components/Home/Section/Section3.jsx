@@ -9,6 +9,8 @@ import ico8 from '../../../assets/sec3Icon/Icon.svg'
 import ico9 from '../../../assets/sec3Icon/Square Meters.svg'
 import img from '../../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../../assets/sec3Icon/Vector 2.svg'
+import { NavLink } from 'react-router-dom'
+import { TbMessage2 } from "react-icons/tb";
 
 const Section3 = () => {
     const popular = [
@@ -72,7 +74,10 @@ const Section3 = () => {
                     <div className='px-6 pt-6 pb-8'>
                         <div className='flex items-center justify-between'>
                             <h1 className='text-2xl font-bold text-[#7065F0]'>${p.price}<span className='text-base font-medium text-gray-500'>/month</span></h1>
-                            <img src={ico3} className='border p-3 rounded-full' alt="" />
+                            <div className='flex items-center gap-4'>
+                                <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
+                                <img src={ico3} className='border p-3 rounded-full' alt="" />
+                            </div>
                         </div>
                         <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
                         <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
@@ -86,6 +91,7 @@ const Section3 = () => {
             </div>
 
 
+
             {/* non popular data */}
             <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
                 {popular.map(p => <div key={p.id} className='w-full border rounded-lg bg-white  border-[#F0EFFB]'>
@@ -93,7 +99,10 @@ const Section3 = () => {
                     <div className='px-6 pt-6 pb-8'>
                         <div className='flex items-center justify-between'>
                             <h1 className='text-2xl font-bold text-[#7065F0]'>${p.price}<span className='text-base font-medium text-gray-500'>/month</span></h1>
-                            <img src={ico3} className='border p-3 rounded-full' alt="" />
+                            <div className='flex items-center gap-4'>
+                                <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
+                                <img src={ico3} className='border p-3 rounded-full' alt="" />
+                            </div>
                         </div>
                         <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
                         <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
@@ -104,6 +113,9 @@ const Section3 = () => {
                         </div>
                     </div>
                 </div>)}
+            </div>
+            <div className='my-7  text-center'>
+                <NavLink to='/rent'><button className='btn hover:bg-[#4e46a1] bg-[#7065F0] text-white '>show more</button></NavLink>
             </div>
         </div>
     );
