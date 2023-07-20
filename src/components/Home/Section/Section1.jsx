@@ -16,8 +16,8 @@ const Section1 = () => {
             <div className='max-w-[1440px] mx-auto px-4'>
             <div className='flex items-start gap-20 flex-col lg:flex-row pt-12 lg:pt-20 px-3 '>
                 <div className='w-full lg:w-2/4 text-center lg:text-start'>
-                    <h1 className='text-4xl lg:text-6xl font-bold'>Find Your Perfect Room Rental</h1>
-                    <p className='font-medium mb-12 mt-8'>- Your gateway to dream room rentals with top-notch amenities and unbeatable prices. Find your perfect space today!</p>
+                    <h1 className='text-4xl lg:text-6xl font-bold'>Australia's best room rental platform</h1>
+                    <p className='font-medium mb-12 mt-8'>Our mission is to empower homeowners by turning their spare rooms into a source of income to ease the burden of mortgage cost.</p>
                     <div className='pt-3 border border-[#F0EFFB
             ] rounded-t-lg flex items-center mx-auto lg:mx-0 bg-white w-full justify-between lg:max-w-[220px] '>
                         <p className='font-semibold px-4 border-b-2 border-[#7065F0] text-[#7065F0] pb-1 flex-grow'>Rent</p>
@@ -48,7 +48,7 @@ const Section1 = () => {
                                 <img src={ico4} className='bg-[#E0DEF7] rounded-full p-4 border-4 shadow-md border-white' alt="" />
                                 <img src={ico1} className='bg-[#7166F0] p-2 rounded-xl relative left-11 -top-7' alt="" />
                             </div>
-                            <p className='text-xl lg:text-4xl font-bold text-[#7166F0] mb-2 lg:mb-4'>50k+ renters</p>
+                            <p className='text-xl lg:text-4xl font-bold text-[#7166F0] mb-2 lg:mb-4'>10k+ Tenant</p>
                             <p className='text-sm lg:text-base font-medium'>believe in our service</p>
                         </div>
                         <div>
@@ -56,7 +56,7 @@ const Section1 = () => {
                                 <img src={ico2} className='bg-[#E0DEF7] rounded-full p-4 border-4 shadow-md border-white' alt="" />
                                 <img src={ico3} className='bg-[#7166F0] p-2 rounded-xl relative left-11 -top-7' alt="" />
                             </div>
-                            <p className='text-xl lg:text-4xl font-bold text-[#7166F0] mb-2 lg:mb-4'>50k+ renters</p>
+                            <p className='text-xl lg:text-4xl font-bold text-[#7166F0] mb-2 lg:mb-4'>12k+ Homeowners</p>
                             <p className='text-sm lg:text-base font-medium'>believe in our service</p>
                         </div>
                     </div>
