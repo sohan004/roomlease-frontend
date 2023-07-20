@@ -9,15 +9,21 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { Link } from "react-router-dom";
 import { baseURL } from "../../App";
+import Swal from 'sweetalert2';
 
 
 const SettingProfile = () => {
     const [value, setValue] = useState('p')
     const [con, setCon] = useState({ phone: '' })
     const [userData, setUserData] = useState({})
+    const [profilePicture, setProfilePicture] = useState(null)
 
 
     useEffect(() => {
+        if (!localStorage.getItem('room-lease-token')) {
+            window.location.href = '/sign-in'
+            return
+        }
         fetch(`${baseURL}/account/profile/`, {
             method: 'GET',
             headers: {
@@ -27,9 +33,91 @@ const SettingProfile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                //console.log(data)
+                console.log(data)
                 if (data.success) {
                     setUserData(data.data)
+                }
+                else if (data.message) {
+                    alert(data.message)
+                } else if (data.detail === "Invalid token.") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please login again',
+                    })
+                    localStorage.removeItem('room-lease-token')
+                    window.location.href = '/sign-in'
+                }
+                 else {
+                    alert('Something went wrong')
+                }
+            })
+    }, [])
+
+    const changeProfilePicture = () => {
+        if (!profilePicture) {
+            alert('Please select a picture')
+            return
+        }
+        const formData = new FormData()
+        formData.append('profile_picture', profilePicture)
+        fetch(`${baseURL}/account/change-profile-picture/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('room-lease-token')}`
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.success) {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Profile picture changed successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    window.location.reload()
+                }
+                else if (data.message) {
+                    alert(data.message)
+                } else if (data.detail === "Invalid token.") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please login again',
+                    })
+                    localStorage.removeItem('room-lease-token')
+                    window.location.href = '/sign-in'
+                }
+                 else {
+                    alert('Something went wrong')
+                }
+            })
+
+    }
+
+    const deleteProfilePicture = () => {
+        fetch(`${baseURL}/account/change-profile-picture/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('room-lease-token')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.success) {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Profile picture deleted successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    setUserData({ ...userData, profile_picture: null })
                 }
                 else if (data.message) {
                     alert(data.message)
@@ -37,7 +125,8 @@ const SettingProfile = () => {
                     alert('Something went wrong')
                 }
             })
-    }, [])
+    }
+
 
     return (
         <div className="bg-[#F7F7FD]">
@@ -92,11 +181,11 @@ const SettingProfile = () => {
                         <p className="font-medium mt-6 mb-4">Avatar</p>
                         <div className="flex gap-6 items-center mb-6 pb-6 border-b-2">
                             <div>
-                                <img className="bg-[#E0DEF7] p-6 rounded-full" src={profileImg} alt="" />
+                                <img className="bg-[#E0DEF7] p-6 rounded-full" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
                             </div>
                             <div className="flex flex-col lg:flex-row gap-4 ">
-                                <button className="btn bg-[#7065F0] w-[155px] lg:w-[105px] text-white">Upload</button>
-                                <button className="btn border-2 w-[155px] lg:w-[105px] border-[#E0DEF7] bg-transparent text-[#7065F0]">Remove</button>
+                                <button onClick={changeProfilePicture} className="btn bg-[#7065F0] w-[155px] lg:w-[105px] text-white">Upload</button>
+                                <button onClick={deleteProfilePicture} className="btn border-2 w-[155px] lg:w-[105px] border-[#E0DEF7] bg-transparent text-[#7065F0]">Remove</button>
                             </div>
                         </div>
 
@@ -114,7 +203,7 @@ const SettingProfile = () => {
                                 <PhoneInput
                                     className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg"
                                     international
-                                    defaultCountry="US"
+                                    defaultCountry="AU"
                                     value={con.phone}
                                     onChange={p => setCon({ p })}
                                 />
