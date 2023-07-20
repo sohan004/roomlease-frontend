@@ -16,6 +16,8 @@ import eye from '../../assets/login-signup-icon/eye.svg'
 import logo from '../../assets/Frame.svg'
 import { useState } from 'react';
 import { baseURL } from '../../App';
+import Swal from 'sweetalert2';
+import { FaSpinner } from 'react-icons/fa';
 
 
 const SignUp = () => {
@@ -36,19 +38,36 @@ const SignUp = () => {
     const [password, setPassword] = useState('')
     const [confirmPass, setConfirmPass] = useState('')
     const [spareRoom, setSpareRoom] = useState('')
+    const [load, setLoad] = useState(false)
 
 
     const handleSignup = () => {
+        setLoad(true)
         if (fullName === '' || subUrb === '' || email === '' || password === '' || confirmPass === '') {
-            alert('Please fill all the fields')
+            Swal.fire(
+                'Please fill all the fields',
+                '',
+                'error'
+            )
+            setLoad(false)
             return
         }
         else if (password !== confirmPass) {
-            alert('Password and confirm password does not match')
+            Swal.fire(
+                'Password and confirm password does not match',
+                '',
+                'error'
+            )
+            setLoad(false)
             return
         }
         else if (password.length < 6) {
-            alert('Password must be at least 6 characters')
+            Swal.fire(
+                'Password must be at least 6 characters',
+                '',
+                'error'
+            )
+            setLoad(false)
             return
         }
 
@@ -69,19 +88,41 @@ const SignUp = () => {
             .then(data => {
                 //console.log(data)
                 if (data.success) {
-                    alert('Signup successful')
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Signup successful',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    setLoad(false)
                     localStorage.setItem('room-lease-token', data.token)
                     window.location.href = '/setting_profile'
                 }
                 else if (data.message) {
-                    alert(data.message)
+                    Swal.fire(
+                        data.message,
+                        '',
+                        'error'
+                    )
+                    setLoad(false)
                 } else {
-                    alert('Signup failed')
+                    Swal.fire(
+                        'Signup failed',
+                        '',
+                        'error'
+                    )
+                    setLoad(false)
                 }
             })
             .catch(err => {
                 console.log(err)
-                alert('Signup failed')
+                Swal.fire(
+                    'Signup failed',
+                    '',
+                    'error'
+                )
+                setLoad(false)
             })
     }
 
@@ -95,7 +136,7 @@ const SignUp = () => {
 
                     <p className="text-sm font-medium mb-2">Full Name</p>
                     <input type="text" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                    
+
                     <p className="text-sm font-medium mb-2 mt-4">Suburb</p>
                     <input type="text" name="" className="w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] " placeholder="Suburb" value={subUrb} onChange={(e) => setSubUrb(e.target.value)} />
 
@@ -119,25 +160,25 @@ const SignUp = () => {
                         <p className="  text-sm font-medium text-[#7065F0] ">Forgot Password?</p>
                     </div>
 
-                    {!isTenant && 
-                    <>
-                        <p className="text-sm font-medium mb-2 mt-4">Number of spare rooms </p>
-                        <select name=""  className='w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] ' value={spareRoom} onChange={(e) => setSpareRoom(e.target.value)}>
-                            <option value="" selected>Select</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </>}
+                    {!isTenant &&
+                        <>
+                            <p className="text-sm font-medium mb-2 mt-4">Number of spare rooms </p>
+                            <select name="" className='w-full rounded-lg bg-[#F7F7FD] border py-3 px-4 border-[#E0DEF7] ' value={spareRoom} onChange={(e) => setSpareRoom(e.target.value)}>
+                                <option value="" selected>Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </>}
 
                     <p className='my-8 flex items-center gap-2'><input type="checkbox" name="" className='border ' checked={isTenant} onChange={() => setIsTenant(!isTenant)} />
                         I am a Tenant
                     </p>
 
-                    <button onClick={handleSignup} className="w-full bg-[#7065F0] text-white btn">Sign Up</button>
+                    <button disabled={load ? true : false} onClick={handleSignup} className="w-full hover:bg-[#484196] bg-[#7065F0] text-white btn">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Sign Up</button>
                     <button className="w-full bg-transparent border border-[#E0DEF7] mt-4 mb-8 btn"><img src={google} alt="" />Continue with Google</button>
-                    <p className='text-sm opacity-80 text-center'>Already have an account? <Link className='font-bold border-b border-black' to="/sign_in"> Login</Link></p>
+                    <p className='text-sm opacity-80 text-center'>Already have an account? <Link className='font-bold border-b border-black' to="/sign-in"> Login</Link></p>
                 </div>
             </div>
             <div className="w-full lg:w-2/4 bg-[#F7F7FD] overflow-hidden hidden lg:flex justify-center items-center py-32 relative">
