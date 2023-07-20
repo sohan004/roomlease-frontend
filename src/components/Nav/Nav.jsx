@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/Frame.svg'
 import menu from '../../assets/menu.svg'
+import CommonLinks from './CommonLinks';
 
 
 const Nav = ({setTf}) => {
@@ -18,11 +19,7 @@ const Nav = ({setTf}) => {
                         </div>
 
                         <div className='lg:flex gap-12 items-center hidden'>
-                            <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink>
-                            <p className='font-medium'>List</p>
-                            <p className='font-medium'>Tenants</p>
-                            <p className='font-medium'>Careers</p>
-                            <p className='font-medium'>Blog</p>
+                            <CommonLinks />
                         </div>
 
                     </div>
