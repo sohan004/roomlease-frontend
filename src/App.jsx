@@ -20,11 +20,11 @@ const App = () => {
         </div>
 
         <div className='flex flex-col items-start px-14 my-12 gap-8'>
-        <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink>
-          <p className='font-medium'>Buy</p>
-          <p className='font-medium'>Sell</p>
-          <p className='font-medium'>Manage Property</p>
-          <p className='font-medium'>Resocours</p>
+          <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink>
+          <p className='font-medium'>List</p>
+          <p className='font-medium'>Tenants</p>
+          <p className='font-medium'>Careers</p>
+          <p className='font-medium'>Blog</p>
         </div>
 
         <div className='text-center'>
