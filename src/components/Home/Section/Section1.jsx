@@ -48,7 +48,7 @@ const Section1 = () => {
                                 <img src={ico4} className='bg-[#E0DEF7] rounded-full p-4 border-4 shadow-md border-white' alt="" />
                                 <img src={ico1} className='bg-[#7166F0] p-2 rounded-xl relative left-11 -top-7' alt="" />
                             </div>
-                            <p className='text-xl lg:text-4xl font-bold text-[#7166F0] mb-2 lg:mb-4'>10k+ Tenant</p>
+                            <p className='text-xl lg:text-4xl font-bold text-[#7166F0] mb-2 lg:mb-4'>10k+ Tenants</p>
                             <p className='text-sm lg:text-base font-medium'>believe in our service</p>
                         </div>
                         <div>

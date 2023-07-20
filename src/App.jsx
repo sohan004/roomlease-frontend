@@ -5,8 +5,10 @@ import logo from './assets/Frame.svg'
 import logo11 from './assets/🦆 icon _arrow circle right_.svg'
 import Footer from './components/Footer/Footer';
 import { NavLink, Outlet } from 'react-router-dom';
+import CommonLinks from './components/Nav/CommonLinks';
 
-export const baseURL = 'https://roomlease.pythonanywhere.com'
+//export const baseURL = 'https://roomlease.pythonanywhere.com'
+export const baseURL = 'http://127.0.0.1:8000'
 
 const App = () => {
   const [tf, setTf] = useState(false)
@@ -20,11 +22,7 @@ const App = () => {
         </div>
 
         <div className='flex flex-col items-start px-14 my-12 gap-8'>
-          <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink>
-          <p className='font-medium'>List</p>
-          <p className='font-medium'>Tenants</p>
-          <p className='font-medium'>Careers</p>
-          <p className='font-medium'>Blog</p>
+          <CommonLinks />
         </div>
 
         <div className='text-center'>
