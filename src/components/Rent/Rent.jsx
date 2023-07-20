@@ -12,6 +12,7 @@ import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
+import { TbMessage2 } from "react-icons/tb";
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -122,7 +123,7 @@ const Rent = () => {
                         </div>
                     </div>
                     <div className="px-5 ">
-                        <div className="">
+                        <div className="text-center">
                             <button className='btn bg-[#7065F0] text-white ms-3'>Search</button>
                         </div>
                     </div>
@@ -140,7 +141,10 @@ const Rent = () => {
                         <div className='px-6 pt-6 pb-8'>
                             <div className='flex items-center justify-between'>
                                 <h1 className='text-2xl font-bold text-[#7065F0]'>${p.price}<span className='text-base font-medium text-gray-500'>/month</span></h1>
+                                <div className='flex items-center gap-4'>
+                                <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
                                 <img src={ico3} className='border p-3 rounded-full' alt="" />
+                            </div>
                             </div>
                             <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
                             <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
@@ -160,7 +164,10 @@ const Rent = () => {
                         <div className='px-6 pt-6 pb-8'>
                             <div className='flex items-center justify-between'>
                                 <h1 className='text-2xl font-bold text-[#7065F0]'>${p.price}<span className='text-base font-medium text-gray-500'>/month</span></h1>
+                                <div className='flex items-center gap-4'>
+                                <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
                                 <img src={ico3} className='border p-3 rounded-full' alt="" />
+                            </div>
                             </div>
                             <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
                             <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
