@@ -7,7 +7,7 @@ const Section4 = () => {
             <div className="max-w-[1440px] mx-auto px-4">
                 <div className="flex items-center flex-col gap-y-6 lg:flex-row justify-between text-center lg:text-left  text-white">
                     <div className="w-full lg:w-2/5">
-                        <h1 className="font-bold text-4xl leading-[50px]">Why <span className="text-[#7065F0]">RoomLease.com.au</span></h1>
+                        <h1 className="font-bold text-3xl lg:text-4xl leading-[50px]">Why <span className="text-[#7065F0]">RoomLease.com.au</span></h1>
                     </div>
                     <div className="w-full lg:w-2/5">
                         <p>Our mission is to empower homeowners by turning their spare rooms into a source of income to ease the burden of mortgage cost</p>
