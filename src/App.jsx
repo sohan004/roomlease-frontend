@@ -26,8 +26,8 @@ const App = () => {
         </div>
 
         <div className='text-center'>
-         <NavLink to='/sign-in'> <button className='btn  border-2 bg-transparent border-[#d6d4f5]'>Login</button></NavLink>
-          <NavLink to='/sign-up'><button className='btn bg-[#7065F0] text-white ms-3'>Sign Up</button></NavLink>
+         <NavLink to='/sign-in'> <button className='btn text-xl  border-2 bg-transparent border-[#d6d4f5]'> Sign Up</button></NavLink>
+          <NavLink to='/sign-up'><button className='btn text-xl bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
         </div>
 
         <div className='absolute top-16 -right-4'>

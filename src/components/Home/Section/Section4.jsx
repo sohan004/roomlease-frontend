@@ -5,7 +5,7 @@ const Section4 = () => {
     return (
         <div className="mt-12 lg:mt-28  bg-[#100A55]  py-12 lg:py-24">
             <div className="max-w-[1440px] mx-auto px-4">
-                <div className="flex items-center flex-col gap-y-6 lg:flex-row justify-between text-center lg:text-left  text-white">
+                <div className="flex items-center flex-col gap-y-6   text-center text-white">
                     <div className="w-full lg:w-2/5">
                         <h1 className="font-bold text-3xl lg:text-4xl leading-[50px]">Why <span className="text-[#7065F0]">RoomLease.com.au</span></h1>
                     </div>
@@ -43,7 +43,6 @@ const Section4 = () => {
                     </div>
                 </div>
             </div>
-            <p className='h-[2px] bg-[#312F4B] my-16'></p>
             {/* <div className='grid grid-cols-1 lg:grid-cols-3 max-w-[1440px] mx-auto px-4 gap-y-12'>
                 <div className='text-white flex flex-col justify-center items-center text-center w-full lg:border-r-2'>
                     <h1 className='text-[40px]'>7.4%</h1>
