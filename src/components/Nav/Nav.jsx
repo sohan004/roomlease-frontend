@@ -4,7 +4,7 @@ import menu from '../../assets/menu.svg'
 import CommonLinks from './CommonLinks';
 
 
-const Nav = ({setTf}) => {
+const Nav = ({ setTf }) => {
     const navigate = useNavigate()
     return (
         <>
@@ -13,7 +13,7 @@ const Nav = ({setTf}) => {
 
                     <div className='flex items-center gap-14 '>
 
-                        <div onClick={()=>navigate('/')} className='flex cursor-pointer items-center gap-1'>
+                        <div onClick={() => navigate('/')} className='flex cursor-pointer items-center gap-1'>
                             <img src={logo} alt="" />
                             <p className='font-bold text-xl text-[#100A55]'>RoomLease</p>
                         </div>
@@ -25,10 +25,10 @@ const Nav = ({setTf}) => {
                     </div>
 
                     <div className='hidden lg:block'>
-                       <NavLink to='/sign-in'> <button className='btn  border-2 bg-transparent border-[#d6d4f5]'>Login</button></NavLink>
-                        <NavLink to='/sign-up'><button className='btn hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Sign Up</button></NavLink>
+                        <NavLink to='/sign-up'> <button className='btn text-xl  border-2 bg-transparent border-[#d6d4f5]'>Sign Up</button></NavLink>
+                        <NavLink to='/sign-in'><button className='btn text-xl hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
                     </div>
-                    <img onClick={()=>setTf(true)} src={menu} className=' lg:hidden'  alt="" />
+                    <img onClick={() => setTf(true)} src={menu} className=' lg:hidden' alt="" />
 
                 </div>
             </div>

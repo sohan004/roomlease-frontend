@@ -1,13 +1,8 @@
 import logo from '../../assets/Frame.svg'
-import fb from '../../assets/footerIcon/facebook-f 1.svg'
-import ins from '../../assets/footerIcon/instagram 1.svg'
-import ln from '../../assets/footerIcon/linkedin 1.svg'
-import tw from '../../assets/footerIcon/twitter 1.svg'
+import keyImg from '../../assets/footerIcon/Screenshot.png'
 const Footer = () => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
     return (
-        <div className="my-12 lg:my-20">
+        <div className="mt-12 lg:mt-20">
             <div className=" max-w-[1440px] mx-auto px-4 gap-y-12 flex flex-col lg:flex-row">
                 <div className="w-full lg:w-1/4">
                     <div className='flex items-center gap-1'>
@@ -16,54 +11,30 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="w-full lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
-                    <div className='lg:order-1 order-1'>
-                        <h1 className='font-bold mb-4'>SELL A HOME</h1>
-                        <p className='mb-2'>Request an offer</p>
-                        <p className='mb-2'>Pricing</p>
-                        <p className='mb-2'>Reviews</p>
-                        <p className='mb-2'>Stories</p>
+                    <div className=''>
+                        <p className='mb-2'>How to find a room</p>
+                        <p className='mb-2'>How to rent your room</p>
+                        <p className='mb-2'>ID Checks</p>
+                        <p className='mb-2'>Credit Checks</p>
                     </div>
-                    <div className='lg:order-2 order-5'>
-                        <h1 className='font-bold mb-4'>BUY, RENT AND SELL</h1>
-                        <p className='mb-2'>Buy and sell properties</p>
-                        <p className='mb-2'>Rent home</p>
-                        <p className='mb-2'>Builder trade-up</p>
+                    <div className=''>
+                        <p className='mb-2'>Background Checks</p>
+                        <p className='mb-2'>Free rommmate agreement</p>
+                        <p className='mb-2'>safety & security</p>
+                        <p className='mb-2'>Inspections</p>
                     </div>
-                    <div className='lg:order-3 order-4'>
-                        <h1 className='font-bold mb-4'>ABOUT</h1>
-                        <p className='mb-2'>Company</p>
-                        <p className='mb-2'>How it works</p>
-                        <p className='mb-2'>Contact</p>
-                        <p className='mb-2'>Investors</p>
-                    </div>
-                    <div className='lg:order-4 order-3'>
-                        <h1 className='font-bold mb-4 '>BUY A HOME</h1>
-                        <p className='mb-2'>Buy</p>
-                        <p className='mb-2'>Finance</p>
-                    </div>
-                    <div className='lg:order-5 order-2'>
-                        <h1 className='font-bold mb-4 '>TERMS & PRIVACY</h1>
-                        <p className='mb-2'>Trust & Safety</p>
-                        <p className='mb-2'>Terms of Service</p>
-                        <p className='mb-2'>Privacy Policy</p>
-                    </div>
-                    <div className='lg:order-6 order-6'>
-                        <h1 className='font-bold mb-4 '>RESOURCES</h1>
-                        <p className='mb-2'>Blog</p>
-                        <p className='mb-2'>Guides</p>
-                        <p className='mb-2'>FAQ</p>
-                        <p className='mb-2'>Help center</p>
+                    <div className=''>
+                        <p className='mb-2'>Community Standards</p>
+                        <p className='mb-2'>terms</p>
+                        <p className='mb-2'>privacy</p>
+                        <p className='mb-2'>carear</p>
                     </div>
                 </div>
             </div>
-            <p className='h-[2px] bg-slate-200 mt-12 mb-8'></p>
-            <div className='max-w-[1440px] mx-auto px-4 flex lg:justify-between justify-center items-center flex-col lg:flex-row gap-6 opacity-60'>
-                <p>©{currentYear} RoomLease. All rights reserved</p>
-                <div className='flex items-center gap-10'>
-                    <img src={fb} alt="" />
-                    <img src={ins} alt="" />
-                    <img src={ln} alt="" />
-                    <img src={tw} alt="" />
+            <div className='bg-[#31313D] py-4 mt-6  '>
+                <div className='max-w-[1440px] mx-auto px-4 flex items-center gap-2'>
+                    <img src='https://img1.wsimg.com/isteam/ip/a2a06f6d-b689-4d42-bed9-8ff7142a1f7c/s_6763.jpg.webp/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:600,cg:true' className='w-16' alt="" />
+                    <p className='text-xs text-white'>Australia Post acknowledges the Traditional Custodians of the land on which we operate, live and gather as ​a team. We recognise their continuing connection ​to land, water and community. We pay respect to Elders ​past, present and emerging.</p>
                 </div>
             </div>
         </div>
