@@ -1,9 +1,11 @@
+import { FaUserLock } from 'react-icons/fa';
 import ico1 from '../../../assets/sec4Icon/Icon (1).svg'
 import ico2 from '../../../assets/sec4Icon/Icon (2).svg'
 import ico3 from '../../../assets/sec4Icon/Icon.svg'
+import { GrTechnology } from "react-icons/gr";
 const Section4 = () => {
     return (
-        <div className="mt-12 lg:mt-28  bg-[#100A55]  py-12 lg:py-24">
+        <div className="mt-12 lg:mt-28  bg-[#100A55]  pb-12 pt-10 lg:pb-16 lg:pt-10">
             <div className="max-w-[1440px] mx-auto px-4">
                 <div className="flex items-center flex-col gap-y-6   text-center text-white">
                     <div className="w-full lg:w-2/5">
@@ -16,7 +18,7 @@ const Section4 = () => {
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mt-12 lg:mt-16'>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-[#403B77] text-white p-6 rounded-lg'>
                         <div className=' lg:w-[30%] w-full'>
-                            <img src={ico3} className='bg-[#100A55] rounded-full p-2 border-4 shadow-md border-[#100A55]' alt="" />
+                            <FaUserLock className='bg-[#100A55] text-[55px] rounded-full p-2 border-4 shadow-md border-[#100A55]' />
                         </div>
                         <div className='lg:w-[70%]  w-full'>
                             <h1 className='text-2xl mb-6 font-semibold'>Safety</h1>
@@ -25,7 +27,7 @@ const Section4 = () => {
                     </div>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-white text-black p-6 rounded-lg'>
                         <div className=' lg:w-[30%] w-full'>
-                            <img src={ico1} className='bg-[#E8E6F9] rounded-full p-2 border-4 shadow-md border-white' alt="" />
+                            <GrTechnology className='bg-[#E8E6F9] text-[55px]  rounded-full p-2 border-4 shadow-md border-white'/>
                         </div>
                         <div className='lg:w-[70%]  w-full'>
                             <h1 className='text-2xl mb-6 font-semibold'>Technology</h1>

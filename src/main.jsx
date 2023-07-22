@@ -12,6 +12,7 @@ import Map from './components/Map/Map.jsx'
 import NewListingPage1 from './components/NewListing/NewListingPage1.jsx'
 import NewListingPage2 from './components/NewListing/NewListingPage2.jsx'
 import SettingProfile from './components/Setting/SettingProfile.jsx'
+import MessageDashboard from './components/MessageDashboard/MessageDashboard.jsx'
 
 
 const router = createBrowserRouter([
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
   {
     path: '/setting_profile',
     element: <SettingProfile></SettingProfile>
+  },
+  {
+    path: '/message-deshboard',
+    element: <MessageDashboard></MessageDashboard>
   },
 ])
 

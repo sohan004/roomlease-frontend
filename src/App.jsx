@@ -7,8 +7,8 @@ import Footer from './components/Footer/Footer';
 import { NavLink, Outlet } from 'react-router-dom';
 import CommonLinks from './components/Nav/CommonLinks';
 
-//export const baseURL = 'https://roomlease.pythonanywhere.com'
-export const baseURL = 'http://127.0.0.1:8000'
+export const baseURL = 'https://roomlease.pythonanywhere.com'
+// export const baseURL = 'http://127.0.0.1:8000'
 
 const App = () => {
   const [tf, setTf] = useState(false)
