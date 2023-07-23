@@ -8,8 +8,8 @@ const NewSection3 = () => {
             <h1 className="text-2xl lg:text-4xl font-medium text-center lg:text-left">Search Listings in Top Cities</h1>
             <div className="grid grid-cols-2 md:grid-cols-4 mt-10 gap-3">
                 <div className='w-full underShadow rounded-t-2xl'>
-                    <img src={img1} className='w-full rounded-t-2xl h-[150px] lg:h-[300px]' alt="" />
-                    <h1 className='mt-5 ps-3 pb-3  font-medium text-xl lg:text-2xl'>Perth </h1>
+                    <img src={img4} className='w-full rounded-t-2xl h-[150px] lg:h-[300px]' alt="" />
+                    <h1 className='mt-5 ps-3 pb-3  font-medium text-xl lg:text-2xl'>Melbourne</h1>
                 </div>
                 <div className='w-full underShadow rounded-t-2xl'>
                     <img src={img2} className='w-full rounded-t-2xl h-[150px] lg:h-[300px]' alt="" />
@@ -20,8 +20,8 @@ const NewSection3 = () => {
                     <h1 className='mt-5 ps-3 pb-3  font-medium text-xl lg:text-2xl'>Brisbane</h1>
                 </div>
                 <div className='w-full underShadow rounded-t-2xl'>
-                    <img src={img4} className='w-full rounded-t-2xl h-[150px] lg:h-[300px]' alt="" />
-                    <h1 className='mt-5 ps-3 pb-3  font-medium text-xl lg:text-2xl'>Melbourne</h1>
+                    <img src={img1} className='w-full rounded-t-2xl h-[150px] lg:h-[300px]' alt="" />
+                    <h1 className='mt-5 ps-3 pb-3  font-medium text-xl lg:text-2xl'>Perth </h1>
                 </div>
             </div>
         </div>
