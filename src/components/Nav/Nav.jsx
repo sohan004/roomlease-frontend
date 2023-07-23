@@ -15,7 +15,7 @@ const Nav = ({ setTf }) => {
 
                         <div onClick={() => navigate('/')} className='flex cursor-pointer items-center gap-1'>
                             <img src={logo} alt="" />
-                            <p className='font-bold text-xl text-[#100A55]'>RoomLease</p>
+                            <p className='font-bold text-xl text-[#100A55]'>RoomLease.com.au</p>
                         </div>
 
                         <div className='lg:flex gap-12 items-center hidden'>
@@ -25,8 +25,8 @@ const Nav = ({ setTf }) => {
                     </div>
 
                     <div className='hidden lg:block'>
-                        <NavLink to='/sign-up'> <button className='btn text-xl  border-2 bg-transparent border-[#d6d4f5]'>Sign Up</button></NavLink>
-                        <NavLink to='/sign-in'><button className='btn text-xl hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
+                        <NavLink to='/sign-up'> <button className='btn text-l  border-2 bg-transparent border-[#d6d4f5]'>Sign Up</button></NavLink>
+                        <NavLink to='/sign-in'><button className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
                     </div>
                     <img onClick={() => setTf(true)} src={menu} className=' lg:hidden' alt="" />
 

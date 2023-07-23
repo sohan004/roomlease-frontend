@@ -36,10 +36,10 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-[#31313D] py-4 mt-6  '>
+            <div className='bg-[#7065F0] py-4 mt-6  '>
                 <div className='max-w-[1440px] mx-auto px-4 flex items-center gap-2'>
-                    <img src='https://img1.wsimg.com/isteam/ip/a2a06f6d-b689-4d42-bed9-8ff7142a1f7c/s_6763.jpg.webp/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:600,cg:true' className='w-16' alt="" />
-                    <p className='text-xs text-white'>RoomLease acknowledges the Traditional Custodians of the land on which we operate, live and gather as ​a team. We recognise their continuing connection ​to land, water and community. We pay respect to Elders ​past, present and emerging.Proudly 100% AUSTRALIAN OWNED COMPANY</p>
+                    {/* <img src='https://img1.wsimg.com/isteam/ip/a2a06f6d-b689-4d42-bed9-8ff7142a1f7c/s_6763.jpg.webp/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:600,cg:true' className='w-16' alt="" /> */}
+                    <p className='text-xs text-white'>RoomLease.com.au acknowledges the Traditional Custodians of the land on which we operate, live and gather as ​a team. We recognise their continuing connection ​to land, water and community. We pay respect to Elders ​past, present and emerging.</p>
                 </div>
             </div>
         </div>
