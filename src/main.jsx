@@ -13,6 +13,8 @@ import NewListingPage1 from './components/NewListing/NewListingPage1.jsx'
 import NewListingPage2 from './components/NewListing/NewListingPage2.jsx'
 import SettingProfile from './components/Setting/SettingProfile.jsx'
 import MessageDashboard from './components/MessageDashboard/MessageDashboard.jsx'
+import OtpSend from './components/Account/OtpSend.jsx'
+import Register from './components/Account/Register.jsx'
 
 
 const router = createBrowserRouter([
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: '/map',
         element: <Map></Map>
+      },
+      {
+        path: '/otp-send',
+        element: <OtpSend></OtpSend>
+      },
+      {
+        path: '/register',
+        element: <Register></Register>
       },
       {
         path: '/sign-in',
