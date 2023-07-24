@@ -25,8 +25,8 @@ const Nav = ({ setTf }) => {
                     </div>
 
                     <div className='hidden lg:block'>
-                        <NavLink to='/sign-up'> <button className='btn text-l  border-2 bg-transparent border-[#d6d4f5]'>Sign Up</button></NavLink>
-                        <NavLink to='/sign-in'><button className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
+                        <NavLink to='/otp-send'> <button className='btn text-l  border-2 bg-transparent border-[#d6d4f5]'>Sign Up</button></NavLink>
+                        <NavLink to='/otp-send'><button className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
                     </div>
                     <img onClick={() => setTf(true)} src={menu} className=' lg:hidden' alt="" />
 
