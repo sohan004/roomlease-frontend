@@ -1,17 +1,18 @@
 import { useState } from "react";
 import HomeWoner from "./HomeWoner";
 import RoomSeeker from "./RoomSeeker";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const [type, setType] = useState(1)
+    const [type, setType] = useState(0)
+    const navigate = useNavigate()
     return (
-        <div className="px-4 ">
-            <div className="flex items-center justify-center max-w-[500px] mx-auto border mt-8">
-                <p onClick={() => setType(1)} className={`flex-grow text-center ${type === 1 ? ' bg-red-400 text-white' : ''} py-5 cursor-pointer text-xl lg:text-2xl font-medium`}>Homeowner</p>
-                <p onClick={() => setType(2)} className={`flex-grow text-center ${type === 2 ? ' bg-red-400 text-white' : ''} py-5 cursor-pointer text-xl lg:text-2xl font-medium`}>Room Seeker</p>
+        <div className="px-4 my-28 lg:my-40">
+            <h1 className="text-center font-bold text-3xl lg:text-5xl">Are You Homeowner or Room Seeker?</h1>
+            <div className="flex items-center justify-center max-w-2xl mx-auto border mt-8">
+                <p onClick={()=>navigate('/homeowner')} className={`duration-300 flex-grow border-r text-center ${type === 1 ? ' hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-slate-200'} py-5 cursor-pointer text-xl lg:text-2xl font-medium`}>Homeowner</p>
+                <p onClick={()=>navigate('/roomseeker')} className={`duration-300 flex-grow text-center ${type === 2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-slate-200'} py-5 cursor-pointer text-xl lg:text-2xl font-medium`}>Room Seeker</p>
             </div>
-            {type === 1 && <HomeWoner></HomeWoner>}
-            {type === 2 && <RoomSeeker></RoomSeeker>}
         </div>
     );
 };

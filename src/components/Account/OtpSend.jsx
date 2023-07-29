@@ -1,29 +1,40 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaCross, FaSpinner, FaWindowClose } from 'react-icons/fa';
 import PhoneInput from 'react-phone-number-input'
 import OTPInput, { ResendOTP } from "otp-input-react";
+import Swal from 'sweetalert2';
+import { baseURL } from '../../App';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const OtpSend = () => {
     const [con, setCon] = useState({ phone: '' })
-    const [seconds, setSeconds] = useState(0);
-    const [OTP, setOTP] = useState('')
-
-    console.log(seconds);
+    const [seconds, setSeconds] = useState(120);
+    const [sec, setSec] = useState(59);
+    const [timer, setTimer] = useState(false);
+    const [otp, setOtp] = useState('')
+    const [err, setErr] = useState('')
+    const [verifyStatus, setVerifyStatus] = useState(false)
+    const [load, setLoad] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        if (seconds === 0) return
+        if (!timer) return
         let intervalId;
 
-        if (seconds < 20) {
-            intervalId = setInterval(() => {
-                setSeconds(prevSeconds => prevSeconds + 1);
-            }, 1000);
-        }
-        if (seconds === 20) {
+        intervalId = setInterval(() => {
+            setSeconds(prevSeconds => prevSeconds - 1);
+            setSec(prevSec => prevSec - 1);
+        }, 1000);
+
+        if (sec === 0) {
             setTimeout(() => {
-                setSeconds(0)
+                setTimer(false)
+                setSeconds(120)
+                setSec(60)
             }, 1000);
         }
 
@@ -31,19 +42,120 @@ const OtpSend = () => {
 
             clearInterval(intervalId);
         };
-    }, [seconds]);
+    }, [seconds, timer]);
 
-    const startTimer = () => {
-
-        setSeconds(1);
-    };
-
+    const sendOtp = () => {
+        setLoad(true)
+        if (!con.p) {
+            setLoad(false)
+            Swal.fire(
+                'Please Type Your Phone Number',
+                '',
+                'error'
+            )
+            return
+        }
+        fetch(`${baseURL}/account/phone/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                phone_number: con.p
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                setLoad(false)
+                if (data.success) {
+                    window.send_otp.showModal()
+                    setTimer(true)
+                    setSec(59)
+                }
+                else {
+                    setLoad(false)
+                    Swal.fire(
+                        data.message,
+                        '',
+                        'error'
+                    )
+                }
+            })
+    }
+    const verifyOtp = (e) => {
+        setOtp(e)
+        setErr('')
+        if (e.length === 6) {
+            setVerifyStatus(true)
+            fetch(`${baseURL}/account/verify-phone/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    otp: e,
+                    phone_number: con.p
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('user-token', data.token)
+                        window.send_otp.close()
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'OTP Verified',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        setErr('')
+                        navigate('/register')
+                        setVerifyStatus(false)
+                    }
+                    else {
+                        setVerifyStatus(false)
+                        setErr(data.message)
+                    }
+                })
+            return
+        }
+    }
+    const resend = () => {
+        fetch(`${baseURL}/account/phone/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                phone_number: con.p
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setTimer(true)
+                }
+                else {
+                    toast.error(data.message, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+    }
     return (
         <div className="px-4 max-w-[550px] mx-auto">
             <h1 className="text-2xl mt-8 lg:mt-12 lg:text-4xl font-medium">Enter your mobile phone number to verify or create an account </h1>
             <p className="mt-3">VOIP numbers are not excepted.</p>
             <p className="font-bold mt-10">Phone Number: </p>
-           
+
             <PhoneInput
                 className="w-full py-3 px-4 border-b border-black"
                 international
@@ -52,39 +164,38 @@ const OtpSend = () => {
                 onChange={p => setCon({ p })}
             />
             <div className='text-center mb-44 mt-16'>
-                <button onClick={() => {
-                    window.send_otp.showModal()
-                    setSeconds(1)
-                }} className='btn  hover:bg-[#4e46a1] w-3/4 bg-[#7065F0] text-white '>Continue <FaArrowRight /></button>
+                <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
             </div>
             <dialog id="send_otp" className="modal">
-                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl ">
-                    <div className="text-center py-3 px-16 lg:px-28 shadow-lg bg-[#969de0] font-medium ">
-                        <h1 className="text-xs lg:text-2xl">Enter OTP</h1>
-                    </div>
-                    <div className="p-6 mb-7 mt-4  lg:my-16">
-                        <h1 className='text-center text-5xl lg:text-7xl mb-7'>{seconds}</h1>
-                        <div className='flex flex-col gap-8 justify-center items-center text-center'>
+                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative">
+                    <FaWindowClose onClick={() => window.send_otp.close()} className='absolute top-4 text-3xl cursor-pointer left-4'></FaWindowClose>
+                    <h1 className="text-2xl mt-7 text-center  lg:text-4xl">Enter Code</h1>
+                    <p className='text-center font-medium my-4 text-red-500'>{err}</p>
+                    <div className="p-6 mb-7   lg:mb-5">
+                        <h1 className='text-center text-2xl lg:text-5xl mb-14'>{sec}</h1>
+                        <div className=' max-w-[500px] mx-auto text-center '>
                             <div>
-                            <p className='text-left text-xs mb-2'>Time 20 second</p>
                                 <OTPInput
-                                    inputClassName='border-2 rounded py-4 border-black flex-grow'
+                                    inputClassName='border-2 rounded py-6 border-black flex-grow'
                                     className="text-center flex justify-center w-full"
-                                    value={OTP} onChange={setOTP}
+                                    value={otp} onChange={e => {
+                                        verifyOtp(e)
+
+                                    }}
                                     autoFocus OTPLength={6}
                                     otpType="number"
-                                    disabled={false}
+                                    disabled={verifyStatus}
                                 />
                                 <div className='text-right mt-5'>
-                                    <button onClick={()=>setSeconds(1)} disabled={seconds === 0 ? false : true} className="btn btn-sm  hover:bg-[#484196] bg-[#7065F0] text-white">Resend</button>
+                                    <button disabled={sec != 60} onClick={resend} className="btn btn-sm  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
+
                                 </div>
-                            </div>
-                            <button disabled={seconds === 0 ? true : false} className="w-[150px] hover:bg-[#484196] bg-[#7065F0] text-white btn">Verify OTP</button>
-                        </div>
+                            </div> </div>
                     </div>
 
                 </div>
             </dialog>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };
