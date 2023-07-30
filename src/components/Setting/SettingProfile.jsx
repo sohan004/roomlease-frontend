@@ -21,15 +21,15 @@ const SettingProfile = () => {
     const [profilePicture, setProfilePicture] = useState(null)
     console.log(userData);
     useEffect(() => {
-        if (!localStorage.getItem('room-lease-token')) {
+        if (!localStorage.getItem('user-token')) {
             window.location.href = '/sign-in'
             return
         }
         fetch(`${baseURL}/account/profile/`, {
             method: 'GET',
             headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${localStorage.getItem('room-lease-token')}`
             }
         })
             .then(res => res.json())

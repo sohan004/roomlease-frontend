@@ -15,6 +15,8 @@ import SettingProfile from './components/Setting/SettingProfile.jsx'
 import MessageDashboard from './components/MessageDashboard/MessageDashboard.jsx'
 import OtpSend from './components/Account/OtpSend.jsx'
 import Register from './components/Account/Register.jsx'
+import HomeWoner from './components/Account/HomeWoner.jsx'
+import RoomSeeker from './components/Account/RoomSeeker.jsx'
 
 
 const router = createBrowserRouter([
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/homeowner',
+        element: <HomeWoner></HomeWoner>
+      },
+      {
+        path: '/roomseeker',
+        element: <RoomSeeker></RoomSeeker>
       },
       {
         path: '/sign-in',

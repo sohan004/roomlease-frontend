@@ -100,6 +100,8 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
         setRoomFurnishingsAndFeatures([...roomFurnishingsAndFeatures, p])
     }
 
+   
+
     return (
         <div>
             <div className="grid grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 lg:gap-x-6">
@@ -107,7 +109,7 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
                     addFunction(f.name)
                 } className="cursor-pointer" key={i}>
                     <div className="max-w-[70px] mx-auto relative">
-                        <f.icon className={`${f.matchName && 'bg-slate-900 text-white'} border border-black  text-5xl p-2 rounded-full mx-auto`} />
+                        <f.icon className={`duration-500 ${f.matchName ? 'bg-[#7065F0] hover:bg-[#5149ac] text-white': 'text-[#7065F0] bg-white hover:bg-indigo-100'} border border-[#7065F0]  text-5xl p-2 rounded-full mx-auto`} />
                         {f.matchName && <FaCheck className="absolute top-0 right-2 text-white bg-green-400 text-lg rounded-full p-1"></FaCheck>}
                     </div>
                     <p className="text-center mt-2">{f.name}</p>
