@@ -11,9 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from "../../App";
 
 const RoomSeeker = () => {
-    const [roomFeutureOthers, setRoomFeutureOthers] = useState(false)
-
-
 
 
     // all from data
@@ -28,37 +25,16 @@ const RoomSeeker = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [bedSize, setBedSize] = useState('')
     const [roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures] = useState([])
-    const [rentPerWeek, setRentPerWeek] = useState('')
-    const [bond, setBond] = useState('')
-    const [billRent, setBillRent] = useState('yes')
-    const [approximatecost, setApproximatecost] = useState('')
-    const [startDate, setStartDate] = useState(new Date());
-    const [minimumStay, setMinimumStay] = useState('')
-    const [minimumStayOthers, setMinimumStayOthers] = useState(false)
-    const [minimumStayOthersValue, setMinimumStayOthersValue] = useState('')
-    const [maximumStay, setMaximumStay] = useState('')
-    const [maximumStayOthersValue, setMaximumStayOthersValue] = useState('')
-    const [maximumStayOthers, setmaximumStayOthers] = useState(false)
-    const [animate, setAnimate] = useState('')
+    const [animate, setAnimate] = useState([])
     const [placeFriendless, setPlaceFriendless] = useState('')
-    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState('')
-    const [publicTransportAccess, setPublicTransportAccess] = useState('')
+    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState([])
+    const [publicTransportAccess, setPublicTransportAccess] = useState([])
     const [gender, setGender] = useState('')
     const [age, setAge] = useState('')
     const [checks, setChecks] = useState([])
-    const [smoke, setSmoke] = useState('')
-    const [pets, setPets] = useState('')
-    const [child, setChild] = useState('')
-    const [couple, setCouple] = useState('')
     const [occuption, setOccuption] = useState('')
-    const [lifestyle, setLifestyle] = useState('')
-    const [clean, setClean] = useState('')
-    const [diat, setDiat] = useState('')
-    const [alcohol, setAlcohol] = useState('')
-    const [nois, setNois] = useState('')
-    const [additional, setAdditional] = useState('')
-    const [additional2, setAdditional2] = useState('')
-    const [photo, setPhoto] = useState([])
+
+
 
 
 
@@ -72,6 +48,50 @@ const RoomSeeker = () => {
             return
         }
         setChecks([...checks, p])
+    }
+    const aminetAddFunction = (p) => {
+        if (p == 'None') {
+            setAnimate(['None'])
+            return
+        }
+        const filter = animate.filter(filt => filt != 'None')
+        const findData = animate.find(r => r == p)
+        if (findData) {
+            const filterData = animate.filter(filt => filt != p && filt != 'None')
+            setAnimate(filterData)
+            return
+        }
+        setAnimate([...filter, p])
+    }
+
+    const nearbyAddFunction = (p) => {
+        if (p == 'None') {
+            setNearbyCommunitySpaces(['None'])
+            return
+        }
+        const filter = nearbyCommunitySpaces.filter(filt => filt != 'None')
+        const findData = nearbyCommunitySpaces.find(r => r == p)
+        if (findData) {
+            const filterData = nearbyCommunitySpaces.filter(filt => filt != p && filt != 'None')
+            setNearbyCommunitySpaces(filterData)
+            return
+        }
+        setNearbyCommunitySpaces([...filter, p])
+    }
+
+    const publicAddFunction = (p) => {
+         if (p == 'None') {
+            setPublicTransportAccess(['None'])
+            return
+        }
+        const filter = publicTransportAccess.filter(filt => filt != 'None')
+        const findData = publicTransportAccess.find(r => r == p)
+        if (findData) {
+            const filterData = publicTransportAccess.filter(filt => filt != p && filt != 'None')
+            setPublicTransportAccess(filterData)
+            return
+        }
+        setPublicTransportAccess([...filter, p])
     }
     const check1 = checks.find(r => r == 'Any')
     const check2 = checks.find(r => r == 'Digital ID Verification')
@@ -87,19 +107,6 @@ const RoomSeeker = () => {
     const check12 = checks.find(r => r == 'References')
 
     const [load, setLoad] = useState(false)
-
-    const options = [
-        { value: 'Air Conditioning', label: 'Air Conditioning' },
-        { value: 'Heating, Wardrobe', label: 'Heating, Wardrobe' },
-        { value: 'Desk', label: 'Desk' },
-        { value: 'TV', label: 'TV' },
-        { value: 'Balcony', label: 'Balcony' },
-        { value: 'Ensuite', label: 'Ensuite' },
-        { value: 'Wifi', label: 'Wifi' },
-        { value: 'Private ', label: 'Private ' },
-        { value: 'Entrance', label: 'Entrance' },
-    ]
-
 
 
     const handle = (e) => {
@@ -333,9 +340,10 @@ const RoomSeeker = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 if (data.id) {
                     setLoad(false)
-                    window.location.href = `/setting_profile`
+                    window.location.href = `/roomseeker-pricing`
                 }
                 else {
                     setLoad(false)
@@ -383,7 +391,7 @@ const RoomSeeker = () => {
                             <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Room Preferences**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Room Preferences**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className="text-[#5249b1] font-bold text-lg">House Type:</p>
@@ -426,18 +434,18 @@ const RoomSeeker = () => {
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
                         ></RoomFurnishingAndFeture>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Amenities** </p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Amenities** </p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                            <p onClick={() => setAnimate('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate === 'Outdoor Area' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
-                            <p onClick={() => setAnimate('Kitchen')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate === 'Kitchen' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Kitchen</p>
-                            <p onClick={() => setAnimate('TV')} className={`border-y border-s duration-500 ${animate === 'TV' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>TV</p>
-                            <p onClick={() => setAnimate('Laundry')} className={`border duration-500 ${animate === 'Laundry' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Laundry</p>
-                            <p onClick={() => setAnimate('BBQ')} className={`border border-s border-y-0 lg:border-y lg:border-s-0 duration-500 ${animate === 'BBQ' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>BBQ</p>
-                            <p onClick={() => setAnimate('Pool')} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate === 'Pool' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
-                            <p onClick={() => setAnimate('Spa')} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate === 'Spa' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
-                            <p onClick={() => setAnimate('Sauna')} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate === 'Sauna' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
-                            <p onClick={() => setAnimate('None')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate === 'None' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
+                            <p onClick={() => aminetAddFunction('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
+                            <p onClick={() => aminetAddFunction('Kitchen')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate.find(a => a == 'Kitchen') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Kitchen</p>
+                            <p onClick={() => aminetAddFunction('TV')} className={`border-y border-s duration-500 ${animate.find(a => a == 'TV') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>TV</p>
+                            <p onClick={() => aminetAddFunction('Laundry')} className={`border duration-500 ${animate.find(a => a == 'Laundry') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Laundry</p>
+                            <p onClick={() => aminetAddFunction('BBQ')} className={`border border-s border-y-0 lg:border-y lg:border-s-0 duration-500 ${animate.find(a => a == 'BBQ') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>BBQ</p>
+                            <p onClick={() => aminetAddFunction('Pool')} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate.find(a => a == 'Pool') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
+                            <p onClick={() => aminetAddFunction('Spa')} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Spa') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
+                            <p onClick={() => aminetAddFunction('Sauna')} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Sauna') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
+                            <p onClick={() => aminetAddFunction('None')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                         </div>
                         <div>
                             <p className="text-[#5249b1] font-bold text-lg">Place friendliness:</p>
@@ -450,35 +458,35 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Local Amenities and Transport**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Local Amenities and Transport**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className="text-[#5249b1] font-bold  text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => setNearbyCommunitySpaces('Parks')} className={`duration-500 border ${nearbyCommunitySpaces === 'Parks' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces === 'Aquatic Centres' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Gyms')} className={`duration-500 border border-y-0 lg:border-t ${nearbyCommunitySpaces === 'Gyms' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Gyms</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Libraries')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces === 'Libraries' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Community Centres')} className={`duration-500 border ${nearbyCommunitySpaces === 'Community Centres' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Sports Facilities')} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces === 'Sports Facilities' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
-                                <p onClick={() => setNearbyCommunitySpaces('None')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces === 'None' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
+                                <p onClick={() => nearbyAddFunction('Parks')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
+                                <p onClick={() => nearbyAddFunction('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
+                                <p onClick={() => nearbyAddFunction('Gyms')} className={`duration-500 border border-y-0 lg:border-t ${nearbyCommunitySpaces.find(n => n == 'Gyms') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Gyms</p>
+                                <p onClick={() => nearbyAddFunction('Libraries')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces.find(n => n == 'Libraries') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
+                                <p onClick={() => nearbyAddFunction('Community Centres')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Community Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
+                                <p onClick={() => nearbyAddFunction('Sports Facilities')} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces.find(n => n == 'Sports Facilities') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
+                                <p onClick={() => nearbyAddFunction('None')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces.find(n => n == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
                             </div>
 
                         </div>
                         <div>
                             <p className="text-[#5249b1] font-bold  text-lg">Public Transport Access:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => setPublicTransportAccess('Bus Stop')} className={`duration-500 border ${publicTransportAccess === 'Bus Stop' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
-                                <p onClick={() => setPublicTransportAccess('Tram Station')} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess === 'Tram Station' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
-                                <p onClick={() => setPublicTransportAccess('Train Station')} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess === 'Train Station' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
-                                <p onClick={() => setPublicTransportAccess('Ferry Terminal')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess === 'Ferry Terminal' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
-                                <p onClick={() => setPublicTransportAccess('Bike Paths')} className={`duration-500 border ${publicTransportAccess === 'Bike Paths' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
-                                <p onClick={() => setPublicTransportAccess('None')} className={`duration-500 border border-s-0 ${publicTransportAccess === 'None' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
+                                <p onClick={() => publicAddFunction('Bus Stop')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bus Stop') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
+                                <p onClick={() => publicAddFunction('Tram Station')} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess.find(p => p == 'Tram Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
+                                <p onClick={() => publicAddFunction('Train Station')} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess.find(p => p == 'Train Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
+                                <p onClick={() => publicAddFunction('Ferry Terminal')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess.find(p => p == 'Ferry Terminal') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
+                                <p onClick={() => publicAddFunction('Bike Paths')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bike Paths') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
+                                <p onClick={() => publicAddFunction('None')} className={`duration-500 border border-s-0 ${publicTransportAccess.find(p => p == 'None') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                             </div>
                         </div>
                     </div>
 
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Personal Details**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Personal Details**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className="text-[#5249b1] font-bold text-lg">Gender:</p>
@@ -531,7 +539,7 @@ const RoomSeeker = () => {
 
                 </div>
                 <div className="text-center mt-7">
-                <button disabled={load} className='btn w-full  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
+                    <button disabled={load} className='btn w-full  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
                 </div>
             </form>
             <ToastContainer></ToastContainer>

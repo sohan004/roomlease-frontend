@@ -1,8 +1,8 @@
 import { FaArrowLeft, FaChessKing } from "react-icons/fa";
 import logo from '../../assets/settingIcon/Frame.svg'
 import ball from '../../assets/settingIcon/Icon.svg'
-import profileImg from '../../assets/settingIcon/Icon (2).svg'
 import arrowDown from '../../assets/settingIcon/Icon (1).svg'
+import profileImg from '../../assets/settingIcon/Icon (2).svg'
 import google from '../../assets/settingIcon/google.svg'
 import { useEffect, useState } from "react";
 import 'react-phone-number-input/style.css'
@@ -15,9 +15,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const SettingProfile = () => {
-    const [value, setValue] = useState('p')
-    const [con, setCon] = useState({ phone: '' })
     const [userData, setUserData] = useState({})
+    const [value, setValue] = useState('p')
+    const [con, setCon] = useState({ phone: userData.username })
     const [profilePicture, setProfilePicture] = useState(null)
     console.log(userData);
     useEffect(() => {
@@ -57,7 +57,6 @@ const SettingProfile = () => {
                 }
             })
     }, [])
-
 
     const changeProfilePicture = () => {
         if (!profilePicture) {
@@ -197,9 +196,16 @@ const SettingProfile = () => {
                         </div>
                         <div className="lg:ps-6 lg:border-s-2">
                             <div className="flex items-center gap-2 py-2 lg:py-3 px-2 lg:px-4 border-2 border-[#E0DEF7] rounded-xl">
-                                <p className="bg-[#7065F0] text-white font-medium rounded-full h-8 w-8 flex items-center justify-center">FR</p>
-                                <p className="font-medium hidden lg:block">Francis</p>
-                                <img src={arrowDown} alt="" />
+                                <p className="bg-[#7065F0] text-white font-medium rounded-full h-8 w-8 flex items-center justify-center">{userData?.first_name?.slice(0, 2)?.toUpperCase()}</p>
+                                <p className="font-medium hidden lg:block">{userData?.first_name}</p>
+                                <div className="dropdown dropdown-bottom dropdown-end ">
+                                    <img tabIndex={0} className="cursor-pointer" src={arrowDown} alt="" />
+                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-xl bg-base-100 rounded-box w-52">
+                                        <li onClick={() => setValue('p')}><a>Profile</a></li>
+                                        <li onClick={() => setValue('a')}><a>My Account</a></li>
+                                        <li onClick={() => setValue('n')}><a>Notification</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -256,7 +262,7 @@ const SettingProfile = () => {
                                     className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg"
                                     international
                                     defaultCountry="AU"
-                                    value={con.phone}
+                                    value={con.p}
                                     onChange={p => setCon({ p })}
                                 />
                             </div>
@@ -276,7 +282,7 @@ const SettingProfile = () => {
                         <p className="text-xl font-bold">Personal Info</p>
                         <p className="text-sm font-medium mb-2 mt-9">Email</p>
                         <div className="relative">
-                            <input defaultValue={'francis@gmail.com'} type="text" name="" className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg" />
+                            <input defaultValue={userData.email} type="text" name="" className="w-full py-3 px-4 border-2 border-[#E0DEF7] rounded-lg" />
                             <p className="absolute top-4 right-3 text-[#7065F0] font-bold text-sm ">Verify</p>
                         </div>
                         <p className="text-sm font-medium mb-2 mt-6">Password</p>
@@ -372,7 +378,7 @@ const SettingProfile = () => {
                         <div className="modal-action mt-7">
                             {/* if there is a button in form, it will close the modal */}
                             <button onClick={() => changeProfilePicture()} className="btn btn-primary">save chenges</button>
-                            <button onClick={()=>window.upload_img.close()} className="btn">Close</button>
+                            <button onClick={() => window.upload_img.close()} className="btn">Close</button>
                         </div>
                     </div>
                 </dialog>

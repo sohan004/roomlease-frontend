@@ -1,10 +1,11 @@
 import { GrTable, GrLock, } from "react-icons/gr";
 import { RiArchiveDrawerLine, } from "react-icons/ri";
 import { TbAirConditioning, TbSofa, TbToolsKitchen2 } from "react-icons/tb";
-import { MdBalcony, MdOutlineHotTub, MdOutlineMonitor, MdTableRestaurant } from "react-icons/md";
+import { MdBalcony, MdOutlineHotTub, MdOutlineMonitor, MdTableRestaurant, MdOutlineBedroomParent, MdSecurity } from "react-icons/md";
 import { LuLampDesk } from "react-icons/lu";
-import { PiOfficeChairFill, PiLock } from "react-icons/pi";
-import { FaCheck } from "react-icons/fa";
+import { PiOfficeChairFill, PiLock, PiFan } from "react-icons/pi";
+import { FaCheck, FaWifi } from "react-icons/fa";
+
 
 
 const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures }) => {
@@ -14,33 +15,24 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
     const ac = roomFurnishingsAndFeatures.find(r => r == 'Air Conditioner')
     const heater = roomFurnishingsAndFeatures.find(r => r == 'Heater')
     const desk = roomFurnishingsAndFeatures.find(r => r == 'Desk')
-    const lamp = roomFurnishingsAndFeatures.find(r => r == 'Lamp')
-    const chair = roomFurnishingsAndFeatures.find(r => r == 'Chair')
-    const couch = roomFurnishingsAndFeatures.find(r => r == 'Couch')
+    const lamp = roomFurnishingsAndFeatures.find(r => r == 'Fan')
+    const chair = roomFurnishingsAndFeatures.find(r => r == 'Ensuite')
+    const couch = roomFurnishingsAndFeatures.find(r => r == 'WiFi')
     const tv = roomFurnishingsAndFeatures.find(r => r == 'TV')
     const balcony = roomFurnishingsAndFeatures.find(r => r == 'Balcony')
     const dorlock = roomFurnishingsAndFeatures.find(r => r == 'Door Lock')
-    const neete = roomFurnishingsAndFeatures.find(r => r == 'Kitchenette')
+    const neete = roomFurnishingsAndFeatures.find(r => r == 'Private Entrance')
     const fetures = [
+        
         {
-            icon: MdTableRestaurant,
-            name: 'Bed Side Table',
-            matchName: sideTable
-        },
-        {
-            icon: RiArchiveDrawerLine,
-            name: 'Wardrobe',
-            matchName: wardrobe
+            icon: TbAirConditioning,
+            name: 'Air Conditioner',
+            matchName: ac
         },
         {
             icon: RiArchiveDrawerLine,
             name: 'Drawars',
             matchName: drawars
-        },
-        {
-            icon: TbAirConditioning,
-            name: 'Air Conditioner',
-            matchName: ac
         },
         {
             icon: MdOutlineHotTub,
@@ -53,19 +45,24 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
             matchName: desk
         },
         {
-            icon: LuLampDesk,
-            name: 'Lamp',
+            icon: PiFan,
+            name: 'Fan',
             matchName: lamp
         },
         {
-            icon: PiOfficeChairFill,
-            name: 'Chair',
+            icon: MdOutlineBedroomParent,
+            name: 'Ensuite',
             matchName: chair
         },
         {
-            icon: TbSofa,
-            name: 'Couch',
+            icon: FaWifi,
+            name: 'WiFi',
             matchName: couch
+        },
+        {
+            icon: RiArchiveDrawerLine,
+            name: 'Wardrobe',
+            matchName: wardrobe
         },
         {
             icon: MdOutlineMonitor,
@@ -83,8 +80,8 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
             matchName: dorlock
         },
         {
-            icon: TbToolsKitchen2,
-            name: 'Kitchenette',
+            icon: MdSecurity,
+            name: 'Private Entrance',
             matchName: neete
         },
     ]
@@ -109,8 +106,8 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
                     addFunction(f.name)
                 } className="cursor-pointer" key={i}>
                     <div className="max-w-[70px] mx-auto relative">
-                        <f.icon className={`duration-500 ${f.matchName ? 'bg-[#7065F0] hover:bg-[#5149ac] text-white': 'text-[#7065F0] bg-white hover:bg-indigo-100'} border border-[#7065F0]  text-5xl p-2 rounded-full mx-auto`} />
-                        {f.matchName && <FaCheck className="absolute top-0 right-2 text-white bg-green-400 text-lg rounded-full p-1"></FaCheck>}
+                        <f.icon className={`duration-500 ${f.matchName ? 'bg-[#7065F0] hover:bg-[#5149ac] text-white': 'text-[#7065F0] bg-white hover:bg-indigo-100'} border border-[#7065F0]  text-5xl p-2 rounded-xl mx-auto`} />
+                        
                     </div>
                     <p className="text-center mt-2">{f.name}</p>
                 </div>)}
