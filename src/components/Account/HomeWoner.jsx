@@ -39,12 +39,12 @@ const HomeWoner = () => {
     const [maximumStay, setMaximumStay] = useState('')
     const [maximumStayOthers, setmaximumStayOthers] = useState(false)
     const [maximumStayOthersValue, setmaximumStayOthersValue] = useState('')
-    const [animate, setAnimate] = useState('')
+    const [animate, setAnimate] = useState([])
     const [rentPerweeksingle, setRentPerweeksingle] = useState('')
     const [rentPerweekcouple, setRentPerweekcouple] = useState('')
     const [placeFriendless, setPlaceFriendless] = useState('')
-    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState('')
-    const [publicTransportAccess, setPublicTransportAccess] = useState('')
+    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState([])
+    const [publicTransportAccess, setPublicTransportAccess] = useState([])
     const [gender, setGender] = useState('')
     const [age, setAge] = useState('')
     const [checks, setChecks] = useState([])
@@ -75,6 +75,50 @@ const HomeWoner = () => {
             return
         }
         setChecks([...checks, p])
+    }
+    const aminetAddFunction = (p) => {
+        if (p == 'N/A') {
+            setAnimate(['N/A'])
+            return
+        }
+        const filter = animate.filter(filt => filt != 'N/A')
+        const findData = animate.find(r => r == p)
+        if (findData) {
+            const filterData = animate.filter(filt => filt != p && filt != 'N/A')
+            setAnimate(filterData)
+            return
+        }
+        setAnimate([...filter, p])
+    }
+
+    const nearbyAddFunction = (p) => {
+        if (p == 'N/A') {
+            setNearbyCommunitySpaces(['N/A'])
+            return
+        }
+        const filter = nearbyCommunitySpaces.filter(filt => filt != 'N/A')
+        const findData = nearbyCommunitySpaces.find(r => r == p)
+        if (findData) {
+            const filterData = nearbyCommunitySpaces.filter(filt => filt != p && filt != 'N/A')
+            setNearbyCommunitySpaces(filterData)
+            return
+        }
+        setNearbyCommunitySpaces([...filter, p])
+    }
+
+    const publicAddFunction = (p) => {
+         if (p == 'N/A') {
+            setPublicTransportAccess(['N/A'])
+            return
+        }
+        const filter = publicTransportAccess.filter(filt => filt != 'N/A')
+        const findData = publicTransportAccess.find(r => r == p)
+        if (findData) {
+            const filterData = publicTransportAccess.filter(filt => filt != p && filt != 'N/A')
+            setPublicTransportAccess(filterData)
+            return
+        }
+        setPublicTransportAccess([...filter, p])
     }
     const check1 = checks.find(r => r == 'Any')
     const check2 = checks.find(r => r == 'Digital ID Verification')
@@ -498,9 +542,10 @@ const HomeWoner = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 if (data.id) {
                     setLoad(false)
-                    window.location.href = `/setting_profile`
+                    window.location.href = `/homeowner-pricing`
                 }
                 else {
                     setLoad(false)
@@ -548,14 +593,14 @@ const HomeWoner = () => {
                             <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Property Details**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Property Details**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className=" text-[#7065F0] font-bold text-lg">Home Address: </p>
+                            <p className=" text-[#453e91] font-bold text-lg">Home Address: </p>
                             <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">House Type:</p>
+                            <p className="text-[#453e91] font-bold text-lg">House Type:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 text-center font-medium">
                                 <p onClick={() => setHouseType('House')} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>
                                 <p onClick={() => setHouseType('Unit')} className={`font-bold text-[#7065F0] border-t border-e lg:border-e-0 lg:border-y duration-500 ${houseType === 'Unit' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Unit</p>
@@ -566,7 +611,7 @@ const HomeWoner = () => {
 
 
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Parking Options:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Parking Options:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => setParkingOptions('Garage')} className={`border border-b-0 lg:border-b duration-500 ${parkingOptions === 'Garage' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Garage</p>
                                 <p onClick={() => setParkingOptions('Driveway')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${parkingOptions === 'Driveway' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Driveway</p>
@@ -577,10 +622,10 @@ const HomeWoner = () => {
                         </div>
                     </div>
 
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Room Details**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Room Details**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="w-full">
-                            <p className="text-[#7065F0] font-bold text-lg">Available from:</p>
+                            <p className="text-[#453e91]font-bold text-lg">Available from:</p>
                             <DatePicker
                                 className="mt-4 py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f7f6ff] border-[#7065F0] hover:outline-none w-full rounded-lg"
                                 showIcon
@@ -589,7 +634,7 @@ const HomeWoner = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Minimum Stay :</p>
+                            <p className="text-[#453e91] font-bold text-lg">Minimum Stay :</p>
                             {!minimumStayOthers && <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
                                 <p onClick={() => setMinimumStay('1 week')} className={` duration-500 border ${minimumStay === '1 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 week</p>
                                 <p onClick={() => setMinimumStay('2 week')} className={` duration-500 border-y border-e ${minimumStay === '2 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 week</p>
@@ -604,7 +649,7 @@ const HomeWoner = () => {
                             <p className="flex mt-4 items-center gap-1"><input onClick={() => setMinimumStayOthers(!minimumStayOthers)} type="radio" className="radio radio-primary" checked={minimumStayOthers ? true : false} />others</p>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Maximum Stay :</p>
+                            <p className="text-[#453e91] font-bold text-lg">Maximum Stay :</p>
                             {!maximumStayOthers && <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
                                 <p onClick={() => setMaximumStay('1 week')} className={` duration-500 border ${maximumStay === '1 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 week</p>
                                 <p onClick={() => setMaximumStay('2 week')} className={` duration-500 border-y border-e ${maximumStay === '2 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 week</p>
@@ -619,7 +664,7 @@ const HomeWoner = () => {
                             <p className="flex mt-4 items-center gap-1"><input onClick={() => setmaximumStayOthers(!maximumStayOthers)} type="radio" className="radio radio-primary" checked={maximumStayOthers ? true : false} />others</p>
                         </div>
                         <div >
-                            <p className="text-[#7065F0] font-bold text-lg">Rent per Week:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Rent per Week:</p>
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                                 <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                                     <label className="input-group">
@@ -636,7 +681,7 @@ const HomeWoner = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Bond:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Bond:</p>
                             <div className="mt-4 grid grid-cols-3  text-center font-medium">
                                 <p onClick={() => setBond('2 weeks')} className={` duration-500 border ${bond === '2 weeks' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 weeks</p>
                                 <p onClick={() => setBond('1 month')} className={` duration-500 border-y border-e ${bond === '1 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 month</p>
@@ -645,7 +690,7 @@ const HomeWoner = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Bills Included in Rent:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Bills Included in Rent:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
                                 <p onClick={() => setBillRent('yes')} className={`border  duration-500 ${billRent === 'yes' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Yes</p>
                                 <p onClick={() => setBillRent('no')} className={`border border-s-0 duration-500 
@@ -661,17 +706,17 @@ const HomeWoner = () => {
 
                     </div>
 
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Room Features**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Room Features**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Bedroom Type:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Bedroom Type:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
                                 <p onClick={() => setFurnished('Private Bedroom')} className={`border  duration-500 ${furnished == 'Private Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Private Bedroom</p>
                                 <p onClick={() => setFurnished('Shared Bedroom')} className={`border border-s-0 duration-500 ${furnished == 'Shared Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Shared Bedroom</p>
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Private Bathroom:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Private Bathroom:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
                                 <p onClick={() => setPrivateBath('yes')} className={`border  duration-500 ${privateBath === 'yes' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Yes</p>
                                 <p onClick={() => setPrivateBath('no')} className={`border border-s-0 duration-500 
@@ -679,7 +724,7 @@ const HomeWoner = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Bed Size:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Bed Size:</p>
                             <div className="mt-4 grid grid-cols-3 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => setBedSize('single')} className={`border ${bedSize === 'single' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Single</p>
                                 <p onClick={() => setBedSize('double')} className={`border-y border-e ${bedSize === 'double' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Double</p>
@@ -688,27 +733,27 @@ const HomeWoner = () => {
                                 <p onClick={() => setBedSize('none')} className={`border border-t-0 lg:border-t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                             </div>
                         </div>
-                        <p className="text-[#7065F0] font-bold text-lg">Room Features :</p>
+                        <p className="text-[#453e91] font-bold text-lg">Room Features :</p>
                         <RoomFurnishingAndFeture
                             roomFurnishingsAndFeatures={roomFurnishingsAndFeatures}
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
                         ></RoomFurnishingAndFeture>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Amenities** </p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Amenities** </p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                            <p onClick={() => setAnimate('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate === 'Outdoor Area' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
-                            <p onClick={() => setAnimate('Kitchen')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate === 'Kitchen' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Kitchen</p>
-                            <p onClick={() => setAnimate('TV')} className={`border-y border-s duration-500 ${animate === 'TV' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>TV</p>
-                            <p onClick={() => setAnimate('Laundry')} className={`border duration-500 ${animate === 'Laundry' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Laundry</p>
-                            <p onClick={() => setAnimate('BBQ')} className={`border border-s border-y-0 lg:border-y lg:border-s-0 duration-500 ${animate === 'BBQ' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>BBQ</p>
-                            <p onClick={() => setAnimate('Pool')} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate === 'Pool' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
-                            <p onClick={() => setAnimate('Spa')} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate === 'Spa' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
-                            <p onClick={() => setAnimate('Sauna')} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate === 'Sauna' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
-                            <p onClick={() => setAnimate('N/A')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate === 'N/A' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>N/A</p>
+                            <p onClick={() => aminetAddFunction('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
+                            <p onClick={() => aminetAddFunction('Kitchen')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate.find(a => a == 'Kitchen') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Kitchen</p>
+                            <p onClick={() => aminetAddFunction('TV')} className={`border-y border-s duration-500 ${animate.find(a => a == 'TV') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>TV</p>
+                            <p onClick={() => aminetAddFunction('Laundry')} className={`border duration-500 ${animate.find(a => a == 'Laundry') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Laundry</p>
+                            <p onClick={() => aminetAddFunction('BBQ')} className={`border border-s border-y-0 lg:border-y lg:border-s-0 duration-500 ${animate.find(a => a == 'BBQ') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>BBQ</p>
+                            <p onClick={() => aminetAddFunction('Pool')} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate.find(a => a == 'Pool') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
+                            <p onClick={() => aminetAddFunction('Spa')} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Spa') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
+                            <p onClick={() => aminetAddFunction('Sauna')} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Sauna') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
+                            <p onClick={() => aminetAddFunction('N/A')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'N/A') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>N/A</p>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Place friendliness:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Place friendliness:</p>
                             <div className="mt-4 grid grid-cols-2 text-center font-medium">
                                 <p onClick={() => setPlaceFriendless('Pets')} className={`border border-b-0 duration-500 ${placeFriendless === 'Pets' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pets</p>
                                 <p onClick={() => setPlaceFriendless('Couples')} className={`border-t border-e duration-500 ${placeFriendless === 'Couples' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
@@ -718,39 +763,39 @@ const HomeWoner = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Local Amenities and Transport**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Local Amenities and Transport**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#7065F0] font-bold  text-lg">Nearby Community Spaces:</p>
+                            <p className="text-[#453e91] font-bold  text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => setNearbyCommunitySpaces('Parks')} className={`duration-500 border ${nearbyCommunitySpaces === 'Parks' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces === 'Aquatic Centres' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Gyms')} className={`duration-500 border border-y-0 lg:border-t ${nearbyCommunitySpaces === 'Gyms' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Gyms</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Libraries')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces === 'Libraries' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Community Centres')} className={`duration-500 border ${nearbyCommunitySpaces === 'Community Centres' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
-                                <p onClick={() => setNearbyCommunitySpaces('Sports Facilities')} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces === 'Sports Facilities' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
-                                <p onClick={() => setNearbyCommunitySpaces('N/A')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces === 'N/A' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>N/A</p>
+                                <p onClick={() => nearbyAddFunction('Parks')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
+                                <p onClick={() => nearbyAddFunction('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
+                                <p onClick={() => nearbyAddFunction('Gyms')} className={`duration-500 border border-y-0 lg:border-t ${nearbyCommunitySpaces.find(n => n == 'Gyms') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Gyms</p>
+                                <p onClick={() => nearbyAddFunction('Libraries')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces.find(n => n == 'Libraries') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
+                                <p onClick={() => nearbyAddFunction('Community Centres')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Community Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
+                                <p onClick={() => nearbyAddFunction('Sports Facilities')} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces.find(n => n == 'Sports Facilities') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
+                                <p onClick={() => nearbyAddFunction('N/A')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces.find(n => n == 'N/A') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>N/A</p>
                             </div>
 
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold  text-lg">Public Transport Access:</p>
+                            <p className="text-[#453e91] font-bold  text-lg">Public Transport Access:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => setPublicTransportAccess('Bus Stop')} className={`duration-500 border ${publicTransportAccess === 'Bus Stop' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
-                                <p onClick={() => setPublicTransportAccess('Tram Station')} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess === 'Tram Station' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
-                                <p onClick={() => setPublicTransportAccess('Train Station')} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess === 'Train Station' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
-                                <p onClick={() => setPublicTransportAccess('Ferry Terminal')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess === 'Ferry Terminal' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
-                                <p onClick={() => setPublicTransportAccess('Bike Paths')} className={`duration-500 border ${publicTransportAccess === 'Bike Paths' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
-                                <p onClick={() => setPublicTransportAccess('N/A')} className={`duration-500 border border-s-0 ${publicTransportAccess === 'N/A' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>N/A</p>
+                                <p onClick={() => publicAddFunction('Bus Stop')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bus Stop') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
+                                <p onClick={() => publicAddFunction('Tram Station')} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess.find(p => p == 'Tram Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
+                                <p onClick={() => publicAddFunction('Train Station')} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess.find(p => p == 'Train Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
+                                <p onClick={() => publicAddFunction('Ferry Terminal')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess.find(p => p == 'Ferry Terminal') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
+                                <p onClick={() => publicAddFunction('Bike Paths')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bike Paths') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
+                                <p onClick={() => publicAddFunction('N/A')} className={`duration-500 border border-s-0 ${publicTransportAccess.find(p => p == 'N/A') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>N/A</p>
                             </div>
 
 
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 ">**Preferences for Potential Tenant**</p>
+                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Preferences for Potential Tenant**</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Gender:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Gender:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => setGender('Any')} className={`border border-b-0 lg:border-b duration-500 ${gender === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
                                 <p onClick={() => setGender('Male')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender === 'Male' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Male</p>
@@ -760,7 +805,7 @@ const HomeWoner = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">Age Range:</p>
+                            <p className="text-[#453e91] font-bold text-lg">Age Range:</p>
                             <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
                                 <p onClick={() => setAge('Any')} className={` duration-500 border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
                                 <p onClick={() => setAge('18 - 25')} className={` duration-500 border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>18 - 25</p>
@@ -771,7 +816,7 @@ const HomeWoner = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold text-lg">IDs & Checks</p>
+                            <p className="text-[#453e91] font-bold text-lg">IDs & Checks</p>
                             <div className="p-4 border rounded-lg mt-4">
                                 <div className=" gap-4 flex flex-wrap">
                                     <p onClick={() => addFunction('Any')} className={`inline border-2  cursor-pointer ${check1 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Any</p>
@@ -790,7 +835,7 @@ const HomeWoner = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#7065F0] font-bold  text-lg">Occupation Preference:</p>
+                            <p className="text-[#453e91] font-bold  text-lg">Occupation Preference:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => setOccuption('Any')} className={` duration-500 border ${occuption === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
                                 <p onClick={() => setOccuption('Student')} className={` duration-500 border-t border-e lg:border-e-0 ${occuption === 'Student' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>

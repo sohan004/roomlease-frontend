@@ -17,6 +17,8 @@ import OtpSend from './components/Account/OtpSend.jsx'
 import Register from './components/Account/Register.jsx'
 import HomeWoner from './components/Account/HomeWoner.jsx'
 import RoomSeeker from './components/Account/RoomSeeker.jsx'
+import HomeownerPricing from './components/Pricing/HomeownerPricing.jsx'
+import RoomSeekerPricing from './components/Pricing/RoomSeekerPricing.jsx'
 
 
 const router = createBrowserRouter([
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignUp></SignUp>
+      },
+      {
+        path: '/homeowner-pricing',
+        element: <HomeownerPricing></HomeownerPricing>
+      },
+      {
+        path: '/roomseeker-pricing',
+        element: <RoomSeekerPricing></RoomSeekerPricing>
       },
     ]
   },
