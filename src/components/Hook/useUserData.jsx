@@ -31,6 +31,7 @@ const useUserData = () => {
             })
             .catch(err => {
                 setLoading(false)
+                setUserData(null)
             })
     }, [localStorage.getItem('user-token')])
 

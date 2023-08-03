@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const OtpSend = () => {
-    const [con, setCon] = useState({ phone: '' })
+    const [con, setCon] = useState('')
     const [seconds, setSeconds] = useState(120);
     const [sec, setSec] = useState(59);
     const [timer, setTimer] = useState(false);
@@ -46,7 +46,7 @@ const OtpSend = () => {
 
     const sendOtp = () => {
         setLoad(true)
-        if (!con.p) {
+        if (!con) {
             setLoad(false)
             Swal.fire(
                 'Please Type Your Phone Number',
@@ -61,7 +61,7 @@ const OtpSend = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone_number: con.p
+                phone_number: con
             })
         })
             .then(res => res.json())
@@ -94,7 +94,7 @@ const OtpSend = () => {
                 },
                 body: JSON.stringify({
                     otp: e,
-                    phone_number: con.p
+                    phone_number: con
                 })
             })
                 .then(res => res.json())
@@ -105,7 +105,7 @@ const OtpSend = () => {
                         Swal.fire({
                             position: 'top-center',
                             icon: 'success',
-                            title: 'OTP Verified',
+                            title: `<h5 style='color:#7065F0'>Code verified</h5>`,
                             showConfirmButton: false,
                             timer: 1500
                         })
@@ -128,7 +128,7 @@ const OtpSend = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone_number: con.p
+                phone_number: con
             })
         })
             .then(res => res.json())
@@ -152,22 +152,27 @@ const OtpSend = () => {
     }
     return (
         <div className="px-4 max-w-[550px] mx-auto">
-            <h1 className="text-2xl mt-8 lg:mt-12 lg:text-4xl font-medium">Enter your mobile phone number to verify or create an account </h1>
-            <p className="mt-3">VOIP numbers are not excepted.</p>
-            <p className="font-bold mt-10">Phone Number: </p>
+            <p className="font-bold text-2xl mb-4 mt-12 lg:mt-16">Mobile number: </p>
 
             <PhoneInput
                 className="w-full py-3 px-4 border-b border-black"
                 international
                 defaultCountry="AU"
-                value={con.phone}
-                onChange={p => setCon({ p })}
+                value={con}
+                onChange={p => {
+                    if (p) {
+                        setCon(p)
+                    }
+                    else {
+                        setCon('')
+                    }
+                }}
             />
             <div className='text-center mb-44 mt-16'>
                 <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
             </div>
             <dialog id="send_otp" className="modal">
-                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative">
+                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative text-[#7065F0] ">
                     <FaWindowClose onClick={() => window.send_otp.close()} className='absolute top-4 text-3xl cursor-pointer left-4'></FaWindowClose>
                     <h1 className="text-2xl mt-7 text-center  lg:text-4xl">Enter Code</h1>
                     <p className='text-center font-medium my-4 text-red-500'>{err}</p>
@@ -176,7 +181,7 @@ const OtpSend = () => {
                         <div className=' max-w-[500px] mx-auto text-center '>
                             <div>
                                 <OTPInput
-                                    inputClassName='border-2 rounded py-6 border-black flex-grow'
+                                    inputClassName='border-2 rounded py-6 border-[#7065F0] focus:outline-none flex-grow'
                                     className="text-center flex justify-center w-full"
                                     value={otp} onChange={e => {
                                         verifyOtp(e)
