@@ -15,7 +15,7 @@ const NewSection2 = () => {
                             window.location.href = '/otp-send'
                         }
                     }}
-                    className='btn btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaHome className='' />List Spare Room </button>
+                    className='btn btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaHome className='' />List Room </button>
                 <button
                     onClick={() => {
                         if (userData) {

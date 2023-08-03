@@ -10,13 +10,17 @@ const Footer = () => {
                 <div className="w-full lg:w-1/4">
                     <div className='flex items-center gap-1'>
                         <Link to='/'><p className='font-bold text-xl lg:text-3xl text-[#100A55] flex items-start '>
-                            R
-                            <span className='flex flex-col justify-center items-center'>
-                                oo
-                                <img className='w-6  lg:w-8  -mt-1' src={bol} alt="" />
-                            </span>
-                            mLe<img src={logoHome} className='w-6 mt-[6px] lg:w-9' alt="" />se
-                        </p></Link>
+                                R
+                                <span className='flex flex-col justify-center items-center'>
+                                    o
+                                    <img className='w-3  lg:w-4  -mt-1' src={bol} alt="" />
+                                </span>
+                                <span className='flex flex-col justify-center items-center'>
+                                    o
+                                    <img className='w-3  lg:w-4  -mt-1' src={bol} alt="" />
+                                </span>
+                                mLe<img src={logoHome} className='w-6 mt-[6px] lg:w-9' alt="" />se
+                            </p></Link>
                     </div>
                 </div>
                 <div className="w-full lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
@@ -29,19 +33,19 @@ const Footer = () => {
                     <div className=''>
                         <p className='mb-2'>Background Checks</p>
                         <p className='mb-2'>Free rommmate agreement</p>
-                        <p className='mb-2'>safety & security</p>
+                        <p className='mb-2'>Safety & security</p>
                         <p className='mb-2 hidden lg:block'>Inspections</p>
                     </div>
                     <div className=''>
                         <p className='mb-2'>Community Standards</p>
-                        <p className='mb-2'>terms</p>
-                        <p className='mb-2'>privacy</p>
-                        <p className='mb-2 hidden lg:block'>career</p>
+                        <p className='mb-2'>Terms</p>
+                        <p className='mb-2'>Privacy</p>
+                        <p className='mb-2 hidden lg:block'>Career</p>
                     </div>
                     <div className='lg:hidden'>
                         <p className='mb-2'>Credit Checks</p>
                         <p className='mb-2'>Inspections</p>
-                        <p className='mb-2'>career</p>
+                        <p className='mb-2'>Career</p>
                     </div>
                 </div>
             </div>

@@ -43,17 +43,17 @@ const HomeWoner = () => {
     const [animate, setAnimate] = useState([])
     const [rentPerweeksingle, setRentPerweeksingle] = useState('')
     const [rentPerweekcouple, setRentPerweekcouple] = useState('')
-    const [placeFriendless, setPlaceFriendless] = useState('')
+    const [placeFriendless, setPlaceFriendless] = useState([])
     const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState([])
     const [publicTransportAccess, setPublicTransportAccess] = useState([])
-    const [gender, setGender] = useState('')
+    const [gender, setGender] = useState([])
     const [age, setAge] = useState('')
     const [checks, setChecks] = useState([])
     const [smoke, setSmoke] = useState('')
     const [pets, setPets] = useState('')
     const [child, setChild] = useState('')
     const [couple, setCouple] = useState('')
-    const [occuption, setOccuption] = useState('')
+    const [occuption, setOccuption] = useState([])
     const [lifestyle, setLifestyle] = useState('')
     const [clean, setClean] = useState('')
     const [diat, setDiat] = useState('')
@@ -90,6 +90,50 @@ const HomeWoner = () => {
             return
         }
         setAnimate([...filter, p])
+    }
+    const occuptionFunction = (p) => {
+        if (p == 'N/A') {
+            setOccuption(['N/A'])
+            return
+        }
+        const filter = occuption.filter(filt => filt != 'N/A')
+        const findData = occuption.find(r => r == p)
+        if (findData) {
+            const filterData = occuption.filter(filt => filt != p && filt != 'N/A')
+            setOccuption(filterData)
+            return
+        }
+        setOccuption([...filter, p])
+    }
+    const genderFunction = (p) => {
+        if (p == 'Any') {
+            setGender(['Any'])
+            return
+        }
+        const filter = gender.filter(filt => filt != 'Any')
+        const findData = gender.find(r => r == p)
+        if (findData) {
+            const filterData = gender.filter(filt => filt != p && filt != 'Any')
+            setGender(filterData)
+            return
+        }
+        setGender([...filter, p])
+    }
+
+
+    const placeFriendFunction = (p) => {
+        if (p == 'N/A') {
+            setPlaceFriendless(['N/A'])
+            return
+        }
+        const filter = placeFriendless.filter(filt => filt != 'N/A')
+        const findData = placeFriendless.find(r => r == p)
+        if (findData) {
+            const filterData = placeFriendless.filter(filt => filt != p && filt != 'N/A')
+            setPlaceFriendless(filterData)
+            return
+        }
+        setPlaceFriendless([...filter, p])
     }
 
     const nearbyAddFunction = (p) => {
@@ -600,7 +644,7 @@ const HomeWoner = () => {
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
                             {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
                             <Autocomplete
-                             className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
+                                className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
                                 apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
                                 onPlaceSelected={(place) => {
                                     if (place.formatted_address) {
@@ -655,13 +699,12 @@ const HomeWoner = () => {
                                 <p onClick={() => setMinimumStay('9 month')} className={` duration-500 border  border-t-0  ${minimumStay === '9 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>9 month</p>
                                 <p onClick={() => setMinimumStay('12+ month')} className={` duration-500 border border-s-0 border-t-0  ${minimumStay === '12+ month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>12+ month</p>
                             </div>}
-                            {minimumStayOthers && <input onChange={e => setMinimumStayOthersValue(e.target.value)} placeholder="Others" type="text" name="" className="w-full hover:border-2 focus:border-2 focus:outline-none mt-4 py-3 px-4 border focus:bg-[#f3f2fd] border-[#7065F0] rounded-lg" />}
-                            <p className="flex mt-4 items-center gap-1"><input onClick={() => setMinimumStayOthers(!minimumStayOthers)} type="radio" className="radio radio-primary" checked={minimumStayOthers ? true : false} />others</p>
+
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Maximum Stay :</p>
                             {!maximumStayOthers && <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p onClick={() => setMaximumStay('1 week')} className={` duration-500 border ${maximumStay === '1 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 week</p>
+                                <p disabled={true} onClick={() => setMaximumStay('1 week')} className={` duration-500 border ${maximumStay === '1 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 week</p>
                                 <p onClick={() => setMaximumStay('2 week')} className={` duration-500 border-y border-e ${maximumStay === '2 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 week</p>
                                 <p onClick={() => setMaximumStay('1 month')} className={` duration-500 border-y border-e ${maximumStay === '1 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 month</p>
                                 <p onClick={() => setMaximumStay('2 month')} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${maximumStay === '2 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 month</p>
@@ -670,8 +713,7 @@ const HomeWoner = () => {
                                 <p onClick={() => setMaximumStay('9 month')} className={` duration-500 border  border-t-0  ${maximumStay === '9 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>9 month</p>
                                 <p onClick={() => setMaximumStay('12+ month')} className={` duration-500 border border-s-0 border-t-0  ${maximumStay === '12+ month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>12+ month</p>
                             </div>}
-                            {maximumStayOthers && <input onChange={e => setmaximumStayOthersValue(e.target.value)} placeholder="Others" type="text" name="" className="w-full  hover:border-2 focus:border-2 focus:outline-none mt-4 py-3 px-4 border focus:bg-[#f6f5ff] border-[#7065F0] rounded-lg" />}
-                            <p className="flex mt-4 items-center gap-1"><input onClick={() => setmaximumStayOthers(!maximumStayOthers)} type="radio" className="radio radio-primary" checked={maximumStayOthers ? true : false} />others</p>
+
                         </div>
                         <div >
                             <p className="text-[#100A55] font-bold text-lg">Rent per Week:</p>
@@ -707,9 +749,11 @@ const HomeWoner = () => {
                             ${billRent == 'no' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>No</p>
                             </div>
                             {billRent == 'no' &&
-                                <div>
-                                    <p className="text-[#7065F0] font-bold mt-6 text-lg">approximate cost of bills per month:</p>
-                                    <input onChange={(e) => setApproximatecost(e.target.value)} type="text" name="" className="w-full mt-4 py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f7f6ff] border-[#7065F0] hover:outline-none  rounded-lg" />
+                                <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
+                                    <label className="input-group">
+                                        <span className="bg-white border-e border-[#7065F0] ">$</span>
+                                        <input onChange={(e) => setApproximatecost(e.target.value)} type="text" className="input   w-full " />
+                                    </label>
                                 </div>}
 
                         </div>
@@ -765,11 +809,11 @@ const HomeWoner = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Place friendliness:</p>
                             <div className="mt-4 grid grid-cols-2 text-center font-medium">
-                                <p onClick={() => setPlaceFriendless('Pets')} className={`border border-b-0 duration-500 ${placeFriendless === 'Pets' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pets</p>
-                                <p onClick={() => setPlaceFriendless('Couples')} className={`border-t border-e duration-500 ${placeFriendless === 'Couples' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
-                                <p onClick={() => setPlaceFriendless('Children')} className={`border-y border-s duration-500 ${placeFriendless === 'Children' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Children</p>
-                                <p onClick={() => setPlaceFriendless('Visitors')} className={`border duration-500 ${placeFriendless === 'Visitors' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Visitors</p>
-                                <p onClick={() => setPlaceFriendless('N/A')} className={`border border-t-0 col-span-2 duration-500 ${placeFriendless === 'N/A' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>N/A</p>
+                                <p onClick={() => placeFriendFunction('Pets')} className={`border border-b-0 duration-500 ${placeFriendless.find(p => p == 'Pets') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pets</p>
+                                <p onClick={() => placeFriendFunction('Couples')} className={`border-t border-e duration-500 ${placeFriendless.find(p => p == 'Couples') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
+                                <p onClick={() => placeFriendFunction('Children')} className={`border-y border-s duration-500 ${placeFriendless.find(p => p == 'Children') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Children</p>
+                                <p onClick={() => placeFriendFunction('Visitors')} className={`border duration-500 ${placeFriendless.find(p => p == 'Visitors') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Visitors</p>
+                                <p onClick={() => placeFriendFunction('N/A')} className={`border border-t-0 col-span-2 duration-500 ${placeFriendless.find(p => p == 'N/A') ? ' border border-[#bab7e4]  hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>N/A</p>
                             </div>
                         </div>
                     </div>
@@ -807,11 +851,11 @@ const HomeWoner = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Gender:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                                <p onClick={() => setGender('Any')} className={`border border-b-0 lg:border-b duration-500 ${gender === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                                <p onClick={() => setGender('Male')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender === 'Male' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Male</p>
-                                <p onClick={() => setGender('Female')} className={`border-y border-s duration-500 ${gender === 'Female' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Female</p>
-                                <p onClick={() => setGender('LGBTIQA+')} className={`border duration-500 ${gender === 'LGBTIQA+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>LGBTIQA+</p>
-                                <p onClick={() => setGender('Unspecified')} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${gender === 'Unspecified' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Unspecified</p>
+                                <p onClick={() => genderFunction('Any')} className={`border border-b-0 lg:border-b duration-500 ${gender.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
+                                <p onClick={() => genderFunction('Male')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender.find(g => g == 'Male') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Male</p>
+                                <p onClick={() => genderFunction('Female')} className={`border-y border-s duration-500 ${gender.find(g => g == 'Female') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Female</p>
+                                <p onClick={() => genderFunction('LGBTIQA+')} className={`border duration-500 ${gender.find(g => g == 'LGBTIQA+') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>LGBTIQA+</p>
+                                <p onClick={() => genderFunction('Unspecified')} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${gender.find(g => g == 'Unspecified') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Unspecified</p>
                             </div>
                         </div>
                         <div>
@@ -847,13 +891,13 @@ const HomeWoner = () => {
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => setOccuption('Any')} className={` duration-500 border ${occuption === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                                <p onClick={() => setOccuption('Student')} className={` duration-500 border-t border-e lg:border-e-0 ${occuption === 'Student' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>
-                                <p onClick={() => setOccuption('Professional')} className={` duration-500 border border-y-0 lg:border-t ${occuption === 'Professional' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Professional</p>
-                                <p onClick={() => setOccuption('Backpackers')} className={` duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b  ${occuption === 'Backpackers' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Backpackers</p>
-                                <p onClick={() => setOccuption('On welfare')} className={` duration-500 border  ${occuption === 'On welfare' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On welfare</p>
-                                <p onClick={() => setOccuption('Retired')} className={` duration-500 border border-s-0  ${occuption === 'Retired' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Retired</p>
-                                <p onClick={() => setOccuption('Joob Seeker')} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${occuption === 'Joob Seeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Joob Seeker</p>
+                                <p onClick={() => occuptionFunction('Any')} className={` duration-500 border ${occuption.find(o => o == 'Any') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
+                                <p onClick={() => occuptionFunction('Student')} className={` duration-500 border-t border-e lg:border-e-0 ${occuption.find(o => o == 'Student') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>
+                                <p onClick={() => occuptionFunction('Professional')} className={` duration-500 border border-y-0 lg:border-t ${occuption.find(o => o == 'Professional') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Professional</p>
+                                <p onClick={() => occuptionFunction('Backpackers')} className={` duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b  ${occuption.find(o => o == 'Backpackers') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Backpackers</p>
+                                <p onClick={() => occuptionFunction('On welfare')} className={` duration-500 border  ${occuption.find(o => o == 'On welfare') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On welfare</p>
+                                <p onClick={() => occuptionFunction('Retired')} className={` duration-500 border border-s-0  ${occuption.find(o => o == 'Retired') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Retired</p>
+                                <p onClick={() => occuptionFunction('Joob Seeker')} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${occuption.find(o => o == 'Joob Seeker') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Joob Seeker</p>
                             </div>
                         </div>
                     </div>

@@ -11,18 +11,22 @@ const Section4 = () => {
             <div className="max-w-[1440px] mx-auto px-4">
                 <div className="flex items-center flex-col gap-y-6   text-center text-white">
                     <div className="w-full lg:w-2/5">
-                        <h1 className="font-bold text-2xl gap-3 lg:gap-6 text-center flex justify-center  lg:text-4xl leading-[50px]">Why <span className="text-[#7065F0] flex items-start">
+                        <h1 className="font-bold text-2xl gap-3 lg:gap-6 text-center flex justify-center  lg:text-4xl leading-[50px]">Why <span className="flex items-start">
                             R
                             <span className='flex flex-col justify-center items-center'>
-                                oo
-                            <img className='w-6  lg:w-9  -mt-[19px] lg:-mt-[14px]' src={bol2} alt="" />
+                                o
+                            <img className='w-3  lg:w-4  -mt-[13px] lg:-mt-[3px]' src={bol2} alt="" />
+                            </span>
+                            <span className='flex flex-col justify-center items-center'>
+                                o
+                            <img className='w-3  lg:w-4  -mt-[13px] lg:-mt-[3px]' src={bol2} alt="" />
                             </span>
                             mLe<img src={logoHome2} className='w-6  lg:w-9 mt-[10px] lg:-mt-[4px] -ms-1' alt="" />se.com.au
                         </span></h1>
                     </div>
                     <div className="w-full lg:w-4/5">
                         <p style={{ fontSize: '20px' }}>Enriching Society, Proudly Australian</p>
-                        <p className='pt-3'>RoomLease.com.au mission to empower homeowners by transforming spare rooms into an income source, easing mortgage stress</p>
+                        <p className='pt-3'>Our mission is to empower homeowners by transforming spare rooms into an income source, easing mortgage stress and promoting active living</p>
                     </div>
                 </div>
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mt-12 lg:mt-16'>
@@ -32,7 +36,7 @@ const Section4 = () => {
                         </div>
                         <div className='lg:w-[70%]  w-full'>
                             <h1 className='text-2xl mb-6 font-semibold'>Safety First</h1>
-                            <p className='text-base opacity-70'>National police check, working with children check, credit history, references, and ID verification</p>
+                            <p className='text-base opacity-70'> Digital ID verification by Australia Post and by checks (National police, working with children check, credit history, references)</p>
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-white text-black p-6 rounded-lg'>
