@@ -33,6 +33,7 @@ const RoomSeeker = () => {
     const [age, setAge] = useState('')
     const [checks, setChecks] = useState([])
     const [occuption, setOccuption] = useState('')
+    const [lookingForPlace, setLookingForPlace] = useState('')
 
 
 
@@ -80,7 +81,7 @@ const RoomSeeker = () => {
     }
 
     const publicAddFunction = (p) => {
-         if (p == 'None') {
+        if (p == 'None') {
             setPublicTransportAccess(['None'])
             return
         }
@@ -140,6 +141,19 @@ const RoomSeeker = () => {
         }
         if (!email) {
             toast.error('Please type your email address', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                theme: "colored",
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            return
+        }
+        if (!lookingForPlace) {
+            toast.error('Please select  looking for place', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -391,10 +405,18 @@ const RoomSeeker = () => {
                             <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Room Preferences**</p>
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Preferences</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">House Type:</p>
+                            <p className="text-[#100A55] font-bold text-lg">I am looking for a place:</p>
+                            <div className="mt-4 grid grid-cols-2  text-center font-medium">
+                                <p onClick={() => setLookingForPlace('For Myself')} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>For Myself</p>
+                                <p onClick={() => setLookingForPlace('As a couple')} className={`border border-s-0 duration-500 
+                            ${lookingForPlace == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>As a couple</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p className="text-[#100A55] font-bold text-lg">House Type:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 text-center font-medium">
                                 <p onClick={() => setHouseType('House')} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>
                                 <p onClick={() => setHouseType('Unit')} className={`font-bold text-[#7065F0] border-t border-e lg:border-e-0 lg:border-y duration-500 ${houseType === 'Unit' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Unit</p>
@@ -404,14 +426,14 @@ const RoomSeeker = () => {
                         </div>
 
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">Room Type:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Room Type:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
                                 <p onClick={() => setFurnished('Private Bedroom')} className={`border  duration-500 ${furnished == 'Private Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Private Bedroom</p>
                                 <p onClick={() => setFurnished('Shared Bedroom')} className={`border border-s-0 duration-500 ${furnished == 'Shared Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Shared Bedroom</p>
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">Private Bathroom:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Private Bathroom:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
                                 <p onClick={() => setPrivateBath('yes')} className={`border  duration-500 ${privateBath === 'yes' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Yes</p>
                                 <p onClick={() => setPrivateBath('no')} className={`border border-s-0 duration-500 
@@ -419,7 +441,7 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">Bed Size:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Bed Size:</p>
                             <div className="mt-4 grid grid-cols-3 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => setBedSize('single')} className={`border ${bedSize === 'single' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Single</p>
                                 <p onClick={() => setBedSize('double')} className={`border-y border-e ${bedSize === 'double' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Double</p>
@@ -428,13 +450,13 @@ const RoomSeeker = () => {
                                 <p onClick={() => setBedSize('none')} className={`border border-t-0 lg:border-t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                             </div>
                         </div>
-                        <p className="text-[#5249b1] font-bold text-lg">Room Features :</p>
+                        <p className="text-[#100A55] font-bold text-lg">Room Features :</p>
                         <RoomFurnishingAndFeture
                             roomFurnishingsAndFeatures={roomFurnishingsAndFeatures}
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
                         ></RoomFurnishingAndFeture>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Amenities** </p>
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Amenities </p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 text-center font-medium">
                             <p onClick={() => aminetAddFunction('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
@@ -448,7 +470,7 @@ const RoomSeeker = () => {
                             <p onClick={() => aminetAddFunction('None')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">Place friendliness:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Place friendliness:</p>
                             <div className="mt-4 grid grid-cols-2 text-center font-medium">
                                 <p onClick={() => setPlaceFriendless('Pets')} className={`border border-b-0 duration-500 ${placeFriendless === 'Pets' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pets</p>
                                 <p onClick={() => setPlaceFriendless('Couples')} className={`border-t border-e duration-500 ${placeFriendless === 'Couples' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
@@ -458,10 +480,10 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Local Amenities and Transport**</p>
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Local Amenities and Transport</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#5249b1] font-bold  text-lg">Nearby Community Spaces:</p>
+                            <p className="text-[#100A55] font-bold  text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => nearbyAddFunction('Parks')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
                                 <p onClick={() => nearbyAddFunction('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
@@ -474,7 +496,7 @@ const RoomSeeker = () => {
 
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold  text-lg">Public Transport Access:</p>
+                            <p className="text-[#100A55] font-bold  text-lg">Public Transport Access:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => publicAddFunction('Bus Stop')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bus Stop') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
                                 <p onClick={() => publicAddFunction('Tram Station')} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess.find(p => p == 'Tram Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
@@ -486,10 +508,10 @@ const RoomSeeker = () => {
                         </div>
                     </div>
 
-                    <p className="text-center text-lg lg:text-xl font-semibold mt-14 mb-6 text-[#100A55]">**Personal Details**</p>
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Personal Details</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">Gender:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Gender:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => setGender('Any')} className={`border border-b-0 lg:border-b duration-500 ${gender === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
                                 <p onClick={() => setGender('Male')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender === 'Male' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Male</p>
@@ -499,11 +521,11 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">Age Range:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
                             <input onChange={(e) => setAge(e.target.value)} placeholder="age" type="number" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold text-lg">IDs & Checks</p>
+                            <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
                             <div className="p-4 border rounded-lg mt-4">
                                 <div className=" gap-4 flex flex-wrap">
                                     <p onClick={() => addFunction('Any')} className={`inline border-2  cursor-pointer ${check1 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Any</p>
@@ -522,7 +544,7 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#5249b1] font-bold  text-lg">Occupation Preference:</p>
+                            <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => setOccuption('Any')} className={` duration-500 border ${occuption === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
                                 <p onClick={() => setOccuption('Student')} className={` duration-500 border-t border-e lg:border-e-0 ${occuption === 'Student' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>
