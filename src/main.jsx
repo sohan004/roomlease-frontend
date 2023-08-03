@@ -19,6 +19,8 @@ import HomeWoner from './components/Account/HomeWoner.jsx'
 import RoomSeeker from './components/Account/RoomSeeker.jsx'
 import HomeownerPricing from './components/Pricing/HomeownerPricing.jsx'
 import RoomSeekerPricing from './components/Pricing/RoomSeekerPricing.jsx'
+import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx'
+import Profile from './components/Profile/Profile.jsx'
 
 
 const router = createBrowserRouter([
@@ -48,15 +50,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <Register></Register>
+        element: <PrivateRoute><Register></Register></PrivateRoute>
       },
       {
         path: '/homeowner',
-        element: <HomeWoner></HomeWoner>
+        element: <PrivateRoute><HomeWoner></HomeWoner></PrivateRoute>
       },
       {
         path: '/roomseeker',
-        element: <RoomSeeker></RoomSeeker>
+        element: <PrivateRoute><RoomSeeker></RoomSeeker></PrivateRoute>
       },
       {
         path: '/sign-in',
@@ -73,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: '/roomseeker-pricing',
         element: <RoomSeekerPricing></RoomSeekerPricing>
+      },
+      {
+        path: '/profile',
+        element: <Profile></Profile>
       },
     ]
   },

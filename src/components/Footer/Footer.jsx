@@ -1,13 +1,22 @@
+import { Link } from 'react-router-dom';
 import logo from '../../assets/Frame.svg'
 import keyImg from '../../assets/footerIcon/Screenshot.png'
+import bol from '../../assets/navIcon/bol.png'
+import logoHome from '../../assets/navIcon/logoHome.png'
 const Footer = () => {
     return (
         <div className="mt-12 lg:mt-20">
             <div className=" max-w-[1440px] mx-auto px-4 gap-y-12 flex flex-col lg:flex-row">
                 <div className="w-full lg:w-1/4">
                     <div className='flex items-center gap-1'>
-                        <img src={logo} alt="" />
-                        <p className='font-bold text-2xl text-[#100A55]'>RoomLease</p>
+                        <Link to='/'><p className='font-bold text-xl lg:text-3xl text-[#100A55] flex items-start '>
+                            R
+                            <span className='flex flex-col justify-center items-center'>
+                                oo
+                                <img className='w-6  lg:w-8  -mt-1' src={bol} alt="" />
+                            </span>
+                            mLe<img src={logoHome} className='w-6 mt-[6px] lg:w-9' alt="" />se
+                        </p></Link>
                     </div>
                 </div>
                 <div className="w-full lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
@@ -27,12 +36,12 @@ const Footer = () => {
                         <p className='mb-2'>Community Standards</p>
                         <p className='mb-2'>terms</p>
                         <p className='mb-2'>privacy</p>
-                        <p className='mb-2 hidden lg:block'>carear</p>
+                        <p className='mb-2 hidden lg:block'>career</p>
                     </div>
                     <div className='lg:hidden'>
                         <p className='mb-2'>Credit Checks</p>
                         <p className='mb-2'>Inspections</p>
-                        <p className='mb-2'>carear</p>
+                        <p className='mb-2'>career</p>
                     </div>
                 </div>
             </div>
