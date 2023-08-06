@@ -64,6 +64,95 @@ const HomeWoner = () => {
     const [photo, setPhoto] = useState([])
     const [load, setLoad] = useState(false)
 
+    const [minimumStayArray, setMinimumStayArray] = useState([
+        {
+            name: '1 week',
+        },
+        {
+            name: '2 week',
+        },
+        {
+            name: '1 month',
+        },
+        {
+            name: '2 month',
+        },
+        {
+            name: '3 month',
+        },
+        {
+            name: '6 month',
+        },
+        {
+            name: '9 month',
+        },
+        {
+            name: '12 month+',
+        },
+    ])
+    const [maximumStayArray, setMaximumStayArray] = useState([
+        {
+            name: '1 week',
+        },
+        {
+            name: '2 week',
+        },
+        {
+            name: '1 month',
+        },
+        {
+            name: '2 month',
+        },
+        {
+            name: '3 month',
+        },
+        {
+            name: '6 month',
+        },
+        {
+            name: '9 month',
+        },
+        {
+            name: '12 month+',
+        },
+    ])
+
+
+    const maximumStayFunction = (p) => {
+        if (p == '1 week') {
+            setMaximumStayArray(minimumStayArray)
+            return
+        }
+        if (p == '2 week') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week'))
+            return
+        }
+        if (p == '1 month') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week'))
+            return
+        }
+        if (p == '2 month') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month'))
+            return
+        }
+        if (p == '3 month') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month'))
+            return
+        }
+        if (p == '6 month') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month' && filt.name != '3 month'))
+            return
+        }
+        if (p == '9 month') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month' && filt.name != '3 month' && filt.name != '6 month'))
+            return
+        }
+        if (p == '12 month+') {
+            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month' && filt.name != '3 month' && filt.name != '6 month' && filt.name != '9 month'))
+            return
+        }
+    }
+
 
 
 
@@ -646,6 +735,10 @@ const HomeWoner = () => {
                             <Autocomplete
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
                                 apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+                                options={{
+                                    componentRestrictions: { country: "au" },
+                                }}
+
                                 onPlaceSelected={(place) => {
                                     if (place.formatted_address) {
                                         setHomeAddress(place.formatted_address)
@@ -689,29 +782,22 @@ const HomeWoner = () => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Minimum Stay :</p>
-                            {!minimumStayOthers && <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p onClick={() => setMinimumStay('1 week')} className={` duration-500 border ${minimumStay === '1 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 week</p>
-                                <p onClick={() => setMinimumStay('2 week')} className={` duration-500 border-y border-e ${minimumStay === '2 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 week</p>
-                                <p onClick={() => setMinimumStay('1 month')} className={` duration-500 border-y border-e ${minimumStay === '1 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 month</p>
-                                <p onClick={() => setMinimumStay('2 month')} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${minimumStay === '2 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 month</p>
-                                <p onClick={() => setMinimumStay('3 month')} className={` duration-500 border border-t-0 lg:border-t ${minimumStay === '3 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>3 month</p>
-                                <p onClick={() => setMinimumStay('6 month')} className={` duration-500 border border-s-0 border-t-0 lg:border-t ${minimumStay === '6 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>6 month</p>
-                                <p onClick={() => setMinimumStay('9 month')} className={` duration-500 border  border-t-0  ${minimumStay === '9 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>9 month</p>
-                                <p onClick={() => setMinimumStay('12+ month')} className={` duration-500 border border-s-0 border-t-0  ${minimumStay === '12+ month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>12+ month</p>
+                            {!minimumStayOthers && <div className="mt-4 grid gap-y-1 grid-cols-3 lg:grid-cols-6 text-center font-medium">
+                                {minimumStayArray.map((item, index) =>
+                                    <p key={index} onClick={() => {
+                                        setMaximumStay('')
+                                        maximumStayFunction(item.name)
+                                        setMinimumStay(item.name)
+                                    }} className={` duration-500 h-full border ${minimumStay === item.name ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>{item.name}</p>)}
                             </div>}
 
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Maximum Stay :</p>
-                            {!maximumStayOthers && <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p disabled={true} onClick={() => setMaximumStay('1 week')} className={` duration-500 border ${maximumStay === '1 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 week</p>
-                                <p onClick={() => setMaximumStay('2 week')} className={` duration-500 border-y border-e ${maximumStay === '2 week' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 week</p>
-                                <p onClick={() => setMaximumStay('1 month')} className={` duration-500 border-y border-e ${maximumStay === '1 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 month</p>
-                                <p onClick={() => setMaximumStay('2 month')} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${maximumStay === '2 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 month</p>
-                                <p onClick={() => setMaximumStay('3 month')} className={` duration-500 border border-t-0 lg:border-t ${maximumStay === '3 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>3 month</p>
-                                <p onClick={() => setMaximumStay('6 month')} className={` duration-500 border border-s-0 border-t-0 lg:border-t ${maximumStay === '6 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>6 month</p>
-                                <p onClick={() => setMaximumStay('9 month')} className={` duration-500 border  border-t-0  ${maximumStay === '9 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>9 month</p>
-                                <p onClick={() => setMaximumStay('12+ month')} className={` duration-500 border border-s-0 border-t-0  ${maximumStay === '12+ month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>12+ month</p>
+                            {!maximumStayOthers && <div className="mt-4 grid gap-y-1 grid-cols-3 lg:grid-cols-6 text-center font-medium">
+                                {maximumStayArray.map((item, index) =>
+                                    <p key={index} onClick={() => setMaximumStay(item.name)} className={` duration-500 h-full border ${maximumStay === item.name ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>{item.name}</p>)}
+
                             </div>}
 
                         </div>
@@ -871,22 +957,21 @@ const HomeWoner = () => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
-                            <div className="p-4 border rounded-lg mt-4">
-                                <div className=" gap-4 flex flex-wrap">
-                                    <p onClick={() => addFunction('Any')} className={`inline border-2  cursor-pointer ${check1 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Any</p>
-                                    <p onClick={() => addFunction('Digital ID Verification')} className={`inline border-2 cursor-pointer ${check2 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Digital ID Verification</p>
-                                    <p onClick={() => addFunction('Student ID')} className={`inline border-2 cursor-pointer ${check3 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Student ID</p>
-                                    <p onClick={() => addFunction('Passport')} className={`inline border-2 cursor-pointer ${check4 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Passport</p>
-                                    <p onClick={() => addFunction('Medicare')} className={`inline border-2 cursor-pointer ${check5 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Medicare</p>
-                                    <p onClick={() => addFunction(`Driver's License`)} className={`inline cursor-pointer border-2 ${check6 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}> Driver's License </p>
-                                    <p onClick={() => addFunction(`Bank Statement`)} className={`inline cursor-pointer border-2 ${check7 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}> Bank Statement </p>
-                                    <p onClick={() => addFunction(`Government Issued ID`)} className={`inline cursor-pointer border-2 ${check8 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}> Government Issued ID </p>
-                                    <p onClick={() => addFunction(`National Police Check`)} className={`inline cursor-pointer border-2 ${check9 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}> National Police Check </p>
-                                    <p onClick={() => addFunction(`Working with Children Check`)} className={`inline cursor-pointer border-2 ${check10 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}> Working with Children Check </p>
-                                    <p onClick={() => addFunction(`Income Proof`)} className={`inline cursor-pointer border-2 ${check11 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>Income Proof </p>
-                                    <p onClick={() => addFunction(`References`)} className={`inline cursor-pointer border-2 ${check12 && ' bg-[#E8E6F9] text-[#7065F0] border-[#7065F0]'} py-2 px-4 rounded-lg font-medium`}>References </p>
-                                </div>
+                            <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
+                                <p onClick={() => addFunction('Any')} className={`duration-500 border ${check1 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
+                                <p onClick={() => addFunction('Digital ID Verification')} className={`duration-500 border-t border-e lg:border-e-0 ${check2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Digital ID Verification</p>
+                                <p onClick={() => addFunction('Student ID')} className={`duration-500 border border-y-0 lg:border-t ${check3 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student ID</p>
+                                <p onClick={() => addFunction('Passport')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${check4 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Passport</p>
+                                <p onClick={() => addFunction('Medicare')} className={`duration-500 border ${check5 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Medicare</p>
+                                <p onClick={() => addFunction(`Driver's License`)} className={`duration-500 border border-s-0 ${check6 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Driver's License</p>
+                                <p onClick={() => addFunction('Bank Statement')} className={`duration-500 border border-t-0  lg:border-e-0 border-b-0 lg:border-b ${check7 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bank Statement</p>
+                                <p onClick={() => addFunction('Government Issued ID')} className={`duration-500 border-t-0 border-s-0 lg:border-s border ${check8 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Government Issued ID</p>
+                                <p onClick={() => addFunction('National Police Check')} className={`duration-500 border-t lg:border-t-0 border border-s lg:border-s-0 ${check9 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>National Police Check</p>
+                                <p onClick={() => addFunction('Working with Children Check')} className={`duration-500 border border-t-0 border-s-0 lg:border-s lg:border-e-0  ${check10 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Working with Children Check</p>
+                                <p onClick={() => addFunction('Income Proof')} className={`duration-500 border-t-0 border ${check11 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Income Proof</p>
+                                <p onClick={() => addFunction('References')} className={`duration-500 border-t-0 border border-s-0 ${check12 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>References</p>
                             </div>
+                            
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>
