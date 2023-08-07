@@ -45,10 +45,10 @@ export default function CommonLinks({ setUserData, userData }) {
         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-xl bg-base-100 rounded-box w-52">
           <li><a>Settings</a></li>
           <li><a>Profile</a></li>
-          <button onClick={() => {
+          <li onClick={() => {
                   setUserData(null)
                   localStorage.removeItem('user-token')
-                }} className="btn btn-error">Sign out</button>
+                }}><a>Sign out</a></li>
         </ul>
       </div>
 

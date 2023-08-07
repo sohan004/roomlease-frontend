@@ -9,6 +9,9 @@ import Section4 from "./Section/Section4";
 import Section5 from "./Section/Section5";
 
 const Home = () => {
+
+
+
     return (
         <>
             {/* <Section1></Section1> */}

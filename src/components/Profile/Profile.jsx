@@ -1,21 +1,172 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
 import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { baseURL } from '../../App';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 
 const Profile = () => {
+    const [userData, setUserData] = useState(null)
     const [title, setTitle] = useState(false)
-    const [titleValue, setTitleValue] = useState('In one or two lines')
+    const [titleValue, setTitleValue] = useState('')
     const [roomDetails, setRoomDetails] = useState(false)
     const [roomEdit, setRoomEdit] = useState(false)
     const [description, setDescription] = useState(false)
+    const [descriptionValue, setDescriptionValue] = useState('')
     const [type, setType] = useState(false)
     const [img, setImg] = useState([])
-    
+    const navigate = useNavigate()
+    const { listing, setRefresh, refresh } = useContext(AuthContext)
+
+
+
+
+    const [loading, setLoading] = useState(true)
+    const [reFatch, setReFatch] = useState(1)
+
+
+    const [houseType, setHouseType] = useState('')
+    const [bedRoom, setBedRoom] = useState('')
+    const [parking, setParking] = useState('')
+
+
+    useEffect(() => {
+        setLoading(true)
+        fetch(`${baseURL}/account/profile/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setLoading(false)
+                    setUserData(data.data)
+                }
+                else {
+                    navigate('/')
+                    setLoading(false)
+                    setUserData(null)
+                }
+            })
+            .catch(err => {
+                navigate('/')
+                setLoading(false)
+                setUserData(null)
+            })
+    }, [localStorage.getItem('user-token'), reFatch])
+
+
+    console.log(listing);
+
+
+    const profileUpdate = () => {
+        const useObjectData = userData
+        useObjectData.bio = titleValue ? titleValue : userData.bio
+
+        fetch(`${baseURL}/account/api/profile/${userData.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(useObjectData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setTitle(false)
+                setReFatch(reFatch + 1)
+            })
+    }
+
+
+    const activeUpdate = (functionValue) => {
+        const useObjectData = listing
+        useObjectData.active = functionValue
+
+        fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(useObjectData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setRefresh(refresh + 1)
+            })
+    }
+
+
+    const houseUpdate = () => {
+        const useObjectData = listing
+        useObjectData.house_type = houseType ? houseType : listing.house_type
+        useObjectData.bedroom_type = bedRoom ? bedRoom : listing.bedroom_type
+        useObjectData.parking_option = parking ? parking : listing.parking_option
+        fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(useObjectData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setRefresh(refresh + 1)
+                setRoomDetails(false)
+            })
+    }
+
+
+    const imgUpload = () => {
+        img.map((item, index) => {
+            const formData = new FormData()
+            formData.append('home_listing', listing?.id)
+            formData.append('photo', item)
+            fetch(`${baseURL}/listing/house-listing-photos/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                })
+        })
+    }
+
+
+    const addDescription = () => {
+        const useObjectData = listing
+        useObjectData.describe_occupants = descriptionValue ? descriptionValue : listing.describe_occupants
+
+        fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(useObjectData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setDescription(false)
+                setRefresh(refresh + 1)
+            })
+    }
+
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
@@ -23,7 +174,7 @@ const Profile = () => {
                     <div className='w-full lg:w-[40%] '>
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white bg-opacity-50'>
                             <img src={blankImag} className='w-20 -mt-14 lg:-mt-20 h-20 lg:w-28 lg:h-28 rounded-full mx-auto border-2 border-white ' alt="" />
-                            <h1 className='font-semibold text-lg lg:text-xl mt-7 mb-4'>User Name</h1>
+                            <h1 className='font-semibold text-lg lg:text-xl mt-7 mb-4'>+{userData?.username}</h1>
                             <p >Free Account</p>
                             <button className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 w-full'>upgrade now</button>
                         </div>
@@ -45,10 +196,10 @@ const Profile = () => {
                 <div className='px-4 lg:px-6 py-10 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
                     <h1 className='text-center text-2xl lg:text-3xl font-bold '>About you</h1>
                     <div className='flex justify-center items-center  gap-2 mt-3'>
-                        {title && <input type="text" onChange={e => setTitleValue(e.target.value)} defaultValue={titleValue} className='p-1 text-xl border rounded' name="" id="" />}
-                        {!title && <p className='text-center  text-xl '>{titleValue}</p>}
+                        {title && <input type="text" onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-1 text-xl border rounded' name="" id="" />}
+                        {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
                         {!title && <FaEdit onClick={() => setTitle(true)} className='text-2xl cursor-pointer' />}
-                        {title && <FaSave onClick={() => setTitle(false)} className='text-2xl cursor-pointer' />}
+                        {title && <FaSave onClick={() => profileUpdate()} className='text-2xl cursor-pointer' />}
                     </div>
                     <div className='flex flex-col lg:flex-row items-center mt-6 lg:mt-12 gap-16'>
                         <div className='w-full lg:w-[50%]'>
@@ -116,7 +267,7 @@ const Profile = () => {
                     <div className='text-center'>
                         <label htmlFor="img"> <BsHouseAddFill className='text-5xl mx-auto cursor-pointer duration-300 hover:scale-125'></BsHouseAddFill></label>
                         <input onChange={e => {
-                            if(img.length >= 10) return toast.error('You can upload only 10 images  ', {
+                            if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
                                 position: "top-center",
                                 autoClose: 5000,
                                 hideProgressBar: false,
@@ -127,14 +278,14 @@ const Profile = () => {
                                 progress: undefined,
                             });
                             setImg([...img, e.target.files[0]])
-                            
-                            }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
+
+                        }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
                         <p className=' lg:text-xl'>Add photos to your profile</p>
                     </div>
                 </div>
                 {img.length > 0 && <div className='flex justify-end mt-3'>
                     <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
-                    <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                    <button onClick={imgUpload} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
 
 
@@ -153,31 +304,31 @@ const Profile = () => {
                             <FaHome className='text-3xl lg:text-6xl text-[#7065F0]' />
                             <div className=''>
                                 <p className='opacity-50 text-xs lg:text-base'>House Type</p>
-                                {!roomDetails && <p className='lg:text-lg font-medium '>House</p>}
-                                {roomDetails && <input defaultValue={'Home'} type="text" name="" id="" className='w-full border bg-transparent rounded p-1' />}
+                                {!roomDetails && <p className='lg:text-lg font-medium '>{listing?.house_type}</p>}
+                                {roomDetails && <input onChange={e => setHouseType(e.target.value)} defaultValue={listing?.house_type} type="text" name="" id="" className='w-full border bg-transparent rounded p-1' />}
                             </div>
                         </div>
                         <div className='flex gap-2 lg:gap-5 items-center'>
                             <FaBed className='text-3xl lg:text-6xl text-[#7065F0]' />
                             <div>
                                 <p className='opacity-50 text-xs lg:text-base'>Home Size</p>
-                                {!roomDetails && <p className='lg:text-lg font-medium '>2 bed room</p>}
-                                {roomDetails && <input defaultValue={'2 bed room'} type="text" name="" id="" className='w-full border bg-transparent rounded p-1' />}
+                                {!roomDetails && <p className='lg:text-lg font-medium '>{listing?.bedroom_type}</p>}
+                                {roomDetails && <input onChange={e => setBedRoom(e.target.value)} defaultValue={listing?.bedroom_type} type="text" name="" id="" className='w-full border bg-transparent rounded p-1' />}
                             </div>
                         </div>
                         <div className='flex gap-2 lg:gap-5 items-center'>
                             <FaCarSide className='text-3xl lg:text-6xl text-[#7065F0]' />
                             <div>
                                 <p className='opacity-50 text-xs lg:text-base'>Parking</p>
-                                {!roomDetails && <p className='lg:text-lg font-medium '>Grage</p>}
-                                {roomDetails && <input defaultValue={'Grage'} type="text" name="" id="" className='w-full border bg-transparent rounded p-1' />}
+                                {!roomDetails && <p className='lg:text-lg font-medium '>{listing?.parking_option}</p>}
+                                {roomDetails && <input onChange={e => setParking(e.target.value)} defaultValue={listing?.parking_option} type="text" name="" id="" className='w-full border bg-transparent rounded p-1' />}
                             </div>
                         </div>
                     </div>
                 </div>
                 {roomDetails && <div className='flex justify-start mt-3'>
                     <button onClick={() => setRoomDetails(false)} className="btn bg-slate-300">Cencle</button>
-                    <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
+                    <button onClick={houseUpdate} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
                 </div>}
 
 
@@ -199,42 +350,17 @@ const Profile = () => {
 
                     </div>
                     <div className='p-4 lg:p-6 '>
-                        <div className='flex gap-2 items-center lg:gap-7 border-b pb-4  mb-4'>
-                            <p className='font-medium opacity-70 w-[90px] lg:w-[150px] '>Rent Amount</p>
-                            <p className='font-medium opacity-70'>:</p>
-                            {!roomEdit && <p className='font-semibold'>Singles $200 per week (excludes bills)</p>}
-                            {roomEdit && <input type="text" defaultValue={'Singles $200 per week (excludes bills)'} name="" className='p-2 border-2 rounded-md' id="" />}
-                        </div>
-                        <div className='flex gap-2 items-center lg:gap-7 border-b pb-4  mb-4'>
-                            <p className='font-medium opacity-70 w-[90px] lg:w-[150px] '>Date available</p>
-                            <p className='font-medium opacity-70'>:</p>
-                            {!roomEdit && <p className='font-semibold'>2 August 2023 fir 2 months to 4 months</p>}
-                            {roomEdit && <input type="text" defaultValue={'2 August 2023 fir 2 months to 4 months'} name="" className='p-2 border-2 rounded-md' id="" />}
-                        </div>
-                        <div className='flex gap-2 items-center lg:gap-7 border-b pb-4  mb-4'>
-                            <p className='font-medium opacity-70 w-[90px] lg:w-[150px] '>Bedroom size</p>
-                            <p className='font-medium opacity-70'>:</p>
-                            {!roomEdit && <p className='font-semibold'>Medium bedroom</p>}
-                            {roomEdit && <input type="text" defaultValue={'Medium bedroom'} name="" className='p-2 border-2 rounded-md' id="" />}
-                        </div>
-                        <div className='flex gap-2 items-center lg:gap-7 border-b pb-4  mb-4'>
-                            <p className='font-medium opacity-70 w-[90px] lg:w-[150px] '>Bedroom furniture</p>
-                            <p className='font-medium opacity-70'>:</p>
-                            {!roomEdit && <p className='font-semibold'>without a bed</p>}
-                            {roomEdit && <input type="text" defaultValue={'without a bed'} name="" className='p-2 border-2 rounded-md' id="" />}
-                        </div>
-                        <div className='flex gap-2 items-center lg:gap-7 border-b pb-4  mb-4'>
-                            <p className='font-medium opacity-70 w-[90px] lg:w-[150px] '>Features</p>
-                            <p className='font-medium opacity-70'>:</p>
-                            {!roomEdit && <p className='font-semibold'>own bathroom</p>}
-                            {roomEdit && <input type="text" defaultValue={'own bathroom'} name="" className='p-2 border-2 rounded-md' id="" />}
-                        </div>
-                        <div className='flex gap-2 items-center lg:gap-7 border-b pb-4  mb-4'>
-                            <p className='font-medium opacity-70 w-[90px] lg:w-[150px] '>Security bond</p>
-                            <p className='font-medium opacity-70'>:</p>
-                            {!roomEdit && <p className='font-semibold'>2 weeks</p>}
-                            {roomEdit && <input type="text" defaultValue={'2 weeks'} name="" className='p-2 border-2 rounded-md' id="" />}
-                        </div>
+                        {listing && Object.keys(listing).map((key, index) => {
+
+                            if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property') return
+
+                            return <div key={index} className='flex gap-3 items-center lg:gap-7 border-b pb-4  mb-4'>
+                                <p className='font-medium opacity-70   lg:w-[250px] '>{key}</p>
+                                <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
+                                {!roomEdit && <p className='font-semibold'>{listing[key]}</p>}
+                                {roomEdit && <input type="text" defaultValue={'Singles $200 per week (excludes bills)'} name="" className='p-2 border-2 rounded-md' id="" />}
+                            </div>
+                        })}
                     </div>
                 </div>
                 {roomEdit && <div className='flex justify-start mt-3'>
@@ -251,20 +377,20 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className='p-4 lg:p-6'>
-                        {!description && <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur quia doloremque repellendus quis sed minus, est eveniet exercitationem rerum omnis dolor libero, aut molestias accusantium modi velit nulla, obcaecati commodi.</p>}
-                        {description && <textarea name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
+                        {!description && <p>{listing?.describe_occupants ? listing?.describe_occupants : 'write home description...'}</p>}
+                        {description && <textarea defaultValue={listing?.describe_occupants} onChange={e=>setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
                     </div>
                 </div>
                 {description && <div className='flex justify-start mt-3'>
                     <button onClick={() => setDescription(false)} className="btn bg-slate-300">Cencle</button>
-                    <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
+                    <button onClick={addDescription} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
                 </div>}
 
 
                 <h1 className='text-center mt-10 font-bold text-xl lg:text-3xl'>Listing Status</h1>
                 <div className="flex items-center justify-center max-w-2xl mx-auto border-2 border-[#7065F0] mt-4">
-                    <p className={`duration-300 flex-grow border-r-2 border-[#7065F0] text-center ${type === false ? ' hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-slate-200'} py-3 cursor-pointer text-xl lg:text-2xl font-medium`}>Active</p>
-                    <p className={`duration-300 flex-grow text-center ${type === true ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-slate-200'} py-3 cursor-pointer text-xl lg:text-2xl font-medium`}>Deactive</p>
+                    <p onClick={() => activeUpdate(true)} className={`duration-300 flex-grow border-r-2 border-[#7065F0] text-center ${listing?.active ? ' hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-slate-200'} py-3 cursor-pointer text-xl lg:text-2xl font-medium`}>Active</p>
+                    <p onClick={() => activeUpdate(false)} className={`duration-300 flex-grow text-center ${!listing?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-slate-200'} py-3 cursor-pointer text-xl lg:text-2xl font-medium`}>Deactive</p>
                 </div>
 
 

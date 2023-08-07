@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from "../../App";
+import { GoogleMap, LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 
 const RoomSeeker = () => {
 
@@ -433,6 +434,9 @@ const RoomSeeker = () => {
             })
     }
 
+    
+
+
     return (
         <div className="max-w-[736px]  mx-auto px-4 ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
@@ -440,6 +444,7 @@ const RoomSeeker = () => {
             <form onSubmit={handle}>
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
+
                         <div>
                             <input onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
