@@ -26,7 +26,7 @@ const Section4 = () => {
                     </div>
                     <div className="w-full lg:w-4/5">
                         <p style={{ fontSize: '20px' }}>Enriching Society, Proudly Australian</p>
-                        <p className='pt-3'>Our mission is to empower homeowners by transforming spare rooms into an income source, easing mortgage stress and promoting active living</p>
+                        <p className='pt-3'>OUR AI TRANSFORMS SPARE ROOMS INTO INCOME SOURCES, EASES MORTGAGES, AND SIMPLIFIES ACCESS TO OUTDOOR SPACES, BUILDING A HEALTHIER COMMUNITY</p>
                     </div>
                 </div>
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mt-12 lg:mt-16'>

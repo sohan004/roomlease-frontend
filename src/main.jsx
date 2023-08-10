@@ -22,6 +22,10 @@ import RoomSeekerPricing from './components/Pricing/RoomSeekerPricing.jsx'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx'
 import Profile from './components/Profile/Profile.jsx'
 import AuthProvider from './components/AuthProvider/AuthProvider.jsx'
+import ListingHomeOwnerUpdate from './components/HomeListingUpdate/ListingHomeOwnerUpdate.jsx'
+import ListingRoomSeekerUpdate from './components/HomeListingUpdate/ListingRoomSeekerUpdate.jsx'
+import ListingPrivate from './components/PrivateRoute/ListingPrivate.jsx'
+import PrivateListingPage from './components/PrivateRoute/PrivateListingPage.jsx'
 
 
 const router = createBrowserRouter([
@@ -51,15 +55,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <PrivateRoute><Register></Register></PrivateRoute>
+        element: <ListingPrivate><PrivateRoute><Register></Register></PrivateRoute></ListingPrivate>
       },
       {
         path: '/homeowner',
-        element: <PrivateRoute><HomeWoner></HomeWoner></PrivateRoute>
+        element: <ListingPrivate><PrivateRoute><HomeWoner></HomeWoner></PrivateRoute></ListingPrivate>
       },
       {
         path: '/roomseeker',
-        element: <PrivateRoute><RoomSeeker></RoomSeeker></PrivateRoute>
+        element: <ListingPrivate><PrivateRoute><RoomSeeker></RoomSeeker></PrivateRoute></ListingPrivate>
       },
       {
         path: '/sign-in',
@@ -79,7 +83,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <Profile></Profile>
+        element: <PrivateListingPage><Profile></Profile></PrivateListingPage>
+      },
+      {
+        path: '/homeowner-update',
+        element: <ListingHomeOwnerUpdate></ListingHomeOwnerUpdate>
+      },
+      {
+        path: '/roomseeker-update',
+        element: <ListingRoomSeekerUpdate></ListingRoomSeekerUpdate>
       },
     ]
   },

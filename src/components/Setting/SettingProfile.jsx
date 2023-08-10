@@ -77,7 +77,7 @@ const SettingProfile = () => {
         fetch(`${baseURL}/account/change-profile-picture/`, {
             method: 'POST',
             headers: {
-                'Authorization': `Token ${localStorage.getItem('room-lease-token')}`
+                'Authorization': `Token ${localStorage.getItem('user-token')}`
             },
             body: formData
         })

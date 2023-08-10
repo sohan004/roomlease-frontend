@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Select from 'react-select'
-import RoomFurnishingAndFeture from "./RoomFurnishingAndFeture";
+import RoomFurnishingAndFeture from "../Account/RoomFurnishingAndFeture";
 import { FaArrowRight, FaSpinner } from "react-icons/fa";
 import arow from '../../assets/newlistingIcon/Icon.svg'
 import homeIcon from '../../assets/newlistingIcon/homeIcon.svg'
@@ -10,9 +10,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from "../../App";
 import Autocomplete from "react-google-autocomplete";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
-const HomeWoner = () => {
-    const [roomFeutureOthers, setRoomFeutureOthers] = useState(false)
+const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
+
+    const { listing, setRefresh, refresh } = useContext(AuthContext)
+    const listingData = listing || {}
+
+    const navigate = useNavigate()
+
+
+
+
 
 
 
@@ -21,39 +33,39 @@ const HomeWoner = () => {
     const [firstName, setFirstName] = useState('')
     const [secondName, setSecondName] = useState('')
     const [email, setEmail] = useState('')
-    const [houseType, setHouseType] = useState('')
-    const [homeAddress, setHomeAddress] = useState('')
-    const [parkingOptions, setParkingOptions] = useState('')
-    const [furnished, setFurnished] = useState('')
-    const [privateBath, setPrivateBath] = useState('')
+    const [houseType, setHouseType] = useState(listingData?.house_type ? listingData?.house_type : [])
+    const [homeAddress, setHomeAddress] = useState(listingData?.home_address ? listingData?.home_address : '')
+    const [parkingOptions, setParkingOptions] = useState(listingData?.parking_option ? listingData?.parking_option : [])
+    const [furnished, setFurnished] = useState(listingData?.bedroom_type ? listingData?.bedroom_type : '')
+    const [privateBath, setPrivateBath] = useState(listingData?.private_bathroom ? listingData?.private_bathroom : '')
     const [selectedOption, setSelectedOption] = useState(null);
-    const [bedSize, setBedSize] = useState('')
-    const [roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures] = useState([])
+    const [bedSize, setBedSize] = useState(listingData?.bed_size ? listingData?.bed_size : '')
+    const [roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures] = useState(listingData?.room_features ? listingData?.room_features : [])
     const [rentPerWeek, setRentPerWeek] = useState('')
-    const [bond, setBond] = useState('')
-    const [billRent, setBillRent] = useState('yes')
+    const [bond, setBond] = useState(listingData?.bond ? listingData?.bond : '')
+    const [billRent, setBillRent] = useState(listingData?.bills_included_in_rent ? listingData?.bills_included_in_rent : '')
     const [approximatecost, setApproximatecost] = useState('')
     const [startDate, setStartDate] = useState(new Date());
-    const [minimumStay, setMinimumStay] = useState('')
+    const [minimumStay, setMinimumStay] = useState(listingData?.minimum_stay ? listingData?.minimum_stay : '')
     const [minimumStayOthers, setMinimumStayOthers] = useState(false)
     const [minimumStayOthersValue, setMinimumStayOthersValue] = useState('')
-    const [maximumStay, setMaximumStay] = useState('')
+    const [maximumStay, setMaximumStay] = useState(listingData?.maximum_stay ? listingData?.maximum_stay : '')
     const [maximumStayOthers, setmaximumStayOthers] = useState(false)
     const [maximumStayOthersValue, setmaximumStayOthersValue] = useState('')
-    const [animate, setAnimate] = useState([])
-    const [rentPerweeksingle, setRentPerweeksingle] = useState('')
-    const [rentPerweekcouple, setRentPerweekcouple] = useState('')
-    const [placeFriendless, setPlaceFriendless] = useState([])
-    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState([])
-    const [publicTransportAccess, setPublicTransportAccess] = useState([])
-    const [gender, setGender] = useState([])
-    const [age, setAge] = useState('')
-    const [checks, setChecks] = useState([])
+    const [animate, setAnimate] = useState(listingData?.amenities ? listingData?.amenities : [])
+    const [rentPerweeksingle, setRentPerweeksingle] = useState(listingData?.rent_per_week_single ? listingData?.rent_per_week_single : '')
+    const [rentPerweekcouple, setRentPerweekcouple] = useState(listingData?.rent_per_week_couple ? listingData?.rent_per_week_couple : '')
+    const [placeFriendless, setPlaceFriendless] = useState(listingData?.place_friendliness ? listingData?.place_friendliness : [])
+    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState(listingData?.nearby_community_spaces ? listingData?.nearby_community_spaces : [])
+    const [publicTransportAccess, setPublicTransportAccess] = useState(listingData?.public_transport_access ? listingData?.public_transport_access : [])
+    const [gender, setGender] = useState(listing?.gender ? listing?.gender : [])
+    const [age, setAge] = useState(listing?.age_range ? listing?.age_range : '')
+    const [checks, setChecks] = useState(listing?.ids_and_checks ? listing?.ids_and_checks : [])
     const [smoke, setSmoke] = useState('')
     const [pets, setPets] = useState('')
     const [child, setChild] = useState('')
     const [couple, setCouple] = useState('')
-    const [occuption, setOccuption] = useState([])
+    const [occuption, setOccuption] = useState(listing?.occupation_preference ? listing?.occupation_preference : [])
     const [lifestyle, setLifestyle] = useState('')
     const [clean, setClean] = useState('')
     const [diat, setDiat] = useState('')
@@ -280,45 +292,7 @@ const HomeWoner = () => {
     ]
     const handle = (e) => {
         e.preventDefault()
-        if (!firstName) {
-            toast.error('Please type your first name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            return
-        }
-        if (!secondName) {
-            toast.error('Please type your second name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-                progress: undefined,
-            });
-            return
-        }
-        if (!email) {
-            toast.error('Please type your email address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                theme: "colored",
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
+
         if (!homeAddress) {
             toast.error('Please type your home address', {
                 position: "top-center",
@@ -634,54 +608,47 @@ const HomeWoner = () => {
         const month = String(startDate.getMonth() + 1).padStart(2, "0");
         const day = String(startDate.getDate()).padStart(2, "0");
 
-        const allInfo = {
-            first_name: firstName,
-            last_name: secondName,
-            email: email,
-            "house_type": houseType,
-            "home_address": homeAddress,
-            "parking_option": parkingOptions,
-            "available_from": `${year}-${month}-${day}`,
-            "minimum_stay": minimumStay,
-            "minimum_stay_others": minimumStayOthersValue,
-            "maximum_stay": maximumStay,
-            "maximum_stay_others": maximumStayOthersValue,
-            "rent_per_week_single": rentPerweeksingle,
-            "rent_per_week_couple": rentPerweekcouple,
-            "bond": bond,
-            "bills_included_in_rent": billRent,
-            "approximate_cost": approximatecost,
-            "bedroom_type": furnished,
-            "private_bathroom": privateBath,
-            "bed_size": bedSize,
-            "room_features": roomFurnishingsAndFeatures,
-            "amenities": animate,
-            "place_friendliness": placeFriendless,
-            "nearby_community_spaces": nearbyCommunitySpaces,
-            "public_transport_access": publicTransportAccess,
-            "gender": gender,
-            "age_range": age,
-            "ids_and_checks": checks,
-            "occupation_preference": occuption,
-            "user": localStorage.getItem('user-token'),
-        }
-        setLoad(true)
-        fetch(`${baseURL}/listing/home-listings/`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-            , body: JSON.stringify(allInfo)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.id) {
-                    setLoad(false)
-                    window.location.href = `/homeowner-pricing`
+
+        const listingObject = listing
+
+        listingObject.house_type = houseType,
+            listingObject.home_address = homeAddress,
+            listingObject.parking_option = parkingOptions,
+            listingObject.available_from = `${year}-${month}-${day}`,
+            listingObject.minimum_stay = minimumStay,
+            listingObject.maximum_stay = maximumStay,
+            listingObject.rent_per_week_single = rentPerweeksingle,
+            listingObject.rent_per_week_couple = rentPerweekcouple,
+            listingObject.bond = bond,
+            listingObject.bills_included_in_rent = billRent,
+            listingObject.approximate_cost = approximatecost,
+            listingObject.bedroom_type = furnished,
+            listingObject.private_bathroom = privateBath,
+            listingObject.bed_size = bedSize,
+            listingObject.room_features = roomFurnishingsAndFeatures,
+            listingObject.amenities = animate,
+            listingObject.place_friendliness = placeFriendless,
+            listingObject.nearby_community_spaces = nearbyCommunitySpaces,
+            listingObject.public_transport_access = publicTransportAccess,
+            listingObject.gender = gender,
+            listingObject.age_range = age,
+            listingObject.ids_and_checks = checks,
+            listingObject.occupation_preference = occuption,
+            // setLoad(true)
+            fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
                 }
-                else {
+                , body: JSON.stringify(listingObject)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setRefresh(refresh + 1)
+                    setRoomEdit(false)
+                })
+                .catch(() => {
                     setLoad(false)
                     toast.error('somthing want wrong!!!  ', {
                         position: "top-center",
@@ -692,51 +659,45 @@ const HomeWoner = () => {
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
-                    });
-                }
-            })
-            .catch(() => {
-                setLoad(false)
-                toast.error('somthing want wrong!!!  ', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                }); return
-            })
+                    }); return
+                })
 
     }
+
+    const [value, setValue] = useState('');
     return (
-        <div className="max-w-[736px]  mx-auto px-4 ">
-            <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
+        <div className="max-w-[736px]  mx-auto  ">
+            <h1 className="text-center text-3xl font-bold mt-8 mb-4">Update Your Listing</h1>
             <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
             <form onSubmit={handle} >
-                <div className="p-4 border-2 lg:p-6  rounded-lg">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
-                        <div>
-                            <input onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
-                        </div>
-                        <div>
-                            <input onChange={(e) => setSecondName(e.target.value)} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
-                        </div>
-                        <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
-                        </div>
-                    </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Property Details</p>
+                <div className="p-4 border-2 bg-white lg:p-6 lg:px-14  rounded-lg">
+                    <p className="text-center text-xl lg:text-2xl font-semibold  mb-6 text-[#100A55]">Property Details</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
                             {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
+                            {/* <GooglePlacesAutocomplete
+                                apiKey={'AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA'}
+                                apiOptions={{
+                                    // language: "ua",
+                                    region: "au",
+                                }}
+                                selectProps={{
+                                    value,
+                                    onChange: setValue,
+                                    placeholder: "Select your address",
+                                }}
+                                name="address"
+                                value={value.label}
+                            /> */}
+
+
                             <Autocomplete
-                            
+                                defaultValue={listing?.home_address}
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
                                 apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
-                                
+
+
                                 options={{
                                     componentRestrictions: { country: "au" },
                                 }}
@@ -776,6 +737,7 @@ const HomeWoner = () => {
                         <div className="w-full">
                             <p className="text-[#100A55]font-bold text-lg">Available from:</p>
                             <DatePicker
+                                defaultValue={listing?.available_from}
                                 className="mt-4 py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f7f6ff] border-[#7065F0] hover:outline-none w-full rounded-lg"
                                 showIcon
                                 selected={startDate}
@@ -809,13 +771,13 @@ const HomeWoner = () => {
                                 <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="text" className="input   w-full " />
+                                        <input defaultValue={listing?.rent_per_week_single} placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="text" className="input   w-full " />
                                     </label>
                                 </div>
                                 <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="text" className="input   w-full " />
+                                        <input defaultValue={listing?.rent_per_week_couple} placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="text" className="input   w-full " />
                                     </label>
                                 </div>
                             </div>
@@ -973,7 +935,7 @@ const HomeWoner = () => {
                                 <p onClick={() => addFunction('Income Proof')} className={`duration-500 border-t-0 border ${check11 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Income Proof</p>
                                 <p onClick={() => addFunction('References')} className={`duration-500 border-t-0 border border-s-0 ${check12 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>References</p>
                             </div>
-                            
+
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>
@@ -989,8 +951,9 @@ const HomeWoner = () => {
                         </div>
                     </div>
                 </div>
-                <div className="text-center mt-7">
-                    <button disabled={load} className='btn w-full  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
+                <div className="text-center flex flex-col lg:flex-row items-center gap-4 mt-7">
+                    <Link className="flex-grow " ><button onClick={() => setRoomEdit(false)} className="btn bg-slate-300 w-full">cancel</button></Link>
+                    <button disabled={load} className='btn flex-grow  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
                 </div>
             </form>
             <ToastContainer />
@@ -998,4 +961,9 @@ const HomeWoner = () => {
     );
 };
 
-export default HomeWoner;
+export default ListingHomeOwnerUpdate;
+
+
+
+
+

@@ -7,7 +7,6 @@ const NewSection1 = () => {
     return (
         <div className="home">
             <div className="max-w-[1440px] mx-auto px-4 pt-12">
-                <h1 className="text-center text-3xl lg:text-5xl mb-8 lg:mb-16 font-extrabold text-blue-950">Australia's best room rental solution</h1>
                 <NewSection2/>
             </div>
         </div>

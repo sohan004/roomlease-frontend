@@ -13,9 +13,12 @@ const AuthProvider = ({ children }) => {
 
     const [listing, setListing] = useState(null)
     const [refresh, setRefresh] = useState(1)
+    const [listingLoading, setListingLoading] = useState(true)
     useEffect(() => {
+        setListingLoading(true)
         if (!localStorage.getItem('user-token')) {
             setListing(null)
+            setListingLoading(false)
             return
         }
 
@@ -31,13 +34,16 @@ const AuthProvider = ({ children }) => {
                 if (data?.error) {
                     console.log(data)
                     setListing(null)
+                    setListingLoading(false)
                     return
                 }
                 setListing(data);
+                setListingLoading(false)
             })
             .catch(err => {
                 console.log(err);
                 setListing(null)
+                setListingLoading(false)
             })
     }, [localStorage.getItem('user-token'), refresh])
 
@@ -45,7 +51,9 @@ const AuthProvider = ({ children }) => {
     const valu = {
         listing,
         setRefresh,
-        refresh
+        refresh,
+        listingLoading,
+        setListing
     }
     return (
         <AuthContext.Provider value={valu}>

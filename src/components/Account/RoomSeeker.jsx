@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from 'react-select'
 import RoomFurnishingAndFeture from "./RoomFurnishingAndFeture";
-import { FaArrowRight, FaSpinner } from "react-icons/fa";
+import { FaArrowRight, FaSpinner, FaTimes } from "react-icons/fa";
 import arow from '../../assets/newlistingIcon/Icon.svg'
 import homeIcon from '../../assets/newlistingIcon/homeIcon.svg'
 import DatePicker from "react-datepicker";
@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from "../../App";
 import { GoogleMap, LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
+import Autocomplete from "react-google-autocomplete";
 
 const RoomSeeker = () => {
 
@@ -35,6 +36,7 @@ const RoomSeeker = () => {
     const [checks, setChecks] = useState([])
     const [occuption, setOccuption] = useState([])
     const [lookingForPlace, setLookingForPlace] = useState('')
+    const [suburbValue, setSuburbValue] = useState([])
 
 
 
@@ -369,10 +371,25 @@ const RoomSeeker = () => {
             }); return
 
         }
+        if (!suburbValue.length) {
+            toast.error('Please select suburb  ', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            }); return
+
+        }
         const allInfo = {
             first_name: firstName,
             last_name: secondName,
             email: email,
+            looking_place: lookingForPlace,
+            suburb: suburbValue,
             "house_type": houseType,
             "room_type": furnished,
             "private_bathroom": privateBath,
@@ -434,7 +451,6 @@ const RoomSeeker = () => {
             })
     }
 
-    
 
 
     return (
@@ -464,6 +480,36 @@ const RoomSeeker = () => {
                                 <p onClick={() => setLookingForPlace('As a couple')} className={`border border-s-0 duration-500 
                             ${lookingForPlace == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>As a couple</p>
                             </div>
+                        </div>
+                        <div className="">
+                            <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
+                            <div className="w-full mt-4 border border-[#7065F0] rounded-lg">
+                                <div className="p-2  flex flex-wrap gap-3 py-5 w-full ">
+                                    {suburbValue.map((sub, i) => {
+                                        return <p className="bg-slate-200 flex items-center gap-1" key={i}>{sub} <FaTimes onClick={() => setSuburbValue(suburbValue.filter((_, index) => index !== i))} className=' text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes></p>
+
+                                    })}
+                                </div>
+                                {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
+                                <Autocomplete
+
+                                    className="w-full  rounded-lg rounded-t-none border-t mt-4  focus:outline-none py-1 px-5   focus:bg-[#f6f6ff] "
+                                    apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+
+                                    options={{
+                                        componentRestrictions: { country: "au" },
+                                    }}
+
+                                    onPlaceSelected={(place) => {
+                                        if (place.formatted_address) {
+                                            // console.log(place.formatted_address);
+                                            const address = place.formatted_address
+                                            setSuburbValue(prevSuburbValue => [...prevSuburbValue, address]);
+                                        }
+                                    }}
+                                />
+                            </div>
+
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">House Type:</p>
@@ -600,7 +646,7 @@ const RoomSeeker = () => {
                                 <p onClick={() => occuptionFunction('Backpackers')} className={` duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b  ${occuption.find(o => o == 'Backpackers') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Backpackers</p>
                                 <p onClick={() => occuptionFunction('On welfare')} className={` duration-500 border  ${occuption.find(o => o == 'On welfare') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On welfare</p>
                                 <p onClick={() => occuptionFunction('Retired')} className={` duration-500 border border-s-0  ${occuption.find(o => o == 'Retired') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Retired</p>
-                                <p onClick={() => occuptionFunction('Joob Seeker')} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${occuption.find(o => o == 'Joob Seeker') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Joob Seeker</p>
+                                <p onClick={() => occuptionFunction('Job Seeker')} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${occuption.find(o => o == 'Job Seeker') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Job Seeker</p>
                             </div>
                         </div>
                     </div>

@@ -9,6 +9,8 @@ import ball from '../../assets/settingIcon/Icon.svg'
 import useUserData from '../Hook/useUserData';
 import bol from '../../assets/navIcon/bol.png'
 import logoHome from '../../assets/navIcon/logoHome.png'
+import { useContext } from 'react';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 
 
@@ -16,6 +18,7 @@ const Nav = ({ setTf }) => {
 
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
+    
 
     const navigate = useNavigate()
 
@@ -51,7 +54,7 @@ const Nav = ({ setTf }) => {
 
     return (
         <>
-            <div className='bg-[#EDECFB]'>
+            <div className='bg-[#EDECFB] sticky top-0 z-40'>
                 <div className=' max-w-[1440px] mx-auto py-4  flex items-center gap-14 justify-between px-8'>
 
                     <div className='flex items-center gap-14 '>
@@ -78,12 +81,11 @@ const Nav = ({ setTf }) => {
                         <CommonLinks userData={userData} setUserData={setUserData} />
                     </div>}
 
-                    {!userData && <div className='hidden lg:block '>
-                        <NavLink to='/otp-send'> <button className='btn text-l  border-2 bg-transparent border-[#d6d4f5]'>Sign Up</button></NavLink>
+                    {!userData && <div className=' '>
                         <NavLink to='/otp-send'><button className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
                     </div>}
 
-                    <img onClick={() => setTf(true)} src={menu} className=' lg:hidden' alt="" />
+                   {userData && <img onClick={() => setTf(true)} src={menu} className=' lg:hidden' alt="" />}
 
                 </div>
             </div>

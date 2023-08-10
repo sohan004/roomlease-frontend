@@ -1,9 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import { RxCross2 } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 const RoomSeekerPricing = () => {
     const [value, setValue] = useState(1)
+    const navigate = useNavigate()
     return (
         <div>
             <div className="min-h-screen pb-28 sm:pb-0">
@@ -63,7 +65,7 @@ const RoomSeekerPricing = () => {
                                             <span className="text-gray-100">Instant messaging	</span>
                                         </li>
                                     </ul>
-                                    <button type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
+                                    <button onClick={()=>navigate('/profile')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
                                 </div>
                             </div>
                             <div className={` mb-6  duration-500 w-full  bg-white rounded-xl shadow-xl    ${value === 1 ? 'relative scale-110 lg:w-[35%] border-2 z-10  border-[#7065F0]' : 'lg:w-[30%] lg:scale-95'}`}>
