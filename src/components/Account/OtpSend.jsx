@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { FaArrowRight, FaCross, FaSpinner, FaWindowClose } from 'react-icons/fa';
 import PhoneInput from 'react-phone-number-input'
@@ -8,6 +8,7 @@ import { baseURL } from '../../App';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 
 const OtpSend = () => {
@@ -20,6 +21,7 @@ const OtpSend = () => {
     const [verifyStatus, setVerifyStatus] = useState(false)
     const [load, setLoad] = useState(false)
     const navigate = useNavigate()
+    const { listing, setRefresh, refresh } = useContext(AuthContext)
 
     useEffect(() => {
         if (!timer) return
@@ -109,6 +111,7 @@ const OtpSend = () => {
                             showConfirmButton: false,
                             timer: 1500
                         })
+                        setRefresh(refresh + 1)
                         setErr('')
                         navigate('/register')
                         setVerifyStatus(false)
@@ -173,8 +176,8 @@ const OtpSend = () => {
             </div>
             <dialog id="send_otp" className="modal">
                 <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative text-[#7065F0] ">
-                    <FaWindowClose onClick={() => window.send_otp.close()} className='absolute top-4 text-3xl cursor-pointer left-4'></FaWindowClose>
-                    <h1 className="text-2xl mt-7 text-center  lg:text-4xl">Enter Code</h1>
+                    <FaWindowClose onClick={() => window.send_otp.close()} className='absolute text-[#100A55]  top-4 text-3xl cursor-pointer left-4'></FaWindowClose>
+                    <h1 className="text-2xl mt-7 text-center text-[#100A55] lg:text-4xl">Enter Code</h1>
                     <p className='text-center font-medium my-4 text-red-500'>{err}</p>
                     <div className="p-6 mb-7   lg:mb-5">
                         <h1 className='text-center text-2xl lg:text-5xl mb-14'>{sec}</h1>

@@ -1,13 +1,16 @@
 import React from 'react'
-import { FaInbox, FaSearch, FaUser } from 'react-icons/fa'
+import { FaInbox, FaSearch, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { GrSettingsOption } from 'react-icons/gr'
 import { MdDoubleArrow } from 'react-icons/md'
 import { BsFillPersonFill, BsPerson, BsPersonCheckFill } from 'react-icons/bs'
 import { Link, NavLink } from 'react-router-dom'
 import useUserData from '../Hook/useUserData'
 import arrowDown from '../../assets/settingIcon/Icon (1).svg'
+import { AuthContext } from '../AuthProvider/AuthProvider'
+import { useContext } from 'react'
 
 export default function CommonLinks({ setUserData, userData }) {
+  const { listing, setListing, setRefresh, refresh, listingLoading } = useContext(AuthContext)
   return (
     <>
       {/* <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink> */}
@@ -34,22 +37,17 @@ export default function CommonLinks({ setUserData, userData }) {
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
       </div>
-
-
-      <div className="dropdown dropdown-bottom dropdown-end ">
-        <div tabIndex={0} className='cursor-pointer text-[#100A55] flex flex-col justify-center items-center gap-1'>
-          <GrSettingsOption></GrSettingsOption>
-          <p className='font-medium'>Settings</p>
-        </div>
-        {/* <img  src={arrowDown} alt="" /> */}
-        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-xl bg-base-100 rounded-box w-52">
-          <li><a>Settings</a></li>
-          <li><a>Profile</a></li>
-          <button onClick={() => {
-                  setUserData(null)
-                  localStorage.removeItem('user-token')
-                }} className="btn btn-error">Sign out</button>
-        </ul>
+      <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+        <GrSettingsOption></GrSettingsOption>
+        <p className='font-medium'>Settings</p>
+      </div>
+      <div onClick={() => {
+        setListing(null)
+        setUserData(null)
+        localStorage.removeItem('user-token')
+      }} className='text-[#100A55] cursor-pointer flex flex-col justify-center items-center gap-1'>
+        <FaSignOutAlt className='text-[#7065F0]'></FaSignOutAlt>
+        <p className='font-medium'>Sign Out</p>
       </div>
 
     </>

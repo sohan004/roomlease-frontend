@@ -1,27 +1,79 @@
 import { FaArrowRight, FaBed, FaHome } from 'react-icons/fa';
 import './section.css'
 import useUserData from '../../Hook/useUserData';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { baseURL } from '../../../App';
+import { useState } from 'react';
+import { AuthContext } from '../../AuthProvider/AuthProvider';
+import { useContext } from 'react';
 const NewSection2 = () => {
-    const { userData, loading, setUserData } = useUserData()
+    const { listing } = useContext(AuthContext)
+    const [userData, setUserData] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        setLoading(true)
+        fetch(`${baseURL}/account/profile/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setLoading(false)
+                    setUserData(data.data)
+                }
+                else {
+                    setLoading(false)
+                    setUserData(null)
+                }
+            })
+            .catch(err => {
+                setLoading(false)
+                setUserData(null)
+            })
+    }, [localStorage.getItem('user-token')])
+
     return (
         <div className="max-w-[1440px] mx-auto px-4 ">
             {/* <h1 className="bg-cover newsec2 text-white text-center py-10 px-5 lg:py-20 lg:px-24 bg-fixed lg:leading-[80px] text-3xl lg:text-5xl tracking-wider font-bold">Proudly 100% AUSTRALIAN OWNED COMPANY</h1> */}
             <div className='flex items-center gap-6 justify-center flex-col lg:flex-row lg:gap-3 mt-7'>
                 <button
                     onClick={() => {
+                        if (loading) {
+                            return
+                        }
                         if (userData) {
-                            window.location.href = '/homeowner'
+                            if (listing) {
+                                navigate('/profile')
+                                return
+                            }
+                            navigate('/homeowner')
                         } else {
-                            window.location.href = '/otp-send'
+                            navigate('/otp-send')
                         }
                     }}
                     className='btn btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaHome className='' />List Room </button>
                 <button
                     onClick={() => {
+                        if (loading) {
+                            return
+                        }
                         if (userData) {
-                            window.location.href = '/roomseeker'
+                            if (listing) {
+                                navigate('/profile')
+                                return
+                            }
+                            navigate('/roomseeker')
                         } else {
-                            window.location.href = '/otp-send'
+                            navigate('/otp-send')
                         }
                     }}
                     className='btn btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaBed className='' />Find Room </button>

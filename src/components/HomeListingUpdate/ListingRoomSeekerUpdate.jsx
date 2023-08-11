@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from 'react-select'
-import RoomFurnishingAndFeture from "./RoomFurnishingAndFeture";
-import { FaArrowRight, FaSpinner } from "react-icons/fa";
+import RoomFurnishingAndFeture from "../Account/RoomFurnishingAndFeture";
+import { FaArrowRight, FaSpinner, FaTimes } from "react-icons/fa";
 import arow from '../../assets/newlistingIcon/Icon.svg'
 import homeIcon from '../../assets/newlistingIcon/homeIcon.svg'
 import DatePicker from "react-datepicker";
@@ -9,10 +9,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from "../../App";
+import { GoogleMap, LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 import Autocomplete from "react-google-autocomplete";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
 
-const HomeWoner = () => {
-    const [roomFeutureOthers, setRoomFeutureOthers] = useState(false)
+const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
+
+    const { listing, setRefresh, refresh } = useContext(AuthContext)
 
 
 
@@ -21,137 +26,26 @@ const HomeWoner = () => {
     const [firstName, setFirstName] = useState('')
     const [secondName, setSecondName] = useState('')
     const [email, setEmail] = useState('')
-    const [houseType, setHouseType] = useState('')
+    const [houseType, setHouseType] = useState(listing?.house_type ? listing?.house_type : '')
     const [homeAddress, setHomeAddress] = useState('')
     const [parkingOptions, setParkingOptions] = useState('')
-    const [furnished, setFurnished] = useState('')
-    const [privateBath, setPrivateBath] = useState('')
+    const [furnished, setFurnished] = useState(listing?.room_type ? listing?.room_type : '')
+    const [privateBath, setPrivateBath] = useState(listing?.private_bathroom ? listing?.private_bathroom : '')
     const [selectedOption, setSelectedOption] = useState(null);
-    const [bedSize, setBedSize] = useState('')
-    const [roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures] = useState([])
-    const [rentPerWeek, setRentPerWeek] = useState('')
-    const [bond, setBond] = useState('')
-    const [billRent, setBillRent] = useState('yes')
-    const [approximatecost, setApproximatecost] = useState('')
-    const [startDate, setStartDate] = useState(new Date());
-    const [minimumStay, setMinimumStay] = useState('')
-    const [minimumStayOthers, setMinimumStayOthers] = useState(false)
-    const [minimumStayOthersValue, setMinimumStayOthersValue] = useState('')
-    const [maximumStay, setMaximumStay] = useState('')
-    const [maximumStayOthers, setmaximumStayOthers] = useState(false)
-    const [maximumStayOthersValue, setmaximumStayOthersValue] = useState('')
-    const [animate, setAnimate] = useState([])
-    const [rentPerweeksingle, setRentPerweeksingle] = useState('')
-    const [rentPerweekcouple, setRentPerweekcouple] = useState('')
-    const [placeFriendless, setPlaceFriendless] = useState([])
-    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState([])
-    const [publicTransportAccess, setPublicTransportAccess] = useState([])
-    const [gender, setGender] = useState([])
-    const [age, setAge] = useState('')
-    const [checks, setChecks] = useState([])
-    const [smoke, setSmoke] = useState('')
-    const [pets, setPets] = useState('')
-    const [child, setChild] = useState('')
-    const [couple, setCouple] = useState('')
-    const [occuption, setOccuption] = useState([])
-    const [lifestyle, setLifestyle] = useState('')
-    const [clean, setClean] = useState('')
-    const [diat, setDiat] = useState('')
-    const [alcohol, setAlcohol] = useState('')
-    const [nois, setNois] = useState('')
-    const [additional, setAdditional] = useState('')
-    const [additional2, setAdditional2] = useState('')
-    const [photo, setPhoto] = useState([])
-    const [load, setLoad] = useState(false)
-
-    const [minimumStayArray, setMinimumStayArray] = useState([
-        {
-            name: '1 week',
-        },
-        {
-            name: '2 week',
-        },
-        {
-            name: '1 month',
-        },
-        {
-            name: '2 month',
-        },
-        {
-            name: '3 month',
-        },
-        {
-            name: '6 month',
-        },
-        {
-            name: '9 month',
-        },
-        {
-            name: '12 month+',
-        },
-    ])
-    const [maximumStayArray, setMaximumStayArray] = useState([
-        {
-            name: '1 week',
-        },
-        {
-            name: '2 week',
-        },
-        {
-            name: '1 month',
-        },
-        {
-            name: '2 month',
-        },
-        {
-            name: '3 month',
-        },
-        {
-            name: '6 month',
-        },
-        {
-            name: '9 month',
-        },
-        {
-            name: '12 month+',
-        },
-    ])
+    const [bedSize, setBedSize] = useState(listing?.bed_size ? listing?.bed_size : 'Single')
+    const [roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures] = useState(listing?.room_features ? listing?.room_features : [])
+    const [animate, setAnimate] = useState(listing?.amenities ? listing?.amenities : [])
+    const [placeFriendless, setPlaceFriendless] = useState(listing?.place_friendliness ? listing?.place_friendliness : [])
+    const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState(listing?.nearby_community_spaces ? listing?.nearby_community_spaces : [])
+    const [publicTransportAccess, setPublicTransportAccess] = useState(listing?.public_transport_access ? listing?.public_transport_access : [])
+    const [gender, setGender] = useState(listing?.gender ? listing?.gender : [])
+    const [age, setAge] = useState(listing?.age ? listing?.age : '')
+    const [checks, setChecks] = useState(listing?.ids_and_checks ? listing?.ids_and_checks : [])
+    const [occuption, setOccuption] = useState(listing?.occupation ? listing?.occupation : [])
+    const [lookingForPlace, setLookingForPlace] = useState(listing?.looking_place ? listing?.looking_place : '')
+    const [suburbValue, setSuburbValue] = useState(listing?.suburb ? listing?.suburb : [])
 
 
-    const maximumStayFunction = (p) => {
-        if (p == '1 week') {
-            setMaximumStayArray(minimumStayArray)
-            return
-        }
-        if (p == '2 week') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week'))
-            return
-        }
-        if (p == '1 month') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week'))
-            return
-        }
-        if (p == '2 month') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month'))
-            return
-        }
-        if (p == '3 month') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month'))
-            return
-        }
-        if (p == '6 month') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month' && filt.name != '3 month'))
-            return
-        }
-        if (p == '9 month') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month' && filt.name != '3 month' && filt.name != '6 month'))
-            return
-        }
-        if (p == '12 month+') {
-            setMaximumStayArray(minimumStayArray.filter(filt => filt.name != '1 week' && filt.name != '2 week' && filt.name != '1 month' && filt.name != '2 month' && filt.name != '3 month' && filt.name != '6 month' && filt.name != '9 month'))
-            return
-        }
-    }
 
 
 
@@ -167,19 +61,20 @@ const HomeWoner = () => {
         setChecks([...checks, p])
     }
     const aminetAddFunction = (p) => {
-        if (p == 'N/A') {
-            setAnimate(['N/A'])
+        if (p == 'None') {
+            setAnimate(['None'])
             return
         }
-        const filter = animate.filter(filt => filt != 'N/A')
+        const filter = animate.filter(filt => filt != 'None')
         const findData = animate.find(r => r == p)
         if (findData) {
-            const filterData = animate.filter(filt => filt != p && filt != 'N/A')
+            const filterData = animate.filter(filt => filt != p && filt != 'None')
             setAnimate(filterData)
             return
         }
         setAnimate([...filter, p])
     }
+
     const occuptionFunction = (p) => {
         if (p == 'N/A') {
             setOccuption(['N/A'])
@@ -194,6 +89,7 @@ const HomeWoner = () => {
         }
         setOccuption([...filter, p])
     }
+
     const genderFunction = (p) => {
         if (p == 'Any') {
             setGender(['Any'])
@@ -209,46 +105,45 @@ const HomeWoner = () => {
         setGender([...filter, p])
     }
 
-
-    const placeFriendFunction = (p) => {
-        if (p == 'N/A') {
-            setPlaceFriendless(['N/A'])
-            return
-        }
-        const filter = placeFriendless.filter(filt => filt != 'N/A')
-        const findData = placeFriendless.find(r => r == p)
-        if (findData) {
-            const filterData = placeFriendless.filter(filt => filt != p && filt != 'N/A')
-            setPlaceFriendless(filterData)
-            return
-        }
-        setPlaceFriendless([...filter, p])
-    }
-
     const nearbyAddFunction = (p) => {
-        if (p == 'N/A') {
-            setNearbyCommunitySpaces(['N/A'])
+        if (p == 'None') {
+            setNearbyCommunitySpaces(['None'])
             return
         }
-        const filter = nearbyCommunitySpaces.filter(filt => filt != 'N/A')
+        const filter = nearbyCommunitySpaces.filter(filt => filt != 'None')
         const findData = nearbyCommunitySpaces.find(r => r == p)
         if (findData) {
-            const filterData = nearbyCommunitySpaces.filter(filt => filt != p && filt != 'N/A')
+            const filterData = nearbyCommunitySpaces.filter(filt => filt != p && filt != 'None')
             setNearbyCommunitySpaces(filterData)
             return
         }
         setNearbyCommunitySpaces([...filter, p])
     }
 
-    const publicAddFunction = (p) => {
-        if (p == 'N/A') {
-            setPublicTransportAccess(['N/A'])
+    const placeFriendFunction = (p) => {
+        if (p == 'None') {
+            setPlaceFriendless(['None'])
             return
         }
-        const filter = publicTransportAccess.filter(filt => filt != 'N/A')
+        const filter = placeFriendless.filter(filt => filt != 'None')
+        const findData = placeFriendless.find(r => r == p)
+        if (findData) {
+            const filterData = placeFriendless.filter(filt => filt != p && filt != 'None')
+            setPlaceFriendless(filterData)
+            return
+        }
+        setPlaceFriendless([...filter, p])
+    }
+
+    const publicAddFunction = (p) => {
+        if (p == 'None') {
+            setPublicTransportAccess(['None'])
+            return
+        }
+        const filter = publicTransportAccess.filter(filt => filt != 'None')
         const findData = publicTransportAccess.find(r => r == p)
         if (findData) {
-            const filterData = publicTransportAccess.filter(filt => filt != p && filt != 'N/A')
+            const filterData = publicTransportAccess.filter(filt => filt != p && filt != 'None')
             setPublicTransportAccess(filterData)
             return
         }
@@ -267,65 +162,21 @@ const HomeWoner = () => {
     const check11 = checks.find(r => r == 'Income Proof')
     const check12 = checks.find(r => r == 'References')
 
-    const options = [
-        { value: 'Air Conditioning', label: 'Air Conditioning' },
-        { value: 'Heating, Wardrobe', label: 'Heating, Wardrobe' },
-        { value: 'Desk', label: 'Desk' },
-        { value: 'TV', label: 'TV' },
-        { value: 'Balcony', label: 'Balcony' },
-        { value: 'Ensuite', label: 'Ensuite' },
-        { value: 'Wifi', label: 'Wifi' },
-        { value: 'Private ', label: 'Private ' },
-        { value: 'Entrance', label: 'Entrance' },
-    ]
+    const [load, setLoad] = useState(false)
+    const navigate = useNavigate()
+    // console.log(listing.ids_and_checks)
+
+
     const handle = (e) => {
-        e.preventDefault()
-        if (!firstName) {
-            toast.error('Please type your first name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            return
-        }
-        if (!secondName) {
-            toast.error('Please type your second name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-                progress: undefined,
-            });
-            return
-        }
-        if (!email) {
-            toast.error('Please type your email address', {
+        e.preventDefault();
+
+        if (!lookingForPlace) {
+            toast.error('Please select  looking for place', {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 theme: "colored",
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!homeAddress) {
-            toast.error('Please type your home address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
@@ -344,146 +195,6 @@ const HomeWoner = () => {
                 progress: undefined,
             });
             return
-        }
-        if (!parkingOptions) {
-            toast.error('Please select your parking options', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!startDate) {
-            toast.error('Please select Available from', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!minimumStayOthers) {
-            if (!minimumStay) {
-                toast.error('Please select minimum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (!maximumStayOthers) {
-            if (!maximumStay) {
-                toast.error('Please select maximum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (minimumStayOthers) {
-            if (!minimumStayOthersValue) {
-                toast.error('Please type minimum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (maximumStayOthers) {
-            if (!maximumStayOthersValue) {
-                toast.error('Please type maximum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (!rentPerweeksingle) {
-            toast.error('Please type rent per week for single', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!rentPerweekcouple) {
-            toast.error('Please type rent per week for couple', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!bond) {
-            toast.error('Please select bond', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!billRent) {
-            if (!approximatecost) {
-                toast.error('Please type approximate cost', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
         }
         if (!furnished) {
             toast.error('Please select Bedrom Type', {
@@ -630,28 +341,42 @@ const HomeWoner = () => {
             }); return
 
         }
-        const year = startDate.getFullYear();
-        const month = String(startDate.getMonth() + 1).padStart(2, "0");
-        const day = String(startDate.getDate()).padStart(2, "0");
+        if (!suburbValue.length) {
+            toast.error('Please select suburb  ', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            }); return
+
+        }
+
+        const listingObject = listing
+        listingObject.suburb = suburbValue
+        listingObject.house_type = houseType
+        listingObject.room_type = furnished
+        listingObject.private_bathroom = privateBath
+        listingObject.bed_size = bedSize
+        listingObject.room_features = roomFurnishingsAndFeatures
+        listingObject.amenities = animate
+        listingObject.place_friendliness = placeFriendless
+        listingObject.nearby_community_spaces = nearbyCommunitySpaces
+        listingObject.public_transport_access = publicTransportAccess
+        listingObject.gender = gender
+        listingObject.age = age
+        listingObject.occupation = occuption
+        listingObject.looking_place = lookingForPlace
+
+
 
         const allInfo = {
-            first_name: firstName,
-            last_name: secondName,
-            email: email,
+            suburb: suburbValue,
             "house_type": houseType,
-            "home_address": homeAddress,
-            "parking_option": parkingOptions,
-            "available_from": `${year}-${month}-${day}`,
-            "minimum_stay": minimumStay,
-            "minimum_stay_others": minimumStayOthersValue,
-            "maximum_stay": maximumStay,
-            "maximum_stay_others": maximumStayOthersValue,
-            "rent_per_week_single": rentPerweeksingle,
-            "rent_per_week_couple": rentPerweekcouple,
-            "bond": bond,
-            "bills_included_in_rent": billRent,
-            "approximate_cost": approximatecost,
-            "bedroom_type": furnished,
+            "room_type": furnished,
             "private_bathroom": privateBath,
             "bed_size": bedSize,
             "room_features": roomFurnishingsAndFeatures,
@@ -660,43 +385,28 @@ const HomeWoner = () => {
             "nearby_community_spaces": nearbyCommunitySpaces,
             "public_transport_access": publicTransportAccess,
             "gender": gender,
-            "age_range": age,
+            "age": age,
             "ids_and_checks": checks,
-            "occupation_preference": occuption,
+            "occupation": occuption,
             "user": localStorage.getItem('user-token'),
+
         }
-        setLoad(true)
-        fetch(`${baseURL}/listing/home-listings/`, {
-            method: 'POST',
+        // setLoad(true)
+        fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+            method: 'PUT',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
                 'Content-Type': 'application/json',
             }
-            , body: JSON.stringify(allInfo)
+            , body: JSON.stringify(listingObject)
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                if (data.id) {
-                    setLoad(false)
-                    window.location.href = `/homeowner-pricing`
-                }
-                else {
-                    setLoad(false)
-                    toast.error('somthing want wrong!!!  ', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        theme: "colored",
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                }
+                setRefresh(refresh + 1)
+                setRoomEdit(false)
             })
-            .catch(() => {
-                setLoad(false)
+            .catch((err) => {
+                console.log(err)
                 toast.error('somthing want wrong!!!  ', {
                     position: "top-center",
                     autoClose: 5000,
@@ -708,45 +418,55 @@ const HomeWoner = () => {
                     progress: undefined,
                 }); return
             })
-
     }
+
+
+
     return (
-        <div className="max-w-[736px]  mx-auto px-4 ">
-            <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
+        <div className="max-w-[736px]  mx-auto  ">
+            <h1 className="text-center text-3xl font-bold mt-8 mb-4">Update your listing</h1>
             <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
-            <form onSubmit={handle} >
-                <div className="p-4 border-2 lg:p-6  rounded-lg">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
-                        <div>
-                            <input onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
-                        </div>
-                        <div>
-                            <input onChange={(e) => setSecondName(e.target.value)} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
-                        </div>
-                        <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
-                        </div>
-                    </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Property Details</p>
+            <form onSubmit={handle}>
+                <div className="p-4 border-2 lg:p-6 bg-white lg:px-14  rounded-lg">
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Preferences</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
-                            {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
-                            <Autocomplete
-                            
-                                className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
-                                apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
-                                
-                                options={{
-                                    componentRestrictions: { country: "au" },
-                                }}
+                            <p className="text-[#100A55] font-bold text-lg">I am looking for a place:</p>
+                            <div className="mt-4 grid grid-cols-2  text-center font-medium">
+                                <p onClick={() => setLookingForPlace('For Myself')} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>For Myself</p>
+                                <p onClick={() => setLookingForPlace('As a couple')} className={`border border-s-0 duration-500 
+                            ${lookingForPlace == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>As a couple</p>
+                            </div>
+                        </div>
+                        <div className="">
+                            <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
+                            <div className="w-full mt-4 border border-[#7065F0] rounded-lg">
+                                <div className="p-2  flex flex-wrap gap-3 py-5 w-full ">
+                                    {suburbValue.map((sub, i) => {
+                                        return <p className="bg-slate-200 flex items-center gap-1" key={i}>{sub} <FaTimes onClick={() => setSuburbValue(suburbValue.filter((_, index) => index !== i))} className=' text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes></p>
 
-                                onPlaceSelected={(place) => {
-                                    if (place.formatted_address) {
-                                        setHomeAddress(place.formatted_address)
-                                    }
-                                }}
-                            />
+                                    })}
+                                </div>
+                                {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
+                                <Autocomplete
+
+                                    className="w-full  rounded-lg rounded-t-none border-t mt-4  focus:outline-none py-1 px-5   focus:bg-[#f6f6ff] "
+                                    apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+
+                                    options={{
+                                        componentRestrictions: { country: "au" },
+                                    }}
+
+                                    onPlaceSelected={(place) => {
+                                        if (place.formatted_address) {
+                                            // console.log(place.formatted_address);
+                                            const address = place.formatted_address
+                                            setSuburbValue(prevSuburbValue => [...prevSuburbValue, address]);
+                                        }
+                                    }}
+                                />
+                            </div>
+
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">House Type:</p>
@@ -754,104 +474,12 @@ const HomeWoner = () => {
                                 <p onClick={() => setHouseType('House')} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>
                                 <p onClick={() => setHouseType('Unit')} className={`font-bold text-[#7065F0] border-t border-e lg:border-e-0 lg:border-y duration-500 ${houseType === 'Unit' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Unit</p>
                                 <p onClick={() => setHouseType('Apartment')} className={`font-bold text-[#7065F0] border-y border-s duration-500 ${houseType === 'Apartment' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Apartment</p>
-                                <p onClick={() => setHouseType('Townhouse')} className={`font-bold text-[#7065F0] border duration-500 ${houseType === 'Townhouse' ? 'hover:bg-[#554db3] bg-[#706?0] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Townhouse</p>
+                                <p onClick={() => setHouseType('Townhouse')} className={`font-bold text-[#7065F0] border duration-500 ${houseType === 'Townhouse' ? 'hover:bg-[#554db3] bg-[#706?0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Townhouse</p>
                             </div>
                         </div>
 
-
                         <div>
-                            <p className="text-[#100A55] font-bold text-lg">Parking Options:</p>
-                            <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                                <p onClick={() => setParkingOptions('Garage')} className={`border border-b-0 lg:border-b duration-500 ${parkingOptions === 'Garage' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Garage</p>
-                                <p onClick={() => setParkingOptions('Driveway')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${parkingOptions === 'Driveway' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Driveway</p>
-                                <p onClick={() => setParkingOptions('On Street')} className={`border-y border-s duration-500 ${parkingOptions === 'On Street' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On Street</p>
-                                <p onClick={() => setParkingOptions('of Street')} className={`border duration-500 ${parkingOptions === 'of Street' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>of Street</p>
-                                <p onClick={() => setParkingOptions('No Parking')} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${parkingOptions === 'No Parking' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>No Parking</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Details</p>
-                    <div className="grid grid-cols-1 gap-10  ">
-                        <div className="w-full">
-                            <p className="text-[#100A55]font-bold text-lg">Available from:</p>
-                            <DatePicker
-                                className="mt-4 py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f7f6ff] border-[#7065F0] hover:outline-none w-full rounded-lg"
-                                showIcon
-                                selected={startDate}
-                                onChange={(date) => setStartDate(date)}
-                            />
-                        </div>
-                        <div>
-                            <p className="text-[#100A55] font-bold text-lg">Minimum Stay :</p>
-                            {!minimumStayOthers && <div className="mt-4 grid gap-y-1 grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                {minimumStayArray.map((item, index) =>
-                                    <p key={index} onClick={() => {
-                                        setMaximumStay('')
-                                        maximumStayFunction(item.name)
-                                        setMinimumStay(item.name)
-                                    }} className={` duration-500 h-full border ${minimumStay === item.name ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>{item.name}</p>)}
-                            </div>}
-
-                        </div>
-                        <div>
-                            <p className="text-[#100A55] font-bold text-lg">Maximum Stay :</p>
-                            {!maximumStayOthers && <div className="mt-4 grid gap-y-1 grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                {maximumStayArray.map((item, index) =>
-                                    <p key={index} onClick={() => setMaximumStay(item.name)} className={` duration-500 h-full border ${maximumStay === item.name ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>{item.name}</p>)}
-
-                            </div>}
-
-                        </div>
-                        <div >
-                            <p className="text-[#100A55] font-bold text-lg">Rent per Week:</p>
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
-                                    <label className="input-group">
-                                        <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="text" className="input   w-full " />
-                                    </label>
-                                </div>
-                                <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
-                                    <label className="input-group">
-                                        <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="text" className="input   w-full " />
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-[#100A55] font-bold text-lg">Bond:</p>
-                            <div className="mt-4 grid grid-cols-3  text-center font-medium">
-                                <p onClick={() => setBond('2 weeks')} className={` duration-500 border ${bond === '2 weeks' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>2 weeks</p>
-                                <p onClick={() => setBond('1 month')} className={` duration-500 border-y border-e ${bond === '1 month' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>1 month</p>
-                                <p onClick={() => setBond('No bond')} className={` duration-500 border-y border-e ${bond === 'No bond' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>No bond</p>
-
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-[#100A55] font-bold text-lg">Bills Included in Rent:</p>
-                            <div className="mt-4 grid grid-cols-2  text-center font-medium">
-                                <p onClick={() => setBillRent('yes')} className={`border  duration-500 ${billRent === 'yes' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Yes</p>
-                                <p onClick={() => setBillRent('no')} className={`border border-s-0 duration-500 
-                            ${billRent == 'no' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>No</p>
-                            </div>
-                            {billRent == 'no' &&
-                                <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
-                                    <label className="input-group">
-                                        <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input onChange={(e) => setApproximatecost(e.target.value)} type="text" className="input   w-full " />
-                                    </label>
-                                </div>}
-
-                        </div>
-
-                    </div>
-
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Features</p>
-                    <div className="grid grid-cols-1 gap-10  ">
-                        <div>
-                            <p className="text-[#100A55] font-bold text-lg">Bedroom Type:</p>
+                            <p className="text-[#100A55] font-bold text-lg">Room Type:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
                                 <p onClick={() => setFurnished('Private Bedroom')} className={`border  duration-500 ${furnished == 'Private Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Private Bedroom</p>
                                 <p onClick={() => setFurnished('Shared Bedroom')} className={`border border-s-0 duration-500 ${furnished == 'Shared Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Shared Bedroom</p>
@@ -881,7 +509,7 @@ const HomeWoner = () => {
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
                         ></RoomFurnishingAndFeture>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Amenities </p>
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Amenities </p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 text-center font-medium">
                             <p onClick={() => aminetAddFunction('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
@@ -892,7 +520,7 @@ const HomeWoner = () => {
                             <p onClick={() => aminetAddFunction('Pool')} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate.find(a => a == 'Pool') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
                             <p onClick={() => aminetAddFunction('Spa')} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Spa') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
                             <p onClick={() => aminetAddFunction('Sauna')} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Sauna') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
-                            <p onClick={() => aminetAddFunction('N/A')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'N/A') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>N/A</p>
+                            <p onClick={() => aminetAddFunction('None')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Place friendliness:</p>
@@ -901,11 +529,11 @@ const HomeWoner = () => {
                                 <p onClick={() => placeFriendFunction('Couples')} className={`border-t border-e duration-500 ${placeFriendless.find(p => p == 'Couples') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
                                 <p onClick={() => placeFriendFunction('Children')} className={`border-y border-s duration-500 ${placeFriendless.find(p => p == 'Children') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Children</p>
                                 <p onClick={() => placeFriendFunction('Visitors')} className={`border duration-500 ${placeFriendless.find(p => p == 'Visitors') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Visitors</p>
-                                <p onClick={() => placeFriendFunction('N/A')} className={`border border-t-0 col-span-2 duration-500 ${placeFriendless.find(p => p == 'N/A') ? ' border border-[#bab7e4]  hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>N/A</p>
+                                <p onClick={() => placeFriendFunction('None')} className={`border border-t-0 col-span-2 duration-500 ${placeFriendless.find(p => p == 'None') ? ' border border-[#bab7e4]  hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Local Amenities and Transport</p>
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Local Amenities and Transport</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Nearby Community Spaces:</p>
@@ -916,7 +544,7 @@ const HomeWoner = () => {
                                 <p onClick={() => nearbyAddFunction('Libraries')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces.find(n => n == 'Libraries') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
                                 <p onClick={() => nearbyAddFunction('Community Centres')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Community Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
                                 <p onClick={() => nearbyAddFunction('Sports Facilities')} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces.find(n => n == 'Sports Facilities') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
-                                <p onClick={() => nearbyAddFunction('N/A')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces.find(n => n == 'N/A') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>N/A</p>
+                                <p onClick={() => nearbyAddFunction('None')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces.find(n => n == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
                             </div>
 
                         </div>
@@ -928,13 +556,12 @@ const HomeWoner = () => {
                                 <p onClick={() => publicAddFunction('Train Station')} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess.find(p => p == 'Train Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
                                 <p onClick={() => publicAddFunction('Ferry Terminal')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess.find(p => p == 'Ferry Terminal') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
                                 <p onClick={() => publicAddFunction('Bike Paths')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bike Paths') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
-                                <p onClick={() => publicAddFunction('N/A')} className={`duration-500 border border-s-0 ${publicTransportAccess.find(p => p == 'N/A') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>N/A</p>
+                                <p onClick={() => publicAddFunction('None')} className={`duration-500 border border-s-0 ${publicTransportAccess.find(p => p == 'None') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                             </div>
-
-
                         </div>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Preferences for Potential Tenant</p>
+
+                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Personal Details</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Gender:</p>
@@ -948,14 +575,7 @@ const HomeWoner = () => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p onClick={() => setAge('Any')} className={` duration-500 border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                                <p onClick={() => setAge('18 - 25')} className={` duration-500 border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>18 - 25</p>
-                                <p onClick={() => setAge('26-35')} className={` duration-500 border-y border-e ${age === '26-35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>26-35</p>
-                                <p onClick={() => setAge('36-45')} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36-45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>36-45</p>
-                                <p onClick={() => setAge('46-60')} className={` duration-500 border border-t-0 lg:border-t ${age === '46-60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>46-60</p>
-                                <p onClick={() => setAge('61+')} className={` duration-500 border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>61+</p>
-                            </div>
+                            <input defaultValue={listing?.age} onChange={(e) => setAge(e.target.value)} placeholder="age" type="number" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
@@ -973,7 +593,6 @@ const HomeWoner = () => {
                                 <p onClick={() => addFunction('Income Proof')} className={`duration-500 border-t-0 border ${check11 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Income Proof</p>
                                 <p onClick={() => addFunction('References')} className={`duration-500 border-t-0 border border-s-0 ${check12 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>References</p>
                             </div>
-                            
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>
@@ -988,14 +607,18 @@ const HomeWoner = () => {
                             </div>
                         </div>
                     </div>
+
+
+
                 </div>
-                <div className="text-center mt-7">
-                    <button disabled={load} className='btn w-full  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
+                <div className="text-center flex flex-col lg:flex-row items-center gap-4 mt-7">
+                    <button onClick={() => setRoomEdit(false)} className="btn bg-slate-300 flex-grow">cancel</button>
+                    <button disabled={load} className='btn flex-grow  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
                 </div>
             </form>
-            <ToastContainer />
+            <ToastContainer></ToastContainer>
         </div>
     );
 };
 
-export default HomeWoner;
+export default ListingRoomSeekerUpdate

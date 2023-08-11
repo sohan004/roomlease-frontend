@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Nav from './components/Nav/Nav'
 import logo from './assets/Frame.svg'
 import logo11 from './assets/🦆 icon _arrow circle right_.svg'
@@ -17,7 +17,33 @@ const App = () => {
 
   const navigate = useNavigate()
   const [tf, setTf] = useState(false)
-  const { userData, loading, setUserData } = useUserData()
+  const [userData, setUserData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    setLoading(true)
+    fetch(`${baseURL}/account/profile/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${localStorage.getItem('user-token')}`,
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setLoading(false)
+          setUserData(data.data)
+        }
+        else {
+          setLoading(false)
+          setUserData(null)
+        }
+      })
+      .catch(err => {
+        setLoading(false)
+        setUserData(null)
+      })
+  }, [localStorage.getItem('user-token')])
 
   return (
     <>
@@ -38,12 +64,11 @@ const App = () => {
         </div>
 
         {userData && <div className='flex flex-col items-center  px-14 my-12 gap-8'>
-          <CommonLinks />
+          <CommonLinks userData={userData} setUserData={setUserData} />
         </div>}
 
         {!userData && <div className='text-center mt-20'>
-          <NavLink to='/sign-in'> <button className='btn text-xl  border-2 bg-transparent border-[#d6d4f5]'> Sign Up</button></NavLink>
-          <NavLink to='/sign-up'><button className='btn text-xl bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
+          <NavLink to='/otp-send'><button className='btn text-xl bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
         </div>}
 
         <div className='absolute top-16 -right-4'>
@@ -59,7 +84,7 @@ const App = () => {
           setTf(false)
         }
       }}
-        className={tf ? 'opacity-5 duration-500' : 'opacity-100 duration-500'}>
+        className={tf ? 'opacity-5 lg:opacity-100 duration-500' : 'opacity-100 duration-500'}>
         <Nav setTf={setTf}></Nav>
         <Outlet></Outlet>
         <Footer></Footer>
