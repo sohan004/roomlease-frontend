@@ -373,7 +373,7 @@ const Profile = () => {
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
-                <div className='flex flex-col lg:flex-row justify-center items-center gap-9 lg:gap-20 pt-20'>
+                <div className='flex flex-col lg:flex-row justify-center items-center gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] '>
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white bg-opacity-50'>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white border-white'}`}>
@@ -386,8 +386,8 @@ const Profile = () => {
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
                             <p >Free Account</p>
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
-                            <h1 className=' font-bold mt-7 text-left'>Make Mobile Number Visible?</h1>
-                            <div className='flex mt-2 items-center gap-4'>
+                            <h1 className=' font-bold mt-7 text-center'>Make Mobile Number Visible On Profile?</h1>
+                            <div className='flex mt-2 items-center justify-center gap-4'>
                                 <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
                             </div>
@@ -403,30 +403,22 @@ const Profile = () => {
                             <p className='p-6 w-[56%] bg-gradient-to-r from-green-400 to-teal-600 rounded-s-lg'></p>
                         </div>
                         <p className='font-medium '>Answer these questioons so you get the best response from preple who read your profile </p>
-                    </div>
-                </div>
-
-
-
-                <div className='px-4 lg:px-6 py-10 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
-                    <h1 className='text-center text-2xl lg:text-3xl font-bold '>About you</h1>
-                    <div className='flex justify-center items-center  gap-2 mt-3'>
-                        {title && <input type="text" onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border rounded lg:w-[350px]' name="" id="" />}
-                        {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
-                        {!title && <FaEdit onClick={() => setTitle(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
-                        {title && <FaSave onClick={() => profileUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
-                    </div>
-                    <div className='flex flex-col lg:flex-row items-center mt-6 lg:mt-12 gap-16'>
-                        <div className='w-full lg:w-[50%]'>
-
-
-                        </div>
-                        <div className='w-full lg:w-[50%]'>
-
-
+                        <div className='px-4 lg:px-6 py-10 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
+                            <h1 className='text-center text-2xl lg:text-3xl font-bold '>About you</h1>
+                            <div className='flex justify-center items-center  gap-2 mt-3'>
+                                {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
+                                {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
+                                {!title && <FaEdit onClick={() => setTitle(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {title && <FaSave onClick={() => profileUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
+
+
 
                 <div className='mt-10 lg:mt-20  flex flex-col lg:flex-row lg:justify-between gap-4'>
                     <h1 className='text-2xl font-bold text-[#7065F0]'>1 Listing Available</h1>
@@ -437,14 +429,14 @@ const Profile = () => {
                 </div>
 
 
-                <div className=' mt-10 mb-7 flex flex-col lg:flex-row gap-6 lg:gap-10'>
-                    <div className='w-full lg:w-[30%] p-4 lg:p-6  bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                <div className=' mt-10 mb-7 flex flex-col lg:flex-row gap-9 lg:gap-14'>
+                    <div className='w-full lg:w-[40%] p-4 lg:p-6  bg-white bg-opacity-60 border-2 rounded-md text-center'>
                         <h1 className=' lg:text-lg font-semibold text-left'>Upload video tour (recommended)</h1>
                         <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] mt-7 mb-4' />
                         <p className='text-center text-sm'>Uploading a video of your home can reduce the need for in-person inspections</p>
                         <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 '>add video</button>
                     </div>
-                    <div className='w-full lg:w-[70%] p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
+                    <div className='w-full lg:w-[60%] p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
                         <div>
                             <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
                             <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
@@ -454,6 +446,7 @@ const Profile = () => {
                         </div>
 
                     </div>
+
                 </div>
 
 
@@ -472,47 +465,79 @@ const Profile = () => {
                         </div>}
 
                         {userData?.account_type == 'roomseeker' && roomSeekerImg &&
-                            <div className='relative w-full'>
+                            <div className='relative w-full mb-4'>
                                 <img src={URL.createObjectURL(roomSeekerImg)} alt="" className='max-w-[550px] mx-auto  object-cover' />
                                 <FaTimes onClick={() => setRoomSeekerImg(null)} className='absolute top-1 right-1 text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes>
                             </div>
                         }
 
-                        <div className='flex justify-center items-center text-center bg-[#7065F0] text-white h-40 lg:h-48 '>
-                            <div className='text-center'>
-                                <label htmlFor="img"> <BsHouseAddFill className='text-5xl mx-auto cursor-pointer duration-300 hover:scale-125'></BsHouseAddFill></label>
-                                <input onChange={e => {
-                                    if (userData?.account_type == 'homeowner') {
-                                        if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
-                                            position: "top-center",
-                                            autoClose: 5000,
-                                            hideProgressBar: false,
-                                            theme: "colored",
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            progress: undefined,
-                                        });
-                                        setImg([...img, e.target.files[0]])
-                                    }
-                                    else {
-                                        if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
-                                            position: "top-center",
-                                            autoClose: 5000,
-                                            hideProgressBar: false,
-                                            theme: "colored",
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            progress: undefined,
-                                        });
-                                        setRoomSeekerImg(e.target.files[0])
-                                    }
 
-                                }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
-                                <p className=' lg:text-xl'>Add photos to your profile</p>
+                        <div className='flex flex-col lg:flex-row gap-9 lg:gap-14'>
+                            <div className='flex w-full lg:w-[40%] justify-center items-center text-center bg-[#7065F0] text-white py-20 lg:py-24'>
+                                <div className='text-center'>
+                                    <label htmlFor="img"> <BsHouseAddFill className='text-5xl mx-auto cursor-pointer duration-300 hover:scale-125'></BsHouseAddFill></label>
+                                    <input onChange={e => {
+                                        if (userData?.account_type == 'homeowner') {
+                                            if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
+                                                position: "top-center",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                theme: "colored",
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                            });
+                                            setImg([...img, e.target.files[0]])
+                                        }
+                                        else {
+                                            if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
+                                                position: "top-center",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                theme: "colored",
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                            });
+                                            setRoomSeekerImg(e.target.files[0])
+                                        }
+
+                                    }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
+                                    <p className=' lg:text-xl'>Add photos to your profile</p>
+                                </div>
                             </div>
+                                {userData?.account_type == 'homeowner' && <div className='w-full lg:w-[58%]'  >
+                                    <Swiper
+                                        pagination={{
+                                            type: 'fraction',
+                                        }}
+                                        navigation={true}
+                                        modules={[Pagination, Navigation]}
+                                        className="mySwiper "
+                                    >
+                                        {imgValue.map((image, i) => {
+
+                                            return <SwiperSlide className='w-full' key={i}>
+                                                <div className='max-w-[700px] mx-auto h-[250px] lg:h-[500px] relative'>
+                                                    <img src={image.photo} className='w-full h-full' alt="" />
+                                                    <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
+                                                </div>
+                                            </SwiperSlide>
+                                        })}
+
+                                    </Swiper>
+
+                                </div>}
+                                {
+                                    userData?.account_type == 'roomseeker' &&
+                                    <div className='w-full lg:w-[60%]'>
+
+                                    </div>
+                                }
                         </div>
+
                         {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
                             <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
                             <button onClick={() => {
@@ -577,28 +602,7 @@ const Profile = () => {
 
 
                     </div>} */}
-                {userData?.account_type == 'homeowner' && <div className=' mt-11' >
-                    <Swiper
-                        pagination={{
-                            type: 'fraction',
-                        }}
-                        navigation={true}
-                        modules={[Pagination, Navigation]}
-                        className="mySwiper"
-                    >
-                        {imgValue.map((image, i) => {
 
-                            return <SwiperSlide key={i}>
-                                <div className='max-w-[700px] mx-auto h-[250px] lg:h-[500px] relative'>
-                                    <img src={image.photo} className='w-full h-full' alt="" />
-                                    <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
-                                </div>
-                            </SwiperSlide>
-                        })}
-
-                    </Swiper>
-
-                </div>}
 
 
 
@@ -693,9 +697,13 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <button onClick={() => {
-                        setRoomEdit(true)
-                    }} className='btn rounded-none w-full mt-7  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                    <div className='flex justify-center mb-6'>
+                        <button
+                            className='btn rounded-none w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
+                        <button onClick={() => {
+                            setRoomEdit(true)
+                        }} className='btn rounded-none w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                    </div>
                 </div>}
 
 

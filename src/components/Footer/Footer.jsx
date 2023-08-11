@@ -25,27 +25,27 @@ const Footer = () => {
                 </div>
                 <div className="w-full lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
                     <div className=''>
-                        <p className='mb-2'>How to find a room</p>
-                        <p className='mb-2'>How to rent your room</p>
-                        <p className='mb-2'>ID Checks</p>
-                        <p className='mb-2 hidden lg:block'>Credit Checks</p>
+                        <p className='mb-2'>About Us</p>
+                        <p className='mb-2'>How to List Your Room</p>
+                        <p className='mb-2'>Find Your Perfect Room</p>
+                        <p className='mb-2 hidden lg:block'>Free Roommate Agreement</p>
                     </div>
                     <div className=''>
-                        <p className='mb-2'>Background Checks</p>
-                        <p className='mb-2'>Free rommmate agreement</p>
-                        <p className='mb-2'>Safety & security</p>
-                        <p className='mb-2 hidden lg:block'>Inspections</p>
+                        <p className='mb-2'>Digital ID & Checks</p>
+                        <p className='mb-2'>FAQ</p>
+                        <p className='mb-2'>Blog</p>
+                        <p className='mb-2 hidden lg:block'>User Testimonials</p>
                     </div>
                     <div className=''>
-                        <p className='mb-2'>Community Standards</p>
-                        <p className='mb-2'>Terms</p>
-                        <p className='mb-2'>Privacy</p>
-                        <p className='mb-2 hidden lg:block'>Career</p>
+                        <p className='mb-2'>Contact us</p>
+                        <p className='mb-2'>Careers</p>
+                        <p className='mb-2'>Terms of Service</p>
+                        <p className='mb-2 hidden lg:block'>Privacy Policy</p>
                     </div>
                     <div className='lg:hidden'>
-                        <p className='mb-2'>Credit Checks</p>
-                        <p className='mb-2'>Inspections</p>
-                        <p className='mb-2'>Career</p>
+                        <p className='mb-2'>Free Roommate Agreement</p>
+                        <p className='mb-2'>User Testimonials</p>
+                        <p className='mb-2'>Privacy Policy</p>
                     </div>
                 </div>
             </div>

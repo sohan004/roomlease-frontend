@@ -678,8 +678,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
         }
 
         try {
-            const response = await fetch(
-                `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}&query=${newQuery}`
+            const response = await fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?key=${`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}&query=${newQuery}`
             );
             const data = await response.json();
             setResults(data.results);
@@ -700,7 +699,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
 
-                            {/* <div>
+                            <div>
                                 <input
                                     type="text"
                                     placeholder="Type a place name"
@@ -712,7 +711,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                         <li key={place.place_id}>{place.name}</li>
                                     ))}
                                 </ul>
-                            </div> */}
+                            </div>
 
 
                             <Autocomplete
