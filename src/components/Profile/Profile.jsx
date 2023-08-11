@@ -170,6 +170,7 @@ const Profile = () => {
                 setRefresh(refresh + 1)
             })
     }
+
     const roomSeekersactiveUpdate = (functionValue) => {
         // console.log(functionValue)
         const useObjectData = listing || {}
@@ -231,13 +232,16 @@ const Profile = () => {
     }
 
     const roomseekerImgUplaod = () => {
-
+        const listingObject = listing
         const formData = new FormData()
+        for (let key in listingObject) {
+            formData.append(key, listingObject[key])
+        }
         formData.append('photo', roomSeekerImg)
-        fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
-            method: 'POST',
+        fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+            method: 'PUT',
             headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
             },
             body: formData
         })
