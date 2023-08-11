@@ -37,6 +37,7 @@ const Profile = () => {
     const navigate = useNavigate()
     const { listing, setRefresh, refresh } = useContext(AuthContext)
     const [imgValue, setImgValue] = useState([])
+    const [roomSeekerImg, setRoomSeekerImg] = useState('')
 
 
 
@@ -99,7 +100,7 @@ const Profile = () => {
     // console.log(userData);
 
 
-    const listingPhotoDelete =  (id) => {
+    const listingPhotoDelete = (id) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -227,6 +228,12 @@ const Profile = () => {
                     setRefresh(refresh + 1)
                 })
         })
+    }
+
+    const roomseekerImgUplaod = () => {
+        const formData = new FormData()
+        formData.append('home_listing', listing?.id)
+
     }
 
 
@@ -366,8 +373,11 @@ const Profile = () => {
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
                             <p >Free Account</p>
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
-                            <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 mt-4'><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} /> yes please! Make my number public</p>
-                            <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 mt-3'><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No thanks. Keep it private</p>
+                            <h1 className=' font-bold mt-7 text-left'>Make Mobile Number Visible?</h1>
+                            <div className='flex mt-2 items-center gap-4'>
+                                <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
+                                <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
+                            </div>
                             <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 w-full'>upgrade now</button>
                         </div>
                     </div>
@@ -434,7 +444,7 @@ const Profile = () => {
                 </div>
 
 
-                {
+                {userData?.account_type == 'homeowner' &&
 
                     <div>
                         {userData?.account_type == 'homeowner' && <div className='grid grid-cols-4 lg:grid-cols-7 gap-3 mb-5'>
