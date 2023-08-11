@@ -536,8 +536,8 @@ const Profile = () => {
                                 </div>}
                                 {
                                     userData?.account_type == 'roomseeker' &&
-                                    <div className='w-full lg:w-[60%]'>
-
+                                    <div className='w-full lg:w-[60%] bg-slate-50'>
+                                        <img className='w-full' src={`${baseURL}${listing?.photo}`} alt="" />
                                     </div>
                                 }
                         </div>
