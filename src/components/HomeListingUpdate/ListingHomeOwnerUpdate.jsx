@@ -664,7 +664,30 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
     }
 
-    const [value, setValue] = useState('');
+
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+
+    const handleInputChange = async (event) => {
+        const newQuery = event.target.value;
+        setQuery(newQuery);
+
+        if (newQuery.length === 0) {
+            setResults([]);
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}&query=${newQuery}`
+            );
+            const data = await response.json();
+            setResults(data.results);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     return (
         <div className="max-w-[736px]  mx-auto  ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Update Your Listing</h1>
@@ -675,21 +698,21 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
-                            {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
-                            {/* <GooglePlacesAutocomplete
-                                apiKey={'AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA'}
-                                apiOptions={{
-                                    // language: "ua",
-                                    region: "au",
-                                }}
-                                selectProps={{
-                                    value,
-                                    onChange: setValue,
-                                    placeholder: "Select your address",
-                                }}
-                                name="address"
-                                value={value.label}
-                            /> */}
+
+
+                            {/* <div>
+                                <input
+                                    type="text"
+                                    placeholder="Type a place name"
+                                    value={query}
+                                    onChange={handleInputChange}
+                                />
+                                <ul>
+                                    {results.map((place) => (
+                                        <li key={place.place_id}>{place.name}</li>
+                                    ))}
+                                </ul>
+                            </div> */}
 
 
                             <Autocomplete

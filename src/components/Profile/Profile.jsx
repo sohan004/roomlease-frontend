@@ -231,8 +231,21 @@ const Profile = () => {
     }
 
     const roomseekerImgUplaod = () => {
+
         const formData = new FormData()
-        formData.append('home_listing', listing?.id)
+        formData.append('photo', roomSeekerImg)
+        fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                // setRefresh(refresh + 1)
+            }).catch(err => console.log(err))
 
     }
 
@@ -355,7 +368,7 @@ const Profile = () => {
     }
 
 
-    // console.log(userData);
+    console.log(listing);
 
     return (
         <div className='home'>
@@ -416,7 +429,7 @@ const Profile = () => {
                 </div>
 
                 <div className='mt-10 lg:mt-20  flex flex-col lg:flex-row lg:justify-between gap-4'>
-                    <h1 className='text-2xl font-bold text-[#7065F0]'>1 Beedrooms Available</h1>
+                    <h1 className='text-2xl font-bold text-[#7065F0]'>1 Listing Available</h1>
                     <div className='flex items-center cursor-pointer border-2 border-[#7065F0] rounded-md'>
                         <p className='text-5xl font-extrabold px-2 pb-2 border-e-2 border-[#7065F0] bg-[#7065F0] text-white'>+</p>
                         <p className='py-4 flex-grow px-4 hover:bg-[#dbd7fd] cursor-pointer duration-300 h-full my-auto font-medium'>Add New Listing</p>
@@ -444,7 +457,7 @@ const Profile = () => {
                 </div>
 
 
-                {userData?.account_type == 'homeowner' &&
+                {
 
                     <div>
                         {userData?.account_type == 'homeowner' && <div className='grid grid-cols-4 lg:grid-cols-7 gap-3 mb-5'>
@@ -458,31 +471,59 @@ const Profile = () => {
                             })}
                         </div>}
 
+                        {userData?.account_type == 'roomseeker' && roomSeekerImg &&
+                            <div className='relative w-full'>
+                                <img src={URL.createObjectURL(roomSeekerImg)} alt="" className='max-w-[550px] mx-auto  object-cover' />
+                                <FaTimes onClick={() => setRoomSeekerImg(null)} className='absolute top-1 right-1 text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes>
+                            </div>
+                        }
+
                         <div className='flex justify-center items-center text-center bg-[#7065F0] text-white h-40 lg:h-48 '>
                             <div className='text-center'>
                                 <label htmlFor="img"> <BsHouseAddFill className='text-5xl mx-auto cursor-pointer duration-300 hover:scale-125'></BsHouseAddFill></label>
                                 <input onChange={e => {
-                                    if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
-                                        position: "top-center",
-                                        autoClose: 5000,
-                                        hideProgressBar: false,
-                                        theme: "colored",
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                    });
-                                    setImg([...img, e.target.files[0]])
+                                    if (userData?.account_type == 'homeowner') {
+                                        if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            theme: "colored",
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                        });
+                                        setImg([...img, e.target.files[0]])
+                                    }
+                                    else {
+                                        if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            theme: "colored",
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                        });
+                                        setRoomSeekerImg(e.target.files[0])
+                                    }
 
                                 }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
                                 <p className=' lg:text-xl'>Add photos to your profile</p>
                             </div>
                         </div>
-                        {img.length > 0 && <div className='flex justify-start mt-3'>
+                        {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
                             <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
                             <button onClick={() => {
                                 imgUpload()
                                 setImg([])
+                            }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                        </div>}
+                        {roomSeekerImg && userData?.account_type == 'roomseeker' && <div className='flex justify-start mt-3'>
+                            <button onClick={() => setRoomSeekerImg(null)} className="btn  bg-slate-300">Cencle</button>
+                            <button onClick={() => {
+                                roomseekerImgUplaod()
                             }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                         </div>}
                     </div>
@@ -490,7 +531,7 @@ const Profile = () => {
 
 
 
-                {userData?.account_type == 'homeowner' &&
+                {/* {userData?.account_type == 'homeowner' &&
 
                     <div>
                         <div className='p-4 lg:p-6 py-10 relative  bg-white bg-opacity-60 border-2 rounded-md mt-10'>
@@ -535,7 +576,7 @@ const Profile = () => {
                         </div>}
 
 
-                    </div>}
+                    </div>} */}
                 {userData?.account_type == 'homeowner' && <div className=' mt-11' >
                     <Swiper
                         pagination={{
