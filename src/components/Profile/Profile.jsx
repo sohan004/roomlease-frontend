@@ -247,8 +247,8 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                // setRefresh(refresh + 1)
+                setRoomSeekerImg(null);
+                setRefresh(refresh + 1)
             }).catch(err => console.log(err))
 
     }
@@ -372,6 +372,43 @@ const Profile = () => {
     }
 
 
+    const roomseekerPhotoDelete = () => {
+        const listingObject = listing
+        listingObject.photo = null
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(listingObject)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your listing image has been deleted.',
+                            'success'
+                        )
+                        setRefresh(refresh + 1)
+                    })
+
+            }
+        })
+    }
+
+
     console.log(listing);
 
     return (
@@ -435,8 +472,8 @@ const Profile = () => {
 
                 <div className=' mt-10 mb-7 flex flex-col lg:flex-row gap-9 lg:gap-14'>
                     <div className='w-full lg:w-[40%] p-4 lg:p-6  bg-white bg-opacity-60 border-2 rounded-md text-center'>
-                        <h1 className=' lg:text-lg font-semibold text-left'>Upload video tour (recommended)</h1>
-                        <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] mt-7 mb-4' />
+                        <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
                         <p className='text-center text-sm'>Uploading a video of your home can reduce the need for in-person inspections</p>
                         <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 '>add video</button>
                     </div>
@@ -512,34 +549,35 @@ const Profile = () => {
                                     <p className=' lg:text-xl'>Add photos to your profile</p>
                                 </div>
                             </div>
-                                {userData?.account_type == 'homeowner' && <div className='w-full lg:w-[58%]'  >
-                                    <Swiper
-                                        pagination={{
-                                            type: 'fraction',
-                                        }}
-                                        navigation={true}
-                                        modules={[Pagination, Navigation]}
-                                        className="mySwiper "
-                                    >
-                                        {imgValue.map((image, i) => {
+                            {userData?.account_type == 'homeowner' && <div className='w-full lg:w-[58%]'  >
+                                <Swiper
+                                    pagination={{
+                                        type: 'fraction',
+                                    }}
+                                    navigation={true}
+                                    modules={[Pagination, Navigation]}
+                                    className="mySwiper "
+                                >
+                                    {imgValue.map((image, i) => {
 
-                                            return <SwiperSlide className='w-full' key={i}>
-                                                <div className='max-w-[700px] mx-auto h-[250px] lg:h-[500px] relative'>
-                                                    <img src={image.photo} className='w-full h-full' alt="" />
-                                                    <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
-                                                </div>
-                                            </SwiperSlide>
-                                        })}
+                                        return <SwiperSlide className='w-full' key={i}>
+                                            <div className='max-w-[700px] mx-auto h-[250px] lg:h-[500px] relative'>
+                                                <img src={image.photo} className='w-full h-full' alt="" />
+                                                <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
+                                            </div>
+                                        </SwiperSlide>
+                                    })}
 
-                                    </Swiper>
+                                </Swiper>
 
-                                </div>}
-                                {
-                                    userData?.account_type == 'roomseeker' &&
-                                    <div className='w-full lg:w-[60%] bg-slate-50'>
-                                        <img className='w-full' src={`${baseURL}${listing?.photo}`} alt="" />
-                                    </div>
-                                }
+                            </div>}
+                            {
+                                userData?.account_type == 'roomseeker' &&
+                                <div className='w-full lg:w-[60%] bg-slate-50 relative'>
+                                    <img className='w-full lg:h-[400px]' src={`${baseURL}${listing?.photo}`} alt="" />
+                                    {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
+                                </div>
+                            }
                         </div>
 
                         {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
@@ -703,10 +741,10 @@ const Profile = () => {
                     </div>
                     <div className='flex justify-center mb-6'>
                         <button
-                            className='btn rounded-none w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
+                            className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
                         <button onClick={() => {
                             setRoomEdit(true)
-                        }} className='btn rounded-none w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                        }} className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
                     </div>
                 </div>}
 
