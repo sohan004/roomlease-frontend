@@ -38,6 +38,10 @@ const Profile = () => {
     const { listing, setRefresh, refresh } = useContext(AuthContext)
     const [imgValue, setImgValue] = useState([])
     const [roomSeekerImg, setRoomSeekerImg] = useState('')
+    const [name, setName] = useState('')
+    const [nameEdit, setNameEdit] = useState(false)
+    const [dateOB, setDateOB] = useState('')
+    const [dateOBEdit, setDateOBEdit] = useState(false)
 
 
 
@@ -97,7 +101,7 @@ const Profile = () => {
     }, [localStorage.getItem('user-token'), reFatch])
 
 
-    // console.log(userData);
+    console.log(listing);
 
 
     const listingPhotoDelete = (id) => {
@@ -147,6 +151,45 @@ const Profile = () => {
             .then(res => res.json())
             .then(data => {
                 setTitle(false)
+                setReFatch(reFatch + 1)
+            })
+    }
+
+    const fullNameUpdate = () => {
+        const useObjectData = userData
+        useObjectData.full_name = name ? name : userData.full_name
+
+        fetch(`${baseURL}/account/api/profile/${userData.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(useObjectData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setNameEdit(false)
+                setReFatch(reFatch + 1)
+            })
+    }
+
+
+    const dateOBFunction = () => {
+        const useObjectData = userData
+        useObjectData.dob = dateOB ? dateOB : userData.dob
+
+        fetch(`${baseURL}/account/api/profile/${userData.id}/`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(useObjectData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setDateOBEdit(false)
                 setReFatch(reFatch + 1)
             })
     }
@@ -409,12 +452,56 @@ const Profile = () => {
     }
 
 
-    console.log(listing);
+    const deleteListing = () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (userData.account_type === 'roomseeker') {
+                    fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                        .then(data => {
+                            setRefresh(refresh + 1)
+                        })
+                        .catch(err => console.log(err))
+                }
+                else {
+                    fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                        .then(data => {
+                            setRefresh(refresh + 1)
+                        })
+                        .catch(err => console.log(err))
+                }
+
+            }
+        })
+
+
+    }
+
+    // console.log(listing);
 
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
-                <div className='flex flex-col lg:flex-row justify-center items-center gap-9 lg:gap-14 pt-20'>
+                <div className='flex flex-col lg:flex-row justify-center lg:items-end gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] '>
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white bg-opacity-50'>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white border-white'}`}>
@@ -423,16 +510,27 @@ const Profile = () => {
                                     <img src={blankImag} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto   w-full `} alt="" />}
                                 <p className={`text-xl text-white cursor-pointer duration-300 absolute ${!profileImgState ? 'scale-0' : 'scale-100'} left-2/4  -translate-x-2/4 top-2/4 -translate-y-2/4`}>Edit</p>
                             </div>
-                            <h1 className='font-semibold text-xl lg:text-2xl mt-7 mb-4'>{userData?.full_name}</h1>
+                            <h1 className='font-semibold flex justify-center items-center gap-2 text-xl lg:text-2xl mt-7 mb-4'>
+                                {!nameEdit && userData?.full_name}
+                                {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
+                            </h1>
+                            <h1 className=' flex justify-center items-center gap-2  mt-2 '>
+                                {!dateOBEdit && <span>{userData?.dob ? userData?.dob : 'date of birth'}</span>}
+                                {dateOBEdit && <input placeholder='YYYY-MM-DD' type="text" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
+                            </h1>
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
                             <p >Free Account</p>
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
-                            <h1 className=' font-bold mt-7 text-center'>Make Mobile Number Visible On Profile?</h1>
+                            <h1 className='  mt-7 text-center'>Make mobile number visible on profile?</h1>
                             <div className='flex mt-2 items-center justify-center gap-4'>
                                 <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
                             </div>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 w-full'>upgrade now</button>
+                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 w-full'>upgrade</button>
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
@@ -461,23 +559,99 @@ const Profile = () => {
 
 
 
-                <div className='mt-10 lg:mt-20  flex flex-col lg:flex-row lg:justify-between gap-4'>
-                    <h1 className='text-2xl font-bold text-[#7065F0]'>1 Listing Available</h1>
+                <div className='mt-10 lg:mt-20  flex justify-end gap-4'>
                     <div className='flex items-center cursor-pointer border-2 border-[#7065F0] rounded-md'>
                         <p className='text-5xl font-extrabold px-2 pb-2 border-e-2 border-[#7065F0] bg-[#7065F0] text-white'>+</p>
                         <p className='py-4 flex-grow px-4 hover:bg-[#dbd7fd] cursor-pointer duration-300 h-full my-auto font-medium'>Add New Listing</p>
                     </div>
                 </div>
 
+                {userData?.account_type == 'homeowner' && <div className='grid grid-cols-4 lg:grid-cols-7 gap-3 mb-5'>
+                    {img.map((im, i) => {
+                        return (
+                            <div key={i} className='relative w-full'>
+                                <img src={URL.createObjectURL(im)} alt="" className='w-full h-32 object-cover' />
+                                <FaTimes onClick={() => setImg(img.filter((_, index) => index !== i))} className='absolute top-1 right-1 text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes>
+                            </div>
+                        )
+                    })}
+                </div>}
 
-                <div className=' mt-10 mb-7 flex flex-col lg:flex-row gap-9 lg:gap-14'>
-                    <div className='w-full lg:w-[40%] p-4 lg:p-6  bg-white bg-opacity-60 border-2 rounded-md text-center'>
-                        <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
-                        <p className='text-center text-sm'>Uploading a video of your home can reduce the need for in-person inspections</p>
-                        <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 '>add video</button>
+                {userData?.account_type == 'roomseeker' && roomSeekerImg &&
+                    <div className='relative w-full mb-4'>
+                        <img src={URL.createObjectURL(roomSeekerImg)} alt="" className='max-w-[550px] mx-auto  object-cover' />
+                        <FaTimes onClick={() => setRoomSeekerImg(null)} className='absolute top-1 right-1 text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes>
                     </div>
-                    <div className='w-full lg:w-[60%] p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
+                }
+
+                {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
+                    <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => {
+                        imgUpload()
+                        setImg([])
+                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                </div>}
+                {roomSeekerImg && userData?.account_type == 'roomseeker' && <div className='flex justify-start mt-3'>
+                    <button onClick={() => setRoomSeekerImg(null)} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => {
+                        roomseekerImgUplaod()
+                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                </div>}
+
+                <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
+
+                    <div className=' bg-slate-200 relative'>
+                        <label className='absolute z-50 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
+
+                        {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
+
+
+                            <Swiper
+                                pagination={{
+                                    type: 'fraction',
+                                }}
+                                navigation={true}
+                                modules={[Pagination, Navigation]}
+                                className="mySwiper "
+                            >
+                                {imgValue.map((image, i) => {
+
+                                    return <SwiperSlide className='w-full' key={i}>
+                                        <div className='max-w-[700px] mx-auto h-[250px] lg:h-[350px] relative'>
+                                            <img src={image.photo} className='w-full h-full' alt="" />
+                                            <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
+                                        </div>
+                                    </SwiperSlide>
+                                })}
+
+                            </Swiper>
+
+                        </div>}
+
+                        {
+                            userData?.account_type == 'roomseeker' &&
+                            <div className='w-full  bg-slate-50 relative'>
+                                <img className='w-full lg:h-[400px]' src={`${baseURL}${listing?.photo}`} alt="" />
+                                {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
+
+                                <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
+                            </div>
+                        }
+
+
+                    </div>
+
+
+                    <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                        <div className=''>
+                            <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                            <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
+                            <p className='text-center text-sm'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 '>add video</button>
+                        </div>
+                    </div>
+
+                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
                         <div>
                             <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
                             <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
@@ -487,114 +661,66 @@ const Profile = () => {
                         </div>
 
                     </div>
-
                 </div>
 
 
-                {
+                {/* <div className=' mt-10 mb-7 flex flex-col lg:flex-row gap-9 lg:gap-14'>
+                    
+                    
+
+                </div> */}
+
+
+                {/* {
 
                     <div>
-                        {userData?.account_type == 'homeowner' && <div className='grid grid-cols-4 lg:grid-cols-7 gap-3 mb-5'>
-                            {img.map((im, i) => {
-                                return (
-                                    <div key={i} className='relative w-full'>
-                                        <img src={URL.createObjectURL(im)} alt="" className='w-full h-32 object-cover' />
-                                        <FaTimes onClick={() => setImg(img.filter((_, index) => index !== i))} className='absolute top-1 right-1 text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes>
-                                    </div>
-                                )
-                            })}
-                        </div>}
-
-                        {userData?.account_type == 'roomseeker' && roomSeekerImg &&
-                            <div className='relative w-full mb-4'>
-                                <img src={URL.createObjectURL(roomSeekerImg)} alt="" className='max-w-[550px] mx-auto  object-cover' />
-                                <FaTimes onClick={() => setRoomSeekerImg(null)} className='absolute top-1 right-1 text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes>
-                            </div>
-                        }
 
 
                         <div className='flex flex-col lg:flex-row gap-9 lg:gap-14'>
                             <div className='flex w-full lg:w-[40%] justify-center items-center text-center bg-[#7065F0] text-white py-20 lg:py-24'>
                                 <div className='text-center'>
                                     <label htmlFor="img"> <BsHouseAddFill className='text-5xl mx-auto cursor-pointer duration-300 hover:scale-125'></BsHouseAddFill></label>
-                                    <input onChange={e => {
-                                        if (userData?.account_type == 'homeowner') {
-                                            if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
-                                                position: "top-center",
-                                                autoClose: 5000,
-                                                hideProgressBar: false,
-                                                theme: "colored",
-                                                closeOnClick: true,
-                                                pauseOnHover: true,
-                                                draggable: true,
-                                                progress: undefined,
-                                            });
-                                            setImg([...img, e.target.files[0]])
-                                        }
-                                        else {
-                                            if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
-                                                position: "top-center",
-                                                autoClose: 5000,
-                                                hideProgressBar: false,
-                                                theme: "colored",
-                                                closeOnClick: true,
-                                                pauseOnHover: true,
-                                                draggable: true,
-                                                progress: undefined,
-                                            });
-                                            setRoomSeekerImg(e.target.files[0])
-                                        }
-
-                                    }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
+                                   
                                     <p className=' lg:text-xl'>Add photos to your profile</p>
                                 </div>
                             </div>
-                            {userData?.account_type == 'homeowner' && <div className='w-full lg:w-[58%]'  >
-                                <Swiper
-                                    pagination={{
-                                        type: 'fraction',
-                                    }}
-                                    navigation={true}
-                                    modules={[Pagination, Navigation]}
-                                    className="mySwiper "
-                                >
-                                    {imgValue.map((image, i) => {
 
-                                        return <SwiperSlide className='w-full' key={i}>
-                                            <div className='max-w-[700px] mx-auto h-[250px] lg:h-[500px] relative'>
-                                                <img src={image.photo} className='w-full h-full' alt="" />
-                                                <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
-                                            </div>
-                                        </SwiperSlide>
-                                    })}
 
-                                </Swiper>
-
-                            </div>}
-                            {
-                                userData?.account_type == 'roomseeker' &&
-                                <div className='w-full lg:w-[60%] bg-slate-50 relative'>
-                                    <img className='w-full lg:h-[400px]' src={`${baseURL}${listing?.photo}`} alt="" />
-                                    {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
-                                </div>
-                            }
                         </div>
 
-                        {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
-                            <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
-                            <button onClick={() => {
-                                imgUpload()
-                                setImg([])
-                            }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
-                        </div>}
-                        {roomSeekerImg && userData?.account_type == 'roomseeker' && <div className='flex justify-start mt-3'>
-                            <button onClick={() => setRoomSeekerImg(null)} className="btn  bg-slate-300">Cencle</button>
-                            <button onClick={() => {
-                                roomseekerImgUplaod()
-                            }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
-                        </div>}
+
                     </div>
-                }
+                } */}
+
+                <input onChange={e => {
+                    if (userData?.account_type == 'homeowner') {
+                        if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            theme: "colored",
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                        setImg([...img, e.target.files[0]])
+                    }
+                    else {
+                        if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            theme: "colored",
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
+                        setRoomSeekerImg(e.target.files[0])
+                    }
+
+                }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
 
 
 
@@ -692,9 +818,9 @@ const Profile = () => {
                             </div>
                         })}
                     </div>
-                    <div className='p-6 flex flex-col lg:flex-row justify-between gap-7'>
+                    <div className='px-6 flex flex-col lg:flex-row justify-between gap-7'>
                         <div>
-                            <h1 className=' mt-4 font-bold text-xl lg:text-xl'>Listing Status</h1>
+                            <h1 className='  font-bold text-xl '>Listing Status</h1>
 
                             <div className='mt-4 flex flex-col lg:flex-row gap-x-7 gap-y-4'>
                                 <p onClick={() => {
@@ -719,21 +845,21 @@ const Profile = () => {
 
 
                         <div>
-                            <h1 className=' text-2xl text-center font-semibold'>Share your listing </h1>
+                            <h1 className=' text-xl text-center font-semibold'>Share your listing </h1>
                             <div className='flex justify-center items-center gap-6 mt-4'>
-                                <div className='relative'>
+                                <div className='relative tooltip tooltip-bottom cursor-pointer'  data-tip="Facebook share">
                                     <FaFacebook className='text-5xl text-blue-600' />
                                     <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
                                 </div>
-                                <div className='relative'>
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Instagram share">
                                     <FaInstagramSquare className='text-5xl text-rose-600' />
                                     <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
                                 </div>
-                                <div className='relative'>
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Teitter share">
                                     <FaTwitterSquare className='text-5xl text-blue-400' />
                                     <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
                                 </div>
-                                <div className='relative'>
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
                                     <FaCopy className='text-5xl text-gray-400' />
                                 </div>
                             </div>
@@ -741,6 +867,9 @@ const Profile = () => {
                     </div>
                     <div className='flex justify-center mb-6'>
                         <button
+                            onClick={() => {
+                                deleteListing()
+                            }}
                             className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
                         <button onClick={() => {
                             setRoomEdit(true)
@@ -773,12 +902,13 @@ const Profile = () => {
                             <div className='p-4 lg:p-6'>
                                 {!description && <p>{listing?.describe_occupants ? listing?.describe_occupants : 'write home description...'}</p>}
                                 {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
+                                {description && <div className='flex gap-3 justify-start mt-3'>
+                                    <button onClick={() => setDescription(false)} className="btn bg-slate-300">calcel</button>
+                                    <button onClick={addDescription} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
+                                </div>}
                             </div>
                         </div>
-                        {description && <div className='flex justify-start mt-3'>
-                            <button onClick={() => setDescription(false)} className="btn bg-slate-300">Cencle</button>
-                            <button onClick={addDescription} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save chenges</button>
-                        </div>}
+
                     </div>
                 }
 
