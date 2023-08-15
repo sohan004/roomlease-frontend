@@ -26,6 +26,7 @@ import ListingHomeOwnerUpdate from './components/HomeListingUpdate/ListingHomeOw
 import ListingRoomSeekerUpdate from './components/HomeListingUpdate/ListingRoomSeekerUpdate.jsx'
 import ListingPrivate from './components/PrivateRoute/ListingPrivate.jsx'
 import PrivateListingPage from './components/PrivateRoute/PrivateListingPage.jsx'
+import DigitalVerify from './components/DigitalVerify/DigitalVerify.jsx'
 
 
 const router = createBrowserRouter([
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
       {
         path: '/roomseeker-update',
         element: <ListingRoomSeekerUpdate></ListingRoomSeekerUpdate>
+      },
+      {
+        path: '/digital-verify',
+        element: <DigitalVerify></DigitalVerify>
       },
     ]
   },
