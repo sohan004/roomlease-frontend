@@ -669,23 +669,16 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [results, setResults] = useState([]);
 
     const handleInputChange = async (event) => {
-        const newQuery = event.target.value;
-        setQuery(newQuery);
+        setQuery(event.target.value);
+        fetch(
+            `https://maps.googleapis.com/maps/api/place/geocode/json?query=${encodeURIComponent(query)}&key=${'AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA'}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            }).catch(err => {
+                console.log(err);
+            })
 
-        if (newQuery.length === 0) {
-            setResults([]);
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}&query=${newQuery}`
-            );
-            const data = await response.json();
-            setResults(data.results);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
     };
 
     return (
@@ -700,7 +693,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
 
-                            {/* <div>
+                            <div>
                                 <input
                                     type="text"
                                     placeholder="Type a place name"
@@ -712,7 +705,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                         <li key={place.place_id}>{place.name}</li>
                                     ))}
                                 </ul>
-                            </div> */}
+                            </div>
 
 
                             <Autocomplete
