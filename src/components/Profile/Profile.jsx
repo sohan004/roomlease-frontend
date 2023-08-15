@@ -101,7 +101,7 @@ const Profile = () => {
     }, [localStorage.getItem('user-token'), reFatch])
 
 
-    console.log(listing);
+    // console.log(listing);
 
 
     const listingPhotoDelete = (id) => {
@@ -496,7 +496,7 @@ const Profile = () => {
 
     }
 
-    console.log(listing);
+    // console.log(listing);
 
     return (
         <div className='home'>
@@ -535,23 +535,18 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
-                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
-                            <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
-                            <div className='flex justify-center items-center  gap-2 mt-3'>
-                                {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
-                                {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
-                                {!title && <FaEdit onClick={() => setTitle(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
-                                {title && <FaSave onClick={() => profileUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
-                            </div>
+                        <div className='px-4 lg:px-6 py-6 text-white bg-[#7065F0]  border-2 rounded-md mt-10 '>
+                            <h1 className='text-lg: lg:text-xl font-semibold'>WHY VERIFICATION?</h1>
+                            <p className='mt-4 font-light'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo sit repellendus magnam quaerat a quae commodi esse minus, temporibus ducimus sint. <span className='text-lg font-medium cursor-pointer underline text-[#3e3b58] hover:bg-[#978dff] duration-300  p-1 rounded-md bg-[#beb8ff]' onClick={() => navigate('/digital-verify')}>Verify</span> </p>
                         </div>
-                        <div className='flex justify-between items-center'>
+                        <div className='flex justify-between items-center mt-6'>
                             <h1 className='text-xl lg:text-2xl font-bold text-[#302b68]'>Profile Score</h1>
                             <h1 className='text-2xl font-extrabold text-green-600'>56%</h1>
                         </div>
                         <div className='p-1 bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
                             <p className='p-6 w-[56%] bg-gradient-to-r from-green-400 to-teal-600 rounded-s-lg'></p>
                         </div>
-                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-6 '>
                             <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
                             <div className='flex justify-center items-center  gap-2 mt-3'>
                                 {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
@@ -610,7 +605,7 @@ const Profile = () => {
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
                     <div className=' bg-slate-200 relative'>
-                        <label className='absolute z-50 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
+                        <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
 

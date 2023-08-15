@@ -14,7 +14,7 @@ import { AuthContext } from '../AuthProvider/AuthProvider';
 const OtpSend = () => {
     const [con, setCon] = useState('')
     const [seconds, setSeconds] = useState(120);
-    const [sec, setSec] = useState(59);
+    const [sec, setSec] = useState(120);
     const [timer, setTimer] = useState(false);
     const [otp, setOtp] = useState('')
     const [err, setErr] = useState('')
@@ -36,7 +36,7 @@ const OtpSend = () => {
             setTimeout(() => {
                 setTimer(false)
                 setSeconds(120)
-                setSec(60)
+                setSec(120)
             }, 1000);
         }
 
@@ -72,7 +72,7 @@ const OtpSend = () => {
                 if (data.success) {
                     window.send_otp.showModal()
                     setTimer(true)
-                    setSec(59)
+                    setSec(120)
                 }
                 else {
                     setLoad(false)
@@ -175,16 +175,16 @@ const OtpSend = () => {
                 <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
             </div>
             <dialog id="send_otp" className="modal">
-                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative text-[#7065F0] ">
+                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative text-[#100A55] ">
                     <FaWindowClose onClick={() => window.send_otp.close()} className='absolute text-[#100A55]  top-4 text-3xl cursor-pointer left-4'></FaWindowClose>
                     <h1 className="text-2xl mt-7 text-center text-[#100A55] lg:text-4xl">Enter Code</h1>
                     <p className='text-center font-medium my-4 text-red-500'>{err}</p>
                     <div className="p-6 mb-7   lg:mb-5">
-                        <h1 className='text-center text-2xl lg:text-5xl mb-14'>{sec}</h1>
+                        <h1 className='text-center  text-2xl lg:text-5xl mb-14'>{sec}</h1>
                         <div className=' max-w-[500px] mx-auto text-center '>
                             <div>
                                 <OTPInput
-                                    inputClassName='border-2 rounded py-6 border-[#7065F0] focus:outline-none flex-grow'
+                                    inputClassName='border-2 rounded py-6 border-[#100A55] focus:outline-none flex-grow'
                                     className="text-center flex justify-center w-full"
                                     value={otp} onChange={e => {
                                         verifyOtp(e)
@@ -195,7 +195,7 @@ const OtpSend = () => {
                                     disabled={verifyStatus}
                                 />
                                 <div className='text-right mt-5'>
-                                    <button disabled={sec != 60} onClick={resend} className="btn btn-sm  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
+                                    <button disabled={sec != 120} onClick={resend} className="btn btn-sm  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
 
                                 </div>
                             </div> </div>
