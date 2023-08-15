@@ -13,7 +13,7 @@ const DigitalVerify = () => {
 
             /* Verify with Digital iD */
             window.digitalId.init({
-                clientId: 'ctid5IZ8BI7zGn0PEzgG1gDU96',
+                clientId: 'ctid26GcPgoi4npMOABfSIg4Q9',
                 uxMode: 'popup',
                 onLoadComplete: function () {
                 },
