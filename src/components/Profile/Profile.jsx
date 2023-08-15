@@ -496,7 +496,7 @@ const Profile = () => {
 
     }
 
-    // console.log(listing);
+    console.log(listing);
 
     return (
         <div className='home'>
@@ -523,17 +523,27 @@ const Profile = () => {
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
-                            <p >Free Account</p>
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
-                            <h1 className='  mt-7 text-center'>Make mobile number visible on profile?</h1>
+                            <h1 className='  mt-4 text-center'>Make mobile number visible on profile?</h1>
                             <div className='flex mt-2 items-center justify-center gap-4'>
                                 <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
                             </div>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 w-full'>upgrade</button>
+                            <p className='mt-4'>Free Account</p>
+                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button>
+                            <a href="" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</a>
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
+                            <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
+                            <div className='flex justify-center items-center  gap-2 mt-3'>
+                                {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
+                                {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
+                                {!title && <FaEdit onClick={() => setTitle(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {title && <FaSave onClick={() => profileUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
+                            </div>
+                        </div>
                         <div className='flex justify-between items-center'>
                             <h1 className='text-xl lg:text-2xl font-bold text-[#302b68]'>Profile Score</h1>
                             <h1 className='text-2xl font-extrabold text-green-600'>56%</h1>
@@ -541,9 +551,8 @@ const Profile = () => {
                         <div className='p-1 bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
                             <p className='p-6 w-[56%] bg-gradient-to-r from-green-400 to-teal-600 rounded-s-lg'></p>
                         </div>
-                        <p className='font-medium '>Answer these questioons so you get the best response from preple who read your profile </p>
-                        <div className='px-4 lg:px-6 py-10 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
-                            <h1 className='text-center text-2xl lg:text-3xl font-bold '>About you</h1>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-10 '>
+                            <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
                             <div className='flex justify-center items-center  gap-2 mt-3'>
                                 {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
                                 {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
@@ -847,7 +856,7 @@ const Profile = () => {
                         <div>
                             <h1 className=' text-xl text-center font-semibold'>Share your listing </h1>
                             <div className='flex justify-center items-center gap-6 mt-4'>
-                                <div className='relative tooltip tooltip-bottom cursor-pointer'  data-tip="Facebook share">
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
                                     <FaFacebook className='text-5xl text-blue-600' />
                                     <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
                                 </div>
@@ -855,7 +864,7 @@ const Profile = () => {
                                     <FaInstagramSquare className='text-5xl text-rose-600' />
                                     <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
                                 </div>
-                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Teitter share">
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
                                     <FaTwitterSquare className='text-5xl text-blue-400' />
                                     <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
                                 </div>
