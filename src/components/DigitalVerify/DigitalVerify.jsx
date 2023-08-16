@@ -1,7 +1,9 @@
 import React from "react";
+import { useEffect } from "react";
 
 const DigitalVerify = () => {
-    React.useEffect(() => {
+
+    useEffect(() => {
         const script = document.createElement('script');
 
         script.src = 'https://digitalid.com/sdk/app.js';
@@ -29,7 +31,7 @@ const DigitalVerify = () => {
             });
 
         }
-    });
+    }, []);
 
     return (
         <div className="text-center mt-7">

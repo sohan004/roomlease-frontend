@@ -1,12 +1,14 @@
 import useTitle from "../Hook/useTitle";
 
+
+
 const HowToList = () => {
     useTitle('How to List Your Room');
 
     return (
         <div>
-            <div className="bg-[#7065F0] mt-10 lg:mt-14">
-                <div className="max-w-[1440px] py-14 mx-auto text-white px-4">
+            <div className="bg-[#7065F0]">
+                <div className="max-w-[1000px] py-8 mx-auto text-white px-4 text-center">
                     <h1 className="text-4xl font-bold">How to List Your Room with Room Lease</h1>
                     <p className="mt-4 text-lg">Are you looking to turn your spare room into an income source? Room Lease is here to help you connect with room seekers, offering a seamless and secure platform. With our one-time listing fee, digital ID verification through Australia Post, and no hidden charges, we make the process simple and transparent. Plus, if you're near parks or community facilities, your listing can be highlighted at zero cost!</p>
                 </div>
@@ -35,6 +37,7 @@ const HowToList = () => {
                         <li><strong>No Hidden Charges:</strong> What you see is what you get with Room Lease. No surprises, just a straightforward process.</li>
                     </ul>
                 </div>
+                
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Conclusion:</h1>
                     <p className="mt-4">Listing your room with Room Lease is not just about earning extra income; it's about joining a community-focused platform that values integrity, innovation, and well-being. Whether you have a room near a park or simply want to make use of a spare room, we're here to support you every step of the way.</p>

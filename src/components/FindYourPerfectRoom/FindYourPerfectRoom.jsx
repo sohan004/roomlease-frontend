@@ -5,8 +5,8 @@ const FindYourPerfectRoom = () => {
     useTitle("Find Your Perfect Room");
     return (
         <div>
-            <div className="bg-[#7065F0] mt-10 lg:mt-14">
-                <div className="max-w-[1440px] py-14 mx-auto text-white px-4">
+            <div className="bg-[#7065F0] ">
+                <div className="max-w-[1000px] py-8 mx-auto text-white px-4 text-center">
                     <h1 className="text-4xl font-bold">Find Your Perfect Room with Room Lease</h1>
                     <p className="mt-4 text-lg">Looking for a room that fits your lifestyle and budget? Room Lease is here to guide you through a seamless journey to find your perfect room. Whether you prefer proximity to parks, community facilities, or specific locations, our platform offers a diverse selection of rooms tailored to your needs.</p>
                 </div>

@@ -30,6 +30,8 @@ import DigitalVerify from './components/DigitalVerify/DigitalVerify.jsx'
 import About from './components/About/About.jsx'
 import HowToList from './components/HowToList/HowToList.jsx'
 import FindYourPerfectRoom from './components/FindYourPerfectRoom/FindYourPerfectRoom.jsx'
+import Agreement from './components/Agreement/Agreement.jsx'
+import DigitalIdChecks from './components/DigitalIdChecks/DigitalIdChecks.jsx'
 
 
 const router = createBrowserRouter([
@@ -113,6 +115,14 @@ const router = createBrowserRouter([
       {
         path: '/find-your-perfect-room',
         element: <FindYourPerfectRoom></FindYourPerfectRoom>
+      },
+      {
+        path: '/agreement',
+        element: <Agreement></Agreement>
+      },
+      {
+        path: '/digital-id-checks',
+        element: <DigitalIdChecks></DigitalIdChecks>
       },
         
     ]
