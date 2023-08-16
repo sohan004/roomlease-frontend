@@ -27,6 +27,9 @@ import ListingRoomSeekerUpdate from './components/HomeListingUpdate/ListingRoomS
 import ListingPrivate from './components/PrivateRoute/ListingPrivate.jsx'
 import PrivateListingPage from './components/PrivateRoute/PrivateListingPage.jsx'
 import DigitalVerify from './components/DigitalVerify/DigitalVerify.jsx'
+import About from './components/About/About.jsx'
+import HowToList from './components/HowToList/HowToList.jsx'
+import FindYourPerfectRoom from './components/FindYourPerfectRoom/FindYourPerfectRoom.jsx'
 
 
 const router = createBrowserRouter([
@@ -98,6 +101,20 @@ const router = createBrowserRouter([
         path: '/digital-verify',
         element: <DigitalVerify></DigitalVerify>
       },
+        
+      {
+        path: '/about',
+        element: <About></About>
+      },
+      {
+        path: '/how-to-list',
+        element: <HowToList></HowToList>
+      },
+      {
+        path: '/find-your-perfect-room',
+        element: <FindYourPerfectRoom></FindYourPerfectRoom>
+      },
+        
     ]
   },
   {

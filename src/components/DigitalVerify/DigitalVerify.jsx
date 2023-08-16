@@ -4,7 +4,7 @@ const DigitalVerify = () => {
     React.useEffect(() => {
         const script = document.createElement('script');
 
-        script.src = 'https://digitalid-sandbox.com/sdk/app.js';
+        script.src = 'https://digitalid.com/sdk/app.js';
         script.async = true;
 
         document.body.appendChild(script);
