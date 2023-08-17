@@ -1,6 +1,11 @@
 import React from 'react';
 import useTitle from '../Hook/useTitle';
 
+import img1 from '../../assets/fingPRIcon/seo.png'
+import img2 from '../../assets/fingPRIcon/room.png'
+import img3 from '../../assets/fingPRIcon/bed.png'
+import img4 from '../../assets/fingPRIcon/conclusion.png'
+
 const FindYourPerfectRoom = () => {
     useTitle("Find Your Perfect Room");
     return (
@@ -21,6 +26,7 @@ const FindYourPerfectRoom = () => {
                         <li><strong>Contact Homeowners:</strong> Securely communicate with homeowners through our platform to inquire about availability and arrange viewings.</li>
                     </ol>
                 </div>
+                <img src={img1} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Why Choose Room Lease?</h1>
                     <ul className="list-disc list-inside mt-4 flex flex-col gap-4">
@@ -30,6 +36,7 @@ const FindYourPerfectRoom = () => {
                         <li><strong>Emphasis on Community Living:</strong> Join us in our mission to make community living healthier by utilizing outdoor spaces.</li>
                     </ul>
                 </div>
+                <img src={img2} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Benefits of Room Lease:</h1>
                     <ul className="list-disc list-inside mt-4 flex flex-col gap-4">
@@ -39,10 +46,12 @@ const FindYourPerfectRoom = () => {
                         <li><strong>Healthier Community Living:</strong> We believe in the power of outdoor spaces to enhance well-being and foster community engagement.</li>
                     </ul>
                 </div>
+                <img src={img3} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Conclusion:</h1>
                     <p className="mt-4">Finding the perfect room has never been easier with Room Lease. Explore, filter, and connect with homeowners to discover rooms that resonate with your lifestyle. Join us today and take the first step towards a new beginning.</p>
                 </div>
+                <img src={img4} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-14 text-center font-medium">
                     <p>Have questions or need assistance? <a href="#">Contact us</a> today. Room Lease is here to help you find your perfect room, safely and efficiently.</p>
                 </div>
