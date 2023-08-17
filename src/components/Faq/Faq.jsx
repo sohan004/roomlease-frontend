@@ -26,64 +26,112 @@ const Faq = () => {
                 <div className="mt-10">
                     <img src={journey} className='w-40 mx-auto' alt="" />
                     <h2 className="text-2xl font-bold">Listing a Room</h2>
-                    <div className="mt-4">
-                        <p className="font-semibold">Q: How can I list my room on Room Lease? What are the steps involved?</p>
-                        <p className="ml-4">A: Listing your room is easy:</p>
-                        <ol className="list-decimal list-inside ml-6 mt-1">
-                            <li>Create an Account: Sign up with your email.</li>
-                            <li>Add Details: Click on "List Your Room" and fill in all necessary details, including photos, room description, rent, bond, and house rules.</li>
-                            <li>Highlight Features: Optionally, highlight proximity to parks and community facilities at no extra cost.</li>
-                            <li>One-Time Fee: Pay the one-time listing fee, with no hidden charges.</li>
-                            <li>Publish: Review and publish your listing.</li>
-                        </ol>
+                    <div className="collapse collapse-plus mt-5 bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
+                            <p className="font-semibold">Q: How can I list my room on Room Lease? What are the steps involved?</p>
+                        </div>
+                        <div className="collapse-content">
+                            <p className="ml-4">A: Listing your room is easy:</p>
+                            <ol className="list-decimal list-inside ml-6 mt-1">
+                                <li>Create an Account: Sign up with your email.</li>
+                                <li>Add Details: Click on "List Your Room" and fill in all necessary details, including photos, room description, rent, bond, and house rules.</li>
+                                <li>Highlight Features: Optionally, highlight proximity to parks and community facilities at no extra cost.</li>
+                                <li>One-Time Fee: Pay the one-time listing fee, with no hidden charges.</li>
+                                <li>Publish: Review and publish your listing.</li>
+                            </ol>
+                        </div>
                     </div>
-                    <div className="mt-2">
-                        <p className="font-semibold">Q: What should I consider regarding insurance and contact details?</p>
-                        <p className="ml-4">A: It's advisable to consult with your insurance provider to discuss upgrading to landlord insurance. Also, consider making your mobile number visible in the listing for better communication.</p>
+                    <div className="collapse mt-3 collapse-plus bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
+                            <p className="font-semibold">Q: What should I consider regarding insurance and contact details?</p>
+                        </div>
+                        <div className="collapse-content">
+                            <p className="ml-4">A: It's advisable to consult with your insurance provider to discuss upgrading to landlord insurance. Also, consider making your mobile number visible in the listing for better communication.</p>
+                        </div>
                     </div>
                 </div>
 
                 {/* Finding a Room */}
                 <div className="mt-10">
                     <h2 className="text-2xl font-bold">Finding a Room</h2>
-                    <div className="mt-4">
-                        <p className="font-semibold">Q: How do I find the perfect room?</p>
-                        <p className="ml-4">A: Use our search filters to find rooms that suit your preferences. You can filter by location, price, amenities, and more. Explore various listings, and don’t hesitate to contact homeowners.</p>
+                    <div className="collapse collapse-plus mt-5 bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
+                            <p className="font-semibold">Q: How do I find the perfect room?</p>
+                        </div>
+                        <div className="collapse-content">
+                            <p className="ml-4">A: Use our search filters to find rooms that suit your preferences. You can filter by location, price, amenities, and more. Explore various listings, and don’t hesitate to contact homeowners.</p>
+                        </div>
                     </div>
-                    <div className="mt-2">
-                        <p className="font-semibold">Q: Why choose Room Lease for finding a room?</p>
-                        <p className="ml-4">A: Room Lease offers a secure, user-friendly interface with diverse room options. Our digital ID verification ensures safety, and our unique highlighting feature helps you find rooms near parks and community facilities.</p>
+                    <div className="collapse mt-3 collapse-plus bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
+                            <p className="font-semibold">Q: Why choose Room Lease for finding a room?</p>
+
+                        </div>
+                        <div className="collapse-content">
+                            <p className="ml-4">A: Room Lease offers a secure, user-friendly interface with diverse room options. Our digital ID verification ensures safety, and our unique highlighting feature helps you find rooms near parks and community facilities.</p>
+                        </div>
                     </div>
                 </div>
 
                 {/* Agreements */}
                 <div className="mt-10">
-                <img src={opportunity} className="w-20 mx-auto mt-5" alt="" />
+                    <img src={opportunity} className="w-20 mx-auto mt-5" alt="" />
                     <h2 className="text-2xl font-bold">Agreements</h2>
-                    <div className="mt-4">
-                        <p className="font-semibold">Q: What types of agreements are there, and how do I choose the right one?</p>
-                        <p className="ml-4">A: Room Lease provides guidance on different agreements tailored to various states in Australia. Depending on your specific situation, you may need a flatmate agreement or a tenancy agreement. Consult our "Agreements" page for state-specific links and details.</p>
+
+                    <div className="collapse collapse-plus mt-5 bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
+                            <p className="font-semibold">Q: What types of agreements are there, and how do I choose the right one?</p>
+
+                        </div>
+                        <div className="collapse-content">
+                            <p className="ml-4">A: Room Lease provides guidance on different agreements tailored to various states in Australia. Depending on your specific situation, you may need a flatmate agreement or a tenancy agreement. Consult our "Agreements" page for state-specific links and details.</p>
+                        </div>
                     </div>
-                    <div className="mt-2">
-                        <p className="font-semibold">Q: How do I create a legally binding agreement?</p>
-                        <p className="ml-4">A: Include all essential terms such as rent, bond, shared areas, house rules, and insurance considerations. Our sample agreements and pre-agreement checklist can guide you. Always consult with a legal professional if needed.</p>
+                    <div className="collapse mt-3 collapse-plus bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
+                            <p className="font-semibold">Q: How do I create a legally binding agreement?</p>
+
+                        </div>
+                        <div className="collapse-content">
+                            <p className="ml-4">A: Include all essential terms such as rent, bond, shared areas, house rules, and insurance considerations. Our sample agreements and pre-agreement checklist can guide you. Always consult with a legal professional if needed.</p>
+                        </div>
                     </div>
                 </div>
 
                 {/* Digital ID & Checks */}
                 <div className="mt-10">
                     <h2 className="text-2xl font-bold">Digital ID & Checks</h2>
-                    <div className="mt-4">
+
+                    <div className="collapse collapse-plus mt-5 bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
                         <p className="font-semibold">Q: Why verify with Digital ID?</p>
+                        
+
+                        </div>
+                        <div className="collapse-content">
                         <p className="ml-4">A: Verifying with Digital ID through Australia Post adds an extra layer of trust and safety to your Room Lease profile. It helps avoid scammers and ensures a transparent community.</p>
+                        </div>
                     </div>
-                    <div className="mt-2">
+                    <div className="collapse mt-3 collapse-plus bg-base-200">
+                        <input type="radio" name="my-accordion-3" />
+                        <div className="collapse-title text-xl font-medium">
                         <p className="font-semibold">Q: What checks are recommended, and why?</p>
+                        
+                        </div>
+                        <div className="collapse-content">
                         <p className="ml-4">A: We recommend National Police Check, Working with Children Check, income proof, and references. These checks foster trust and transparency, aligning with Room Lease's commitment to security.</p>
+                        </div>
                     </div>
                 </div>
 
-               
+
                 {/* ... Other sections ... */}
             </div>
         </div>

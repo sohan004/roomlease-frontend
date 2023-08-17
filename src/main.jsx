@@ -33,6 +33,7 @@ import FindYourPerfectRoom from './components/FindYourPerfectRoom/FindYourPerfec
 import Agreement from './components/Agreement/Agreement.jsx'
 import DigitalIdChecks from './components/DigitalIdChecks/DigitalIdChecks.jsx'
 import Faq from './components/Faq/Faq.jsx'
+import Tos from './components/Tos/Tos.jsx'
 
 
 const router = createBrowserRouter([
@@ -129,6 +130,10 @@ const router = createBrowserRouter([
       {
         path: '/faq',
         element: <Faq></Faq>
+      },
+      {
+        path: '/terms-&-conditions',
+        element: <Tos></Tos>
       },
         
     ]
