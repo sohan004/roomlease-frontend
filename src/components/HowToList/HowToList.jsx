@@ -1,4 +1,7 @@
 import useTitle from "../Hook/useTitle";
+import img1 from '../../assets/listPageIcon/list.png'
+import img2 from '../../assets/listPageIcon/question-mark.png'
+import img3 from '../../assets/listPageIcon/shrug.png'
 
 
 
@@ -13,7 +16,7 @@ const HowToList = () => {
                     <p className="mt-4 text-lg">Are you looking to turn your spare room into an income source? Room Lease is here to help you connect with room seekers, offering a seamless and secure platform. With our one-time listing fee, digital ID verification through Australia Post, and no hidden charges, we make the process simple and transparent. Plus, if you're near parks or community facilities, your listing can be highlighted at zero cost!</p>
                 </div>
             </div>
-            <div className="max-w-[1440px] mx-auto px-4">
+            <div className="max-w-[1000px] mx-auto px-4">
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Step-by-Step Guide to Listing Your Room:</h1>
                     <ol className="list-decimal list-inside mt-4 flex flex-col gap-4">
@@ -28,6 +31,7 @@ const HowToList = () => {
                         <li><strong>Publish Your Listing:</strong> Once you're satisfied with your listing, publish it on Room Lease and start connecting with room seekers.</li>
                     </ol>
                 </div>
+                <img src={img1} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Why List with Room Lease?</h1>
                     <ul className="list-disc list-inside mt-4 flex flex-col gap-4">
@@ -37,11 +41,12 @@ const HowToList = () => {
                         <li><strong>No Hidden Charges:</strong> What you see is what you get with Room Lease. No surprises, just a straightforward process.</li>
                     </ul>
                 </div>
-                
+                <img src={img2} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Conclusion:</h1>
                     <p className="mt-4">Listing your room with Room Lease is not just about earning extra income; it's about joining a community-focused platform that values integrity, innovation, and well-being. Whether you have a room near a park or simply want to make use of a spare room, we're here to support you every step of the way.</p>
                 </div>
+                <img src={img3} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-14 text-center font-medium">
                     <p>Ready to list your room? <a href="#">Sign up</a> with Room Lease today and unlock the potential of your spare room.</p>
                 </div>
