@@ -573,8 +573,9 @@ const Profile = () => {
                             <h1 className='text-xl lg:text-2xl font-bold text-[#302b68]'>Profile Score</h1>
                             <h1 className='text-2xl font-extrabold text-green-600'>{score}%</h1>
                         </div>
-                        <div className='p-1 bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
-                            <p className={`p-6 w-[${totalScore}] bg-gradient-to-r from-green-400 to-teal-600 rounded-s-lg`}></p>
+                        <div className='pt-1 px-1  bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
+                        <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
+                           
                         </div>
                         <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-6 '>
                             <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>

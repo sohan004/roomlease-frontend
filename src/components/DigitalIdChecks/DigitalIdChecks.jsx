@@ -1,22 +1,29 @@
 import React from 'react';
 import useTitle from '../Hook/useTitle';
+import img1 from '../../assets/digitalIdChecksIcon/search.png'
+import img2 from '../../assets/digitalIdChecksIcon/hand.png'
+import img3 from '../../assets/digitalIdChecksIcon/id.png'
+import img4 from '../../assets/digitalIdChecksIcon/immigration.png'
+import img5 from '../../assets/digitalIdChecksIcon/shield.png'
+
 
 const DigitalIdChecks = () => {
     useTitle('Digital ID & Checks')
     return (
         <div>
             <div className="bg-[#7065F0] ">
-                <div className="max-w-[1000px] py-8 mx-auto text-white px-4 text-center">
+                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
                     <h1 className="text-4xl font-bold">Digital ID & Checks</h1>
                     <p className="mt-4 text-lg">Secure your Room Lease experience with our Digital ID & Checks. Learn about our verification process and the steps to ensure safety and trust.</p>
                 </div>
             </div>
-            <div className="max-w-[1440px] mx-auto px-4">
+            <div className="max-w-[1000px] mx-auto px-4">
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Digital ID Verification</h1>
                     <img src="/path/to/digital-id-logo.png" alt="Digital ID Logo" className="mt-4 max-w-[200px]" />
                     <p className="mt-4">Room Lease integrates digital ID verification through <a href="https://www.digitalid.com" className="text-blue-500 hover:underline">Australia Post's Digital ID</a>. This state-of-the-art technology ensures that all users are who they claim to be, adding an extra layer of security to our platform.</p>
                 </div>
+                <img src={img1} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h2 className="text-xl font-bold">How to Verify Your Digital ID:</h2>
                     <ol className="list-decimal list-inside mt-4 flex flex-col gap-4">
@@ -26,6 +33,7 @@ const DigitalIdChecks = () => {
                         <li>Complete the Verification Process: Wait for confirmation that your identity has been successfully verified.</li>
                     </ol>
                 </div>
+                <img src={img2} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Background Checks</h1>
                     <p className="mt-4">In addition to Digital ID verification, Room Lease recommends specific background checks to enhance trust and transparency:</p>
@@ -36,6 +44,7 @@ const DigitalIdChecks = () => {
                         <li>References: Previous landlord or personal references to confirm reliability and character.</li>
                     </ul>
                 </div>
+                <img src={img3} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h2 className="text-xl font-bold">Benefits of Digital ID & Checks:</h2>
                     <ul className="list-disc list-inside mt-4 flex flex-col gap-4">
@@ -44,10 +53,12 @@ const DigitalIdChecks = () => {
                         <li>Transparent Interactions: Clear communication and verified information foster a positive Room Lease experience.</li>
                     </ul>
                 </div>
+                <img src={img4} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Join Us in Building a Safe Community:</h1>
                     <p className="mt-4">Room Lease is committed to facilitating secure and transparent connections within our community. We encourage all users to complete these checks, not only to comply with our guidelines but to enhance trust and integrity within the Room Lease community.</p>
                 </div>
+                <img src={img5} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-14 text-center font-medium">
                     <p>Have more questions? <a href="#" className="text-blue-500 hover:underline">Contact us</a> for assistance. Together, we're creating a safer living experience for everyone.</p>
                 </div>

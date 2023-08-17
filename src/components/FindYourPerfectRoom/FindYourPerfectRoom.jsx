@@ -6,12 +6,12 @@ const FindYourPerfectRoom = () => {
     return (
         <div>
             <div className="bg-[#7065F0] ">
-                <div className="max-w-[1000px] py-8 mx-auto text-white px-4 text-center">
+                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
                     <h1 className="text-4xl font-bold">Find Your Perfect Room with Room Lease</h1>
                     <p className="mt-4 text-lg">Looking for a room that fits your lifestyle and budget? Room Lease is here to guide you through a seamless journey to find your perfect room. Whether you prefer proximity to parks, community facilities, or specific locations, our platform offers a diverse selection of rooms tailored to your needs.</p>
                 </div>
             </div>
-            <div className="max-w-[1440px] mx-auto px-4">
+            <div className="max-w-[1000px] mx-auto px-4">
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">How to Search:</h1>
                     <ol className="list-decimal list-inside mt-4 flex flex-col gap-4">

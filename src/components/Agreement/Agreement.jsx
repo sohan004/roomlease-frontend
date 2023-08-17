@@ -1,17 +1,24 @@
 import React from 'react';
 import useTitle from '../Hook/useTitle';
 
+import img1 from '../../assets/agreementIcon/price-list.png'
+import img2 from '../../assets/agreementIcon/approve.png'
+import img3 from '../../assets/agreementIcon/checklist.png'
+import img4 from '../../assets/agreementIcon/house.png'
+import img5 from '../../assets/agreementIcon/list.png'
+import img6 from '../../assets/agreementIcon/modern-house.png'
+
 const Agreement = () => {
     useTitle('Agreements')
     return (
         <div>
             <div className="bg-[#7065F0] ">
-                <div className="max-w-[1000px] py-8 mx-auto text-white px-4 text-center">
+                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
                     <h1 className="text-4xl font-bold">Agreements</h1>
                     <p className="mt-4 text-lg">At Room Lease, we understand the importance of having a clear and legally binding agreement between homeowners and tenants. This page provides guidance on creating an agreement that suits your needs, including a sample template and state-specific considerations.</p>
                 </div>
             </div>
-            <div className="max-w-[1440px] mx-auto px-4">
+            <div className="max-w-[1000px] mx-auto px-4">
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Pre-Agreement Checklist for Room Lease</h1>
                     <p className="mt-4">For Homeowners and Room Seekers:</p>
@@ -35,6 +42,7 @@ const Agreement = () => {
                         <li>Consider seeking legal advice to ensure the agreement is legally sound.</li>
                     </ul>
                 </div>
+                <img src={img1} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Additional Considerations for Homeowners:</h1>
                     <ul className="list-disc list-inside mt-4 flex flex-col gap-4">
@@ -43,6 +51,7 @@ const Agreement = () => {
                         <li>Understand the one-time listing fee, if applicable.</li>
                     </ul>
                 </div>
+                <img src={img2} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Additional Considerations for Room Seekers:</h1>
                     <ul className="list-disc list-inside mt-4 flex flex-col gap-4">
@@ -50,11 +59,13 @@ const Agreement = () => {
                         <li>Use Room Lease's secure communication platform for initial discussions.</li>
                     </ul>
                 </div>
+                <img src={img3} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Room Lease Agreement Template:</h1>
                     <p className="mt-4"><strong>ROOM LEASE AGREEMENT</strong></p>
                     {/* Rest of the agreement template */}
                 </div>
+                <img src={img4} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">State-Specific Considerations:</h1>
                     <p className="mt-4">Ensure compliance with state-specific laws and regulations by referring to the following links:</p>
@@ -69,11 +80,13 @@ const Agreement = () => {
                         <li><strong>Northern Territory:</strong> Refer to relevant acts and regulations for NT.</li>
                     </ul>
                 </div>
+                <img src={img5} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-10">
                     <h1 className="text-2xl font-bold">Legal Disclaimer</h1>
                     <p className="mt-4">These legal guides provide a brief summary and introduction to the laws and regulations affecting share accommodation. They do not cover all cases in all legal jurisdictions and might not apply in your specific share accommodation situation. It is important that you use this information as a guide only and seek independent legal advice or consult the relevant acts.</p>
                     {/* Rest of the legal disclaimer */}
                 </div>
+                <img src={img6} className="w-20 mx-auto mt-5"  alt="" />
                 <div className="mt-14 text-center font-medium">
                     <p>For more detailed information on tenancy acts specific to your state or territory, please refer to the provided links.</p>
                 </div>
