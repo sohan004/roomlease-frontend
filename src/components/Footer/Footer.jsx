@@ -40,12 +40,12 @@ const Footer = () => {
                         <p className='mb-2'>Contact us</p>
                         <p className='mb-2'>Careers</p>
                      <Link to='/terms-&-conditions'><p className='mb-2'>Terms of Service</p></Link>
-                     <Link to='/'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
+                     <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
                     </div>
                     <div className='lg:hidden'>
-                        <p className='mb-2'>Free Roommate Agreement</p>
+                    <Link to='/agreement'>  <p className='mb-2 hidden lg:block'>Free Roommate Agreement</p></Link>
                         <p className='mb-2'>User Testimonials</p>
-                        <p className='mb-2'>Privacy Policy</p>
+                        <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
                     </div>
                 </div>
             </div>
