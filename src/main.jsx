@@ -32,6 +32,7 @@ import HowToList from './components/HowToList/HowToList.jsx'
 import FindYourPerfectRoom from './components/FindYourPerfectRoom/FindYourPerfectRoom.jsx'
 import Agreement from './components/Agreement/Agreement.jsx'
 import DigitalIdChecks from './components/DigitalIdChecks/DigitalIdChecks.jsx'
+import Faq from './components/Faq/Faq.jsx'
 
 
 const router = createBrowserRouter([
@@ -123,6 +124,11 @@ const router = createBrowserRouter([
       {
         path: '/digital-id-checks',
         element: <DigitalIdChecks></DigitalIdChecks>
+      },
+        
+      {
+        path: '/faq',
+        element: <Faq></Faq>
       },
         
     ]
