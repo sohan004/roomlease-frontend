@@ -33,17 +33,17 @@ const Footer = () => {
                     <div className=''>
                         <Link to='/digital-id-checks'> <p className='mb-2'>Digital ID & Checks</p></Link>
                         <Link to='/faq'> <p className='mb-2'>FAQ</p></Link>
-                        <p className='mb-2'>Blog</p>
+                        <Link to='/blog'> <p className='mb-2'>Blog</p></Link>
                         <p className='mb-2 hidden lg:block'>User Testimonials</p>
                     </div>
                     <div className=''>
                         <p className='mb-2'>Contact us</p>
-                        <p className='mb-2'>Careers</p>
-                     <Link to='/terms-&-conditions'><p className='mb-2'>Terms of Service</p></Link>
-                     <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
+                        <Link to='/career'>     <p className='mb-2'>Careers</p></Link>
+                        <Link to='/terms-&-conditions'><p className='mb-2'>Terms of Service</p></Link>
+                        <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
                     </div>
                     <div className='lg:hidden'>
-                    <Link to='/agreement'>  <p className='mb-2 hidden lg:block'>Free Roommate Agreement</p></Link>
+                        <Link to='/agreement'>  <p className='mb-2 hidden lg:block'>Free Roommate Agreement</p></Link>
                         <p className='mb-2'>User Testimonials</p>
                         <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
                     </div>

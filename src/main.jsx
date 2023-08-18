@@ -36,6 +36,7 @@ import Faq from './components/Faq/Faq.jsx'
 import Tos from './components/Tos/Tos.jsx'
 import Privacy from './components/Privacy/Privacy.jsx'
 import Blog from './components/Blog/Blog.jsx'
+import Career from './components/Career/Career.jsx'
 
 
 const router = createBrowserRouter([
@@ -144,6 +145,10 @@ const router = createBrowserRouter([
       {
         path: '/blog',
         element: <Blog></Blog>
+      },
+      {
+        path: '/career',
+        element: <Career></Career>
       },
         
     ]
