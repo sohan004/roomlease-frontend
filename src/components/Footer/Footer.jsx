@@ -37,7 +37,7 @@ const Footer = () => {
                         <Link to='/testimonial'><p className='mb-2 hidden lg:block'>User Testimonials</p></Link>
                     </div>
                     <div className=''>
-                        <p className='mb-2'>Contact us</p>
+                        <Link to='/contact'><p className='mb-2'>Contact us</p></Link>
                         <Link to='/career'>     <p className='mb-2'>Careers</p></Link>
                         <Link to='/terms-&-conditions'><p className='mb-2'>Terms of Service</p></Link>
                         <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>

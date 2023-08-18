@@ -38,6 +38,7 @@ import Privacy from './components/Privacy/Privacy.jsx'
 import Blog from './components/Blog/Blog.jsx'
 import Career from './components/Career/Career.jsx'
 import Testimonial from './components/Testimonial/Testimonial.jsx'
+import Contact from './components/Contact/Contact.jsx'
 
 
 const router = createBrowserRouter([
@@ -154,6 +155,10 @@ const router = createBrowserRouter([
       {
         path: '/testimonial',
         element: <Testimonial></Testimonial>
+      },
+      {
+        path: '/contact',
+        element: <Contact></Contact>
       },
         
     ]
