@@ -34,7 +34,7 @@ const Footer = () => {
                         <Link to='/digital-id-checks'> <p className='mb-2'>Digital ID & Checks</p></Link>
                         <Link to='/faq'> <p className='mb-2'>FAQ</p></Link>
                         <Link to='/blog'> <p className='mb-2'>Blog</p></Link>
-                        <p className='mb-2 hidden lg:block'>User Testimonials</p>
+                        <Link to='/testimonial'><p className='mb-2 hidden lg:block'>User Testimonials</p></Link>
                     </div>
                     <div className=''>
                         <p className='mb-2'>Contact us</p>
@@ -43,9 +43,9 @@ const Footer = () => {
                         <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
                     </div>
                     <div className='lg:hidden'>
-                        <Link to='/agreement'>  <p className='mb-2 hidden lg:block'>Free Roommate Agreement</p></Link>
-                        <p className='mb-2'>User Testimonials</p>
-                        <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
+                        <Link to='/agreement'>  <p className='mb-2 '>Free Roommate Agreement</p></Link>
+                        <Link to='/testimonial'><p className='mb-2 '>User Testimonials</p></Link>
+                        <Link to='/privacy-policy'><p className='mb-2 '>Privacy Policy</p></Link>
                     </div>
                 </div>
             </div>

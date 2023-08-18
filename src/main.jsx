@@ -37,6 +37,7 @@ import Tos from './components/Tos/Tos.jsx'
 import Privacy from './components/Privacy/Privacy.jsx'
 import Blog from './components/Blog/Blog.jsx'
 import Career from './components/Career/Career.jsx'
+import Testimonial from './components/Testimonial/Testimonial.jsx'
 
 
 const router = createBrowserRouter([
@@ -149,6 +150,10 @@ const router = createBrowserRouter([
       {
         path: '/career',
         element: <Career></Career>
+      },
+      {
+        path: '/testimonial',
+        element: <Testimonial></Testimonial>
       },
         
     ]
