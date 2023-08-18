@@ -35,6 +35,7 @@ import DigitalIdChecks from './components/DigitalIdChecks/DigitalIdChecks.jsx'
 import Faq from './components/Faq/Faq.jsx'
 import Tos from './components/Tos/Tos.jsx'
 import Privacy from './components/Privacy/Privacy.jsx'
+import Blog from './components/Blog/Blog.jsx'
 
 
 const router = createBrowserRouter([
@@ -139,6 +140,10 @@ const router = createBrowserRouter([
       {
         path: '/privacy-policy',
         element: <Privacy></Privacy>
+      },
+      {
+        path: '/blog',
+        element: <Blog></Blog>
       },
         
     ]
