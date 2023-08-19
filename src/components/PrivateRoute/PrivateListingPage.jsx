@@ -14,7 +14,7 @@ const PrivateListingPage = ({ children }) => {
         return children
     }
     else {
-        return <Navigate to='/'></Navigate>
+        return <Navigate to='/register'></Navigate>
     }
 };
 

@@ -340,8 +340,10 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setReFatch(reFatch + 1)
             })
+            .catch(err => console.log(err))
     }
 
 

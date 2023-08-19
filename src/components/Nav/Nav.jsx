@@ -18,6 +18,8 @@ const Nav = ({ setTf }) => {
 
     const { userData, setUserData } = useContext(AuthContext)
 
+    const navigate = useNavigate()
+
 
     return (
         <>
