@@ -733,10 +733,10 @@ const HomeWoner = () => {
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
                             {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
                             <Autocomplete
-                            
+
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
                                 apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
-                                
+
                                 options={{
                                     componentRestrictions: { country: "au" },
                                 }}
@@ -973,7 +973,7 @@ const HomeWoner = () => {
                                 <p onClick={() => addFunction('Income Proof')} className={`duration-500 border-t-0 border ${check11 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Income Proof</p>
                                 <p onClick={() => addFunction('References')} className={`duration-500 border-t-0 border border-s-0 ${check12 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>References</p>
                             </div>
-                            
+
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>

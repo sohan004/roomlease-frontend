@@ -15,6 +15,7 @@ import kona from '../../assets/sec3Icon/Vector 2.svg'
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
+import ListingCard from "../ListingCard/ListingCard";
 
 const Matches = () => {
 
@@ -64,28 +65,6 @@ const Matches = () => {
         setLoading(true);
 
 
-        fetch(`${baseURL}/account/profile/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setUserData(data.data)
-                }
-                else {
-                    navigate('/')
-                    setUserData(null)
-                }
-            })
-            .catch(err => {
-                navigate('/')
-                setUserData(null)
-            })
-
 
         fetch(`${baseURL}/match/my-match/1`, {
             method: 'GET',
@@ -109,29 +88,7 @@ const Matches = () => {
     return (
         <div className="max-w-[1440px] mx-auto px-3">
             {!loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                {list.map(p => {
-
-                    return <div key={p.id} className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
-                        {p?.photo && <img src={`${baseURL}${p?.photo}`} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
-                        {!p?.photo && <img src={img} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
-                        <div className='px-6 pt-6 pb-8'>
-                            <div className='flex items-center justify-between'>
-                                {userData?.account_type == 'homeowner'? <h1 className='text-2xl font-bold text-[#7065F0]'>{p?.looking_place}</h1> :  <h1 className='text-2xl font-bold text-[#7065F0]'>${p?.rent_per_week_single}<span className='text-base font-medium text-gray-500'>/week</span></h1>}
-                                <div className='flex items-center gap-4'>
-                                    <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
-                                    <img src={ico3} className='border p-3 rounded-full' alt="" />
-                                </div>
-                            </div>
-                            <h1 className='text-2xl font-bold my-2'>{p?.house_type}</h1>
-                            <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.home_address}</h1>
-                            <div className='flex items-center justify-between'>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p?.bedroom_type || p?.room_type}</p>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bed_size}</p>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.bond || p?.private_bathroom}</p>
-                            </div>
-                        </div>
-                    </div>
-                })}
+                {list.map(p => <ListingCard key={p.id} p={p} />)}
             </div>}
 
             {loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
