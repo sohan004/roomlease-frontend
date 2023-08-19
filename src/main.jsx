@@ -39,6 +39,7 @@ import Blog from './components/Blog/Blog.jsx'
 import Career from './components/Career/Career.jsx'
 import Testimonial from './components/Testimonial/Testimonial.jsx'
 import Contact from './components/Contact/Contact.jsx'
+import Matches from './components/Matches/Matches.jsx'
 
 
 const router = createBrowserRouter([
@@ -159,6 +160,10 @@ const router = createBrowserRouter([
       {
         path: '/contact',
         element: <Contact></Contact>
+      },
+      {
+        path: '/matches',
+        element: <Matches></Matches>
       },
         
     ]
