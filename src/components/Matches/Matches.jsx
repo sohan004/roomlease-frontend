@@ -84,7 +84,7 @@ const Matches = () => {
                 console.log(err)
             })
     }, []);
-    console.log(list);
+    // console.log(list)
     return (
         <div className="max-w-[1440px] mx-auto px-3">
             {!loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>

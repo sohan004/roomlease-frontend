@@ -14,6 +14,39 @@ const AuthProvider = ({ children }) => {
     const [listing, setListing] = useState(null)
     const [refresh, setRefresh] = useState(1)
     const [listingLoading, setListingLoading] = useState(true)
+
+
+    const [userData, setUserData] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+
+    useEffect(() => {
+        setLoading(true)
+        fetch(`${baseURL}/account/profile/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setUserData(data.data)
+                    setLoading(false)
+                }
+                else {
+                    setUserData(null)
+                    setLoading(false)
+                }
+            })
+            .catch(err => {
+                setUserData(null)
+                setLoading(false)
+            })
+    }, [localStorage.getItem('user-token')])
+
+
     useEffect(() => {
         setListingLoading(true)
         if (!localStorage.getItem('user-token')) {
@@ -53,7 +86,11 @@ const AuthProvider = ({ children }) => {
         setRefresh,
         refresh,
         listingLoading,
-        setListing
+        setListing,
+        userData,
+        loading,
+        setLoading,
+        setUserData
     }
     return (
         <AuthContext.Provider value={valu}>
