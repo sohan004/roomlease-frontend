@@ -22,6 +22,8 @@ import 'swiper/css/navigation';
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 import { MdDelete } from 'react-icons/md';
+import DigitalVerify from '../DigitalVerify/DigitalVerify';
+import moment from 'moment/moment';
 
 
 const Profile = () => {
@@ -42,6 +44,33 @@ const Profile = () => {
     const [nameEdit, setNameEdit] = useState(false)
     const [dateOB, setDateOB] = useState('')
     const [dateOBEdit, setDateOBEdit] = useState(false)
+
+    const [score, setScore] = useState(0)
+
+
+
+
+    useEffect(() => {
+        setScore(0)
+        if (userData?.verified) {
+            setScore(s => s + 25)
+        }
+        if (userData?.profile_picture) {
+            setScore(s => s + 15)
+        }
+        if (userData?.bio) {
+            setScore(s => s + 15)
+        }
+        if (userData?.full_name) {
+            setScore(s => s + 15)
+        }
+        if (userData?.dob) {
+            setScore(s => s + 15)
+        }
+        if (userData?.show_phone_number) {
+            setScore(s => s + 15)
+        }
+    }, [userData])
 
 
 
@@ -496,7 +525,7 @@ const Profile = () => {
 
     }
 
-    // console.log(listing);
+    let totalScore = `${score}%`
 
     return (
         <div className='home'>
@@ -517,8 +546,8 @@ const Profile = () => {
                                 {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className=' flex justify-center items-center gap-2  mt-2 '>
-                                {!dateOBEdit && <span>{userData?.dob ? userData?.dob : 'date of birth'}</span>}
-                                {dateOBEdit && <input placeholder='YYYY-MM-DD' type="text" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                {!dateOBEdit && <span>{userData?.dob ? moment(userData?.dob).format('Do MMMM YYYY') : 'date of birth'}</span>}
+                                {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
                                 {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
@@ -536,15 +565,17 @@ const Profile = () => {
                     </div>
                     <div className='w-full lg:w-[60%]'>
                         <div className='px-4 lg:px-6 py-6 text-white bg-[#7065F0]  border-2 rounded-md mt-10 '>
-                            <h1 className='text-lg: lg:text-xl font-semibold'>WHY VERIFICATION?</h1>
-                            <p className='mt-4 font-light'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo sit repellendus magnam quaerat a quae commodi esse minus, temporibus ducimus sint. <span className='text-lg font-medium cursor-pointer underline text-[#3e3b58] hover:bg-[#978dff] duration-300  p-1 rounded-md bg-[#beb8ff]' onClick={() => navigate('/digital-verify')}>Verify</span> </p>
+                            <h1 className='text-lg: lg:text-xl font-semibold'>Why Digital iD verification by Australia Post?</h1>
+                            <p className='mt-4 font-light'>Stand out as a verified member and join a community that values safety, integrity, and transparency.</p>
+                            <DigitalVerify></DigitalVerify>
                         </div>
                         <div className='flex justify-between items-center mt-6'>
                             <h1 className='text-xl lg:text-2xl font-bold text-[#302b68]'>Profile Score</h1>
-                            <h1 className='text-2xl font-extrabold text-green-600'>56%</h1>
+                            <h1 className='text-2xl font-extrabold text-green-600'>{score}%</h1>
                         </div>
-                        <div className='p-1 bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
-                            <p className='p-6 w-[56%] bg-gradient-to-r from-green-400 to-teal-600 rounded-s-lg'></p>
+                        <div className='pt-1 px-1  bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
+                        <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
+                           
                         </div>
                         <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-6 '>
                             <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>

@@ -26,13 +26,15 @@ export default function CommonLinks({ setUserData, userData }) {
           <p className='font-medium'>Profile</p>
         </div>
       </Link>
-      <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
-        <div className='flex justify-center items-center'>
-          <BsPersonCheckFill></BsPersonCheckFill>
-          <BsFillPersonFill></BsFillPersonFill>
+      <Link to='/matches'>
+        <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+          <div className='flex justify-center items-center'>
+            <BsPersonCheckFill></BsPersonCheckFill>
+            <BsFillPersonFill></BsFillPersonFill>
+          </div>
+          <p className='font-medium'>Matches</p>
         </div>
-        <p className='font-medium'>Matches</p>
-      </div>
+      </Link>
       <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>

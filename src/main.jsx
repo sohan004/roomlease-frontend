@@ -27,6 +27,19 @@ import ListingRoomSeekerUpdate from './components/HomeListingUpdate/ListingRoomS
 import ListingPrivate from './components/PrivateRoute/ListingPrivate.jsx'
 import PrivateListingPage from './components/PrivateRoute/PrivateListingPage.jsx'
 import DigitalVerify from './components/DigitalVerify/DigitalVerify.jsx'
+import About from './components/About/About.jsx'
+import HowToList from './components/HowToList/HowToList.jsx'
+import FindYourPerfectRoom from './components/FindYourPerfectRoom/FindYourPerfectRoom.jsx'
+import Agreement from './components/Agreement/Agreement.jsx'
+import DigitalIdChecks from './components/DigitalIdChecks/DigitalIdChecks.jsx'
+import Faq from './components/Faq/Faq.jsx'
+import Tos from './components/Tos/Tos.jsx'
+import Privacy from './components/Privacy/Privacy.jsx'
+import Blog from './components/Blog/Blog.jsx'
+import Career from './components/Career/Career.jsx'
+import Testimonial from './components/Testimonial/Testimonial.jsx'
+import Contact from './components/Contact/Contact.jsx'
+import Matches from './components/Matches/Matches.jsx'
 
 
 const router = createBrowserRouter([
@@ -98,6 +111,61 @@ const router = createBrowserRouter([
         path: '/digital-verify',
         element: <DigitalVerify></DigitalVerify>
       },
+        
+      {
+        path: '/about',
+        element: <About></About>
+      },
+      {
+        path: '/how-to-list',
+        element: <HowToList></HowToList>
+      },
+      {
+        path: '/find-your-perfect-room',
+        element: <FindYourPerfectRoom></FindYourPerfectRoom>
+      },
+      {
+        path: '/agreement',
+        element: <Agreement></Agreement>
+      },
+      {
+        path: '/digital-id-checks',
+        element: <DigitalIdChecks></DigitalIdChecks>
+      },
+        
+      {
+        path: '/faq',
+        element: <Faq></Faq>
+      },
+      {
+        path: '/terms-&-conditions',
+        element: <Tos></Tos>
+      },
+      {
+        path: '/privacy-policy',
+        element: <Privacy></Privacy>
+      },
+      {
+        path: '/blog',
+        element: <Blog></Blog>
+      },
+      {
+        path: '/career',
+        element: <Career></Career>
+      },
+      {
+        path: '/testimonial',
+        element: <Testimonial></Testimonial>
+      },
+      {
+        path: '/contact',
+        element: <Contact></Contact>
+      },
+      {
+        path: '/matches',
+        element: <Matches></Matches>
+      },
+        
     ]
   },
   {

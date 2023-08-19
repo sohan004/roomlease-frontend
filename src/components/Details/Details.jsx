@@ -31,12 +31,130 @@ import ico8 from '../../assets/sec3Icon/Icon.svg'
 import ico9 from '../../assets/sec3Icon/Square Meters.svg'
 import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { baseURL } from '../../App'
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+// import required modules
+import { Pagination, Navigation } from 'swiper/modules';
 
 
 const Details = () => {
 
-
+    const id = useParams().id
     // !! this page  data fully dynamic
+
+    const [listingDetails, setListingDetails] = useState(null)
+    const [listingUser, setListingUser] = useState(null)
+    const [imgValue, setImgValue] = useState([])
+
+    const [userData, setUserData] = useState(null)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+
+
+        fetch(`${baseURL}/account/profile/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setUserData(data.data)
+                }
+                else {
+                    navigate('/')
+                    setUserData(null)
+                }
+            })
+            .catch(err => {
+                navigate('/')
+                setUserData(null)
+            })
+    }, []);
+
+    useEffect(() => {
+        if (userData?.account_type == 'roomseeker') {
+            fetch(`${baseURL}/listing/home-listings/${id}/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setListingDetails(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+
+        }
+        if (userData?.account_type == 'homeowner') {
+            fetch(`${baseURL}/listing/room-seekers/${id}/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setListingDetails(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }, [userData])
+
+    useEffect(() => {
+        fetch(`${baseURL}/account/get-user-profile/${listingDetails?.user}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+
+                    setListingUser(data.data);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }, [listingDetails])
+
+    useEffect(() => {
+        fetch(`${baseURL}/listing/house-listing-photos/?pk=${listingDetails?.id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+
+                setImgValue(data);
+                // console.log(data);
+                // setReFatch(reFatch + 1)
+
+            }).catch(() => setImgValue([]))
+    }, [listingDetails])
+
+    console.log(listingDetails);
 
 
     const data = {
@@ -87,11 +205,14 @@ const Details = () => {
     return (
         <div>
             <div className="max-w-[1440px] mx-auto px-4">
-                <h3 className="font-medium mt-6 mb-6 lg:mt-8 lg:mb-4 text-lg flex items-center gap-2 text-[#7065F0]"><img src={backarrow} alt="" /> Back to map</h3>
+                <Link to='/matches'>
+                    <h3 className="font-medium cursor-pointer mt-6 mb-6 lg:mt-8 lg:mb-4 text-lg flex items-center gap-2 text-[#7065F0]"><img src={backarrow} alt="" /> Back to Matches</h3>
+
+                </Link>
                 <div className='flex mb-8 flex-col lg:flex-row gap-y-6 lg:items-end justify-between'>
                     <div >
-                        <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{data.name}</h1>
-                        <p className='lg:text-xl text-base  opacity-60'>{data.address}</p>
+                        <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{listingDetails?.house_type}</h1>
+                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address}</p>
                     </div>
                     <div className='flex items-center gap-4 justify-center'>
                         <button className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
@@ -102,8 +223,25 @@ const Details = () => {
 
                 <div className='flex flex-col gap-2 lg:gap-6 lg:flex-row'>
                     <div className='w-full lg:w-[70%] relative'>
-                        <img src={img1} className='w-full  rounded-lg' alt="" />
-                        <button className='btn  absolute lg:hidden items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
+                      { userData?.account_type == 'roomseeker' && <Swiper
+                            pagination={{
+                                type: 'fraction',
+                            }}
+                            navigation={true}
+                            modules={[Pagination, Navigation]}
+                            className="mySwiper "
+                        >
+                            {imgValue.map((image, i) => {
+
+                                return <SwiperSlide className='w-full' key={i}>
+                                    <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
+                                        <img src={image.photo} className='w-full rounded-md h-full' alt="" />
+                                    </div>
+                                </SwiperSlide>
+                            })}
+
+                        </Swiper>}
+                        { userData?.account_type == 'homeowner' && <img className='h-[250px] lg:h-[500px] w-full' src={listingDetails?.photo} />}
                     </div>
                     <div className='w-full lg:w-[30%] flex flex-row lg:flex-col gap-2 lg:gap-6'>
                         <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />
