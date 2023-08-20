@@ -1,5 +1,7 @@
+import useTitle from "../Hook/useTitle";
 
 const Blog = () => {
+    useTitle("Blog")
     return (
         <div>
             <section className="dark:bg-gray-800 dark:text-gray-100">

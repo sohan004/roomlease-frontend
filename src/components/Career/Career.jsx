@@ -1,6 +1,8 @@
 import { FaMapMarkerAlt, FaRegBookmark, FaRegCalendarAlt, FaWarehouse } from "react-icons/fa";
+import useTitle from "../Hook/useTitle";
 
 const Career = () => {
+    useTitle("Careers")
     return (
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-9 px-3 mt-9 lg:mt-14">
             <div className="flex justify-between border p-4 lg:p-6 rounded-md">
