@@ -12,6 +12,8 @@ import ico4 from '../../assets/sec3Icon/Frame.svg'
 import ico9 from '../../assets/sec3Icon/Square Meters.svg'
 import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
+
+
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";

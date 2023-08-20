@@ -21,7 +21,7 @@ const OtpSend = () => {
     const [verifyStatus, setVerifyStatus] = useState(false)
     const [load, setLoad] = useState(false)
     const navigate = useNavigate()
-    const { listing, setRefresh, refresh } = useContext(AuthContext)
+    const { listing, setLoading, setRefresh, refresh } = useContext(AuthContext)
 
     useEffect(() => {
         if (!timer) return
@@ -102,7 +102,9 @@ const OtpSend = () => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
+
                         localStorage.setItem('user-token', data.token)
+                        setLoading(true)
                         window.send_otp.close()
                         Swal.fire({
                             position: 'top-center',

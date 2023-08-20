@@ -304,14 +304,10 @@ const Profile = () => {
     }
 
     const roomseekerImgUplaod = () => {
-        const listingObject = listing
         const formData = new FormData()
-        for (let key in listingObject) {
-            formData.append(key, listingObject[key])
-        }
         formData.append('photo', roomSeekerImg)
-        fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
-            method: 'PUT',
+        fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
+            method: 'POST',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
             },
@@ -319,9 +315,11 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setRoomSeekerImg(null);
                 setRefresh(refresh + 1)
             }).catch(err => console.log(err))
+
 
     }
 

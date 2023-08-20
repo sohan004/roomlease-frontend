@@ -36,6 +36,7 @@ import { useEffect } from 'react'
 import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -61,7 +62,7 @@ const Details = () => {
 
     const [load, setLoad] = useState(true)
 
-   const {userData, setUserData} = useContext(AuthContext)
+    const { userData, setUserData } = useContext(AuthContext)
 
     useEffect(() => {
         if (!userData) return
@@ -231,7 +232,7 @@ const Details = () => {
                             modules={[Pagination, Navigation]}
                             className="mySwiper "
                         >
-                            {imgValue.map((image, i) => {
+                            {imgValue.length > 0 ? imgValue.map((image, i) => {
 
 
                                 return <SwiperSlide className='w-full' key={i}>
@@ -239,10 +240,14 @@ const Details = () => {
                                         <img src={`${baseURL}${image.photo}`} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
                                     </div>
                                 </SwiperSlide>
-                            })}
+                            }) : <SwiperSlide className='w-full' >
+                                <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
+                                    <img src={img} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
+                                </div>
+                            </SwiperSlide>}
 
                         </Swiper>}
-                        {userData?.account_type == 'homeowner' && <img className='h-[250px] lg:h-[500px] w-full' src={listingDetails?.photo} />}
+                        {userData?.account_type == 'homeowner' && <>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={img} />}</>}
                     </div>
                     <div className='w-full lg:w-[30%] '>
                         {/* <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />
