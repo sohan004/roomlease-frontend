@@ -26,6 +26,7 @@ const Matches = () => {
     const [showMore, setShowMore] = useState(false);
     const [pageNum, setPageNum] = useState(1);
     const [userData, setUserData] = useState(null)
+    const [reFatch, setReFatch] = useState(1)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -85,12 +86,12 @@ const Matches = () => {
                 setLoading(false);
                 console.log(err)
             })
-    }, []);
+    }, [reFatch]);
     // console.log(list)
     return (
         <div className="max-w-[1440px] mx-auto px-3">
             {!loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                {list.map(p => <ListingCard key={p.id} p={p} />)}
+                {list.map(p => <ListingCard setReFatch={setReFatch} reFatch={reFatch} key={p.id} p={p} />)}
             </div>}
 
             {loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
