@@ -34,6 +34,7 @@ import text5 from '../../assets/messagePageIcon/text5.svg'
 import text6 from '../../assets/messagePageIcon/text6.svg'
 import text7 from '../../assets/messagePageIcon/text7.svg'
 import { baseURL } from "../../App";
+import { useRef } from "react";
 
 
 
@@ -42,36 +43,9 @@ import { baseURL } from "../../App";
 
 const MessageDashboard = () => {
     const [data, setData] = useState([])
-    const messageData = [
-        {
-            "img": "image_url_1.jpg",
-            "name": "John Doe",
-            "method": "Request for Home Tour",
-            "message": "John Doe is an experienced software engineer with a passion for building innovative solutions. He has a strong background in web development and has worked on numerous successful projects. John is a quick learner, a team player, and always ready to take on new challenges. He is known for his attention to detail and ability to deliver high-quality code on time. Currently, John is exploring new technologies to stay at the cutting edge of the tech industry.",
-            "status": "active"
-        },
-        {
-            "img": "image_url_2.jpg",
-            "name": "Jane Smith",
-            "method": "General Inquiry",
-            "message": "Jane Smith is a creative graphic designer with a flair for producing stunning visuals. With years of experience in the industry, she has worked with various clients from different sectors, delivering exceptional design solutions that leave a lasting impact. Jane is skilled in using industry-standard design tools and has a keen eye for aesthetics. Her passion for design extends beyond her professional life, as she enjoys creating art in her free time. Jane is currently seeking opportunities to collaborate on exciting projects that challenge her creativity.",
-            "status": "inactive"
-        },
-        {
-            "img": "image_url_3.jpg",
-            "name": "Michael Johnson",
-            "method": "General Inquiry",
-            "message": "Michael Johnson is a dedicated educator and a lifelong learner. With a master's degree in education and a passion for teaching, he has helped shape the minds of countless students. Michael believes in creating an engaging and inclusive learning environment, where students feel empowered to explore and discover their interests. He is well-versed in various teaching methodologies and keeps up-to-date with the latest trends in education. When he's not in the classroom, Michael enjoys writing educational articles and conducting workshops for fellow educators.",
-            "status": "active"
-        },
-        {
-            "img": "image_url_4.jpg",
-            "name": "Emily Brown",
-            "method": "General Inquiry",
-            "message": "Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation. As a strong advocate for women's rights, she also supports various initiatives to uplift and empower women in underserved communities. Emily's journey as an entrepreneur has taught her valuable lessons about resilience and perseverance.",
-            "status": "inactive"
-        }
-    ]
+
+
+
 
     useEffect(() => {
         console.log(localStorage.getItem('token'));
@@ -91,57 +65,58 @@ const MessageDashboard = () => {
     }, [])
 
     return (
-        <div className="max-w-[1440px] mx-auto px-4">
-            <div className="flex flex-col lg:flex-row">
-                <div className="px-5 py-7 w-[30%] hidden lg:flex  flex-col  items-center  border-e h-[100vh]">
-                    <div className="flex gap-4 items-center p-4">
-                        <div className="w-full">
-                            <div className='  w-full bg-[#F7F7FD]  border border-[#E0DEF7] rounded-lg flex gap-2 items-center p-2'>
-                                <img src={ico7} alt="" />
-                                <input className='bg-transparent border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
+        <div className="bg-white">
+            <div className="max-w-[1440px] mx-auto px-4">
+                <div className="flex flex-col lg:flex-row">
+                    <div className="px-5 py-7 w-[30%] hidden lg:flex  flex-col  items-center  border-e h-[100vh]">
+                        <div className="flex gap-4 items-center p-4">
+                            <div className="w-full">
+                                <div className='  w-full bg-[#F7F7FD]  border border-[#E0DEF7] rounded-lg flex gap-2 items-center p-2'>
+                                    <img src={ico7} alt="" />
+                                    <input className='bg-transparent border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="grid grid-cols-1 w-full">
-                        {data.map((d, i) =>
-                            <Link key={d.id} to={`/message-deshboard/${d.id}`}>
-                                <div className="p-4 flex items-start gap-4 w-full border-b">
-                                    <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
-                                    <div className="flex-grow">
-                                        <div className="flex justify-between flex-grow items-center">
-                                            <p className="font-bold">Ayush</p>
-                                            <p className="opacity-60">4h ago</p>
+                        <div className="grid grid-cols-1 w-full">
+                            {data.map((d, i) =>
+                                <Link key={d.id} to={`/message-deshboard/${d.id}`}>
+                                    <div className="p-4 flex items-start gap-4 w-full border-b">
+                                        <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
+                                        <div className="flex-grow">
+                                            <div className="flex justify-between flex-grow items-center">
+                                                <p className="font-bold">Ayush</p>
+                                                <p className="opacity-60">4h ago</p>
+                                            </div>
+                                            <p className="text-sm my-1 font-medium">Home Tour</p>
+                                            {/* <p className="text-sm">{'Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation.'.slice(0, 80)}...</p> */}
                                         </div>
-                                        <p className="text-sm my-1 font-medium">Home Tour</p>
-                                        {/* <p className="text-sm">{'Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation.'.slice(0, 80)}...</p> */}
-                                    </div>
-                                </div></Link>)}
+                                    </div></Link>)}
+                        </div>
                     </div>
-                </div>
-                <div className="w-full lg:w-[70%]">
-                    <div className="w-full border-b bg-white">
-                        <div className=" px-4  py-4 lg:py-7 flex items-center justify-between">
+                    <div className="w-full lg:w-[70%]">
+                        <div className="w-full border-b bg-white">
+                            <div className=" px-4  py-4 lg:py-7 flex items-center justify-between">
 
-                            <p className="text-2xl hidden lg:block font-bold">Messages</p>
-                            <img src={menu} className="lg:hidden" alt="" />
-                            <div className="flex gap-4 lg:gap-6 items-center">
-                                <div>
-                                    <img src={ball} className="p-2 bg-slate-100 rounded-lg" alt="" />
-                                </div>
-                                <div className="lg:ps-6 lg:border-s-2">
-                                    <div className="flex items-center gap-2 py-2 lg:py-3 px-2 lg:px-4 border-2 border-[#E0DEF7] rounded-xl">
-                                        <p className="bg-[#7065F0] text-white font-medium rounded-full h-8 w-8 flex items-center justify-center">FR</p>
-                                        <p className="font-medium hidden lg:block">Francis</p>
-                                        <img src={arrowDown} alt="" />
+                                <p className="text-2xl hidden lg:block font-bold">Messages</p>
+                                <img src={menu} className="lg:hidden" alt="" />
+                                <div className="flex gap-4 lg:gap-6 items-center">
+                                    <div>
+                                        <img src={ball} className="p-2 bg-slate-100 rounded-lg" alt="" />
+                                    </div>
+                                    <div className="lg:ps-6 lg:border-s-2">
+                                        <div className="flex items-center gap-2 py-2 lg:py-3 px-2 lg:px-4 border-2 border-[#E0DEF7] rounded-xl">
+                                            <p className="bg-[#7065F0] text-white font-medium rounded-full h-8 w-8 flex items-center justify-center">FR</p>
+                                            <p className="font-medium hidden lg:block">Francis</p>
+                                            <img src={arrowDown} alt="" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
 
-                    {/* emty fild design
+                        {/* emty fild design
                     {data.length === 0 && <div className="w-full flex justify-center max-w-[348px] mx-auto  ">
                         <div className=" text-center">
                             <div className="mt-16 lg:mt-24">
@@ -166,11 +141,12 @@ const MessageDashboard = () => {
                     </div>} */}
 
 
-                    {/* message design */}
+                        {/* message design */}
                         <div className="w-full  relative h-[85vh] overflow-y-auto px-4 bg-gradient-to-r from-[#E7E6F9] via-[#F6F5FC]  to-[#E7E6F9]">
                             <Outlet></Outlet>
                         </div>
 
+                    </div>
                 </div>
             </div>
         </div>

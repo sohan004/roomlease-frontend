@@ -35,10 +35,10 @@ export default function CommonLinks({ setUserData, userData }) {
           <p className='font-medium'>Matches</p>
         </div>
       </Link>
-      <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+      <Link to='/message-deshboard' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
-      </div>
+      </Link>
       <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <GrSettingsOption></GrSettingsOption>
         <p className='font-medium'>Settings</p>

@@ -36,6 +36,7 @@ import text7 from '../../assets/messagePageIcon/text7.svg'
 import { baseURL } from "../../App";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useContext } from "react";
+import { useRef } from "react";
 const MessageList = () => {
 
     const {
@@ -52,6 +53,13 @@ const MessageList = () => {
 
     const [messageList, setMessageList] = useState([])
     const [reFetch, setReFetch] = useState(1)
+
+    const scrollingDivRef = useRef(null);
+
+    useEffect(() => {
+        // Scroll the div to the bottom when the component mounts
+        scrollingDivRef.current.scrollTop = scrollingDivRef.current.scrollHeight;
+    }, [messageList]);
 
     const id = useParams().id
     useEffect(() => {
@@ -102,7 +110,7 @@ const MessageList = () => {
 
 
             <div className="flex flex-col justify-end h-full">
-                <div className=" overflow-y-auto">
+                <div  ref={scrollingDivRef} className=" overflow-y-auto">
                     {messageList.map((item, index) => {
                         if (+item.sender === +userData?.user_id) {
                             return <div key={item.id} className="flex gap-4 mt-6 justify-end">

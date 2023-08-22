@@ -12,8 +12,8 @@ const Faq = () => {
 
     return (
         <div>
-            <div className="bg-[#7065F0] ">
-                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
+            <div className="bg-[#E4E2F8]  text-blue-950 ">
+                <div className="max-w-[1440px] py-8 mx-auto  px-4 text-center">
                     <h1 className="text-4xl font-bold">Frequently Asked Questions</h1>
                     <p className="mt-4 text-lg">Your comprehensive guide to Room Lease. Find detailed answers to all your questions about listing, searching, agreements, digital ID verification, and more.</p>
                 </div>

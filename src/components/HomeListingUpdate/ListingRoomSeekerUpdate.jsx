@@ -420,6 +420,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
             })
     }
 
+    const [subEpty, setSubEpty] = useState('')
 
 
     return (
@@ -441,6 +442,26 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                         <div className="">
                             <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
                             <div className="w-full mt-4 border border-[#7065F0] rounded-lg">
+                                <Autocomplete
+                                value={subEpty}
+                                onChange={(e) => setSubEpty(e.target.value)}
+
+                                    className="w-full  rounded-lg rounded-b-none border-b mb-4  focus:outline-none py-3 px-5   bg-[#f6f6ff] "
+                                    apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+
+                                    options={{
+                                        componentRestrictions: { country: "au" },
+                                    }}
+                                    onPlaceSelected={(place) => {
+                                        if (place.formatted_address) {
+                                            // console.log(place.formatted_address);
+                                            const address = place.formatted_address
+                                            setSuburbValue(prevSuburbValue => [...prevSuburbValue, address]);
+                                            setSubEpty('')
+                                        }
+                                    }}
+                                />
+
                                 <div className="p-2  flex flex-wrap gap-3 py-5 w-full ">
                                     {suburbValue.map((sub, i) => {
                                         return <p className="bg-slate-200 flex items-center gap-1" key={i}>{sub} <FaTimes onClick={() => setSuburbValue(suburbValue.filter((_, index) => index !== i))} className=' text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes></p>
@@ -448,23 +469,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                                     })}
                                 </div>
                                 {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
-                                <Autocomplete
 
-                                    className="w-full  rounded-lg rounded-t-none border-t mt-4  focus:outline-none py-1 px-5   focus:bg-[#f6f6ff] "
-                                    apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
-
-                                    options={{
-                                        componentRestrictions: { country: "au" },
-                                    }}
-
-                                    onPlaceSelected={(place) => {
-                                        if (place.formatted_address) {
-                                            // console.log(place.formatted_address);
-                                            const address = place.formatted_address
-                                            setSuburbValue(prevSuburbValue => [...prevSuburbValue, address]);
-                                        }
-                                    }}
-                                />
                             </div>
 
                         </div>
@@ -575,7 +580,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <input defaultValue={listing?.age} onChange={(e) => setAge(e.target.value)} placeholder="age" type="number" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
+                            <input defaultValue={listing?.age} onChange={(e) => setAge(e.target.value)} placeholder="age" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>

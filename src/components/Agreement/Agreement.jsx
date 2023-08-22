@@ -12,8 +12,8 @@ const Agreement = () => {
     useTitle('Agreements')
     return (
         <div>
-            <div className="bg-[#7065F0] ">
-                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
+            <div className="bg-[#E4E2F8]  text-blue-950 ">
+                <div className="max-w-[1440px] py-8 mx-auto  px-4 text-center">
                     <h1 className="text-4xl font-bold">Agreements</h1>
                     <p className="mt-4 text-lg">At Room Lease, we understand the importance of having a clear and legally binding agreement between homeowners and tenants. This page provides guidance on creating an agreement that suits your needs, including a sample template and state-specific considerations.</p>
                 </div>

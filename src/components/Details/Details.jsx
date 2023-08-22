@@ -199,7 +199,6 @@ const Details = () => {
 
     const [message, setMessage] = useState('')
 
-    console.log(listingDetails);
     const sendMessageFunction = () => {
         if (!message) return
 

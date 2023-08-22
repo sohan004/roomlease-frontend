@@ -13,6 +13,27 @@ import Swal from 'sweetalert2';
 import ListingHomeOwnerUpdate from '../HomeListingUpdate/ListingHomeOwnerUpdate';
 import ListingRoomSeekerUpdate from '../HomeListingUpdate/ListingRoomSeekerUpdate';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    HatenaShareButton,
+    InstapaperShareButton,
+    LineShareButton,
+    LinkedinShareButton,
+    LivejournalShareButton,
+    MailruShareButton,
+    OKShareButton,
+    PinterestShareButton,
+    PocketShareButton,
+    RedditShareButton,
+    TelegramShareButton,
+    TumblrShareButton,
+    TwitterShareButton,
+    ViberShareButton,
+    VKShareButton,
+    WhatsappShareButton,
+    WorkplaceShareButton
+} from "react-share";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -37,7 +58,7 @@ const Profile = () => {
     const [type, setType] = useState(false)
     const [img, setImg] = useState([])
     const navigate = useNavigate()
-    const { listing, setRefresh, refresh } = useContext(AuthContext)
+    const { listing, setListing, setRefresh, refresh } = useContext(AuthContext)
     const [imgValue, setImgValue] = useState([])
     const [roomSeekerImg, setRoomSeekerImg] = useState('')
     const [name, setName] = useState('')
@@ -239,10 +260,9 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setRefresh(refresh + 1)
+                setListing(useObjectData)
             })
     }
-
     const roomSeekersactiveUpdate = (functionValue) => {
         // console.log(functionValue)
         const useObjectData = listing || {}
@@ -258,7 +278,7 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setRefresh(refresh + 1)
+                setListing(useObjectData)
             })
     }
 
@@ -636,7 +656,7 @@ const Profile = () => {
 
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
-                    <div className=' bg-slate-200 relative'>
+                    <div className=' bg-slate-200 relative h-56 lg:h-full'>
                         <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
@@ -648,11 +668,11 @@ const Profile = () => {
                                 }}
                                 navigation={true}
                                 modules={[Pagination, Navigation]}
-                                className="mySwiper "
+                                className="mySwiper h-full "
                             >
                                 {imgValue.map((image, i) => {
 
-                                    return <SwiperSlide className='w-full' key={i}>
+                                    return <SwiperSlide className='w-full h-full' key={i}>
                                         <div className='max-w-[700px] mx-auto h-[250px] lg:h-[350px] relative'>
                                             <img src={`${baseURL}${image.photo}`} className='w-full h-full' alt="" />
                                             <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
@@ -670,7 +690,7 @@ const Profile = () => {
                                 <img className='w-full lg:h-[400px]' src={`${baseURL}${listing?.photo}`} alt="" />
                                 {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
 
-                                <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
+                                {/* <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label> */}
                             </div>
                         }
 
