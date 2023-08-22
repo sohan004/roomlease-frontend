@@ -47,6 +47,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { FaCarAlt, FaPersonBooth, FaSpinner } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
+import Swal from 'sweetalert2'
 
 
 const Details = () => {
@@ -196,6 +197,40 @@ const Details = () => {
         },
     ]
 
+    const [message, setMessage] = useState('')
+
+    console.log(listingDetails);
+    const sendMessageFunction = () => {
+        if (!message) return
+
+        const formData = new FormData()
+        formData.append('message', message)
+
+        fetch(`${baseURL}/message/send-message/${listingDetails?.user}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setMessage('')
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Message sent successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
     if (load) {
         return <div className='flex justify-center items-center mt-7'>
             <FaSpinner className='text-4xl animate-spin text-[#7065F0]'></FaSpinner>
@@ -255,9 +290,9 @@ const Details = () => {
                             <img src={img3} className='w-full h-full   rounded-lg' alt="" />
                             <button className='btn hidden absolute lg:flex items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
                         </div> */}
-                        <textarea className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
                         <div className='text-right'>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
+                            <button onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
                         </div>
                     </div>
                 </div>
