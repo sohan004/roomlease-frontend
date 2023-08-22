@@ -87,7 +87,7 @@ const Profile = () => {
     useEffect(() => {
         setLoading(true)
 
-        fetch(`${baseURL}/listing/house-listing-photos/?pk=${listing?.id}`, {
+        fetch(`${baseURL}/listing/get-house-listing-photos/${listing?.id}/`, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
@@ -304,14 +304,10 @@ const Profile = () => {
     }
 
     const roomseekerImgUplaod = () => {
-        const listingObject = listing
         const formData = new FormData()
-        for (let key in listingObject) {
-            formData.append(key, listingObject[key])
-        }
         formData.append('photo', roomSeekerImg)
-        fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
-            method: 'PUT',
+        fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
+            method: 'POST',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
             },
@@ -319,9 +315,11 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setRoomSeekerImg(null);
                 setRefresh(refresh + 1)
             }).catch(err => console.log(err))
+
 
     }
 
@@ -340,8 +338,10 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setReFatch(reFatch + 1)
             })
+            .catch(err => console.log(err))
     }
 
 
@@ -524,6 +524,7 @@ const Profile = () => {
 
 
     }
+    // console.log(imgValue)
 
     let totalScore = `${score}%`
 
@@ -574,8 +575,8 @@ const Profile = () => {
                             <h1 className='text-2xl font-extrabold text-green-600'>{score}%</h1>
                         </div>
                         <div className='pt-1 px-1  bg-slate-100 border-2 border-gray-300 rounded-lg my-4'>
-                        <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
-                           
+                            <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
+
                         </div>
                         <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-6 '>
                             <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
@@ -653,7 +654,7 @@ const Profile = () => {
 
                                     return <SwiperSlide className='w-full' key={i}>
                                         <div className='max-w-[700px] mx-auto h-[250px] lg:h-[350px] relative'>
-                                            <img src={image.photo} className='w-full h-full' alt="" />
+                                            <img src={`${baseURL}${image.photo}`} className='w-full h-full' alt="" />
                                             <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
                                         </div>
                                     </SwiperSlide>

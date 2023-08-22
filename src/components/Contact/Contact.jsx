@@ -1,6 +1,8 @@
 import React from 'react';
+import useTitle from '../Hook/useTitle';
 
 const Contact = () => {
+    useTitle("Contact Us")
     return (
         <div>
            

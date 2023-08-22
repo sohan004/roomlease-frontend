@@ -36,6 +36,7 @@ import { useEffect } from 'react'
 import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -43,6 +44,10 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
+import { FaCarAlt, FaPersonBooth, FaSpinner } from 'react-icons/fa'
+import { useContext } from 'react'
+import { AuthContext } from '../AuthProvider/AuthProvider'
+import Swal from 'sweetalert2'
 
 
 const Details = () => {
@@ -54,36 +59,15 @@ const Details = () => {
     const [listingUser, setListingUser] = useState(null)
     const [imgValue, setImgValue] = useState([])
 
-    const [userData, setUserData] = useState(null)
     const navigate = useNavigate()
 
-    useEffect(() => {
+    const [load, setLoad] = useState(true)
 
-
-        fetch(`${baseURL}/account/profile/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setUserData(data.data)
-                }
-                else {
-                    navigate('/')
-                    setUserData(null)
-                }
-            })
-            .catch(err => {
-                navigate('/')
-                setUserData(null)
-            })
-    }, []);
+    const { userData, setUserData } = useContext(AuthContext)
 
     useEffect(() => {
+        if (!userData) return
+        setLoad(true)
         if (userData?.account_type == 'roomseeker') {
             fetch(`${baseURL}/listing/home-listings/${id}/`, {
                 method: 'GET',
@@ -94,9 +78,12 @@ const Details = () => {
                 .then(res => res.json())
                 .then(data => {
                     setListingDetails(data);
+                    setLoad(false)
+
                 })
                 .catch(err => {
                     console.log(err);
+                    navigate('/matches')
                 })
 
         }
@@ -110,14 +97,19 @@ const Details = () => {
                 .then(res => res.json())
                 .then(data => {
                     setListingDetails(data);
+                    setLoad(false)
                 })
                 .catch(err => {
                     console.log(err);
+                    navigate('/matches')
                 })
         }
     }, [userData])
 
     useEffect(() => {
+        if (!listingDetails?.user) {
+            return
+        }
         fetch(`${baseURL}/account/get-user-profile/${listingDetails?.user}/`, {
             method: 'GET',
             headers: {
@@ -137,7 +129,10 @@ const Details = () => {
     }, [listingDetails])
 
     useEffect(() => {
-        fetch(`${baseURL}/listing/house-listing-photos/?pk=${listingDetails?.id}`, {
+        if (!listingDetails?.id) {
+            return
+        }
+        fetch(`${baseURL}/listing/get-house-listing-photos/${listingDetails?.id}/`, {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
@@ -154,7 +149,7 @@ const Details = () => {
             }).catch(() => setImgValue([]))
     }, [listingDetails])
 
-    console.log(listingDetails);
+    // console.log(listingDetails)
 
 
     const data = {
@@ -171,7 +166,6 @@ const Details = () => {
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value);
     };
-
 
     const popular = [
         {
@@ -202,6 +196,48 @@ const Details = () => {
             size: '5 x 7',
         },
     ]
+
+    const [message, setMessage] = useState('')
+
+    console.log(listingDetails);
+    const sendMessageFunction = () => {
+        if (!message) return
+
+        const formData = new FormData()
+        formData.append('message', message)
+
+        fetch(`${baseURL}/message/send-message/${listingDetails?.user}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    setMessage('')
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Message sent successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    if (load) {
+        return <div className='flex justify-center items-center mt-7'>
+            <FaSpinner className='text-4xl animate-spin text-[#7065F0]'></FaSpinner>
+        </div>
+    }
+
+
     return (
         <div>
             <div className="max-w-[1440px] mx-auto px-4">
@@ -212,7 +248,7 @@ const Details = () => {
                 <div className='flex mb-8 flex-col lg:flex-row gap-y-6 lg:items-end justify-between'>
                     <div >
                         <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{listingDetails?.house_type}</h1>
-                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address}</p>
+                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address || listingDetails?.suburb[0]}</p>
                     </div>
                     <div className='flex items-center gap-4 justify-center'>
                         <button className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
@@ -223,7 +259,7 @@ const Details = () => {
 
                 <div className='flex flex-col gap-2 lg:gap-6 lg:flex-row'>
                     <div className='w-full lg:w-[70%] relative'>
-                      { userData?.account_type == 'roomseeker' && <Swiper
+                        {userData?.account_type == 'roomseeker' && <Swiper
                             pagination={{
                                 type: 'fraction',
                             }}
@@ -231,23 +267,32 @@ const Details = () => {
                             modules={[Pagination, Navigation]}
                             className="mySwiper "
                         >
-                            {imgValue.map((image, i) => {
+                            {imgValue.length > 0 ? imgValue.map((image, i) => {
+
 
                                 return <SwiperSlide className='w-full' key={i}>
                                     <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
-                                        <img src={image.photo} className='w-full rounded-md h-full' alt="" />
+                                        <img src={`${baseURL}${image.photo}`} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
                                     </div>
                                 </SwiperSlide>
-                            })}
+                            }) : <SwiperSlide className='w-full' >
+                                <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
+                                    <img src={img} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
+                                </div>
+                            </SwiperSlide>}
 
                         </Swiper>}
-                        { userData?.account_type == 'homeowner' && <img className='h-[250px] lg:h-[500px] w-full' src={listingDetails?.photo} />}
+                        {userData?.account_type == 'homeowner' && <>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={img} />}</>}
                     </div>
-                    <div className='w-full lg:w-[30%] flex flex-row lg:flex-col gap-2 lg:gap-6'>
-                        <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />
+                    <div className='w-full lg:w-[30%] '>
+                        {/* <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />
                         <div className='w-2/4 lg:w-full h-full lg:h-2/4 relative'>
                             <img src={img3} className='w-full h-full   rounded-lg' alt="" />
                             <button className='btn hidden absolute lg:flex items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
+                        </div> */}
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
+                        <div className='text-right'>
+                            <button onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
                         </div>
                     </div>
                 </div>
@@ -255,38 +300,38 @@ const Details = () => {
 
                 <div className='flex flex-col gap-6  lg:flex-row mt-6 lg:mt-8'>
                     <div className='w-full lg:w-[70%] '>
-                        <div className='grid grid-cols-3 lg:grid-cols-5 border rounded-lg p-6 gap-x-8'>
+                        <div className='grid grid-cols-2 lg:grid-cols-4 border rounded-lg p-6 gap-x-8'>
                             <div>
-                                <p className='opacity-70 mb-4'>Bedrooms</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={bed} alt="" />4</p>
-                            </div>
-                            <div>
-                                <p className='opacity-70 mb-4'>Bathrooms</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={bath} alt="" />4</p>
+                                <p className='opacity-70 mb-4'>Bedrooms Type</p>
+                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={bed} alt="" />{listingDetails?.bedroom_type || listingDetails?.room_type}</p>
                             </div>
                             <div>
-                                <p className='opacity-70 mb-4'>Square Area</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={size} alt="" />6x8 m<sup>2</sup></p>
+                                <p className='opacity-70 mb-4'>Private Bathroom</p>
+                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={bath} alt="" />{listingDetails?.private_bathroom}</p>
                             </div>
-                            <div className='col-span-2 lg:col-span-1'>
-                                <p className='opacity-70 mb-4 '>Repair Quality</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={jaru} alt="" />Modern Loft</p>
-                            </div>
+                            {listingDetails?.parking_option && <div className=''>
+                                <p className='opacity-70 mb-4 '>Parking</p>
+                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><FaCarAlt className='text-2xl opacity-60' /> {listingDetails?.parking_option}</p>
+                            </div>}
+                            {listingDetails?.looking_place && <div className=''>
+                                <p className='opacity-70 mb-4 '>Looking Place</p>
+                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><FaPersonBooth className='text-2xl opacity-60' /> {listingDetails?.looking_place}</p>
+                            </div>}
                             <div>
                                 <p className='opacity-70 mb-4'>Status</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={active} alt="" />Active</p>
+                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'>{listingDetails?.active ? <><img src={active} alt="" />Active</> : 'Deactive'}</p>
                             </div>
                         </div>
                         <h1 className='text-xl lg:text-2xl font-bold mt-8  lg:mt-12 '>About this home</h1>
-                        <p className='my-4 opacity-80'>Check out that Custom Backyard Entertaining space! 3237sqft, 4 Bedrooms, 2 Bathrooms house on a Lake Villa  street in the Palm Harbor neighborhood of Texas. Well cared for with tons of upgrades! Newer stainless steel appliances will stay with the unit, including dishwasher, fridge, stove, microwave, and washer and dryer. Tenant pays electricity and gas bills. Water, Sewer, and Trash are covered by Landlord. Tenant is responsible for lawncare and snow removal. Landlord provides lawn mower. Minimum one year lease.</p>
+                        <p className='my-4 opacity-80'>{listingDetails?.describe_occupants}</p>
                         <div className='p-6 bg-[#F7F7FD] border-2 border-[#E0DEF7] rounded-lg'>
                             <p className='opacity-80 mb-6'>Listed by property owner</p>
                             <div className='flex lg:items-center flex-col lg:flex-row gap-y-8 lg:justify-between'>
-                                <div className='flex items-center gap-2'>
-                                    <img src={person} className='rounded-full' alt="" />
+                                <div className='flex items-center gap-3'>
+                                    <img src={listingUser?.profile_picture} className='rounded-full h-16 w-16' alt="" />
                                     <div>
-                                        <p className='font-semibold'>Madina Aulia</p>
-                                        <p className='opacity-75'>Rich Capital Properties LLC</p>
+                                        <p className='font-semibold'>{listingUser?.full_name}</p>
+                                        {listingUser?.show_phone_number && <p className='opacity-75'>+{listingUser?.username}</p>}
                                     </div>
                                 </div>
                                 <div className='flex lg:items-center gap-4 flex-col lg:flex-row'>
@@ -296,7 +341,7 @@ const Details = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='w-full lg:w-[30%] p-6 border-2 border-[#E0DEF7] rounded-lg'>
+                    {/* <div className='w-full lg:w-[30%] p-6 border-2 border-[#E0DEF7] rounded-lg'>
                         <div className='hidden lg:block'>
                             <p className='text-sm opacity-80'>Rent price</p>
                             <h1 className='text-2xl font-bold text-[#7065F0] mt-1 mb-6'>$2500<span className='text-base font-medium text-gray-500'>/month</span></h1>
@@ -312,7 +357,7 @@ const Details = () => {
                             onChange={handleDateChange} type="date" />
                         <button className="btn bg-[#100A55] text-white w-full my-6"><img src={location} alt="" />Request a tour</button>
                         <p className='text-xs opacity-75'>It’s free, with no obligation － cancel anytime.</p>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className='w-full lg:w-[70%] '>
@@ -321,8 +366,41 @@ const Details = () => {
 
                     <h1 className='text-xl lg:text-2xl font-bold mb-8'>Rental features </h1>
 
+                    <div className='p-4 lg:p-6 '>
+                        {listingDetails && Object.keys(listingDetails).map((key, index) => {
 
-                    <div className='flex gap-x-20   flex-col lg:flex-row   '>
+                            if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listingDetails[key] || listingDetails[key]?.length === 0) return
+
+                            const stringWithoutHyphens = key.replace(/_/g, ' ');
+                            const words = stringWithoutHyphens.split(' ');
+
+                            const capitalizedWords = words.map(word => {
+                                if (word.length === 0) {
+                                    return word;
+                                }
+                                return word.charAt(0).toUpperCase() + word.slice(1);
+                            });
+
+
+                            const vlidarray = Array.isArray(listingDetails[key]);
+
+                            return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
+                                <p className='font-medium opacity-70   lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
+                                {
+                                    vlidarray ? <div className='flex items-center flex-wrap gap-2'>
+                                        {listingDetails[key].map((item, i) => <p className='font-semibold' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
+                                    </div> :
+
+                                        <p className='font-semibold'>{listingDetails[key]}</p>
+                                }
+
+                            </div>
+                        })}
+                    </div>
+
+
+                    {/* <div className='flex gap-x-20   flex-col lg:flex-row   '>
                         <div className='flex  justify-between flex-grow'>
                             <div className='opacity-70'>
                                 <p className='flex items-center gap-1  mb-5  text-[#100A55]'>Listed on<img src={logo} alt="" /><span className='font-bold'>Estatery</span> </p>
@@ -368,10 +446,8 @@ const Details = () => {
                     <h1 className='text-xl lg:text-2xl font-bold mb-8'>Rent Price History For st. crystal</h1>
 
 
-                    {/* this table only for large device */}
                     <div className="overflow-x-auto hidden lg:block">
                         <table className="table">
-                            {/* head */}
                             <thead>
                                 <tr className="bg-base-200 text-black rounded-md font-bold">
                                     <th>Date</th>
@@ -381,7 +457,6 @@ const Details = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* row 1 */}
                                 <tr className=''>
                                     <td>28/12/2021</td>
                                     <td>$2,400/mo</td>
@@ -418,7 +493,6 @@ const Details = () => {
 
 
 
-                    {/* this table for small device */}
                     <div className='border rounded-xl lg:hidden'>
                         <div className='flex border-b items-center py-4 px-6 justify-between'>
                             <div>
@@ -471,7 +545,7 @@ const Details = () => {
 
                     <p className='h-[2px] bg-slate-200  my-8 lg:my-12'></p>
 
-                    <p className='text-sm opacity-80'>{`You agree to Estatery's Terms of Use & Privacy Policy. By choosing to contact a property, you also agree that Estatery Group, landlords, and property managers may call or text you about any inquiries you submit through our services, which may involve use of automated means and prerecorded/artificial voices. You don't need to consent as a condition of renting any property, or buying any other goods or services. Message/data rates may apply.`}</p>
+                    <p className='text-sm opacity-80'>{`You agree to Estatery's Terms of Use & Privacy Policy. By choosing to contact a property, you also agree that Estatery Group, landlords, and property managers may call or text you about any inquiries you submit through our services, which may involve use of automated means and prerecorded/artificial voices. You don't need to consent as a condition of renting any property, or buying any other goods or services. Message/data rates may apply.`}</p> */}
                 </div>
             </div>
             <div className='bg-[#F7F7FD] mt-16'>

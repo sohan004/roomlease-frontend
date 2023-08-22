@@ -1,5 +1,5 @@
 import { FaArrowLeft, FaPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import logo from '../../assets/settingIcon/Frame.svg'
 import ball from '../../assets/settingIcon/Icon.svg'
 import menu from '../../assets/messagePageIcon/menu.svg'
@@ -18,7 +18,7 @@ import icon6 from '../../assets/messagePageIcon/Icon (5).svg'
 import icon7 from '../../assets/messagePageIcon/Icon (6).svg'
 import icon8 from '../../assets/messagePageIcon/Icon (7).svg'
 import messagePerson from '../../assets/messagePageIcon/Image.png'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ico7 from '../../assets/sec3Icon/Icon (3).svg'
 import mes1 from '../../assets/messagePageIcon/message1.svg'
 import mes2 from '../../assets/messagePageIcon/message2.svg'
@@ -33,6 +33,7 @@ import text4 from '../../assets/messagePageIcon/text4.svg'
 import text5 from '../../assets/messagePageIcon/text5.svg'
 import text6 from '../../assets/messagePageIcon/text6.svg'
 import text7 from '../../assets/messagePageIcon/text7.svg'
+import { baseURL } from "../../App";
 
 
 
@@ -40,7 +41,7 @@ import text7 from '../../assets/messagePageIcon/text7.svg'
 
 
 const MessageDashboard = () => {
-    const [data, setData] = useState([{}])
+    const [data, setData] = useState([])
     const messageData = [
         {
             "img": "image_url_1.jpg",
@@ -72,34 +73,57 @@ const MessageDashboard = () => {
         }
     ]
 
+    useEffect(() => {
+        console.log(localStorage.getItem('token'));
+        fetch(`${baseURL}/message/get-conversations/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'content-type': 'application/json',
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                setData(data)
+                console.log(data)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
     return (
         <div className="max-w-[1440px] mx-auto px-4">
             <div className="flex flex-col lg:flex-row">
-                <div className="px-5 py-7 w-[10%] hidden lg:flex  flex-col  items-center justify-between border-e h-[100vh]">
-                    <div>
-                        <img src={logo} className="bg-[#7065F0] p-2 rounded-lg" alt="" />
-                        <div className="flex flex-col items-center gap-4 mt-14">
-                            <img src={icon1} className="p-2 rounded-lg" alt="" />
-                            <img src={icon2} className="p-2 rounded-lg" alt="" />
-                            <img src={icon3} className="p-2 rounded-lg" alt="" />
-                            <img src={icon4} className="p-2 rounded-lg" alt="" />
-                            <img src={icon5} className="p-2 rounded-lg" alt="" />
-                            <img src={icon6} className="p-2 rounded-lg bg-[#F0EFFB]" alt="" />
+                <div className="px-5 py-7 w-[30%] hidden lg:flex  flex-col  items-center  border-e h-[100vh]">
+                    <div className="flex gap-4 items-center p-4">
+                        <div className="w-full">
+                            <div className='  w-full bg-[#F7F7FD]  border border-[#E0DEF7] rounded-lg flex gap-2 items-center p-2'>
+                                <img src={ico7} alt="" />
+                                <input className='bg-transparent border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
+                            </div>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center gap-6">
-                        <img src={icon7} alt="" />
-                        <img src={icon8} alt="" />
+                    <div className="grid grid-cols-1 w-full">
+                        {data.map((d, i) =>
+                            <Link key={d.id} to={`/message-deshboard/${d.id}`}>
+                                <div className="p-4 flex items-start gap-4 w-full border-b">
+                                    <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
+                                    <div className="flex-grow">
+                                        <div className="flex justify-between flex-grow items-center">
+                                            <p className="font-bold">Ayush</p>
+                                            <p className="opacity-60">4h ago</p>
+                                        </div>
+                                        <p className="text-sm my-1 font-medium">Home Tour</p>
+                                        {/* <p className="text-sm">{'Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation.'.slice(0, 80)}...</p> */}
+                                    </div>
+                                </div></Link>)}
                     </div>
                 </div>
-                <div className="w-full lg:w-[90%]">
+                <div className="w-full lg:w-[70%]">
                     <div className="w-full border-b bg-white">
                         <div className=" px-4  py-4 lg:py-7 flex items-center justify-between">
 
                             <p className="text-2xl hidden lg:block font-bold">Messages</p>
                             <img src={menu} className="lg:hidden" alt="" />
-
-
                             <div className="flex gap-4 lg:gap-6 items-center">
                                 <div>
                                     <img src={ball} className="p-2 bg-slate-100 rounded-lg" alt="" />
@@ -117,7 +141,7 @@ const MessageDashboard = () => {
 
 
 
-                    {/* emty fild design */}
+                    {/* emty fild design
                     {data.length === 0 && <div className="w-full flex justify-center max-w-[348px] mx-auto  ">
                         <div className=" text-center">
                             <div className="mt-16 lg:mt-24">
@@ -139,106 +163,13 @@ const MessageDashboard = () => {
                             <p className="opacity-70 text-center ">Messages is a feature that helps you converse with applicants and landlords. Let’s send your first message.</p>
                             <button className='btn  hover:bg-[#4e46a1] mt-8 bg-[#7065F0] text-white ms-3'>new message</button>
                         </div>
-                    </div>}
+                    </div>} */}
 
 
                     {/* message design */}
-                    <div className="w-full flex flex-col lg:flex-row">
-                        <div className="w-full lg:w-[30%] h-[90vh] overflow-y-auto ">
-                            <div className="flex gap-4 items-center p-4">
-                                <div className="flex-grow">
-                                    <div className='  w-full bg-[#F7F7FD]  border border-[#E0DEF7] rounded-lg flex gap-2 items-center p-2'>
-                                        <img src={ico7} alt="" />
-                                        <input className='bg-transparent border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
-                                    </div>
-                                </div>
-                                <button className='btn  hover:bg-[#4e46a1]  bg-[#7065F0] text-white '><FaPlus /></button>
-                            </div>
-                            <div className="grid grid-cols-1 w-full">
-                                {messageData.map((d, i) =>
-                                    <div key={i} className="p-4 flex items-start gap-4 w-full">
-                                        <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
-                                        <div>
-                                            <div className="flex justify-between flex-grow items-center">
-                                                <p className="font-bold">{d.name}</p>
-                                                <p className="opacity-60">4h ago</p>
-                                            </div>
-                                            <p className="text-sm my-1 font-medium">{d.method}</p>
-                                            <p className="text-sm">{d.message.slice(0, 80)}...</p>
-                                            <button className="btn btn-sm mt-4 rounded-full bg-transparent border-gray-300 border text-[#7065F0]">{d.status}</button>
-                                        </div>
-                                    </div>)}
-                            </div>
+                        <div className="w-full  relative h-[85vh] overflow-y-auto px-4 bg-gradient-to-r from-[#E7E6F9] via-[#F6F5FC]  to-[#E7E6F9]">
+                            <Outlet></Outlet>
                         </div>
-                        <div className="w-full lg:w-[40%] relative h-[90vh] overflow-y-auto p-4 bg-gradient-to-r from-[#E7E6F9] via-[#F6F5FC]  to-[#E7E6F9]">
-                            <div className="flex justify-between py-4 px-6 bg-white border-2 border-indigo-100 rounded-lg">
-                                <div className="flex gap-6">
-                                    <img src={mes1} alt="" />
-                                    <img src={mes2} alt="" />
-                                    <img src={mes3} alt="" />
-                                </div>
-                                <div className="flex gap-6">
-                                    <img src={mes4} alt="" />
-                                    <img src={mes5} alt="" />
-                                </div>
-                            </div>
-
-
-                            <div className="flex gap-4 mt-6 justify-start">
-                                <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
-                                <div>
-                                    <p className="p-4 bg-white rounded-lg border-2 border-indigo-100">Hi Francis,
-                                        I’m  in love with one of your properties, Beverly Springfield and I would like to ask is it on the market?</p>
-                                    <p className="text-sm mt-4 opacity-70">13:32 PM</p>
-                                </div>
-                            </div>
-
-                            <div className="flex gap-4 mt-6 justify-end">
-                                <div>
-                                    <p className="p-4 bg-[#E0DEF7] rounded-lg text-right">May I know your availability for home </p>
-                                    <p className="text-sm mt-4 opacity-70 text-right">13:32 PM</p>
-                                </div>
-                            </div>
-
-
-                            <div className="flex gap-4 mt-6 justify-start">
-                                <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
-                                <div>
-                                    <p className="p-4 bg-white rounded-lg border-2 border-indigo-100">May I know your availability for home tour this week?</p>
-                                    <p className="text-sm mt-4 opacity-70">13:32 PM</p>
-                                </div>
-                            </div>
-
-                            <div className="flex gap-4 mt-6 justify-end">
-                                <div>
-                                    <p className="p-4 bg-[#E0DEF7] rounded-lg text-right">Here is my schedule please choose a time at your convenience.</p>
-                                    <p className="text-sm mt-4 opacity-70 text-right">13:32 PM</p>
-                                </div>
-                            </div>
-
-                            <div className=" w-full lg:w-[95%] mx-auto bottom-0  z-30 sticky p-4 rounded-lg bg-white border-2 border-indigo-100">
-                                <input type="text" name="" className="p-2 w-full" placeholder="Write your message..." id="" />
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4 lg:gap-6">
-                                        <img src={text1} alt="" />
-                                        <img src={text2} alt="" />
-                                        <img src={text3} alt="" />
-                                        <img src={text4} alt="" />
-                                        <img src={text5} alt="" />
-                                        <img src={text6} alt="" />
-                                    </div>
-                                    <button className="btn  btn-sm text-white bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div className="w-[30%] h-[90vh] overflow-y-auto p-4">
-
-                        </div>
-
-                    </div>
-
 
                 </div>
             </div>

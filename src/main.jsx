@@ -40,6 +40,7 @@ import Career from './components/Career/Career.jsx'
 import Testimonial from './components/Testimonial/Testimonial.jsx'
 import Contact from './components/Contact/Contact.jsx'
 import Matches from './components/Matches/Matches.jsx'
+import MessageList from './components/MessageList/MessageList.jsx'
 
 
 const router = createBrowserRouter([
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/details/:id',
-        element: <Details></Details>
+        element: <PrivateRoute><Details></Details></PrivateRoute>
       },
       {
         path: '/map',
@@ -163,7 +164,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/matches',
-        element: <Matches></Matches>
+        element: <PrivateRoute><Matches></Matches></PrivateRoute>
       },
         
     ]
@@ -182,7 +183,13 @@ const router = createBrowserRouter([
   },
   {
     path: '/message-deshboard',
-    element: <MessageDashboard></MessageDashboard>
+    element: <MessageDashboard></MessageDashboard>,
+    children: [
+      {
+        path: '/message-deshboard/:id',
+        element: <MessageList></MessageList>
+      }
+    ]
   },
 ])
 

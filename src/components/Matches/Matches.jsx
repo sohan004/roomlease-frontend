@@ -12,6 +12,8 @@ import ico4 from '../../assets/sec3Icon/Frame.svg'
 import ico9 from '../../assets/sec3Icon/Square Meters.svg'
 import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
+
+
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
@@ -24,6 +26,7 @@ const Matches = () => {
     const [showMore, setShowMore] = useState(false);
     const [pageNum, setPageNum] = useState(1);
     const [userData, setUserData] = useState(null)
+    const [reFatch, setReFatch] = useState(1)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -83,12 +86,12 @@ const Matches = () => {
                 setLoading(false);
                 console.log(err)
             })
-    }, []);
-    console.log(list);
+    }, [reFatch]);
+    // console.log(list)
     return (
         <div className="max-w-[1440px] mx-auto px-3">
             {!loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                {list.map(p => <ListingCard key={p.id} p={p} />)}
+                {list.map(p => <ListingCard setReFatch={setReFatch} reFatch={reFatch} key={p.id} p={p} />)}
             </div>}
 
             {loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
