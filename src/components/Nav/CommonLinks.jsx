@@ -35,7 +35,7 @@ export default function CommonLinks({ setUserData, userData }) {
           <p className='font-medium'>Matches</p>
         </div>
       </Link>
-      <Link to='/message-deshboard' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+      <Link to='/message' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
       </Link>

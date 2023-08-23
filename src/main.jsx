@@ -41,6 +41,7 @@ import Testimonial from './components/Testimonial/Testimonial.jsx'
 import Contact from './components/Contact/Contact.jsx'
 import Matches from './components/Matches/Matches.jsx'
 import MessageList from './components/MessageList/MessageList.jsx'
+import EmtyMessage from './components/MessageDashboard/EmtyMessage.jsx'
 
 
 const router = createBrowserRouter([
@@ -182,11 +183,15 @@ const router = createBrowserRouter([
     element: <SettingProfile></SettingProfile>
   },
   {
-    path: '/message-deshboard',
+    path: '/message',
     element: <MessageDashboard></MessageDashboard>,
     children: [
       {
-        path: '/message-deshboard/:id',
+        path: '/message',
+        element: <EmtyMessage></EmtyMessage>
+      },
+      {
+        path: '/message/:id',
         element: <MessageList></MessageList>
       }
     ]

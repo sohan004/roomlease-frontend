@@ -1,4 +1,4 @@
-import { FaArrowLeft, FaPlus } from "react-icons/fa";
+import { FaArrowLeft, FaPlus, FaPlusCircle } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import logo from '../../assets/settingIcon/Frame.svg'
 import ball from '../../assets/settingIcon/Icon.svg'
@@ -37,6 +37,7 @@ import { baseURL } from "../../App";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useContext } from "react";
 import { useRef } from "react";
+import moment from "moment";
 const MessageList = () => {
 
     const {
@@ -104,46 +105,42 @@ const MessageList = () => {
                 console.log(err);
             })
     }
+    // console.log(messageList);
     return (
         <div className="relative h-full w-full">
 
-
-
             <div className="flex flex-col justify-end h-full">
-                <div  ref={scrollingDivRef} className=" overflow-y-auto">
+                <div ref={scrollingDivRef} className=" overflow-y-auto">
                     {messageList.map((item, index) => {
                         if (+item.sender === +userData?.user_id) {
-                            return <div key={item.id} className="flex gap-4 mt-6 justify-end">
-                                <div>
+                            return <div key={item.id} className="flex gap-4 mt-6 justify-end px-5">
+                                <div className="">
                                     <p className="p-4 bg-[#E0DEF7] rounded-lg text-right">{item?.message}</p>
-                                    <p className="text-sm mt-4 opacity-70 text-right">13:32 PM</p>
+                                    <p className="text-sm mt-1 opacity-70 text-right">{moment(item?.created_at).format("MMM D,  h:mm a")}</p>
                                 </div>
                             </div>
                         }
                         else {
-                            return <div key={item.id} className="flex gap-4 mt-6 justify-start">
+                            return <div key={item.id} className="flex gap-4 mt-6 justify-start px-5">
                                 <div>
                                     <p className="p-4 bg-white rounded-lg border-2 border-indigo-100">{item?.message}</p>
-                                    <p className="text-sm mt-4 opacity-70">13:32 PM</p>
+                                    <p className="text-sm mt-1 opacity-70">13:32 PM</p>
                                 </div>
                             </div>
                         }
                     })}
                 </div>
 
-                <div className="mx-auto w-full  z-30 p-4 rounded-lg bg-white border-2 border-indigo-100">
-                    <input onChange={e => setMessage(e.target.value)} value={message} type="text" name="" className="p-2 w-full focus:outline-none" placeholder="Write your message..." id="" />
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4 lg:gap-6">
-                            <img src={text1} alt="" />
-                            <img src={text2} alt="" />
-                            <img src={text3} alt="" />
-                            <img src={text4} alt="" />
-                            <img src={text5} alt="" />
-                            <img src={text6} alt="" />
-                        </div>
-                        <button onClick={sendMessageFunction} className="btn  btn-sm text-white bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
+                <div className="mx-auto w-full flex items-start gap-3 z-30 p-3 rounded-lg bg-white border-2 border-indigo-100">
+                    <div className="dropdown dropdown-top">
+                    <FaPlusCircle tabIndex={0} className="text-3xl text-[#7065F0] cursor-pointer"></FaPlusCircle>
+                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Photo</a></li>
+                            <li><a>Video</a></li>
+                        </ul>
                     </div>
+                    <textarea onChange={e => setMessage(e.target.value)} value={message} type="text" name="" className="  flex-grow w-full focus:outline-none" placeholder="Write your message..." id="" />
+                    <button disabled={message === '' ? true : false} onClick={sendMessageFunction} className="btn  btn-sm text-white bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
                 </div>
             </div>
 
