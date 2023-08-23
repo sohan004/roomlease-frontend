@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
 
 
     useEffect(() => {
-        setListingLoading(true)
+        // setListingLoading(true)
         if (!localStorage.getItem('user-token')) {
             setListing(null)
             setListingLoading(false)

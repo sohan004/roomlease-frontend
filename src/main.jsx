@@ -42,6 +42,8 @@ import Contact from './components/Contact/Contact.jsx'
 import Matches from './components/Matches/Matches.jsx'
 import MessageList from './components/MessageList/MessageList.jsx'
 import EmtyMessage from './components/MessageDashboard/EmtyMessage.jsx'
+import HomeOwnerListingCardDetails from './components/Details/HomeOwnerListingCardDetails.jsx'
+import RoomSeekerListingDetails from './components/Details/RoomSeekerListingDetails.jsx'
 
 
 const router = createBrowserRouter([
@@ -166,6 +168,14 @@ const router = createBrowserRouter([
       {
         path: '/matches',
         element: <PrivateRoute><Matches></Matches></PrivateRoute>
+      },
+      {
+        path: '/home-listing/:id',
+        element: <HomeOwnerListingCardDetails></HomeOwnerListingCardDetails>
+      },
+      {
+        path: '/room-seeker/:id',
+        element: <RoomSeekerListingDetails></RoomSeekerListingDetails>
       },
         
     ]

@@ -18,7 +18,7 @@ import icon6 from '../../assets/messagePageIcon/Icon (5).svg'
 import icon7 from '../../assets/messagePageIcon/Icon (6).svg'
 import icon8 from '../../assets/messagePageIcon/Icon (7).svg'
 import messagePerson from '../../assets/messagePageIcon/Image.png'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ico7 from '../../assets/sec3Icon/Icon (3).svg'
 import mes1 from '../../assets/messagePageIcon/message1.svg'
 import mes2 from '../../assets/messagePageIcon/message2.svg'
@@ -36,6 +36,8 @@ import text7 from '../../assets/messagePageIcon/text7.svg'
 import { baseURL } from "../../App";
 import { useRef } from "react";
 import backarrow from '../../assets/detailsPageIcon/Icon.svg'
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import MessageContainer from "./MessageContainer";
 
 
 
@@ -44,13 +46,14 @@ import backarrow from '../../assets/detailsPageIcon/Icon.svg'
 
 
 const MessageDashboard = () => {
+    const { userData } = useContext(AuthContext)
     const [data, setData] = useState([])
 
     const [tf, setTf] = useState(true)
 
 
     useEffect(() => {
-        console.log(localStorage.getItem('token'));
+        if (!userData) return
         fetch(`${baseURL}/message/get-conversations/`, {
             method: 'GET',
             headers: {
@@ -60,11 +63,14 @@ const MessageDashboard = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setData(data)
-                console.log(data)
+                if (data) {
+
+                    setData(data)
+                    console.log(data)
+                }
             })
             .catch(err => console.log(err))
-    }, [])
+    }, [userData])
 
     return (
         <div className="bg-white">
@@ -84,19 +90,7 @@ const MessageDashboard = () => {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 w-full">
-                        {data.map((d, i) =>
-                            <NavLink onClick={() => setTf(false)} key={d.id} to={`/message/${d.id}`} className={({ isActive }) => ` ${isActive ? 'bg-gradient-to-r from-[#E7E6F9] via-[#F6F5FC]  to-[#E7E6F9]' : ''}`}>
-                                <div className="p-4 flex items-start gap-4 w-full border-b">
-                                    <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
-                                    <div className="flex-grow">
-                                        <div className="flex justify-between flex-grow items-center">
-                                            <p className="font-bold">Ayush</p>
-                                            <p className="opacity-60">4h ago</p>
-                                        </div>
-                                        <p className="text-sm my-1 font-medium">Home Tour</p>
-                                        {/* <p className="text-sm">{'Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation.'.slice(0, 80)}...</p> */}
-                                    </div>
-                                </div></NavLink>)}
+                        {data.map((d, i) => <MessageContainer key={d.id} d={d} setTf={setTf}></MessageContainer>)}
                     </div>
                 </div>
             </div>
@@ -119,19 +113,7 @@ const MessageDashboard = () => {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 w-full">
-                            {data.map((d, i) =>
-                                <NavLink key={d.id} to={`/message/${d.id}`} className={({ isActive }) => ` ${isActive ? 'bg-gradient-to-r from-[#E7E6F9] via-[#F6F5FC]  to-[#E7E6F9]' : ''}`}>
-                                    <div className="p-4 flex items-start gap-4 w-full border-b">
-                                        <img className="w-12 h-12 rounded-full" src={messagePerson} alt="" />
-                                        <div className="flex-grow">
-                                            <div className="flex justify-between flex-grow items-center">
-                                                <p className="font-bold">Ayush</p>
-                                                <p className="opacity-60">4h ago</p>
-                                            </div>
-                                            <p className="text-sm my-1 font-medium">Home Tour</p>
-                                            {/* <p className="text-sm">{'Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation.'.slice(0, 80)}...</p> */}
-                                        </div>
-                                    </div></NavLink>)}
+                            {data.map((d, i) => <MessageContainer key={d.id} d={d} setTf={setTf}></MessageContainer>)}
                         </div>
                     </div>
                     <div className="w-full lg:w-[70%]">
@@ -139,7 +121,7 @@ const MessageDashboard = () => {
                             <div className=" px-4  py-4  flex items-center justify-between">
 
                                 <p className="text-2xl hidden lg:block font-bold">Messages</p>
-                                <img onClick={()=>setTf(true)} src={menu} className="lg:hidden cursor-pointer" alt="" />
+                                <img onClick={() => setTf(true)} src={menu} className="lg:hidden cursor-pointer" alt="" />
 
                             </div>
                         </div>

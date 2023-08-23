@@ -112,11 +112,11 @@ const ListingCard = ({ p, setReFatch, reFatch }) => {
     return (
         // <Link to={`/details/${p.id}`}>
         <div className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
-            {p?.photo && <img onClick={() => navigate(`/details/${p.id}`)} src={`${baseURL}${p?.photo}`} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
-            {!p?.photo && <img onClick={() => navigate(`/details/${p.id}`)} src={img} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
+            {p?.photo && <img onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={`${p?.photo.includes('https://roomlease.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
+            {!p?.photo && <img onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={img} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
             <div className='px-6 pt-6 pb-8'>
                 <div className='flex items-center justify-between'>
-                    {userData?.account_type == 'homeowner' ? <h1 onClick={() => navigate(`/details/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>{p?.looking_place}</h1> : <h1 onClick={() => navigate(`/details/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>${p?.rent_per_week_single}<span className='text-base font-medium text-gray-500'>/week</span></h1>}
+                    {userData?.account_type == 'homeowner' ? <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>{p?.looking_place}</h1> : <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>${p?.rent_per_week_single}<span className='text-base font-medium text-gray-500'>/week</span></h1>}
                     <div className='flex items-center gap-4'>
                         <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
                         {p?.is_favourite ? <svg onClick={() => {
@@ -138,9 +138,9 @@ const ListingCard = ({ p, setReFatch, reFatch }) => {
                         }} src={ico3} className='border p-3 rounded-full' alt="" />}
                     </div>
                 </div>
-                <h1 onClick={() => navigate(`/details/${p.id}`)} className='text-2xl font-bold my-2'>{p?.house_type}</h1>
-                <h1 onClick={() => navigate(`/details/${p.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.home_address || p?.suburb[0]}</h1>
-                <div onClick={() => navigate(`/details/${p.id}`)} className='flex items-center justify-between'>
+                <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold my-2'>{p?.house_type}</h1>
+                <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.home_address || p?.suburb[0]}</h1>
+                <div onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>
                     <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p?.bedroom_type || p?.room_type}</p>
                     <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bed_size}</p>
                     <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.bond || p?.private_bathroom}</p>

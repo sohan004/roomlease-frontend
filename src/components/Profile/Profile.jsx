@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
-import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
+import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
 import { ToastContainer, toast } from 'react-toastify';
@@ -250,6 +250,11 @@ const Profile = () => {
         const useObjectData = listing || {}
         useObjectData.active = functionValue
 
+        const photoKey = useObjectData['photo']
+        if (photoKey) {
+            delete useObjectData['photo']
+        }
+
         fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
             method: 'PUT',
             headers: {
@@ -260,9 +265,12 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setListing(useObjectData)
+                // console.log(data);
+                setRefresh(refresh + 1)
             })
+            .catch(err => console.log(err))
     }
+    // console.log(listing);
     const roomSeekersactiveUpdate = (functionValue) => {
         // console.log(functionValue)
         const useObjectData = listing || {}
@@ -278,7 +286,7 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setListing(useObjectData)
+                setRefresh(refresh + 1)
             })
     }
 
@@ -673,7 +681,7 @@ const Profile = () => {
                                 {imgValue.map((image, i) => {
 
                                     return <SwiperSlide className='w-full h-full' key={i}>
-                                        <div className='max-w-[700px] mx-auto h-[250px] lg:h-[350px] relative'>
+                                        <div className='max-w-[700px] mx-auto h-full relative'>
                                             <img src={`${baseURL}${image.photo}`} className='w-full h-full' alt="" />
                                             <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
                                         </div>
@@ -686,8 +694,8 @@ const Profile = () => {
 
                         {
                             userData?.account_type == 'roomseeker' &&
-                            <div className='w-full  bg-slate-50 relative'>
-                                <img className='w-full lg:h-[400px]' src={`${baseURL}${listing?.photo}`} alt="" />
+                            <div className='w-full h-full bg-slate-50 relative'>
+                                <img className='w-full h-full' src={`${listing?.photo}`} alt="" />
                                 {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
 
                                 {/* <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label> */}
@@ -904,19 +912,45 @@ const Profile = () => {
                             <h1 className=' text-xl text-center font-semibold'>Share your listing </h1>
                             <div className='flex justify-center items-center gap-6 mt-4'>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
-                                    <FaFacebook className='text-5xl text-blue-600' />
-                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    <FacebookShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
+                                        <FaFacebook className='text-5xl text-blue-600' />
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    </FacebookShareButton>
                                 </div>
-                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Instagram share">
-                                    <FaInstagramSquare className='text-5xl text-rose-600' />
-                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
+                                    <LinkedinShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
+                                        <FaLinkedin className='text-5xl text-blue-600' />
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    </LinkedinShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
-                                    <FaTwitterSquare className='text-5xl text-blue-400' />
-                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    <TwitterShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
+                                        <FaTwitterSquare className='text-5xl text-blue-400' />
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    </TwitterShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
-                                    <FaCopy className='text-5xl text-gray-400' />
+                                    <FaCopy
+                                        onClick={() => {
+                                            const copyText = `${userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}`
+                                            navigator.clipboard.writeText(copyText)
+                                                .then(() => {
+                                                    toast.success('Listing Copy Succesfully', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: false,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        progress: undefined,
+                                                        theme: "colored",
+                                                        });
+                                                })
+                                                .catch((error) => {
+                                                    console.error('Unable to copy text: ', error);
+                                                });
+                                        }}
+                                        className='text-5xl text-gray-400' />
                                 </div>
                             </div>
                         </div>
