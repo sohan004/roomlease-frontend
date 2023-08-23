@@ -68,6 +68,8 @@ const Profile = () => {
 
     const [score, setScore] = useState(0)
 
+    const [video, setVideo] = useState('')
+
 
 
 
@@ -552,9 +554,86 @@ const Profile = () => {
 
 
     }
-    // console.log(imgValue)
 
-    let totalScore = `${score}%`
+    console.log(video);
+    const videoUpload = () => {
+        const formData = new FormData()
+        formData.append('video', video)
+        formData.append('video_type', 'video')
+        formData.append('home_listing', listing?.id)
+
+
+        fetch(`${baseURL}/listing/house-listing-videos/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                // 'content-type': 'multipart/form-data'
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data?.video) {
+                    setVideo('')
+                    toast.success('video add successfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        });
+                    // setRefresh(refresh + 1)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const addYoutubeVideoLink = async () => {
+        const { value: link } = await Swal.fire({
+            title: 'Input Youtube Video Link',
+            input: 'text',
+            inputPlaceholder: 'Enter your Youtube Video Link',
+            showCancelButton: true
+        })
+        if (link) {
+            const formData = new FormData()
+            formData.append('youtube_link', link)
+            formData.append('video_type', 'youtube_link')
+            formData.append('home_listing', listing?.id)
+
+            fetch(`${baseURL}/listing/house-listing-videos/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    // 'content-type': 'multipart/form-data'
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.youtube_link) {
+                        toast.success('youtube link add successfully', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                            }); 
+                        // setRefresh(refresh + 1)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+        else {
+            console.log(false);
+        }
+    }
 
     return (
         <div className='home'>
@@ -662,6 +741,17 @@ const Profile = () => {
                     }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
 
+                {video && <video className='w-40 ' controls>
+                    <source src={URL.createObjectURL(video)} type="video/mp4" />
+                </video>}
+                {video && <div className='flex justify-start mt-3'>
+                    <button onClick={() => setVideo('')} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => {
+                        videoUpload()
+                        // roomseekerImgUplaod()
+                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload Videos</button>
+                </div>}
+
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
                     <div className=' bg-slate-200 relative h-56 lg:h-full'>
@@ -710,8 +800,44 @@ const Profile = () => {
                         <div className=''>
                             <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
                             <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
-                            <p className='text-center text-sm'>Uploading a video of your home can reduce the need for in-person inspections</p>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 '>add video</button>
+                            <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                            <div className="dropdown dropdown-bottom">
+                                <label tabIndex={0} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
+                                    <li className='font-semibold'><label htmlFor='video'>Video</label></li>
+                                    <li onClick={addYoutubeVideoLink} className='font-semibold'><a>Youtube Video Link</a></li>
+                                </ul>
+                            </div>
+
+                            <input onChange={e => {
+                                if (e?.target?.files[0].type !== 'video/mp4') {
+                                    toast.error('Please select a video', {
+                                        position: "top-center",
+                                        autoClose: 5000,
+                                        hideProgressBar: false,
+                                        theme: "colored",
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                    })
+                                    return
+                                }
+                                if (video) {
+                                    return toast.error('You can upload only 1 videos  ', {
+                                        position: "top-center",
+                                        autoClose: 5000,
+                                        hideProgressBar: false,
+                                        theme: "colored",
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                    });
+                                }
+                                setVideo(e.target.files[0])
+                                // console.log(video);
+                            }} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
                         </div>
                     </div>
 
@@ -944,7 +1070,7 @@ const Profile = () => {
                                                         draggable: true,
                                                         progress: undefined,
                                                         theme: "colored",
-                                                        });
+                                                    });
                                                 })
                                                 .catch((error) => {
                                                     console.error('Unable to copy text: ', error);
