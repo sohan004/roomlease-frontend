@@ -356,6 +356,13 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
         }
 
         const listingObject = listing
+
+        const photoKey = listingObject['photo']
+        if (photoKey) {
+            delete listingObject['photo']
+        }
+
+
         listingObject.suburb = suburbValue
         listingObject.house_type = houseType
         listingObject.room_type = furnished
@@ -443,8 +450,8 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                             <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
                             <div className="w-full mt-4 border border-[#7065F0] rounded-lg">
                                 <Autocomplete
-                                value={subEpty}
-                                onChange={(e) => setSubEpty(e.target.value)}
+                                    value={subEpty}
+                                    onChange={(e) => setSubEpty(e.target.value)}
 
                                     className="w-full  rounded-lg rounded-b-none border-b mb-4  focus:outline-none py-3 px-5   bg-[#f6f6ff] "
                                     apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}

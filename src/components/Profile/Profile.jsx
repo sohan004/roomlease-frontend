@@ -105,6 +105,25 @@ const Profile = () => {
     const [houseType, setHouseType] = useState('')
     const [bedRoom, setBedRoom] = useState('')
     const [parking, setParking] = useState('')
+    const [videoDetails, setVideoDetails] = useState({})
+
+    useEffect(() => {
+        if (!listing) {
+            return
+        }
+        fetch(`${baseURL}/listing/get-house-listing-video/${listing?.id}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setVideoDetails(data);
+            })
+            .catch(err => console.log(err))
+    }, [listing])
 
 
     useEffect(() => {
@@ -278,6 +297,11 @@ const Profile = () => {
         const useObjectData = listing || {}
         useObjectData.active = functionValue
 
+        const photoKey = useObjectData['photo']
+        if (photoKey) {
+            delete useObjectData['photo']
+        }
+
         fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
             method: 'PUT',
             headers: {
@@ -288,8 +312,10 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setRefresh(refresh + 1)
             })
+            .catch(err => console.log(err))
     }
 
 
@@ -555,7 +581,6 @@ const Profile = () => {
 
     }
 
-    console.log(video);
     const videoUpload = () => {
         const formData = new FormData()
         formData.append('video', video)
@@ -584,7 +609,7 @@ const Profile = () => {
                         draggable: true,
                         progress: undefined,
                         theme: "colored",
-                        });
+                    });
                     // setRefresh(refresh + 1)
                 }
             })
@@ -624,7 +649,7 @@ const Profile = () => {
                             draggable: true,
                             progress: undefined,
                             theme: "colored",
-                            }); 
+                        });
                         // setRefresh(refresh + 1)
                     }
                 })
@@ -634,7 +659,9 @@ const Profile = () => {
             console.log(false);
         }
     }
-
+    const videoUrl = new URL(videoDetails?.youtube_link);
+    const videoId = videoUrl.searchParams.get('v');
+    console.log(videoId);
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
@@ -795,51 +822,91 @@ const Profile = () => {
 
                     </div>
 
+                    {userData?.account_type == 'homeowner' ?
+                        <>
+                            {videoDetails?.video || videoDetails?.youtube_link ?
+                                <>
+                                    {videoDetails?.video ? <video className='w-full h-full' controls>
+                                        <source src={`${baseURL}${videoDetails?.video}`} type="video/mp4" />
+                                    </video> : <iframe
+                                        className='w-full h-full'
+                                        src={`https://www.youtube.com/embed/${videoId}`}
+                                        title="YouTube video player"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                    ></iframe>}
+                                </>
+                                : <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                                    <div className=''>
+                                        <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
+                                        <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                                        <div className="dropdown dropdown-bottom">
+                                            <label tabIndex={0} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                            <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
+                                                <li className='font-semibold'><label htmlFor='video'>Video</label></li>
+                                                <li onClick={addYoutubeVideoLink} className='font-semibold'><a>Youtube Video Link</a></li>
+                                            </ul>
+                                        </div>
 
-                    <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
-                        <div className=''>
-                            <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                            <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
-                            <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
-                            <div className="dropdown dropdown-bottom">
-                                <label tabIndex={0} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
-                                <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
-                                    <li className='font-semibold'><label htmlFor='video'>Video</label></li>
-                                    <li onClick={addYoutubeVideoLink} className='font-semibold'><a>Youtube Video Link</a></li>
-                                </ul>
+                                        <input onChange={e => {
+                                            if (!userData) return
+                                            if (userData?.account_type == 'roomseeker') {
+                                                return toast.error('Only Home Owner can add videos', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    theme: "colored",
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                });
+                                            }
+                                            if (e?.target?.files[0].type !== 'video/mp4') {
+                                                toast.error('Please select a video', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    theme: "colored",
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                })
+                                                return
+                                            }
+                                            if (video) {
+                                                return toast.error('You can upload only 1 videos  ', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    theme: "colored",
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                });
+                                            }
+                                            setVideo(e.target.files[0])
+                                            // console.log(video);
+                                        }} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
+                                    </div>
+                                </div>}
+                        </>
+                        :
+                        <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                            <div className=''>
+                                <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                                <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
+                                <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                                <div className="dropdown dropdown-bottom">
+                                    <label className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                </div>
                             </div>
+                        </div>}
 
-                            <input onChange={e => {
-                                if (e?.target?.files[0].type !== 'video/mp4') {
-                                    toast.error('Please select a video', {
-                                        position: "top-center",
-                                        autoClose: 5000,
-                                        hideProgressBar: false,
-                                        theme: "colored",
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                    })
-                                    return
-                                }
-                                if (video) {
-                                    return toast.error('You can upload only 1 videos  ', {
-                                        position: "top-center",
-                                        autoClose: 5000,
-                                        hideProgressBar: false,
-                                        theme: "colored",
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                    });
-                                }
-                                setVideo(e.target.files[0])
-                                // console.log(video);
-                            }} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
-                        </div>
-                    </div>
+
 
                     <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
                         <div>

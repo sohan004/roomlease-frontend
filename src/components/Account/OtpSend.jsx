@@ -162,6 +162,7 @@ const OtpSend = () => {
             <PhoneInput
                 className="w-full py-3 px-4 border-b border-black"
                 international
+                inputClassName="focus:outline-none"
                 defaultCountry="AU"
                 value={con}
                 onChange={p => {
