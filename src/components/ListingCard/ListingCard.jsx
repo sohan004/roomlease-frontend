@@ -5,7 +5,7 @@ import { useState } from "react";
 import Select from 'react-select';
 import calender from '../../assets/rentIcon/Icon.svg'
 import arow from '../../assets/rentIcon/Icon (1).svg'
-import { FaSearch } from "react-icons/fa";
+import { FaHome, FaSearch } from "react-icons/fa";
 import ico1 from '../../assets/sec3Icon/Bath.svg'
 import ico2 from '../../assets/sec3Icon/Bed.svg'
 import ico3 from '../../assets/sec3Icon/Frame (1).svg'
@@ -112,8 +112,10 @@ const ListingCard = ({ p, setReFatch, reFatch }) => {
     return (
         // <Link to={`/details/${p.id}`}>
         <div className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
-            {p?.photo && <img onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={`${p?.photo.includes('https://roomlease.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
-            {!p?.photo && <img onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={img} className='w-full lg:h-64 rounded-lg -z-0' alt="" />}
+            {p?.photo && <img onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={`${p?.photo.includes('https://roomlease.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg ' alt="" />}
+            {!p?.photo && <div onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='w-full h-64 flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
+                <FaHome></FaHome>
+                </div>}
             <div className='px-6 pt-6 pb-8'>
                 <div className='flex items-center justify-between'>
                     {userData?.account_type == 'homeowner' ? <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>{p?.looking_place}</h1> : <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>${p?.rent_per_week_single}<span className='text-base font-medium text-gray-500'>/week</span></h1>}
