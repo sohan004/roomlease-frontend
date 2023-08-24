@@ -582,6 +582,10 @@ const Profile = () => {
     }
 
     const videoUpload = () => {
+        if (!userData) return
+        if (userData.subscription == 'Free') {
+            navigate('/homeowner-pricing')
+        }
         const formData = new FormData()
         formData.append('video', video)
         formData.append('video_type', 'video')
@@ -617,6 +621,10 @@ const Profile = () => {
     }
 
     const addYoutubeVideoLink = async () => {
+        if (!userData) return
+        if (userData.subscription === 'Free') {
+            return navigate('/homeowner-pricing')
+        }
         const { value: link } = await Swal.fire({
             title: 'Input Youtube Video Link',
             input: 'text',
@@ -659,9 +667,9 @@ const Profile = () => {
             console.log(false);
         }
     }
-    const videoUrl = new URL(videoDetails?.youtube_link);
+    const videoUrl = new URL(videoDetails?.youtube_link ? videoDetails?.youtube_link : 'https://www.youtube.com/watch?v=GWJD1TpicFo');
     const videoId = videoUrl.searchParams.get('v');
-    console.log(videoId);
+    console.log(userData);
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
