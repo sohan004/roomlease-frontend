@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 import ListingHomeOwnerUpdate from '../HomeListingUpdate/ListingHomeOwnerUpdate';
 import ListingRoomSeekerUpdate from '../HomeListingUpdate/ListingRoomSeekerUpdate';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import DatePicker from "react-multi-date-picker"
+import DatePicker, { Calendar } from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import {
@@ -748,13 +748,15 @@ const Profile = () => {
             })
             .catch(err => console.log(err))
     }
+
+
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
                 <div className='flex flex-col lg:flex-row justify-center lg:items-end gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] '>
-                        <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white bg-opacity-50'>
-                            <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white border-white'}`}>
+                        <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white  bg-opacity-50'>
+                            <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
 
                                 {userData?.profile_picture ? <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
                                     <img src={blankImag} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto   w-full `} alt="" />}
@@ -798,7 +800,7 @@ const Profile = () => {
                             <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
 
                         </div>
-                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-6 '>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md mt-6 '>
                             <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
                             <div className='flex justify-center items-center  gap-2 mt-3'>
                                 {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
@@ -867,7 +869,7 @@ const Profile = () => {
 
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
-                    <div className=' bg-slate-200 relative h-56 lg:h-full'>
+                    <div className=' bg-white bg-opacity-50 border relative h-56 lg:h-full'>
                         <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
@@ -924,7 +926,7 @@ const Profile = () => {
                                     ></iframe>}
                                     <MdDelete onClick={deleteVideo} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white \duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
                                 </div>
-                                : <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                                : <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-50  border-2 rounded-md text-center'>
                                     <div className=''>
                                         <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
                                         <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
@@ -983,25 +985,24 @@ const Profile = () => {
                                 </div>}
                         </>
                         :
-                        <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
-                            <div className=''>
-                                <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                                <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
-                                <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
-                                <div className="dropdown dropdown-bottom">
-                                    <label className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
-                                </div>
-                            </div>
-                        </div>}
+                        ''}
 
 
 
-                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
+                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center'>
                         <div>
-                            <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
-                            <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
-                            <p className='text-sm my-2'>Once completed, you can invite potential flamates to book times via messages</p>
-                            <a href='' className='text-blue-500'>Learn more</a>
+                            {!listing?.inspection_time && <div>
+                                <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
+                                <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
+                                <p className='text-sm my-2'>Once completed, you can invite potential flamates to book times via messages</p>
+                                <a href='' className='text-blue-500'>Learn more</a>
+                            </div>}
+
+                            {/* <Calendar  value={listing?.inspection_time.split(',')} disabled={true} /> */}
+                            {listing?.inspection_time && <div className='h-48 overflow-y-auto'>
+                                <p className='text-center text-lg font-medium pb-1 border-b'>Available Date</p>
+                                {listing?.inspection_time.split(',').map((ins, i) => <p className='bg-slate-200 mt-2' key={i}>{ins}</p>)}
+                            </div>}
                             <button onClick={() => window.inspection.showModal()} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
                         </div>
 
@@ -1072,7 +1073,7 @@ const Profile = () => {
                 {/* {userData?.account_type == 'homeowner' &&
 
                     <div>
-                        <div className='p-4 lg:p-6 py-10 relative  bg-white bg-opacity-60 border-2 rounded-md mt-10'>
+                        <div className='p-4 lg:p-6 py-10 relative  bg-white bg-opacity-50 bg-opacity-60 border-2 rounded-md mt-10'>
 
                             {!roomDetails && <div onClick={() => setRoomDetails(true)} className=' rounded-full border cursor-pointer hover:bg-[#7065F0] hover:text-white duration-300 border-[#7065F0] text-[#7065F0] py-1 px-2 lg:px-3 right-2 top-2 text-center absolute'>
                                 <FaPencilAlt className='text-base lg:text-2xl mx-auto' />
@@ -1120,7 +1121,7 @@ const Profile = () => {
 
 
 
-                {!roomEdit && <div className='bg-white bg-opacity-60 border-2 rounded-md mt-6'>
+                {!roomEdit && <div className='bg-white bg-opacity-50 border-2 rounded-md mt-6'>
                     <div className='flex justify-between items-center border-b-2'>
                         <p className='p-4 lg:p-6 text-xl font-bold'>Private Listing</p>
                         <div onClick={() => {
@@ -1195,19 +1196,19 @@ const Profile = () => {
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
                                     <FacebookShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
                                         <FaFacebook className='text-5xl text-blue-600' />
-                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </FacebookShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
                                     <LinkedinShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
                                         <FaLinkedin className='text-5xl text-blue-600' />
-                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </LinkedinShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
                                     <TwitterShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
                                         <FaTwitterSquare className='text-5xl text-blue-400' />
-                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </TwitterShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
@@ -1262,7 +1263,7 @@ const Profile = () => {
 
                 {userData?.account_type == 'homeowner' &&
                     <div>
-                        <div className='bg-white bg-opacity-60 border-2 rounded-md mt-10 relative'>
+                        <div className='bg-white bg-opacity-50 bg-opacity-60 border-2 rounded-md mt-10 relative'>
                             <div className='flex justify-between items-center border-b-2'>
                                 <p className='p-4 lg:p-6 text-xl font-bold'>Home Description</p>
                                 <div onClick={() => setDescription(true)} className='  py-3 px-4 border-s-2  cursor-pointer hover:bg-[#7065F0] hover:text-white duration-300 border-[#7065F0] text-[#7065F0]   text-center '>

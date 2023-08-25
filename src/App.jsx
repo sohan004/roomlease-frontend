@@ -9,6 +9,8 @@ import CommonLinks from './components/Nav/CommonLinks';
 import bol from './assets/navIcon/bol.png'
 import logoHome from './assets/navIcon/logoHome.png'
 import useUserData from './components/Hook/useUserData';
+import { useContext } from 'react';
+import { AuthContext } from './components/AuthProvider/AuthProvider';
 
 export const baseURL = 'https://roomlease.pythonanywhere.com'
 // export const baseURL = 'http://127.0.0.1:8000'
@@ -26,6 +28,7 @@ const App = () => {
   const [tf, setTf] = useState(false)
   const [userData, setUserData] = useState(null)
   const [loading, setLoading] = useState(true)
+  const { searchDrpopDown, setSearchDrpopDown } = useContext(AuthContext)
   useEffect(() => {
     setLoading(true)
     fetch(`${baseURL}/account/profile/`, {
@@ -51,6 +54,7 @@ const App = () => {
         setUserData(null)
       })
   }, [localStorage.getItem('user-token')])
+
 
   return (
     <>
@@ -93,9 +97,11 @@ const App = () => {
       }}
         className={tf ? 'opacity-5 lg:opacity-100 duration-500 bg-white' : 'bg-white opacity-100 duration-500'}>
         <Nav setTf={setTf}></Nav>
-        <Outlet></Outlet>
+        <div onClick={() => setSearchDrpopDown(false)}>
+          <Outlet></Outlet>
+        </div>
         <Footer></Footer>
-      </div>
+      </div >
     </>
   );
 };

@@ -8,7 +8,7 @@ import { FaCheck, FaWifi } from "react-icons/fa";
 
 
 
-const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures }) => {
+const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishingsAndFeatures, onchengeFunction }) => {
     const sideTable = roomFurnishingsAndFeatures.find(r => r == 'Bed Side Table')
     const wardrobe = roomFurnishingsAndFeatures.find(r => r == 'Wardrobe')
     const drawars = roomFurnishingsAndFeatures.find(r => r == 'Drawars')
@@ -92,9 +92,11 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
         if (findData) {
             const filterData = roomFurnishingsAndFeatures.filter(filt => filt != p)
             setRoomFurnishingsAndFeatures(filterData)
+            onchengeFunction()
             return
         }
         setRoomFurnishingsAndFeatures([...roomFurnishingsAndFeatures, p])
+        onchengeFunction()
     }
 
    

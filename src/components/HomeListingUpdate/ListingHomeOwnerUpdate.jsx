@@ -34,7 +34,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [secondName, setSecondName] = useState('')
     const [email, setEmail] = useState('')
     const [houseType, setHouseType] = useState(listingData?.house_type ? listingData?.house_type : [])
-    const [homeAddress, setHomeAddress] = useState(listingData?.home_address ? listingData?.home_address : '')
+    const [homeAddress, setHomeAddress] = useState(listingData?.suburb ? listingData?.suburb : '')
     const [parkingOptions, setParkingOptions] = useState(listingData?.parking_option ? listingData?.parking_option : [])
     const [furnished, setFurnished] = useState(listingData?.bedroom_type ? listingData?.bedroom_type : '')
     const [privateBath, setPrivateBath] = useState(listingData?.private_bathroom ? listingData?.private_bathroom : '')
@@ -75,6 +75,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [additional2, setAdditional2] = useState('')
     const [photo, setPhoto] = useState([])
     const [load, setLoad] = useState(false)
+    const [homeaddress2, setHomeaddress2] = useState(listing?.home_address ? listing?.home_address : '')
 
     const [minimumStayArray, setMinimumStayArray] = useState([
         {
@@ -616,7 +617,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
         }
 
         listingObject.house_type = houseType,
-            listingObject.home_address = homeAddress,
+            listingObject.home_address = homeaddress2,
+            listingObject.suburb = homeAddress,
             listingObject.parking_option = parkingOptions,
             listingObject.available_from = `${year}-${month}-${day}`,
             listingObject.minimum_stay = minimumStay,
@@ -700,24 +702,15 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                         <div>
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
+                            <input value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value);  }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
+                        </div>
+                        <div>
+                            <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
 
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Type a place name"
-                                    value={query}
-                                    onChange={handleInputChange}
-                                />
-                                <ul>
-                                    {results.map((place) => (
-                                        <li key={place.place_id}>{place.name}</li>
-                                    ))}
-                                </ul>
-                            </div>
 
 
                             <Autocomplete
-                                defaultValue={listing?.home_address}
+                                defaultValue={homeAddress}
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
                                 apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
 

@@ -141,7 +141,7 @@ const ListingCard = ({ p, setReFatch, reFatch }) => {
                     </div>
                 </div>
                 <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold my-2'>{p?.house_type}</h1>
-                <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.home_address || p?.suburb[0]}</h1>
+                <h1 onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.home_address || p?.suburb ? p?.suburb[0] : ''}</h1>
                 <div onClick={() => userData?.account_type == 'homeowner' ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>
                     <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p?.bedroom_type || p?.room_type}</p>
                     <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bed_size}</p>
