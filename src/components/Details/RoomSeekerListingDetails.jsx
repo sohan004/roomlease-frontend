@@ -50,7 +50,7 @@ import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
 
 
-const Details = () => {
+const RoomSeekerListingDetails = () => {
 
     const id = useParams().id
     // !! this page  data fully dynamic
@@ -63,48 +63,33 @@ const Details = () => {
 
     const [load, setLoad] = useState(true)
 
-    const { userData, setUserData } = useContext(AuthContext)
+    const { userData } = useContext(AuthContext)
 
     useEffect(() => {
-        if (!userData) return
-        setLoad(true)
-        if (userData?.account_type == 'roomseeker') {
-            fetch(`${baseURL}/listing/home-listings/${id}/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setListingDetails(data);
+        fetch(`${baseURL}/listing/home-listings/${id}/`, {
+            method: 'GET',
+            headers: {
+                // 'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'content-type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data?.detail == 'Invalid token.') {
+                    setListingDetails({})
                     setLoad(false)
-
-                })
-                .catch(err => {
-                    console.log(err);
-                    navigate('/matches')
-                })
-
-        }
-        if (userData?.account_type == 'homeowner') {
-            fetch(`${baseURL}/listing/room-seekers/${id}/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                    return
                 }
+                console.log(data);
+                setListingDetails(data);
+                setLoad(false)
+
             })
-                .then(res => res.json())
-                .then(data => {
-                    setListingDetails(data);
-                    setLoad(false)
-                })
-                .catch(err => {
-                    console.log(err);
-                    navigate('/matches')
-                })
-        }
-    }, [userData])
+            .catch(err => {
+                console.log(err);
+                navigate('/matches')
+            })
+    }, [])
 
     useEffect(() => {
         if (!listingDetails?.user) {
@@ -114,6 +99,7 @@ const Details = () => {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'content-type': 'application/json',
             }
         })
             .then(res => res.json())
@@ -135,7 +121,7 @@ const Details = () => {
         fetch(`${baseURL}/listing/get-house-listing-photos/${listingDetails?.id}/`, {
             method: 'GET',
             headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                // 'Authorization': `Token ${localStorage.getItem('user-token')}`,
                 'Content-Type': 'application/json',
             }
         })
@@ -151,21 +137,8 @@ const Details = () => {
 
     // console.log(listingDetails)
 
-
-    const data = {
-        name: 'St. Crystal',
-        address: '210 US Highway, Highland Lake, FL'
-    }
-
     const currentDate = new Date().toISOString().slice(0, 10);
 
-    // Set the default value to the current date
-    const [selectedDate, setSelectedDate] = useState(currentDate);
-
-    // Handle date change
-    const handleDateChange = (event) => {
-        setSelectedDate(event.target.value);
-    };
 
     const popular = [
         {
@@ -202,6 +175,10 @@ const Details = () => {
     const sendMessageFunction = () => {
         if (!message) return
 
+        if (!userData) {
+            navigate('/otp-send')
+        }
+
         const formData = new FormData()
         formData.append('message', message)
 
@@ -237,6 +214,8 @@ const Details = () => {
     }
 
 
+
+
     return (
         <div>
             <div className="max-w-[1440px] mx-auto px-4">
@@ -258,30 +237,8 @@ const Details = () => {
 
                 <div className='flex flex-col gap-2 lg:gap-6 lg:flex-row'>
                     <div className='w-full lg:w-[70%] relative'>
-                        {userData?.account_type == 'roomseeker' && <Swiper
-                            pagination={{
-                                type: 'fraction',
-                            }}
-                            navigation={true}
-                            modules={[Pagination, Navigation]}
-                            className="mySwiper "
-                        >
-                            {imgValue.length > 0 ? imgValue.map((image, i) => {
-
-
-                                return <SwiperSlide className='w-full' key={i}>
-                                    <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
-                                        <img src={`${baseURL}${image.photo}`} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
-                                    </div>
-                                </SwiperSlide>
-                            }) : <SwiperSlide className='w-full' >
-                                <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
-                                    <img src={img} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
-                                </div>
-                            </SwiperSlide>}
-
-                        </Swiper>}
-                        {userData?.account_type == 'homeowner' && <>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={img} />}</>}
+                    
+                        {<>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={img} />}</>}
                     </div>
                     <div className='w-full lg:w-[30%] '>
                         {/* <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />
@@ -577,4 +534,4 @@ const Details = () => {
     );
 };
 
-export default Details;
+export default RoomSeekerListingDetails;

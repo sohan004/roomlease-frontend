@@ -4,7 +4,7 @@ import Nav from './components/Nav/Nav'
 import logo from './assets/Frame.svg'
 import logo11 from './assets/🦆 icon _arrow circle right_.svg'
 import Footer from './components/Footer/Footer';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import CommonLinks from './components/Nav/CommonLinks';
 import bol from './assets/navIcon/bol.png'
 import logoHome from './assets/navIcon/logoHome.png'
@@ -14,6 +14,13 @@ export const baseURL = 'https://roomlease.pythonanywhere.com'
 // export const baseURL = 'http://127.0.0.1:8000'
 
 const App = () => {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to the top whenever the route changes
+    window.scrollTo(0, 0);
+  }, [location]);
 
   const navigate = useNavigate()
   const [tf, setTf] = useState(false)
@@ -84,7 +91,7 @@ const App = () => {
           setTf(false)
         }
       }}
-        className={tf ? 'opacity-5 lg:opacity-100 duration-500' : 'opacity-100 duration-500'}>
+        className={tf ? 'opacity-5 lg:opacity-100 duration-500 bg-white' : 'bg-white opacity-100 duration-500'}>
         <Nav setTf={setTf}></Nav>
         <Outlet></Outlet>
         <Footer></Footer>

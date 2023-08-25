@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 
 const NewListingPage2 = () => {
     return (
-        <div>
+        <div className="bg-white">
             <div className="border-b">
                 <div className="max-w-[1440px] mx-auto px-4 relative py-6 lg:py-9">
                     <p className="text-sm flex items-center gap-1"><FaArrowLeft className="me-2"></FaArrowLeft> Back <span className="hidden lg:block">to Dashboard</span></p>

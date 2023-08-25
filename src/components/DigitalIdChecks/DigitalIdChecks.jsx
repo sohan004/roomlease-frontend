@@ -11,8 +11,8 @@ const DigitalIdChecks = () => {
     useTitle('Digital ID & Checks')
     return (
         <div>
-            <div className="bg-[#7065F0] ">
-                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
+            <div className="bg-[#E4E2F8]  text-blue-950">
+                <div className="max-w-[1440px] py-8 mx-auto  px-4 text-center">
                     <h1 className="text-4xl font-bold">Digital ID & Checks</h1>
                     <p className="mt-4 text-lg">Secure your Room Lease experience with our Digital ID & Checks. Learn about our verification process and the steps to ensure safety and trust.</p>
                 </div>

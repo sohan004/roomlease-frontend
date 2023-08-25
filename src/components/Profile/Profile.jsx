@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
-import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
+import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,6 +13,30 @@ import Swal from 'sweetalert2';
 import ListingHomeOwnerUpdate from '../HomeListingUpdate/ListingHomeOwnerUpdate';
 import ListingRoomSeekerUpdate from '../HomeListingUpdate/ListingRoomSeekerUpdate';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import DatePicker from "react-multi-date-picker"
+import DatePanel from "react-multi-date-picker/plugins/date_panel"
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    HatenaShareButton,
+    InstapaperShareButton,
+    LineShareButton,
+    LinkedinShareButton,
+    LivejournalShareButton,
+    MailruShareButton,
+    OKShareButton,
+    PinterestShareButton,
+    PocketShareButton,
+    RedditShareButton,
+    TelegramShareButton,
+    TumblrShareButton,
+    TwitterShareButton,
+    ViberShareButton,
+    VKShareButton,
+    WhatsappShareButton,
+    WorkplaceShareButton
+} from "react-share";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -37,7 +61,7 @@ const Profile = () => {
     const [type, setType] = useState(false)
     const [img, setImg] = useState([])
     const navigate = useNavigate()
-    const { listing, setRefresh, refresh } = useContext(AuthContext)
+    const { listing, setListing, setRefresh, refresh } = useContext(AuthContext)
     const [imgValue, setImgValue] = useState([])
     const [roomSeekerImg, setRoomSeekerImg] = useState('')
     const [name, setName] = useState('')
@@ -46,6 +70,8 @@ const Profile = () => {
     const [dateOBEdit, setDateOBEdit] = useState(false)
 
     const [score, setScore] = useState(0)
+
+    const [video, setVideo] = useState('')
 
 
 
@@ -82,6 +108,25 @@ const Profile = () => {
     const [houseType, setHouseType] = useState('')
     const [bedRoom, setBedRoom] = useState('')
     const [parking, setParking] = useState('')
+    const [videoDetails, setVideoDetails] = useState({})
+
+    useEffect(() => {
+        if (!listing) {
+            return
+        }
+        fetch(`${baseURL}/listing/get-house-listing-video/${listing?.id}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setVideoDetails(data);
+            })
+            .catch(err => console.log(err))
+    }, [listing])
 
 
     useEffect(() => {
@@ -229,6 +274,11 @@ const Profile = () => {
         const useObjectData = listing || {}
         useObjectData.active = functionValue
 
+        const photoKey = useObjectData['photo']
+        if (photoKey) {
+            delete useObjectData['photo']
+        }
+
         fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
             method: 'PUT',
             headers: {
@@ -239,14 +289,21 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                // console.log(data);
                 setRefresh(refresh + 1)
             })
+            .catch(err => console.log(err))
     }
-
+    // console.log(listing);
     const roomSeekersactiveUpdate = (functionValue) => {
         // console.log(functionValue)
         const useObjectData = listing || {}
         useObjectData.active = functionValue
+
+        const photoKey = useObjectData['photo']
+        if (photoKey) {
+            delete useObjectData['photo']
+        }
 
         fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
             method: 'PUT',
@@ -258,8 +315,10 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setRefresh(refresh + 1)
             })
+            .catch(err => console.log(err))
     }
 
 
@@ -524,10 +583,171 @@ const Profile = () => {
 
 
     }
-    // console.log(imgValue)
 
-    let totalScore = `${score}%`
+    const videoUpload = () => {
+        if (!userData) return
+        if (userData?.subscription == 'Free') {
+            return navigate('/homeowner-pricing')
+        }
+        const formData = new FormData()
+        formData.append('video', video)
+        formData.append('video_type', 'video')
+        formData.append('home_listing', listing?.id)
 
+
+        fetch(`${baseURL}/listing/house-listing-videos/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                // 'content-type': 'multipart/form-data'
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data?.video) {
+                    setVideo('')
+                    toast.success('video add successfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                    // setRefresh(refresh + 1)
+                }
+            })
+            .catch(err => console.log(err))
+    }
+
+    const addYoutubeVideoLink = async () => {
+        if (!userData) return
+        if (userData.subscription === 'Free') {
+            return navigate('/homeowner-pricing')
+        }
+        const { value: link } = await Swal.fire({
+            title: 'Input Youtube Video Link',
+            input: 'text',
+            inputPlaceholder: 'Enter your Youtube Video Link',
+            showCancelButton: true
+        })
+        if (link) {
+            const formData = new FormData()
+            formData.append('youtube_link', link)
+            formData.append('video_type', 'youtube_link')
+            formData.append('home_listing', listing?.id)
+
+            fetch(`${baseURL}/listing/house-listing-videos/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    // 'content-type': 'multipart/form-data'
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.youtube_link) {
+                        toast.success('youtube link add successfully', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                        // setRefresh(refresh + 1)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+        else {
+            console.log(false);
+        }
+    }
+    const [inspectionDate, setInspectionDate] = useState([])
+
+
+    const videoUrl = new URL(videoDetails?.youtube_link ? videoDetails?.youtube_link : 'https://www.youtube.com/watch?v=GWJD1TpicFo');
+    const videoId = videoUrl.searchParams.get('v');
+    // console.log(`${inspectionDate[0].day}/${inspectionDate[0].month}/${inspectionDate[0].year} ${inspectionDate[0].hour}:${inspectionDate[0].minute}`);
+
+    const inspectionDateUpdate = () => {
+        if (!userData) return
+
+        const inpecDate = inspectionDate.map(ins => `${ins?.day}/${ins?.month}/${ins?.year} ${ins?.hour}:${ins?.minute}`).toString()
+        if (inpecDate.length === 0) return
+
+
+        if (userData?.account_type === 'roomseeker') {
+            const useObjectData = listing || {}
+            useObjectData.inspection_time = inpecDate
+
+            const photoKey = useObjectData['photo']
+            if (photoKey) {
+                delete useObjectData['photo']
+            }
+
+            fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(useObjectData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data);
+                    setRefresh(refresh + 1)
+                    window.inspection.close()
+                })
+                .catch(err => console.log(err))
+        }
+        if (userData?.account_type === 'homeowner') {
+            const useObjectData = listing || {}
+            useObjectData.inspection_time = inpecDate
+
+            const photoKey = useObjectData['photo']
+            if (photoKey) {
+                delete useObjectData['photo']
+            }
+
+            fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(useObjectData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setRefresh(refresh + 1)
+                    window.inspection.close()
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
+    const deleteVideo = () => {
+        fetch(`${baseURL}/listing/house-listing-videos/${videoDetails?.id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(data => {
+                setVideoDetails(null)
+            })
+            .catch(err => console.log(err))
+    }
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
@@ -634,9 +854,20 @@ const Profile = () => {
                     }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
 
+                {video && <video className='w-40 ' controls>
+                    <source src={URL.createObjectURL(video)} type="video/mp4" />
+                </video>}
+                {video && <div className='flex justify-start mt-3'>
+                    <button onClick={() => setVideo('')} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => {
+                        videoUpload()
+                        // roomseekerImgUplaod()
+                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload Videos</button>
+                </div>}
+
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
-                    <div className=' bg-slate-200 relative'>
+                    <div className=' bg-slate-200 relative h-56 lg:h-full'>
                         <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
@@ -648,12 +879,12 @@ const Profile = () => {
                                 }}
                                 navigation={true}
                                 modules={[Pagination, Navigation]}
-                                className="mySwiper "
+                                className="mySwiper h-full "
                             >
                                 {imgValue.map((image, i) => {
 
-                                    return <SwiperSlide className='w-full' key={i}>
-                                        <div className='max-w-[700px] mx-auto h-[250px] lg:h-[350px] relative'>
+                                    return <SwiperSlide className='w-full h-full' key={i}>
+                                        <div className='max-w-[700px] mx-auto h-full relative'>
                                             <img src={`${baseURL}${image.photo}`} className='w-full h-full' alt="" />
                                             <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
                                         </div>
@@ -666,26 +897,104 @@ const Profile = () => {
 
                         {
                             userData?.account_type == 'roomseeker' &&
-                            <div className='w-full  bg-slate-50 relative'>
-                                <img className='w-full lg:h-[400px]' src={`${baseURL}${listing?.photo}`} alt="" />
+                            <div className='w-full h-full bg-slate-50 relative'>
+                                <img className='w-full h-full' src={`${listing?.photo}`} alt="" />
                                 {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
 
-                                <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
+                                {/* <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label> */}
                             </div>
                         }
 
 
                     </div>
 
+                    {userData?.account_type == 'homeowner' ?
+                        <>
+                            {videoDetails?.video || videoDetails?.youtube_link ?
+                                <div className='relative'>
 
-                    <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
-                        <div className=''>
-                            <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                            <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
-                            <p className='text-center text-sm'>Uploading a video of your home can reduce the need for in-person inspections</p>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-7 '>add video</button>
-                        </div>
-                    </div>
+                                    {videoDetails?.video ? <video className='w-full h-full lg:h-[300px]' controls>
+                                        <source src={`${baseURL}${videoDetails?.video}`} type="video/mp4" />
+                                    </video> : <iframe
+                                        className='w-full  h-full lg:h-[300px]'
+                                        src={`https://www.youtube.com/embed/${videoId}`}
+                                        title="YouTube video player"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                    ></iframe>}
+                                    <MdDelete onClick={deleteVideo} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white \duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
+                                </div>
+                                : <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                                    <div className=''>
+                                        <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
+                                        <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                                        <div className="dropdown dropdown-bottom">
+                                            <label tabIndex={0} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                            <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
+                                                <li className='font-semibold'><label htmlFor='video'>Video</label></li>
+                                                <li onClick={addYoutubeVideoLink} className='font-semibold'><a>Youtube Video Link</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <input onChange={e => {
+                                            if (!userData) return
+                                            if (userData?.account_type == 'roomseeker') {
+                                                return toast.error('Only Home Owner can add videos', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    theme: "colored",
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                });
+                                            }
+                                            if (e?.target?.files[0].type !== 'video/mp4') {
+                                                toast.error('Please select a video', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    theme: "colored",
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                })
+                                                return
+                                            }
+                                            if (video) {
+                                                return toast.error('You can upload only 1 videos  ', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    theme: "colored",
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                });
+                                            }
+                                            setVideo(e.target.files[0])
+                                            // console.log(video);
+                                        }} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
+                                    </div>
+                                </div>}
+                        </>
+                        :
+                        <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                            <div className=''>
+                                <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                                <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
+                                <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                                <div className="dropdown dropdown-bottom">
+                                    <label className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                </div>
+                            </div>
+                        </div>}
+
+
 
                     <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
                         <div>
@@ -693,7 +1002,7 @@ const Profile = () => {
                             <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
                             <p className='text-sm my-2'>Once completed, you can invite potential flamates to book times via messages</p>
                             <a href='' className='text-blue-500'>Learn more</a>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
+                            <button onClick={() => window.inspection.showModal()} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
                         </div>
 
                     </div>
@@ -884,19 +1193,45 @@ const Profile = () => {
                             <h1 className=' text-xl text-center font-semibold'>Share your listing </h1>
                             <div className='flex justify-center items-center gap-6 mt-4'>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
-                                    <FaFacebook className='text-5xl text-blue-600' />
-                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    <FacebookShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
+                                        <FaFacebook className='text-5xl text-blue-600' />
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    </FacebookShareButton>
                                 </div>
-                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Instagram share">
-                                    <FaInstagramSquare className='text-5xl text-rose-600' />
-                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
+                                    <LinkedinShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
+                                        <FaLinkedin className='text-5xl text-blue-600' />
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    </LinkedinShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
-                                    <FaTwitterSquare className='text-5xl text-blue-400' />
-                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    <TwitterShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
+                                        <FaTwitterSquare className='text-5xl text-blue-400' />
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                    </TwitterShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
-                                    <FaCopy className='text-5xl text-gray-400' />
+                                    <FaCopy
+                                        onClick={() => {
+                                            const copyText = `${userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}`
+                                            navigator.clipboard.writeText(copyText)
+                                                .then(() => {
+                                                    toast.success('Listing Copy Succesfully', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: false,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        progress: undefined,
+                                                        theme: "colored",
+                                                    });
+                                                })
+                                                .catch((error) => {
+                                                    console.error('Unable to copy text: ', error);
+                                                });
+                                        }}
+                                        className='text-5xl text-gray-400' />
                                 </div>
                             </div>
                         </div>
@@ -967,6 +1302,28 @@ const Profile = () => {
                         {/* if there is a button in form, it will close the modal */}
                         <button onClick={() => changeProfilePicture()} className="btn btn-primary">save chenges</button>
                         <button onClick={() => window.upload_profile_img.close()} className="btn">Close</button>
+                    </div>
+                </div>
+            </dialog>
+
+            <dialog id="inspection" className="modal">
+                <div method="dialog" className="modal-box max-w-3xl h-[500px] lg:h-[500px] relative">
+                    <div className="flex flex-col items-start gap-7 mb-14 ">
+                        <DatePicker
+                            value={inspectionDate}
+                            onChange={setInspectionDate}
+                            multiple
+                            type='Calendar'
+                            format="MM/DD/YYYY HH:mm"
+                            plugins={[
+                                <TimePicker position="bottom" />, <DatePanel />
+                            ]}
+                        />
+                    </div>
+                    <div className="absolute bottom-4 right-4">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button onClick={inspectionDateUpdate} className="btn btn-primary">save</button>
+                        <button onClick={() => window.inspection.close()} className="btn ms-3">Close</button>
                     </div>
                 </div>
             </dialog>

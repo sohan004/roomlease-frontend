@@ -10,8 +10,8 @@ const HowToList = () => {
 
     return (
         <div>
-            <div className="bg-[#7065F0]">
-                <div className="max-w-[1440px] py-8 mx-auto text-white px-4 text-center">
+            <div className="bg-[#E4E2F8]  text-blue-950">
+                <div className="max-w-[1440px] py-8 mx-auto px-4 text-center">
                     <h1 className="text-4xl font-bold">How to List Your Room with Room Lease</h1>
                     <p className="mt-4 text-lg">Are you looking to turn your spare room into an income source? Room Lease is here to help you connect with room seekers, offering a seamless and secure platform. With our one-time listing fee, digital ID verification through Australia Post, and no hidden charges, we make the process simple and transparent. Plus, if you're near parks or community facilities, your listing can be highlighted at zero cost!</p>
                 </div>

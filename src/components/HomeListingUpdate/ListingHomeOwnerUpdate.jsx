@@ -610,6 +610,10 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
 
         const listingObject = listing
+        const photoKey = listingObject['photo']
+        if (photoKey) {
+            delete listingObject['photo']
+        }
 
         listingObject.house_type = houseType,
             listingObject.home_address = homeAddress,
@@ -635,6 +639,10 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
             listingObject.ids_and_checks = checks,
             listingObject.occupation_preference = occuption,
             // setLoad(true)
+
+
+
+
             fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
                 method: 'PUT',
                 headers: {

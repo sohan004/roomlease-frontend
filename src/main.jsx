@@ -41,6 +41,9 @@ import Testimonial from './components/Testimonial/Testimonial.jsx'
 import Contact from './components/Contact/Contact.jsx'
 import Matches from './components/Matches/Matches.jsx'
 import MessageList from './components/MessageList/MessageList.jsx'
+import EmtyMessage from './components/MessageDashboard/EmtyMessage.jsx'
+import HomeOwnerListingCardDetails from './components/Details/HomeOwnerListingCardDetails.jsx'
+import RoomSeekerListingDetails from './components/Details/RoomSeekerListingDetails.jsx'
 
 
 const router = createBrowserRouter([
@@ -58,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/details/:id',
-        element: <PrivateRoute><Details></Details></PrivateRoute>
+        element: <Details></Details>
       },
       {
         path: '/map',
@@ -166,6 +169,14 @@ const router = createBrowserRouter([
         path: '/matches',
         element: <PrivateRoute><Matches></Matches></PrivateRoute>
       },
+      {
+        path: '/home-listing/:id',
+        element: <HomeOwnerListingCardDetails></HomeOwnerListingCardDetails>
+      },
+      {
+        path: '/room-seeker/:id',
+        element: <RoomSeekerListingDetails></RoomSeekerListingDetails>
+      },
         
     ]
   },
@@ -182,11 +193,15 @@ const router = createBrowserRouter([
     element: <SettingProfile></SettingProfile>
   },
   {
-    path: '/message-deshboard',
+    path: '/message',
     element: <MessageDashboard></MessageDashboard>,
     children: [
       {
-        path: '/message-deshboard/:id',
+        path: '/message',
+        element: <EmtyMessage></EmtyMessage>
+      },
+      {
+        path: '/message/:id',
         element: <MessageList></MessageList>
       }
     ]
