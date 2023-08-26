@@ -3,6 +3,7 @@ import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0
 import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
+import { BiSolidSelectMultiple } from "react-icons/bi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from '../../App';
@@ -670,7 +671,8 @@ const Profile = () => {
             console.log(false);
         }
     }
-    const [inspectionDate, setInspectionDate] = useState([])
+    const [inspectionDate, setInspectionDate] = useState(listing?.inspection_time ? listing?.inspection_time.split(',').map(ins => new Date(ins)) : [])
+    // console.log(listing?.inspection_time.split(',').map(ins => moment(ins).format('MMMM Do YYYY, h:mm:ss a')));
 
 
     const videoUrl = new URL(videoDetails?.youtube_link ? videoDetails?.youtube_link : 'https://www.youtube.com/watch?v=GWJD1TpicFo');
@@ -680,7 +682,7 @@ const Profile = () => {
     const inspectionDateUpdate = () => {
         if (!userData) return
 
-        const inpecDate = inspectionDate.map(ins => `${ins?.day}/${ins?.month}/${ins?.year} ${ins?.hour}:${ins?.minute}`).toString()
+        const inpecDate = inspectionDate.map(ins => new Date(ins)).toString()
         if (inpecDate.length === 0) return
 
 
@@ -749,6 +751,12 @@ const Profile = () => {
             .catch(err => console.log(err))
     }
 
+    // console.log(userData);
+    if (!userData) {
+        return <div className='flex justify-start items-center my-12 text-center'>
+            <span className="loading loading-spinner loading-lg mx-auto"></span>
+        </div>
+    }
 
     return (
         <div className='home'>
@@ -765,13 +773,13 @@ const Profile = () => {
                             <h1 className='font-semibold flex justify-center items-center gap-2 text-xl lg:text-2xl mt-7 mb-4'>
                                 {!nameEdit && userData?.full_name}
                                 {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
-                                {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                 {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className=' flex justify-center items-center gap-2  mt-2 '>
                                 {!dateOBEdit && <span>{userData?.dob ? moment(userData?.dob).format('Do MMMM YYYY') : 'date of birth'}</span>}
                                 {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
-                                {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
@@ -787,10 +795,10 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
-                        <div className='px-4 lg:px-6 py-6 text-white bg-[#7065F0]  border-2 rounded-md mt-10 '>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md mt-10 '>
                             <h1 className='text-lg: lg:text-xl font-semibold'>Why Digital iD verification by Australia Post?</h1>
                             <p className='mt-4 font-light'>Stand out as a verified member and join a community that values safety, integrity, and transparency.</p>
-                            <DigitalVerify></DigitalVerify>
+                            {userData?.verified ? <h1 className='text-xl font-medium flex items-center gap-2 mt-4'><BiSolidSelectMultiple className='text-2xl text-blue-500'></BiSolidSelectMultiple> Digital ID Verified</h1> : <DigitalVerify></DigitalVerify>}
                         </div>
                         <div className='flex justify-between items-center mt-6'>
                             <h1 className='text-xl lg:text-2xl font-bold text-[#302b68]'>Profile Score</h1>
@@ -1001,7 +1009,7 @@ const Profile = () => {
                             {/* <Calendar  value={listing?.inspection_time.split(',')} disabled={true} /> */}
                             {listing?.inspection_time && <div className='h-48 overflow-y-auto'>
                                 <p className='text-center text-lg font-medium pb-1 border-b'>Available Date</p>
-                                {listing?.inspection_time.split(',').map((ins, i) => <p className='bg-slate-200 mt-2' key={i}>{ins}</p>)}
+                                {listing?.inspection_time.split(',').map((ins, i) => <p className='bg-slate-200 mt-2' key={i}>{moment(ins).format("MMM Do YY,  h:mm a")}</p>)}
                             </div>}
                             <button onClick={() => window.inspection.showModal()} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
                         </div>
@@ -1151,14 +1159,14 @@ const Profile = () => {
                             const vlidarray = Array.isArray(listing[key]);
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
-                                <p className='font-medium opacity-70   lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
                                     vlidarray ? <div className='flex items-center flex-wrap gap-2'>
-                                        {listing[key].map((item, i) => <p className='font-semibold' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
+                                        {listing[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold'>{listing[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{listing[key]}</p>
                                 }
 
                             </div>

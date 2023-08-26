@@ -362,14 +362,14 @@ const HomeOwnerListingCardDetails = () => {
                             const vlidarray = Array.isArray(listingDetails[key]);
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
-                                <p className='font-medium opacity-70   lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70  w-32  lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
                                     vlidarray ? <div className='flex items-center flex-wrap gap-2'>
-                                        {listingDetails[key].map((item, i) => <p className='font-semibold' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
+                                        {listingDetails[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold'>{listingDetails[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{listingDetails[key]}</p>
                                 }
 
                             </div>
