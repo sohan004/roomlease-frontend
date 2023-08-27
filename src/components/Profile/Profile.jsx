@@ -7,7 +7,7 @@ import { BiSolidSelectMultiple } from "react-icons/bi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from '../../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
@@ -757,7 +757,7 @@ const Profile = () => {
             <span className="loading loading-spinner loading-lg mx-auto"></span>
         </div>
     }
-
+// console.log(userData);
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
@@ -789,8 +789,8 @@ const Profile = () => {
                                 <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
                             </div>
-                            <p className='mt-4'>Free Account</p>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button>
+                            <p className='mt-4'>{userData?.subscription} Account</p>
+                           <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
                             <a href="" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</a>
                         </div>
                     </div>
@@ -1144,6 +1144,8 @@ const Profile = () => {
                         {listing && Object.keys(listing).map((key, index) => {
 
                             if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listing[key] || listing[key]?.length === 0) return
+
+                            if (key === 'inspection_time') return
 
                             const stringWithoutHyphens = key.replace(/_/g, ' ');
                             const words = stringWithoutHyphens.split(' ');

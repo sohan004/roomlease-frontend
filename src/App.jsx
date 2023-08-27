@@ -20,6 +20,8 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // console.log(location.pathname);
+    if (location.pathname === '/') return
     // Scroll to the top whenever the route changes
     window.scrollTo(0, 0);
   }, [location]);

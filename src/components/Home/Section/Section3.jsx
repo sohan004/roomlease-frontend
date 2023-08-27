@@ -9,7 +9,7 @@ import ico8 from '../../../assets/sec3Icon/Icon.svg'
 import ico9 from '../../../assets/sec3Icon/Square Meters.svg'
 import img from '../../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../../assets/sec3Icon/Vector 2.svg'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { TbMessage2 } from "react-icons/tb";
 import { useEffect, useState } from 'react'
 import { baseURL } from '../../../App'
@@ -22,12 +22,13 @@ const Section3 = () => {
         fetch(`${baseURL}/listing/latest-listings/`, {
             method: 'GET',
             headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                // 'Authorization': `Token ${localStorage.getItem('user-token')}`,
                 'content-type': 'application/json'
             }
         })
             .then(res => res.json())
             .then(data => {
+                // console.log(data);
                 setData(data);
             })
             .catch(err => {
@@ -65,8 +66,9 @@ const Section3 = () => {
     ]
     return (
         <div >
-            <h1 className='text-center text-black text-4xl font-bold mt-24'>Based on your location</h1>
-            <p className='text-center mb-16 mt-4'>Some of our picked properties near you location.</p>
+            <h1 className='text-center text-black text-4xl font-bold mt-24'>You may like
+            </h1>
+            <p className='text-center mb-16 mt-4'>Some of the listings that you may feel interested.</p>
             {/* <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 '>
                 <div className='order-2 lg:order-1 w-full bg-[#F7F7FD] flex items-center justify-between border p-2 border-[#E0DEF7] rounded-lg'>
                     <p className='flex gap-2  text-[#7065F0] items-center py-2 px-4 border border-[#E0DEF7]  rounded-lg font-medium bg-white'><img src={ico8} alt="" /> Rent</p>
@@ -116,6 +118,10 @@ const Section3 = () => {
             {/* non popular data */}
             <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
                 {data.map(p => <ListingCard key={p.id} p={p} reFatch={reFatch} setReFatch={setReFatch} />)}
+            </div>
+
+            <div className='text-center'>
+                <Link to='/all-listing'><button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4'>show all listings</button></Link>
             </div>
         </div>
     );

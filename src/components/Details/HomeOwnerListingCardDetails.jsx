@@ -44,7 +44,7 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
-import { FaCarAlt, FaPersonBooth, FaSpinner } from 'react-icons/fa'
+import { FaCarAlt, FaHome, FaPersonBooth, FaSpinner } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
@@ -63,7 +63,7 @@ const HomeOwnerListingCardDetails = () => {
 
     const [load, setLoad] = useState(true)
 
-    const {userData} = useContext(AuthContext)
+    const { userData } = useContext(AuthContext)
 
     useEffect(() => {
         fetch(`${baseURL}/listing/home-listings/${id}/`, {
@@ -255,7 +255,9 @@ const HomeOwnerListingCardDetails = () => {
                                 </SwiperSlide>
                             }) : <SwiperSlide className='w-full' >
                                 <div className='w-full mx-auto h-[250px] lg:h-[500px] relative'>
-                                    <img src={img} className='w-full rounded-md h-[250px] lg:h-[500px]' alt="" />
+                                    <div className='w-full h-full flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
+                                        <FaHome></FaHome>
+                                    </div>
                                 </div>
                             </SwiperSlide>}
 

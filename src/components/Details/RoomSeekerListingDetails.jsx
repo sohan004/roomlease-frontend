@@ -44,7 +44,7 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
-import { FaCarAlt, FaPersonBooth, FaSpinner } from 'react-icons/fa'
+import { FaCarAlt, FaHome, FaPersonBooth, FaSpinner } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
@@ -226,7 +226,7 @@ const RoomSeekerListingDetails = () => {
                 <div className='flex mb-8 flex-col lg:flex-row gap-y-6 lg:items-end justify-between'>
                     <div >
                         <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{listingDetails?.house_type}</h1>
-                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address || listingDetails?.suburb[0]}</p>
+                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address || listingDetails?.suburb ? listingDetails?.suburb[0] : 'Australia'}</p>
                     </div>
                     <div className='flex items-center gap-4 justify-center'>
                         <button className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
@@ -237,8 +237,10 @@ const RoomSeekerListingDetails = () => {
 
                 <div className='flex flex-col gap-2 lg:gap-6 lg:flex-row'>
                     <div className='w-full lg:w-[70%] relative'>
-                    
-                        {<>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={img} />}</>}
+
+                        {<>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <div className='w-full h-[250px] lg:h-[500px] flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
+                            <FaHome></FaHome>
+                        </div>}</>}
                     </div>
                     <div className='w-full lg:w-[30%] '>
                         {/* <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />

@@ -39,7 +39,7 @@ const Matches = () => {
     }, [list]);
 
     const nextListing = () => {
-        setLoading(true);
+        // setLoading(true);
 
         fetch(`${baseURL}/match/my-match/${pageNum + 1}`, {
             method: 'GET',
