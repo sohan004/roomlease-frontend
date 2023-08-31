@@ -14,10 +14,12 @@ import { TbMessage2 } from "react-icons/tb";
 import { useEffect, useState } from 'react'
 import { baseURL } from '../../../App'
 import ListingCard from '../../ListingCard/ListingCard'
+import LoadingCard from '../../LoadingCard/LoadingCard'
 
 const Section3 = () => {
     const [data, setData] = useState([])
     const [reFatch, setReFatch] = useState(1)
+    const [load, setLoad] = useState(true)
     useEffect(() => {
         fetch(`${baseURL}/listing/latest-listings/`, {
             method: 'GET',
@@ -30,6 +32,7 @@ const Section3 = () => {
             .then(data => {
                 // console.log(data);
                 setData(data);
+                setLoad(false)
             })
             .catch(err => {
                 console.log(err);
@@ -64,6 +67,9 @@ const Section3 = () => {
             size: '5 x 7',
         },
     ]
+    if (load) {
+        return <LoadingCard></LoadingCard>
+    }
     return (
         <div >
             <h1 className='text-center text-black text-4xl font-bold mt-24'>You may like

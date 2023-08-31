@@ -35,6 +35,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import verifyed from '../../assets/profileIcon/Untitled-1.png'
 
 
 // Import Swiper styles
@@ -48,6 +49,9 @@ import { FaCarAlt, FaHome, FaPersonBooth, FaSpinner } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
+import { MdFavorite } from 'react-icons/md'
+import { ToastContainer, toast } from 'react-toastify'
+import moment from 'moment'
 
 
 const HomeOwnerListingCardDetails = () => {
@@ -58,6 +62,7 @@ const HomeOwnerListingCardDetails = () => {
     const [listingDetails, setListingDetails] = useState(null)
     const [listingUser, setListingUser] = useState(null)
     const [imgValue, setImgValue] = useState([])
+    const [reFatch, setReFatch] = useState(1)
 
     const navigate = useNavigate()
 
@@ -66,7 +71,14 @@ const HomeOwnerListingCardDetails = () => {
     const { userData } = useContext(AuthContext)
 
     useEffect(() => {
-        fetch(`${baseURL}/listing/home-listings/${id}/`, {
+        const token = localStorage.getItem('user-token')
+        fetch(`${baseURL}/listing/home-listings/${id}/`, token ? {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'content-type': 'application/json',
+            }
+        } : {
             method: 'GET',
             headers: {
                 // 'Authorization': `Token ${localStorage.getItem('user-token')} `,
@@ -89,7 +101,7 @@ const HomeOwnerListingCardDetails = () => {
                 console.log(err);
                 navigate('/matches')
             })
-    }, [])
+    }, [reFatch])
 
     useEffect(() => {
         if (!listingDetails?.user) {
@@ -207,6 +219,41 @@ const HomeOwnerListingCardDetails = () => {
             })
     }
 
+    const homeOwnerAddFavorite = (id) => {
+        if (!userData) navigate('/otp-send')
+        fetch(`${baseURL}/listing/add-home-listing-favorite/${id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setReFatch(reFatch + 1)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const homeOwnerFavouriteDelete = (id) => {
+        if (!userData) navigate('/otp-send')
+        fetch(`${baseURL}/listing/remove-home-listing-favorite/${id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setReFatch(reFatch + 1)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+
     if (load) {
         return <div className='flex justify-center items-center mt-7'>
             <FaSpinner className='text-4xl animate-spin text-[#7065F0]'></FaSpinner>
@@ -226,12 +273,38 @@ const HomeOwnerListingCardDetails = () => {
                 <div className='flex mb-8 flex-col lg:flex-row gap-y-6 lg:items-end justify-between'>
                     <div >
                         <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{listingDetails?.house_type}</h1>
-                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address || listingDetails?.suburb ? listingDetails?.suburb[0] : ''}</p>
+                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.suburb}</p>
                     </div>
                     <div className='flex items-center gap-4 justify-center'>
-                        <button className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
-                        <button className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={fav} alt="" /> Favorite</button>
-                        <button className='btn hidden lg:flex items-center  text-[#7065F0] bg-[#F7F7FD] border border-[#E0DEF7] btn-sm'><img src={search} alt="" /> Browse nearby listings</button>
+                        <button
+                            onClick={() => {
+                                const copyText = `${!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}`
+                                navigator.clipboard.writeText(copyText)
+                                    .then(() => {
+                                        toast.success('Listing Copy Succesfully', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                            theme: "colored",
+                                        });
+                                    })
+                                    .catch((error) => {
+                                        console.error('Unable to copy text: ', error);
+                                    });
+                            }}
+                            className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
+                        <button onClick={() => {
+                            if (listingDetails?.is_favourite) {
+                                homeOwnerFavouriteDelete(listingDetails?.id)
+                            }
+                            if (listingDetails?.is_favourite == false) {
+                                homeOwnerAddFavorite(listingDetails?.id)
+                            }
+                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
@@ -271,8 +344,23 @@ const HomeOwnerListingCardDetails = () => {
                         </div> */}
                         <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
                         <div className='text-right'>
-                            <button onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
+                            <button disabled={+listingDetails?.user == +userData?.user_id} onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white w-full'>send message</button>
                         </div>
+
+                        {
+                            listingDetails?.inspection_time &&
+                            <div className='mt-5 '>
+                                <h1 className=' font-semibold text-xl'>Inspections</h1>
+                                <div className='h-[250px] lg:h-[150px] overflow-y-auto'>
+                                    {listingDetails?.inspection_time.split(',').map((time, i) => {
+                                        return <div key={i} className='flex items-center justify-between text-white bg-[#9288fff3] mt-2 p-2'>
+                                            <p className='font-medium'>{moment(time).format("MMM Do YY,  h:mm a")}</p>
+                                            <p className='opacity-60'>Available</p>
+                                        </div>
+                                    })}
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -307,7 +395,10 @@ const HomeOwnerListingCardDetails = () => {
                             <p className='opacity-80 mb-6'>Listed by property owner</p>
                             <div className='flex lg:items-center flex-col lg:flex-row gap-y-8 lg:justify-between'>
                                 <div className='flex items-center gap-3'>
-                                    <img src={listingUser?.profile_picture} className='rounded-full h-16 w-16' alt="" />
+                                    <div className='rounded-full w-16 h-16 overflow-hidden relative'>
+                                        <img src={listingUser?.profile_picture} className='rounded-full h-16 w-16' alt="" />
+                                        {listingUser?.verified && <img src={verifyed} className='absolute w-full -left-1 bottom-0' alt="" />}
+                                    </div>
                                     <div>
                                         <p className='font-semibold'>{listingUser?.full_name}</p>
                                         {listingUser?.show_phone_number && <p className='opacity-75'>+{listingUser?.username}</p>}
@@ -349,6 +440,8 @@ const HomeOwnerListingCardDetails = () => {
                         {listingDetails && Object.keys(listingDetails).map((key, index) => {
 
                             if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listingDetails[key] || listingDetails[key]?.length === 0) return
+
+                            if (key == 'inspection_time') return
 
                             const stringWithoutHyphens = key.replace(/_/g, ' ');
                             const words = stringWithoutHyphens.split(' ');
@@ -553,6 +646,7 @@ const HomeOwnerListingCardDetails = () => {
                 </div>
 
             </div>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

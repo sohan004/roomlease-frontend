@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from 'react-select'
 import RoomFurnishingAndFeture from "../Account/RoomFurnishingAndFeture";
-import { FaArrowRight, FaSpinner } from "react-icons/fa";
+import { FaArrowRight, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
 import arow from '../../assets/newlistingIcon/Icon.svg'
 import homeIcon from '../../assets/newlistingIcon/homeIcon.svg'
 import DatePicker from "react-datepicker";
@@ -76,6 +76,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [photo, setPhoto] = useState([])
     const [load, setLoad] = useState(false)
     const [homeaddress2, setHomeaddress2] = useState(listing?.home_address ? listing?.home_address : '')
+    const [street, setStreet] = useState([])
 
     const [minimumStayArray, setMinimumStayArray] = useState([
         {
@@ -691,6 +692,29 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
     };
 
+    const getStreetAddress = (a) => {
+        if (a.length === 0) {
+            setHomeaddress2('')
+            setStreet([])
+            return
+        }
+        fetch(`${baseURL}/search/street-address/${a}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                setStreet(data.predictions)
+
+            })
+            .catch(err => setStreet([]))
+
+    }
+
     return (
         <div className="max-w-[736px]  mx-auto  ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Update Your Listing</h1>
@@ -702,7 +726,12 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                         <div>
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
-                            <input value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value);  }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
+                            <div className="dropdown dropdown-bottom dropdown-center w-full">
+                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
+                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-2xl  bg-white text-base rounded-none ">
+                                    {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
+                                </ul>
+                            </div>
                         </div>
                         <div>
                             <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>

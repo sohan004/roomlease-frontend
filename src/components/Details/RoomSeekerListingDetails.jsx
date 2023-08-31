@@ -48,6 +48,9 @@ import { FaCarAlt, FaHome, FaPersonBooth, FaSpinner } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
+import { ToastContainer, toast } from 'react-toastify'
+import { MdFavorite } from 'react-icons/md'
+import moment from 'moment'
 
 
 const RoomSeekerListingDetails = () => {
@@ -58,6 +61,7 @@ const RoomSeekerListingDetails = () => {
     const [listingDetails, setListingDetails] = useState(null)
     const [listingUser, setListingUser] = useState(null)
     const [imgValue, setImgValue] = useState([])
+    const [reFatch, setReFatch] = useState(1)
 
     const navigate = useNavigate()
 
@@ -66,7 +70,14 @@ const RoomSeekerListingDetails = () => {
     const { userData } = useContext(AuthContext)
 
     useEffect(() => {
-        fetch(`${baseURL}/listing/home-listings/${id}/`, {
+        const token = localStorage.getItem('user-token')
+        fetch(`${baseURL}/listing/room-seekers/${id}/`, token ? {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'content-type': 'application/json',
+            }
+        } : {
             method: 'GET',
             headers: {
                 // 'Authorization': `Token ${localStorage.getItem('user-token')} `,
@@ -89,7 +100,7 @@ const RoomSeekerListingDetails = () => {
                 console.log(err);
                 navigate('/matches')
             })
-    }, [])
+    }, [reFatch])
 
     useEffect(() => {
         if (!listingDetails?.user) {
@@ -114,26 +125,7 @@ const RoomSeekerListingDetails = () => {
             })
     }, [listingDetails])
 
-    useEffect(() => {
-        if (!listingDetails?.id) {
-            return
-        }
-        fetch(`${baseURL}/listing/get-house-listing-photos/${listingDetails?.id}/`, {
-            method: 'GET',
-            headers: {
-                // 'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
 
-                setImgValue(data);
-                // console.log(data);
-                // setReFatch(reFatch + 1)
-
-            }).catch(() => setImgValue([]))
-    }, [listingDetails])
 
     // console.log(listingDetails)
 
@@ -213,8 +205,40 @@ const RoomSeekerListingDetails = () => {
         </div>
     }
 
-
-
+    const roomSeekerAddFavorite = (id) => {
+        if (!userData) navigate('/otp-send')
+        console.log(id);
+        fetch(`${baseURL}/listing/add-room-seeker-favorite/${id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                setReFatch(reFatch + 1)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    const roomSeekerFavouriteDelete = (id) => {
+        if (!userData) navigate('/otp-send')
+        fetch(`${baseURL}/listing/remove-room-seeker-favorite/${id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setReFatch(reFatch + 1)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     return (
         <div>
@@ -226,12 +250,38 @@ const RoomSeekerListingDetails = () => {
                 <div className='flex mb-8 flex-col lg:flex-row gap-y-6 lg:items-end justify-between'>
                     <div >
                         <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{listingDetails?.house_type}</h1>
-                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address || listingDetails?.suburb ? listingDetails?.suburb[0] : 'Australia'}</p>
+                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.suburb?.length > 0 ? listingDetails?.suburb[0] : 'Australia'}</p>
                     </div>
                     <div className='flex items-center gap-4 justify-center'>
-                        <button className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
-                        <button className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={fav} alt="" /> Favorite</button>
-                        <button className='btn hidden lg:flex items-center  text-[#7065F0] bg-[#F7F7FD] border border-[#E0DEF7] btn-sm'><img src={search} alt="" /> Browse nearby listings</button>
+                        <button
+                            onClick={() => {
+                                const copyText = `${!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}`
+                                navigator.clipboard.writeText(copyText)
+                                    .then(() => {
+                                        toast.success('Listing Copy Succesfully', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: false,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: true,
+                                            progress: undefined,
+                                            theme: "colored",
+                                        });
+                                    })
+                                    .catch((error) => {
+                                        console.error('Unable to copy text: ', error);
+                                    });
+                            }}
+                            className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
+                        <button onClick={() => {
+                            if (listingDetails?.is_favourite) {
+                                roomSeekerFavouriteDelete(listingDetails?.id)
+                            }
+                            if (listingDetails?.is_favourite == false) {
+                                roomSeekerAddFavorite(listingDetails?.id)
+                            }
+                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
@@ -250,8 +300,22 @@ const RoomSeekerListingDetails = () => {
                         </div> */}
                         <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
                         <div className='text-right'>
-                            <button onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
+                            <button onClick={sendMessageFunction} className='btn w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
                         </div>
+                        {
+                            listingDetails?.inspection_time &&
+                            <div className='mt-5 '>
+                                <h1 className=' font-semibold text-xl'>Inspections</h1>
+                                <div className='h-[250px] lg:h-[150px] overflow-y-auto'>
+                                    {listingDetails?.inspection_time.split(',').map((time, i) => {
+                                        return <div key={i} className='flex items-center justify-between text-white bg-[#9288fff3] mt-2 p-2'>
+                                            <p className='font-medium'>{moment(time).format("MMM Do YY,  h:mm a")}</p>
+                                            <p className='opacity-60'>Available</p>
+                                        </div>
+                                    })}
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -532,6 +596,7 @@ const RoomSeekerListingDetails = () => {
                 </div>
 
             </div>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

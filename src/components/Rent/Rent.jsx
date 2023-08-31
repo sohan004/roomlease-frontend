@@ -15,6 +15,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
 import { baseURL } from "../../App";
 import ListingCard from "../ListingCard/ListingCard";
+import LoadingCard from "../LoadingCard/LoadingCard";
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -197,14 +198,13 @@ const Rent = () => {
     };
 
     if (loading) {
-        return <div className='flex justify-start items-center my-12 text-center'>
-            <span className="loading loading-spinner loading-lg mx-auto"></span>
-        </div>
+        return <LoadingCard></LoadingCard>
     }
 
     return (
         <div className=" bg-[#F7F7FD]">
             <div className="max-w-[1440px] mx-auto px-4 py-5">
+                {listingData.length > 0 && <h1 className="text-xl font-medium">This listing for {location ? location : type}</h1>}
                 {/* <div className="flex items-center flex-col justify-center gap-y-8 text-center lg:flex-row lg:justify-between">
                     <h1 className=" font-bold text-4xl">Search properties to rent</h1>
                     <Select

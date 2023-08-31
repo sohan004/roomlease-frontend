@@ -3,6 +3,7 @@ import { baseURL } from '../../App';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import ListingCard from '../ListingCard/ListingCard';
+import LoadingCard from '../LoadingCard/LoadingCard';
 
 const AllListing = () => {
     const [loading, setLoading] = useState(true);
@@ -57,9 +58,7 @@ const AllListing = () => {
     }
 
     if (loading) {
-        return <div className='flex justify-start items-center my-12 text-center'>
-            <span className="loading loading-spinner loading-lg mx-auto"></span>
-        </div>
+        return <LoadingCard></LoadingCard>
     }
     return (
         <div className='max-w-[1440px] mx-auto'>

@@ -73,8 +73,8 @@ export default function CommonLinks({ setUserData, userData }) {
               setSuburbValue([])
 
             }} className='btn w-full mt-2 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>search</button>
-          <p className='p-1 bg-slate-300 mt-5'>Recent a search</p>
-          <p className='flex gap-1 items-center text-sm mt-2'><FaMapMarkerAlt></FaMapMarkerAlt> Austrelia mauntail</p>
+          {/* <p className='p-1 bg-slate-300 mt-5'>Recent a search</p>
+          <p className='flex gap-1 items-center text-sm mt-2'><FaMapMarkerAlt></FaMapMarkerAlt> Austrelia mauntail</p> */}
 
 
         </div>}

@@ -18,6 +18,7 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
 import ListingCard from "../ListingCard/ListingCard";
+import LoadingCard from "../LoadingCard/LoadingCard";
 
 const Matches = () => {
 
@@ -94,38 +95,7 @@ const Matches = () => {
                 {list.map(p => <ListingCard setReFatch={setReFatch} reFatch={reFatch} key={p.id} p={p} />)}
             </div>}
 
-            {loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                <div className="w-full h-96 border rounded-md p-2 animate-pulse bg-slate-50">
-                    <div className="w-full h-[50%] bg-slate-300">
-                    </div>
-                    <div className="w-full h-[10%] mt-4 bg-slate-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-96 border rounded-md p-2 animate-pulse bg-slate-50">
-                    <div className="w-full h-[50%] bg-slate-300">
-                    </div>
-                    <div className="w-full h-[10%] mt-4 bg-slate-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-96 border rounded-md p-2 animate-pulse bg-slate-50">
-                    <div className="w-full h-[50%] bg-slate-300">
-                    </div>
-                    <div className="w-full h-[10%] mt-4 bg-slate-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-96 border rounded-md p-2 animate-pulse bg-slate-50">
-                    <div className="w-full h-[50%] bg-slate-300">
-                    </div>
-                    <div className="w-full h-[10%] mt-4 bg-slate-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-96 border rounded-md p-2 animate-pulse bg-slate-50">
-                    <div className="w-full h-[50%] bg-slate-300">
-                    </div>
-                    <div className="w-full h-[10%] mt-4 bg-slate-200 rounded-full"></div>
-                </div>
-                <div className="w-full h-96 border rounded-md p-2 animate-pulse bg-slate-50">
-                    <div className="w-full h-[50%] bg-slate-300">
-                    </div>
-                    <div className="w-full h-[10%] mt-4 bg-slate-200 rounded-full"></div>
-                </div>
-            </div>}
+            {loading && <LoadingCard></LoadingCard>}
 
             {showMore && <div className="text-center mt-5">
                 <button onClick={nextListing} className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>show more listing</button>

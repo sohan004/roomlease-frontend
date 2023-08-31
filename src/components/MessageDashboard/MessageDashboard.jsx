@@ -48,8 +48,11 @@ import MessageContainer from "./MessageContainer";
 const MessageDashboard = () => {
     const { userData } = useContext(AuthContext)
     const [data, setData] = useState([])
+    const [data2, setData2] = useState([])
 
     const [tf, setTf] = useState(true)
+    const [reFetch, setReFetch] = useState(1)
+    
 
 
     useEffect(() => {
@@ -64,13 +67,29 @@ const MessageDashboard = () => {
             .then(res => res.json())
             .then(data => {
                 if (data) {
-
+                    setData2(data)
                     setData(data)
-                    console.log(data)
+
                 }
             })
             .catch(err => console.log(err))
     }, [userData])
+
+
+    const search = (e) => {
+
+        const value = e.target.value.toLowerCase()
+
+        const filterData = data2.filter(d => {
+            if (userData?.user_id == d?.user_one) {
+                return d.user_two_full_name.toLowerCase().includes(value)
+            }
+            if (userData?.user_id == d?.user_two) {
+                return d.user_one_full_name.toLowerCase().includes(value)
+            }
+        })
+        setData(filterData)
+    }
 
     return (
         <div className="bg-white">
@@ -85,7 +104,7 @@ const MessageDashboard = () => {
                         <div className="w-full">
                             <div className='  w-full bg-[#F7F7FD]  border border-[#E0DEF7] rounded-lg flex gap-2 items-center p-2'>
                                 <img src={ico7} alt="" />
-                                <input className='bg-transparent focus:outline-none border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
+                                <input onChange={search} className='bg-transparent focus:outline-none border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
                             </div>
                         </div>
                     </div>
@@ -108,7 +127,7 @@ const MessageDashboard = () => {
                             <div className="w-full">
                                 <div className='  w-full bg-[#F7F7FD]  border border-[#E0DEF7] rounded-lg flex gap-2 items-center p-2'>
                                     <img src={ico7} alt="" />
-                                    <input className='bg-transparent focus:outline-none border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
+                                    <input onChange={search} className='bg-transparent focus:outline-none border-0 p-1 w-full focus:border-0' placeholder='Search...' type="text" name='' />
                                 </div>
                             </div>
                         </div>

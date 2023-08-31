@@ -160,9 +160,9 @@ const OtpSend = () => {
             <p className="font-bold text-2xl mb-4 mt-12 lg:mt-16">Mobile number: </p>
 
             <PhoneInput
-                className="w-full py-3 px-4 border-b border-black"
+                className="w-full py-3 px-4 border-b border-black bg-transparent"
                 international
-                inputClassName="focus:outline-none"
+                inputClassName="focus:outline-none bg-transparent"
                 defaultCountry="AU"
                 value={con}
                 onChange={p => {
