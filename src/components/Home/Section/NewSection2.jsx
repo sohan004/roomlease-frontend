@@ -60,7 +60,7 @@ const NewSection2 = () => {
                             navigate('/otp-send')
                         }
                     }}
-                    className='btn btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaHome className='' />List Room </button>
+                    className='btn border-0 btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaHome className='' />List Room </button>
                 <button
                     onClick={() => {
                         if (loading) {
@@ -76,7 +76,7 @@ const NewSection2 = () => {
                             navigate('/otp-send')
                         }
                     }}
-                    className='btn btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaBed className='' />Find Room </button>
+                    className='btn border-0 btn-lg w-full lg:w-[450px] hover:bg-[#4e46a1] bg-[#7065F0] text-white text-2xl lg:text-4xl' style={{ height: '100px' }}><FaBed className='' />Find Room </button>
             </div>
         </div>
     );

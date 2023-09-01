@@ -35,15 +35,18 @@ const DigitalVerify = () => {
                     })
                         .then(res => res.json())
                         .then(data => {
+                            setLoading(false);
                             console.log(data);
                             if (data.success) {
                                 alert('Digital ID verified successfully');
                                 window.location.reload();
                             } else {
+                                setLoading(false);
                                 alert('Digital ID verification failed');
                             }
                         })
                         .catch(err => {
+                            setLoading(false);
                             console.log(err);
                         })
 
@@ -61,11 +64,11 @@ const DigitalVerify = () => {
 
     return (
         <div className="text-center mt-7">
-            {loading ? (
+            {loading ?
                 <div className="spinner-border text-primary" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
-            ) : <div id="digitalid-verify"></div>}
+                : <div id="digitalid-verify"></div>}
 
         </div>
     );

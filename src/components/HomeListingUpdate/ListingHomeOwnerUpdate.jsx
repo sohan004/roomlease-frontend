@@ -34,7 +34,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [secondName, setSecondName] = useState('')
     const [email, setEmail] = useState('')
     const [houseType, setHouseType] = useState(listingData?.house_type ? listingData?.house_type : [])
-    const [homeAddress, setHomeAddress] = useState(listingData?.suburb ? listingData?.suburb : '')
+    // const [homeAddress, setHomeAddress] = useState(listingData?.suburb ? listingData?.suburb : '')
     const [parkingOptions, setParkingOptions] = useState(listingData?.parking_option ? listingData?.parking_option : [])
     const [furnished, setFurnished] = useState(listingData?.bedroom_type ? listingData?.bedroom_type : '')
     const [privateBath, setPrivateBath] = useState(listingData?.private_bathroom ? listingData?.private_bathroom : '')
@@ -295,19 +295,19 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const handle = (e) => {
         e.preventDefault()
 
-        if (!homeAddress) {
-            toast.error('Please type your home address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
+        // if (!homeAddress) {
+        //     toast.error('Please type your home address', {
+        //         position: "top-center",
+        //         autoClose: 5000,
+        //         hideProgressBar: false,
+        //         theme: "colored",
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //     });
+        //     return
+        // }
         if (!houseType) {
             toast.error('Please select your house type', {
                 position: "top-center",
@@ -619,7 +619,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
         listingObject.house_type = houseType,
             listingObject.home_address = homeaddress2,
-            listingObject.suburb = homeAddress,
+            // listingObject.suburb = homeAddress,
             listingObject.parking_option = parkingOptions,
             listingObject.available_from = `${year}-${month}-${day}`,
             listingObject.minimum_stay = minimumStay,
@@ -733,7 +733,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                 </ul>
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
 
 
@@ -754,7 +754,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                     }
                                 }}
                             />
-                        </div>
+                        </div> */}
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">House Type:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 text-center font-medium">

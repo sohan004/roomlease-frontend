@@ -112,6 +112,7 @@ const Profile = () => {
     const [bedRoom, setBedRoom] = useState('')
     const [parking, setParking] = useState('')
     const [videoDetails, setVideoDetails] = useState({})
+    const [imgRefresh, setImgRefresh] = useState(1)
 
     useEffect(() => {
         if (!listing) {
@@ -129,12 +130,12 @@ const Profile = () => {
                 setVideoDetails(data);
             })
             .catch(err => console.log(err))
-    }, [listing])
-
+    }, [listing, imgRefresh])
 
     useEffect(() => {
-        setLoading(true)
-
+        if (!listing || userData?.account_type === 'roomseeker') {
+            return
+        }
         fetch(`${baseURL}/listing/get-house-listing-photos/${listing?.id}/`, {
             method: 'GET',
             headers: {
@@ -150,6 +151,13 @@ const Profile = () => {
                 // setReFatch(reFatch + 1)
 
             }).catch(() => setImgValue([]))
+    }, [imgRefresh, listing, userData])
+
+
+    useEffect(() => {
+        setLoading(true)
+
+
 
         fetch(`${baseURL}/account/profile/`, {
             method: 'GET',
@@ -346,11 +354,13 @@ const Profile = () => {
     }
 
 
-    const imgUpload = () => {
-        img.map((item, index) => {
+    const imgUpload = (e) => {
+        const image = e.target.files[0]
+        // ensure this is image file
+        if (image.type === 'image/png' || image.type === 'image/jpeg' || image.type === 'image/jpg') {
             const formData = new FormData()
             formData.append('home_listing', listing?.id)
-            formData.append('photo', item)
+            formData.append('photo', image)
             fetch(`${baseURL}/listing/house-listing-photos/`, {
                 method: 'POST',
                 headers: {
@@ -360,27 +370,33 @@ const Profile = () => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    setRefresh(refresh + 1)
+                    setImg([])
+                    setImgRefresh(imgRefresh + 1)
                 })
-        })
+        }
     }
 
-    const roomseekerImgUplaod = () => {
-        const formData = new FormData()
-        formData.append('photo', roomSeekerImg)
-        fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-            },
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setRoomSeekerImg(null);
-                setRefresh(refresh + 1)
-            }).catch(err => console.log(err))
+    const roomseekerImgUplaod = (e) => {
+        const image = e.target.files[0]
+        // ensure this is image file
+        if (image.type === 'image/png' || image.type === 'image/jpeg' || image.type === 'image/jpg') {
+            const formData = new FormData()
+            formData.append('photo', image)
+            fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setRoomSeekerImg(null);
+                    setRefresh(refresh + 1)
+                }).catch(err => console.log(err))
+        }
+
 
 
     }
@@ -587,43 +603,66 @@ const Profile = () => {
 
     }
 
-    const videoUpload = () => {
-        if (!userData) return
-        if (userData?.subscription == 'Free') {
-            return navigate('/homeowner-pricing')
+    const videoUpload = (e) => {
+        if (userData?.account_type == 'roomseeker') {
+            return toast.error('Only Home Owner can add videos', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
-        const formData = new FormData()
-        formData.append('video', video)
-        formData.append('video_type', 'video')
-        formData.append('home_listing', listing?.id)
+        
+        const vd = e.target.files[0]
+        if (vd.type === 'video/mp4' || vd.type === 'video/mkv' || vd.type === 'video/avi') {
+            if (!userData) return
+            if (userData?.subscription == 'Free') {
+                return navigate('/homeowner-pricing')
+            }
+            const formData = new FormData()
+            formData.append('video', vd)
+            formData.append('video_type', 'video')
+            formData.append('home_listing', listing?.id)
 
 
-        fetch(`${baseURL}/listing/house-listing-videos/`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                // 'content-type': 'multipart/form-data'
-            },
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data?.video) {
-                    setVideo('')
-                    toast.success('video add successfully', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                    // setRefresh(refresh + 1)
-                }
+            fetch(`${baseURL}/listing/house-listing-videos/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    // 'content-type': 'multipart/form-data'
+                },
+                body: formData
             })
-            .catch(err => console.log(err))
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data?.video) {
+                        setVideo('')
+                        toast.success('video add successfully', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                        setImgRefresh(imgRefresh + 1)
+                        // setRefresh(refresh + 1)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+
+
+        // ensure this is video
+
+
     }
 
     const addYoutubeVideoLink = async () => {
@@ -665,6 +704,7 @@ const Profile = () => {
                             theme: "colored",
                         });
                         // setRefresh(refresh + 1)
+                        setImgRefresh(imgRefresh + 1)
                     }
                 })
                 .catch(err => console.log(err))
@@ -848,7 +888,7 @@ const Profile = () => {
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
                             </div>
                             <p className='mt-4'>{userData?.subscription} Account</p>
-                            <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
+                            <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
                             <a href="" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</a>
                         </div>
                     </div>
@@ -909,28 +949,28 @@ const Profile = () => {
                 }
 
                 {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
-                    <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => setImg([])} className="btn border-0 bg-slate-300">Cencle</button>
                     <button onClick={() => {
                         imgUpload()
                         setImg([])
-                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                    }} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
                 {roomSeekerImg && userData?.account_type == 'roomseeker' && <div className='flex justify-start mt-3'>
-                    <button onClick={() => setRoomSeekerImg(null)} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => setRoomSeekerImg(null)} className="btn border-0 bg-slate-300">Cencle</button>
                     <button onClick={() => {
                         roomseekerImgUplaod()
-                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                    }} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
 
                 {video && <video className='w-40 ' controls>
                     <source src={URL.createObjectURL(video)} type="video/mp4" />
                 </video>}
                 {video && <div className='flex justify-start mt-3'>
-                    <button onClick={() => setVideo('')} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => setVideo('')} className="btn border-0 bg-slate-300">Cencle</button>
                     <button onClick={() => {
                         videoUpload()
                         // roomseekerImgUplaod()
-                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload Videos</button>
+                    }} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload Videos</button>
                 </div>}
 
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
@@ -1005,55 +1045,14 @@ const Profile = () => {
                                         <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
                                         <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
                                         <div className="dropdown dropdown-bottom">
-                                            <label tabIndex={0} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                            <label tabIndex={0} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
                                             <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
                                                 <li className='font-semibold'><label htmlFor='video'>Video</label></li>
                                                 <li onClick={addYoutubeVideoLink} className='font-semibold'><a>Youtube Video Link</a></li>
                                             </ul>
                                         </div>
 
-                                        <input onChange={e => {
-                                            if (!userData) return
-                                            if (userData?.account_type == 'roomseeker') {
-                                                return toast.error('Only Home Owner can add videos', {
-                                                    position: "top-center",
-                                                    autoClose: 5000,
-                                                    hideProgressBar: false,
-                                                    theme: "colored",
-                                                    closeOnClick: true,
-                                                    pauseOnHover: true,
-                                                    draggable: true,
-                                                    progress: undefined,
-                                                });
-                                            }
-                                            if (e?.target?.files[0].type !== 'video/mp4') {
-                                                toast.error('Please select a video', {
-                                                    position: "top-center",
-                                                    autoClose: 5000,
-                                                    hideProgressBar: false,
-                                                    theme: "colored",
-                                                    closeOnClick: true,
-                                                    pauseOnHover: true,
-                                                    draggable: true,
-                                                    progress: undefined,
-                                                })
-                                                return
-                                            }
-                                            if (video) {
-                                                return toast.error('You can upload only 1 videos  ', {
-                                                    position: "top-center",
-                                                    autoClose: 5000,
-                                                    hideProgressBar: false,
-                                                    theme: "colored",
-                                                    closeOnClick: true,
-                                                    pauseOnHover: true,
-                                                    draggable: true,
-                                                    progress: undefined,
-                                                });
-                                            }
-                                            setVideo(e.target.files[0])
-                                            // console.log(video);
-                                        }} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
+                                        <input onChange={(e) => videoUpload(e)} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
                                     </div>
                                 </div>}
                         </>
@@ -1076,7 +1075,7 @@ const Profile = () => {
                                 <p className='text-center text-lg font-medium pb-1 border-b'>Available Date</p>
                                 {listing?.inspection_time.split(',').map((ins, i) => <p className='bg-slate-200 mt-2' key={i}>{moment(ins).format("MMM Do YY,  h:mm a")}</p>)}
                             </div>}
-                            <button onClick={() => window.inspection.showModal()} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
+                            <button onClick={() => window.inspection.showModal()} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
                         </div>
 
                     </div>
@@ -1113,30 +1112,10 @@ const Profile = () => {
 
                 <input onChange={e => {
                     if (userData?.account_type == 'homeowner') {
-                        if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            theme: "colored",
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        });
-                        setImg([...img, e.target.files[0]])
+                        imgUpload(e)
                     }
                     else {
-                        if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            theme: "colored",
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        });
-                        setRoomSeekerImg(e.target.files[0])
+                        roomseekerImgUplaod(e)
                     }
 
                 }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
@@ -1183,8 +1162,8 @@ const Profile = () => {
                             </div>
                         </div>
                         {roomDetails && <div className='flex justify-start mt-3'>
-                            <button onClick={() => setRoomDetails(false)} className="btn bg-slate-300">Cencle</button>
-                            <button onClick={houseUpdate} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
+                            <button onClick={() => setRoomDetails(false)} className="btn border-0bg-slate-300">Cencle</button>
+                            <button onClick={houseUpdate} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
                         </div>}
 
 
@@ -1210,7 +1189,7 @@ const Profile = () => {
 
                             if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listing[key] || listing[key]?.length === 0) return
 
-                            if (key === 'inspection_time') return
+                            if (key == 'inspection_time' || key == 'is_favourite') return
 
                             const stringWithoutHyphens = key.replace(/_/g, ' ');
                             const words = stringWithoutHyphens.split(' ');
@@ -1317,10 +1296,10 @@ const Profile = () => {
                             onClick={() => {
                                 deleteListing()
                             }}
-                            className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
+                            className='btn border-0rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
                         <button onClick={() => {
                             setRoomEdit(true)
-                        }} className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                        }} className='btn border-0rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
                     </div>
                 </div>}
 
@@ -1350,8 +1329,8 @@ const Profile = () => {
                                 {!description && <p>{listing?.describe_occupants ? listing?.describe_occupants : 'write home description...'}</p>}
                                 {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
                                 {description && <div className='flex gap-3 justify-start mt-3'>
-                                    <button onClick={() => setDescription(false)} className="btn bg-slate-300">calcel</button>
-                                    <button onClick={addDescription} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
+                                    <button onClick={() => setDescription(false)} className="btn border-0bg-slate-300">calcel</button>
+                                    <button onClick={addDescription} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
                                 </div>}
                             </div>
                         </div>
@@ -1378,12 +1357,12 @@ const Profile = () => {
             <dialog id="upload_profile_img" className="modal">
                 <div method="dialog" className="modal-box">
                     <div className="flex flex-col items-center gap-7 mb-14">
-                        <h3 className="font-bold text-lg text-center">Upload Profile Picture</h3>
+                        <h3 className="font-bold font-mono text-lg text-center">Upload Profile Picture</h3>
                         <input onChange={e => setProfilePicture(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-xs" />
                     </div>
                     <div className="modal-action mt-7">
                         {/* if there is a button in form, it will close the modal */}
-                        <button onClick={() => changeProfilePicture()} className="btn btn-primary">save chenges</button>
+                        <button onClick={() => changeProfilePicture()} className="btn border-0 btn-primary">save changes</button>
                         <button onClick={() => window.upload_profile_img.close()} className="btn">Close</button>
                     </div>
                 </div>
@@ -1405,8 +1384,8 @@ const Profile = () => {
                     </div>
                     <div className="absolute bottom-4 right-4">
                         {/* if there is a button in form, it will close the modal */}
-                        <button onClick={inspectionDateUpdate} className="btn btn-primary">save</button>
-                        <button onClick={() => window.inspection.close()} className="btn ms-3">Close</button>
+                        <button onClick={inspectionDateUpdate} className="btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ">save</button>
+                        <button onClick={() => window.inspection.close()} className="btn border-0ms-3">Close</button>
                     </div>
                 </div>
             </dialog>

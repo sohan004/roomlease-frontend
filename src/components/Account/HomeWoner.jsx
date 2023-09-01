@@ -340,19 +340,19 @@ const HomeWoner = () => {
             });
             return
         }
-        if (!homeAddress) {
-            toast.error('Please type suburb', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
+        // if (!homeAddress) {
+        //     toast.error('Please type suburb', {
+        //         position: "top-center",
+        //         autoClose: 5000,
+        //         hideProgressBar: false,
+        //         theme: "colored",
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //     });
+        //     return
+        // }
         if (!houseType) {
             toast.error('Please select your house type', {
                 position: "top-center",
@@ -757,7 +757,7 @@ const HomeWoner = () => {
             email: email,
             "house_type": houseType,
             "home_address": homeaddress2,
-            "suburb": homeAddress,
+            // "suburb": homeAddress,
             "parking_option": parkingOptions,
             "available_from": `${year}-${month}-${day}`,
             "minimum_stay": minimumStay,
@@ -884,10 +884,9 @@ const HomeWoner = () => {
                             </div>
 
                         </div>
-                        <div>
+                        {/* <div>
 
                             <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
-                            {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
                             <Autocomplete
 
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
@@ -904,7 +903,7 @@ const HomeWoner = () => {
                                     }
                                 }}
                             />
-                        </div>
+                        </div> */}
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">House Type:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 text-center font-medium">

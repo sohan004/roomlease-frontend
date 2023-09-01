@@ -44,13 +44,14 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
-import { FaCarAlt, FaHome, FaPersonBooth, FaSpinner } from 'react-icons/fa'
+import { FaCarAlt, FaCopy, FaFacebook, FaHome, FaLinkedin, FaPersonBooth, FaShare, FaSpinner, FaTwitterSquare } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
 import { ToastContainer, toast } from 'react-toastify'
 import { MdFavorite } from 'react-icons/md'
 import moment from 'moment'
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 
 
 const RoomSeekerListingDetails = () => {
@@ -255,23 +256,7 @@ const RoomSeekerListingDetails = () => {
                     <div className='flex items-center gap-4 justify-center'>
                         <button
                             onClick={() => {
-                                const copyText = `${!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}`
-                                navigator.clipboard.writeText(copyText)
-                                    .then(() => {
-                                        toast.success('Listing Copy Succesfully', {
-                                            position: "top-center",
-                                            autoClose: 5000,
-                                            hideProgressBar: false,
-                                            closeOnClick: true,
-                                            pauseOnHover: true,
-                                            draggable: true,
-                                            progress: undefined,
-                                            theme: "colored",
-                                        });
-                                    })
-                                    .catch((error) => {
-                                        console.error('Unable to copy text: ', error);
-                                    });
+                                window.share_modal.showModal()
                             }}
                             className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
                         <button onClick={() => {
@@ -284,6 +269,56 @@ const RoomSeekerListingDetails = () => {
                         }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
+
+                <dialog id="share_modal" className="modal">
+                    <div method="dialog" className="modal-box h-52  relative">
+                        <button onClick={()=>window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
+                        <div className='flex justify-center items-center gap-6 mt-4'>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
+                                <FacebookShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
+                                    <FaFacebook className='text-5xl text-blue-600' />
+                                    <FaShare
+                                     className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                </FacebookShareButton>
+                            </div>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
+                                <LinkedinShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
+                                    <FaLinkedin className='text-5xl text-blue-600' />
+                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                </LinkedinShareButton>
+                            </div>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
+                                <TwitterShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
+                                    <FaTwitterSquare className='text-5xl text-blue-400' />
+                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                </TwitterShareButton>
+                            </div>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
+                                <FaCopy
+                                    onClick={() => {
+                                        const copyText = `${!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}`
+                                        navigator.clipboard.writeText(copyText)
+                                            .then(() => {
+                                                toast.success('Listing Copy Succesfully', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                    theme: "colored",
+                                                });
+                                            })
+                                            .catch((error) => {
+                                                console.error('Unable to copy text: ', error);
+                                            });
+                                    }}
+                                    className='text-5xl text-gray-400' />
+                            </div>
+                        </div>
+                    </div >
+                </dialog >
 
                 <div className='flex flex-col gap-2 lg:gap-6 lg:flex-row'>
                     <div className='w-full lg:w-[70%] relative'>
@@ -392,6 +427,8 @@ const RoomSeekerListingDetails = () => {
                         {listingDetails && Object.keys(listingDetails).map((key, index) => {
 
                             if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listingDetails[key] || listingDetails[key]?.length === 0) return
+
+                            if (key == 'inspection_time' || key == 'is_favourite') return
 
                             const stringWithoutHyphens = key.replace(/_/g, ' ');
                             const words = stringWithoutHyphens.split(' ');
