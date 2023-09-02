@@ -1,21 +1,23 @@
 import React, { useContext } from 'react';
 import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
-import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaHome, FaInstagramSquare, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
+import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaFileImage, FaHome, FaInstagramSquare, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
+import { BiSolidSelectMultiple } from "react-icons/bi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from '../../App';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import Swal from 'sweetalert2';
 import ListingHomeOwnerUpdate from '../HomeListingUpdate/ListingHomeOwnerUpdate';
 import ListingRoomSeekerUpdate from '../HomeListingUpdate/ListingRoomSeekerUpdate';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import DatePicker from "react-multi-date-picker"
+import DatePicker, { Calendar } from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import verifyed from '../../assets/profileIcon/Untitled-1.png'
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -48,6 +50,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { MdDelete } from 'react-icons/md';
 import DigitalVerify from '../DigitalVerify/DigitalVerify';
 import moment from 'moment/moment';
+import ListingCard from '../ListingCard/ListingCard';
 
 
 const Profile = () => {
@@ -109,6 +112,7 @@ const Profile = () => {
     const [bedRoom, setBedRoom] = useState('')
     const [parking, setParking] = useState('')
     const [videoDetails, setVideoDetails] = useState({})
+    const [imgRefresh, setImgRefresh] = useState(1)
 
     useEffect(() => {
         if (!listing) {
@@ -126,12 +130,12 @@ const Profile = () => {
                 setVideoDetails(data);
             })
             .catch(err => console.log(err))
-    }, [listing])
-
+    }, [listing, imgRefresh])
 
     useEffect(() => {
-        setLoading(true)
-
+        if (!listing || userData?.account_type === 'roomseeker') {
+            return
+        }
         fetch(`${baseURL}/listing/get-house-listing-photos/${listing?.id}/`, {
             method: 'GET',
             headers: {
@@ -147,6 +151,13 @@ const Profile = () => {
                 // setReFatch(reFatch + 1)
 
             }).catch(() => setImgValue([]))
+    }, [imgRefresh, listing, userData])
+
+
+    useEffect(() => {
+        setLoading(true)
+
+
 
         fetch(`${baseURL}/account/profile/`, {
             method: 'GET',
@@ -343,11 +354,13 @@ const Profile = () => {
     }
 
 
-    const imgUpload = () => {
-        img.map((item, index) => {
+    const imgUpload = (e) => {
+        const image = e.target.files[0]
+        // ensure this is image file
+        if (image.type === 'image/png' || image.type === 'image/jpeg' || image.type === 'image/jpg') {
             const formData = new FormData()
             formData.append('home_listing', listing?.id)
-            formData.append('photo', item)
+            formData.append('photo', image)
             fetch(`${baseURL}/listing/house-listing-photos/`, {
                 method: 'POST',
                 headers: {
@@ -357,27 +370,33 @@ const Profile = () => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    setRefresh(refresh + 1)
+                    setImg([])
+                    setImgRefresh(imgRefresh + 1)
                 })
-        })
+        }
     }
 
-    const roomseekerImgUplaod = () => {
-        const formData = new FormData()
-        formData.append('photo', roomSeekerImg)
-        fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-            },
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setRoomSeekerImg(null);
-                setRefresh(refresh + 1)
-            }).catch(err => console.log(err))
+    const roomseekerImgUplaod = (e) => {
+        const image = e.target.files[0]
+        // ensure this is image file
+        if (image.type === 'image/png' || image.type === 'image/jpeg' || image.type === 'image/jpg') {
+            const formData = new FormData()
+            formData.append('photo', image)
+            fetch(`${baseURL}/listing/upload-room-seeker-photo/${listing?.id}/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setRoomSeekerImg(null);
+                    setRefresh(refresh + 1)
+                }).catch(err => console.log(err))
+        }
+
 
 
     }
@@ -584,43 +603,66 @@ const Profile = () => {
 
     }
 
-    const videoUpload = () => {
-        if (!userData) return
-        if (userData?.subscription == 'Free') {
-            return navigate('/homeowner-pricing')
+    const videoUpload = (e) => {
+        if (userData?.account_type == 'roomseeker') {
+            return toast.error('Only Home Owner can add videos', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                theme: "colored",
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
-        const formData = new FormData()
-        formData.append('video', video)
-        formData.append('video_type', 'video')
-        formData.append('home_listing', listing?.id)
+        
+        const vd = e.target.files[0]
+        if (vd.type === 'video/mp4' || vd.type === 'video/mkv' || vd.type === 'video/avi') {
+            if (!userData) return
+            if (userData?.subscription == 'Free') {
+                return navigate('/homeowner-pricing')
+            }
+            const formData = new FormData()
+            formData.append('video', vd)
+            formData.append('video_type', 'video')
+            formData.append('home_listing', listing?.id)
 
 
-        fetch(`${baseURL}/listing/house-listing-videos/`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                // 'content-type': 'multipart/form-data'
-            },
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data?.video) {
-                    setVideo('')
-                    toast.success('video add successfully', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
-                    // setRefresh(refresh + 1)
-                }
+            fetch(`${baseURL}/listing/house-listing-videos/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    // 'content-type': 'multipart/form-data'
+                },
+                body: formData
             })
-            .catch(err => console.log(err))
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data?.video) {
+                        setVideo('')
+                        toast.success('video add successfully', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                        setImgRefresh(imgRefresh + 1)
+                        // setRefresh(refresh + 1)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
+
+
+        // ensure this is video
+
+
     }
 
     const addYoutubeVideoLink = async () => {
@@ -662,6 +704,7 @@ const Profile = () => {
                             theme: "colored",
                         });
                         // setRefresh(refresh + 1)
+                        setImgRefresh(imgRefresh + 1)
                     }
                 })
                 .catch(err => console.log(err))
@@ -670,7 +713,8 @@ const Profile = () => {
             console.log(false);
         }
     }
-    const [inspectionDate, setInspectionDate] = useState([])
+    const [inspectionDate, setInspectionDate] = useState(listing?.inspection_time ? listing?.inspection_time.split(',').map(ins => new Date(ins)) : [])
+    // console.log(listing?.inspection_time.split(',').map(ins => moment(ins).format('MMMM Do YYYY, h:mm:ss a')));
 
 
     const videoUrl = new URL(videoDetails?.youtube_link ? videoDetails?.youtube_link : 'https://www.youtube.com/watch?v=GWJD1TpicFo');
@@ -680,7 +724,7 @@ const Profile = () => {
     const inspectionDateUpdate = () => {
         if (!userData) return
 
-        const inpecDate = inspectionDate.map(ins => `${ins?.day}/${ins?.month}/${ins?.year} ${ins?.hour}:${ins?.minute}`).toString()
+        const inpecDate = inspectionDate.map(ins => new Date(ins)).toString()
         if (inpecDate.length === 0) return
 
 
@@ -737,39 +781,103 @@ const Profile = () => {
     }
 
     const deleteVideo = () => {
-        fetch(`${baseURL}/listing/house-listing-videos/${videoDetails?.id}/`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`${baseURL}/listing/house-listing-videos/${videoDetails?.id}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    }
+                })
+                    .then(data => {
+                        setVideoDetails(null)
+                    })
+                    .catch(err => console.log(err))
+
             }
         })
+
+    }
+
+    const [favListing, setFavListing] = useState([])
+    const [favRoomSeeker, setFavRoomSeeker] = useState([])
+
+    useEffect(() => {
+        if (!userData) return
+
+        fetch(`${baseURL}/listing/get-home-listing-favorites/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
             .then(data => {
-                setVideoDetails(null)
+                setFavListing(data);
             })
             .catch(err => console.log(err))
+
+
+    }, [userData])
+
+    useEffect(() => {
+        if (!userData) return
+        fetch(`${baseURL}/listing/get-room-seeker-favorites/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setFavRoomSeeker(data);
+            })
+            .catch(err => console.log(err))
+    }, [userData])
+
+    let fav = [...favListing, ...favRoomSeeker]
+
+    if (!userData) {
+        return <div className='flex justify-start items-center my-12 text-center'>
+            <span className="loading loading-spinner loading-lg mx-auto"></span>
+        </div>
     }
+    console.log(userData);
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
                 <div className='flex flex-col lg:flex-row justify-center lg:items-end gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] '>
-                        <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white bg-opacity-50'>
-                            <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white border-white'}`}>
+                        <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white  bg-opacity-50'>
+                            <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
 
-                                {userData?.profile_picture ? <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
+                                {userData?.verified && <img src={verifyed} className='absolute w-full -left-2 bottom-0' alt="" />}
+
+                                {userData?.profile_picture ?
+                                    <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
                                     <img src={blankImag} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto   w-full `} alt="" />}
                                 <p className={`text-xl text-white cursor-pointer duration-300 absolute ${!profileImgState ? 'scale-0' : 'scale-100'} left-2/4  -translate-x-2/4 top-2/4 -translate-y-2/4`}>Edit</p>
                             </div>
                             <h1 className='font-semibold flex justify-center items-center gap-2 text-xl lg:text-2xl mt-7 mb-4'>
                                 {!nameEdit && userData?.full_name}
                                 {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
-                                {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                 {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className=' flex justify-center items-center gap-2  mt-2 '>
                                 {!dateOBEdit && <span>{userData?.dob ? moment(userData?.dob).format('Do MMMM YYYY') : 'date of birth'}</span>}
                                 {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
-                                {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
+                                {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
@@ -779,16 +887,16 @@ const Profile = () => {
                                 <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
                             </div>
-                            <p className='mt-4'>Free Account</p>
-                            <button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button>
+                            <p className='mt-4'>{userData?.subscription} Account</p>
+                            <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
                             <a href="" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</a>
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
-                        <div className='px-4 lg:px-6 py-6 text-white bg-[#7065F0]  border-2 rounded-md mt-10 '>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md mt-10 '>
                             <h1 className='text-lg: lg:text-xl font-semibold'>Why Digital iD verification by Australia Post?</h1>
                             <p className='mt-4 font-light'>Stand out as a verified member and join a community that values safety, integrity, and transparency.</p>
-                            <DigitalVerify></DigitalVerify>
+                            {userData?.verified ? <h1 className='text-xl font-medium flex items-center gap-2 mt-4'><BiSolidSelectMultiple className='text-2xl text-blue-500'></BiSolidSelectMultiple> Digital ID Verified</h1> : <DigitalVerify></DigitalVerify>}
                         </div>
                         <div className='flex justify-between items-center mt-6'>
                             <h1 className='text-xl lg:text-2xl font-bold text-[#302b68]'>Profile Score</h1>
@@ -798,7 +906,7 @@ const Profile = () => {
                             <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
 
                         </div>
-                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-60 border-2 rounded-md mt-6 '>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md mt-6 '>
                             <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
                             <div className='flex justify-center items-center  gap-2 mt-3'>
                                 {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
@@ -841,33 +949,33 @@ const Profile = () => {
                 }
 
                 {img.length > 0 && userData?.account_type == 'homeowner' && <div className='flex justify-start mt-3'>
-                    <button onClick={() => setImg([])} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => setImg([])} className="btn border-0 bg-slate-300">Cencle</button>
                     <button onClick={() => {
                         imgUpload()
                         setImg([])
-                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                    }} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
                 {roomSeekerImg && userData?.account_type == 'roomseeker' && <div className='flex justify-start mt-3'>
-                    <button onClick={() => setRoomSeekerImg(null)} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => setRoomSeekerImg(null)} className="btn border-0 bg-slate-300">Cencle</button>
                     <button onClick={() => {
                         roomseekerImgUplaod()
-                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
+                    }} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload images</button>
                 </div>}
 
                 {video && <video className='w-40 ' controls>
                     <source src={URL.createObjectURL(video)} type="video/mp4" />
                 </video>}
                 {video && <div className='flex justify-start mt-3'>
-                    <button onClick={() => setVideo('')} className="btn  bg-slate-300">Cencle</button>
+                    <button onClick={() => setVideo('')} className="btn border-0 bg-slate-300">Cencle</button>
                     <button onClick={() => {
                         videoUpload()
                         // roomseekerImgUplaod()
-                    }} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload Videos</button>
+                    }} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Upload Videos</button>
                 </div>}
 
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
-                    <div className=' bg-slate-200 relative h-56 lg:h-full'>
+                    <div className=' bg-white bg-opacity-50 border relative h-[300px] lg:h-[350px]'>
                         <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
@@ -881,15 +989,18 @@ const Profile = () => {
                                 modules={[Pagination, Navigation]}
                                 className="mySwiper h-full "
                             >
-                                {imgValue.map((image, i) => {
+                                {imgValue?.length > 0 ? imgValue.map((image, i) => {
 
                                     return <SwiperSlide className='w-full h-full' key={i}>
                                         <div className='max-w-[700px] mx-auto h-full relative'>
-                                            <img src={`${baseURL}${image.photo}`} className='w-full h-full' alt="" />
+                                            <img src={`${baseURL}${image.photo}`} className='w-full  h-[300px] lg:h-[350px]' alt="" />
                                             <MdDelete onClick={() => listingPhotoDelete(image.id)} className='absolute top-3 right-3 text-4xl rounded-full text-white cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
                                         </div>
                                     </SwiperSlide>
-                                })}
+                                }) : <div className='h-[300px] lg:h-[330px] flex flex-col justify-center items-center p-2'>
+                                    <FaFileImage className='mx-auto text-5xl   rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                                    <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Listing Image</h1>
+                                    <p className='text-center text-sm mb-7'>Uploading a Image of your home can reduce the need for in-person inspections</p></div>}
 
                             </Swiper>
 
@@ -898,7 +1009,11 @@ const Profile = () => {
                         {
                             userData?.account_type == 'roomseeker' &&
                             <div className='w-full h-full bg-slate-50 relative'>
-                                <img className='w-full h-full' src={`${listing?.photo}`} alt="" />
+                                {listing?.photo ? <img className='w-full  h-[300px] lg:h-[350px]' src={`${listing?.photo}`} alt="" /> :
+                                    <div className='h-[300px] lg:h-[330px] flex flex-col justify-center items-center p-2'>
+                                        <FaFileImage className='mx-auto text-5xl   rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
+                                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Listing Image</h1>
+                                        <p className='text-center text-sm mb-7'>Uploading a Image of your home can reduce the need for in-person inspections</p></div>}
                                 {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
 
                                 {/* <label className='absolute z-40 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label> */}
@@ -913,10 +1028,10 @@ const Profile = () => {
                             {videoDetails?.video || videoDetails?.youtube_link ?
                                 <div className='relative'>
 
-                                    {videoDetails?.video ? <video className='w-full h-full lg:h-[300px]' controls>
+                                    {videoDetails?.video ? <video className='w-full h-full lg:h-[350px]' controls>
                                         <source src={`${baseURL}${videoDetails?.video}`} type="video/mp4" />
                                     </video> : <iframe
-                                        className='w-full  h-full lg:h-[300px]'
+                                        className='w-full  h-full lg:h-[350px]'
                                         src={`https://www.youtube.com/embed/${videoId}`}
                                         title="YouTube video player"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -924,85 +1039,43 @@ const Profile = () => {
                                     ></iframe>}
                                     <MdDelete onClick={deleteVideo} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white \duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>
                                 </div>
-                                : <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
+                                : <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-50  border-2 rounded-md text-center'>
                                     <div className=''>
                                         <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
                                         <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
                                         <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
                                         <div className="dropdown dropdown-bottom">
-                                            <label tabIndex={0} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
+                                            <label tabIndex={0} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
                                             <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
                                                 <li className='font-semibold'><label htmlFor='video'>Video</label></li>
                                                 <li onClick={addYoutubeVideoLink} className='font-semibold'><a>Youtube Video Link</a></li>
                                             </ul>
                                         </div>
 
-                                        <input onChange={e => {
-                                            if (!userData) return
-                                            if (userData?.account_type == 'roomseeker') {
-                                                return toast.error('Only Home Owner can add videos', {
-                                                    position: "top-center",
-                                                    autoClose: 5000,
-                                                    hideProgressBar: false,
-                                                    theme: "colored",
-                                                    closeOnClick: true,
-                                                    pauseOnHover: true,
-                                                    draggable: true,
-                                                    progress: undefined,
-                                                });
-                                            }
-                                            if (e?.target?.files[0].type !== 'video/mp4') {
-                                                toast.error('Please select a video', {
-                                                    position: "top-center",
-                                                    autoClose: 5000,
-                                                    hideProgressBar: false,
-                                                    theme: "colored",
-                                                    closeOnClick: true,
-                                                    pauseOnHover: true,
-                                                    draggable: true,
-                                                    progress: undefined,
-                                                })
-                                                return
-                                            }
-                                            if (video) {
-                                                return toast.error('You can upload only 1 videos  ', {
-                                                    position: "top-center",
-                                                    autoClose: 5000,
-                                                    hideProgressBar: false,
-                                                    theme: "colored",
-                                                    closeOnClick: true,
-                                                    pauseOnHover: true,
-                                                    draggable: true,
-                                                    progress: undefined,
-                                                });
-                                            }
-                                            setVideo(e.target.files[0])
-                                            // console.log(video);
-                                        }} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
+                                        <input onChange={(e) => videoUpload(e)} type="file" name="video" id="video" className='w-0 h-0 overflow-hidden' />
                                     </div>
                                 </div>}
                         </>
                         :
-                        <div className='w-full  p-4 lg:p-6 flex justify-center items-center bg-white bg-opacity-60 border-2 rounded-md text-center'>
-                            <div className=''>
-                                <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                                <h1 className=' font-medium text-xl mb-2 mt-4'>Upload video tour (recommended)</h1>
-                                <p className='text-center text-sm mb-7'>Uploading a video of your home can reduce the need for in-person inspections</p>
-                                <div className="dropdown dropdown-bottom">
-                                    <label className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
-                                </div>
-                            </div>
-                        </div>}
+                        ''}
 
 
 
-                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-60 border-2 rounded-md flex justify-center items-center'>
+                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center'>
                         <div>
-                            <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
-                            <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
-                            <p className='text-sm my-2'>Once completed, you can invite potential flamates to book times via messages</p>
-                            <a href='' className='text-blue-500'>Learn more</a>
-                            <button onClick={() => window.inspection.showModal()} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
+                            {!listing?.inspection_time && <div>
+                                <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
+                                <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
+                                <p className='text-sm my-2'>Once completed, you can invite potential flamates to book times via messages</p>
+                                <a href='' className='text-blue-500'>Learn more</a>
+                            </div>}
+
+                            {/* <Calendar  value={listing?.inspection_time.split(',')} disabled={true} /> */}
+                            {listing?.inspection_time && <div className='h-48 overflow-y-auto'>
+                                <p className='text-center text-lg font-medium pb-1 border-b'>Available Date</p>
+                                {listing?.inspection_time.split(',').map((ins, i) => <p className='bg-slate-200 mt-2' key={i}>{moment(ins).format("MMM Do YY,  h:mm a")}</p>)}
+                            </div>}
+                            <button onClick={() => window.inspection.showModal()} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
                         </div>
 
                     </div>
@@ -1039,30 +1112,10 @@ const Profile = () => {
 
                 <input onChange={e => {
                     if (userData?.account_type == 'homeowner') {
-                        if (img.length >= 10) return toast.error('You can upload only 10 images  ', {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            theme: "colored",
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        });
-                        setImg([...img, e.target.files[0]])
+                        imgUpload(e)
                     }
                     else {
-                        if (roomSeekerImg) return toast.error('You can upload only 1 image  ', {
-                            position: "top-center",
-                            autoClose: 5000,
-                            hideProgressBar: false,
-                            theme: "colored",
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                        });
-                        setRoomSeekerImg(e.target.files[0])
+                        roomseekerImgUplaod(e)
                     }
 
                 }} type="file" className='h-0 w-0 overflow-hidden' name="img" id="img" />
@@ -1072,7 +1125,7 @@ const Profile = () => {
                 {/* {userData?.account_type == 'homeowner' &&
 
                     <div>
-                        <div className='p-4 lg:p-6 py-10 relative  bg-white bg-opacity-60 border-2 rounded-md mt-10'>
+                        <div className='p-4 lg:p-6 py-10 relative  bg-white bg-opacity-50 bg-opacity-60 border-2 rounded-md mt-10'>
 
                             {!roomDetails && <div onClick={() => setRoomDetails(true)} className=' rounded-full border cursor-pointer hover:bg-[#7065F0] hover:text-white duration-300 border-[#7065F0] text-[#7065F0] py-1 px-2 lg:px-3 right-2 top-2 text-center absolute'>
                                 <FaPencilAlt className='text-base lg:text-2xl mx-auto' />
@@ -1109,8 +1162,8 @@ const Profile = () => {
                             </div>
                         </div>
                         {roomDetails && <div className='flex justify-start mt-3'>
-                            <button onClick={() => setRoomDetails(false)} className="btn bg-slate-300">Cencle</button>
-                            <button onClick={houseUpdate} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
+                            <button onClick={() => setRoomDetails(false)} className="btn border-0bg-slate-300">Cencle</button>
+                            <button onClick={houseUpdate} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>save chenges</button>
                         </div>}
 
 
@@ -1120,7 +1173,7 @@ const Profile = () => {
 
 
 
-                {!roomEdit && <div className='bg-white bg-opacity-60 border-2 rounded-md mt-6'>
+                {!roomEdit && <div className='bg-white bg-opacity-50 border-2 rounded-md mt-6'>
                     <div className='flex justify-between items-center border-b-2'>
                         <p className='p-4 lg:p-6 text-xl font-bold'>Private Listing</p>
                         <div onClick={() => {
@@ -1136,6 +1189,8 @@ const Profile = () => {
 
                             if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listing[key] || listing[key]?.length === 0) return
 
+                            if (key == 'inspection_time' || key == 'is_favourite') return
+
                             const stringWithoutHyphens = key.replace(/_/g, ' ');
                             const words = stringWithoutHyphens.split(' ');
 
@@ -1150,14 +1205,14 @@ const Profile = () => {
                             const vlidarray = Array.isArray(listing[key]);
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
-                                <p className='font-medium opacity-70   lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
                                     vlidarray ? <div className='flex items-center flex-wrap gap-2'>
-                                        {listing[key].map((item, i) => <p className='font-semibold' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
+                                        {listing[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold'>{listing[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{listing[key]}</p>
                                 }
 
                             </div>
@@ -1195,19 +1250,19 @@ const Profile = () => {
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
                                     <FacebookShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
                                         <FaFacebook className='text-5xl text-blue-600' />
-                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </FacebookShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
                                     <LinkedinShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
                                         <FaLinkedin className='text-5xl text-blue-600' />
-                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </LinkedinShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
                                     <TwitterShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
                                         <FaTwitterSquare className='text-5xl text-blue-400' />
-                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white rounded-full p-1 text-xl'></FaShare>
+                                        <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </TwitterShareButton>
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
@@ -1241,10 +1296,10 @@ const Profile = () => {
                             onClick={() => {
                                 deleteListing()
                             }}
-                            className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
+                            className='btn border-0rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
                         <button onClick={() => {
                             setRoomEdit(true)
-                        }} className='btn rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                        }} className='btn border-0rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
                     </div>
                 </div>}
 
@@ -1262,7 +1317,7 @@ const Profile = () => {
 
                 {userData?.account_type == 'homeowner' &&
                     <div>
-                        <div className='bg-white bg-opacity-60 border-2 rounded-md mt-10 relative'>
+                        <div className='bg-white bg-opacity-50  border-2 rounded-md mt-10 relative'>
                             <div className='flex justify-between items-center border-b-2'>
                                 <p className='p-4 lg:p-6 text-xl font-bold'>Home Description</p>
                                 <div onClick={() => setDescription(true)} className='  py-3 px-4 border-s-2  cursor-pointer hover:bg-[#7065F0] hover:text-white duration-300 border-[#7065F0] text-[#7065F0]   text-center '>
@@ -1274,14 +1329,21 @@ const Profile = () => {
                                 {!description && <p>{listing?.describe_occupants ? listing?.describe_occupants : 'write home description...'}</p>}
                                 {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
                                 {description && <div className='flex gap-3 justify-start mt-3'>
-                                    <button onClick={() => setDescription(false)} className="btn bg-slate-300">calcel</button>
-                                    <button onClick={addDescription} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
+                                    <button onClick={() => setDescription(false)} className="btn border-0bg-slate-300">calcel</button>
+                                    <button onClick={addDescription} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
                                 </div>}
                             </div>
                         </div>
 
                     </div>
                 }
+
+                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
+                    {fav.map(p => <ListingCard key={p.id} p={p} />)}
+                </div>
+                {/* <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-8'>
+                    {favRoomSeeker.map(p => <ListingCard key={p.id} p={p} />)}
+                </div> */}
 
 
 
@@ -1295,12 +1357,12 @@ const Profile = () => {
             <dialog id="upload_profile_img" className="modal">
                 <div method="dialog" className="modal-box">
                     <div className="flex flex-col items-center gap-7 mb-14">
-                        <h3 className="font-bold text-lg text-center">Upload Profile Picture</h3>
+                        <h3 className="font-bold font-mono text-lg text-center">Upload Profile Picture</h3>
                         <input onChange={e => setProfilePicture(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-xs" />
                     </div>
                     <div className="modal-action mt-7">
                         {/* if there is a button in form, it will close the modal */}
-                        <button onClick={() => changeProfilePicture()} className="btn btn-primary">save chenges</button>
+                        <button onClick={() => changeProfilePicture()} className="btn border-0 btn-primary">save changes</button>
                         <button onClick={() => window.upload_profile_img.close()} className="btn">Close</button>
                     </div>
                 </div>
@@ -1322,8 +1384,8 @@ const Profile = () => {
                     </div>
                     <div className="absolute bottom-4 right-4">
                         {/* if there is a button in form, it will close the modal */}
-                        <button onClick={inspectionDateUpdate} className="btn btn-primary">save</button>
-                        <button onClick={() => window.inspection.close()} className="btn ms-3">Close</button>
+                        <button onClick={inspectionDateUpdate} className="btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ">save</button>
+                        <button onClick={() => window.inspection.close()} className="btn border-0ms-3">Close</button>
                     </div>
                 </div>
             </dialog>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from 'react-select'
 import RoomFurnishingAndFeture from "../Account/RoomFurnishingAndFeture";
-import { FaArrowRight, FaSpinner } from "react-icons/fa";
+import { FaArrowRight, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
 import arow from '../../assets/newlistingIcon/Icon.svg'
 import homeIcon from '../../assets/newlistingIcon/homeIcon.svg'
 import DatePicker from "react-datepicker";
@@ -34,7 +34,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [secondName, setSecondName] = useState('')
     const [email, setEmail] = useState('')
     const [houseType, setHouseType] = useState(listingData?.house_type ? listingData?.house_type : [])
-    const [homeAddress, setHomeAddress] = useState(listingData?.home_address ? listingData?.home_address : '')
+    // const [homeAddress, setHomeAddress] = useState(listingData?.suburb ? listingData?.suburb : '')
     const [parkingOptions, setParkingOptions] = useState(listingData?.parking_option ? listingData?.parking_option : [])
     const [furnished, setFurnished] = useState(listingData?.bedroom_type ? listingData?.bedroom_type : '')
     const [privateBath, setPrivateBath] = useState(listingData?.private_bathroom ? listingData?.private_bathroom : '')
@@ -75,6 +75,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [additional2, setAdditional2] = useState('')
     const [photo, setPhoto] = useState([])
     const [load, setLoad] = useState(false)
+    const [homeaddress2, setHomeaddress2] = useState(listing?.home_address ? listing?.home_address : '')
+    const [street, setStreet] = useState([])
 
     const [minimumStayArray, setMinimumStayArray] = useState([
         {
@@ -293,19 +295,19 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const handle = (e) => {
         e.preventDefault()
 
-        if (!homeAddress) {
-            toast.error('Please type your home address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
+        // if (!homeAddress) {
+        //     toast.error('Please type your home address', {
+        //         position: "top-center",
+        //         autoClose: 5000,
+        //         hideProgressBar: false,
+        //         theme: "colored",
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //     });
+        //     return
+        // }
         if (!houseType) {
             toast.error('Please select your house type', {
                 position: "top-center",
@@ -616,7 +618,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
         }
 
         listingObject.house_type = houseType,
-            listingObject.home_address = homeAddress,
+            listingObject.home_address = homeaddress2,
+            // listingObject.suburb = homeAddress,
             listingObject.parking_option = parkingOptions,
             listingObject.available_from = `${year}-${month}-${day}`,
             listingObject.minimum_stay = minimumStay,
@@ -689,6 +692,29 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
     };
 
+    const getStreetAddress = (a) => {
+        if (a.length === 0) {
+            setHomeaddress2('')
+            setStreet([])
+            return
+        }
+        fetch(`${baseURL}/search/street-address/${a}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                setStreet(data.predictions)
+
+            })
+            .catch(err => setStreet([]))
+
+    }
+
     return (
         <div className="max-w-[736px]  mx-auto  ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Update Your Listing</h1>
@@ -700,24 +726,20 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                         <div>
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
-
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Type a place name"
-                                    value={query}
-                                    onChange={handleInputChange}
-                                />
-                                <ul>
-                                    {results.map((place) => (
-                                        <li key={place.place_id}>{place.name}</li>
-                                    ))}
+                            <div className="dropdown dropdown-bottom dropdown-center w-full">
+                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
+                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-2xl  bg-white text-base rounded-none ">
+                                    {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
                                 </ul>
                             </div>
+                        </div>
+                        {/* <div>
+                            <p className=" text-[#100A55] font-bold text-lg">Suburb: </p>
+
 
 
                             <Autocomplete
-                                defaultValue={listing?.home_address}
+                                defaultValue={homeAddress}
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
                                 apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
 
@@ -732,7 +754,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                     }
                                 }}
                             />
-                        </div>
+                        </div> */}
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">House Type:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 text-center font-medium">

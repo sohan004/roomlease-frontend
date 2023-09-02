@@ -44,10 +44,14 @@ import 'swiper/css/navigation';
 
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
-import { FaCarAlt, FaPersonBooth, FaSpinner } from 'react-icons/fa'
+import { FaCarAlt, FaCopy, FaFacebook, FaHome, FaLinkedin, FaPersonBooth, FaShare, FaSpinner, FaTwitterSquare } from 'react-icons/fa'
 import { useContext } from 'react'
 import { AuthContext } from '../AuthProvider/AuthProvider'
 import Swal from 'sweetalert2'
+import { ToastContainer, toast } from 'react-toastify'
+import { MdFavorite } from 'react-icons/md'
+import moment from 'moment'
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share'
 
 
 const RoomSeekerListingDetails = () => {
@@ -58,6 +62,7 @@ const RoomSeekerListingDetails = () => {
     const [listingDetails, setListingDetails] = useState(null)
     const [listingUser, setListingUser] = useState(null)
     const [imgValue, setImgValue] = useState([])
+    const [reFatch, setReFatch] = useState(1)
 
     const navigate = useNavigate()
 
@@ -66,7 +71,14 @@ const RoomSeekerListingDetails = () => {
     const { userData } = useContext(AuthContext)
 
     useEffect(() => {
-        fetch(`${baseURL}/listing/home-listings/${id}/`, {
+        const token = localStorage.getItem('user-token')
+        fetch(`${baseURL}/listing/room-seekers/${id}/`, token ? {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                'content-type': 'application/json',
+            }
+        } : {
             method: 'GET',
             headers: {
                 // 'Authorization': `Token ${localStorage.getItem('user-token')} `,
@@ -89,7 +101,7 @@ const RoomSeekerListingDetails = () => {
                 console.log(err);
                 navigate('/matches')
             })
-    }, [])
+    }, [reFatch])
 
     useEffect(() => {
         if (!listingDetails?.user) {
@@ -114,26 +126,7 @@ const RoomSeekerListingDetails = () => {
             })
     }, [listingDetails])
 
-    useEffect(() => {
-        if (!listingDetails?.id) {
-            return
-        }
-        fetch(`${baseURL}/listing/get-house-listing-photos/${listingDetails?.id}/`, {
-            method: 'GET',
-            headers: {
-                // 'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
 
-                setImgValue(data);
-                // console.log(data);
-                // setReFatch(reFatch + 1)
-
-            }).catch(() => setImgValue([]))
-    }, [listingDetails])
 
     // console.log(listingDetails)
 
@@ -213,8 +206,40 @@ const RoomSeekerListingDetails = () => {
         </div>
     }
 
-
-
+    const roomSeekerAddFavorite = (id) => {
+        if (!userData) navigate('/otp-send')
+        console.log(id);
+        fetch(`${baseURL}/listing/add-room-seeker-favorite/${id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+                setReFatch(reFatch + 1)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    const roomSeekerFavouriteDelete = (id) => {
+        if (!userData) navigate('/otp-send')
+        fetch(`${baseURL}/listing/remove-room-seeker-favorite/${id}/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setReFatch(reFatch + 1)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     return (
         <div>
@@ -226,19 +251,81 @@ const RoomSeekerListingDetails = () => {
                 <div className='flex mb-8 flex-col lg:flex-row gap-y-6 lg:items-end justify-between'>
                     <div >
                         <h1 className='text-3xl lg:text-4xl font-semibold mb-2 lg:mb-4'>{listingDetails?.house_type}</h1>
-                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.home_address || listingDetails?.suburb[0]}</p>
+                        <p className='lg:text-xl text-base  opacity-60'>{listingDetails?.suburb?.length > 0 ? listingDetails?.suburb[0] : 'Australia'}</p>
                     </div>
                     <div className='flex items-center gap-4 justify-center'>
-                        <button className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
-                        <button className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={fav} alt="" /> Favorite</button>
-                        <button className='btn hidden lg:flex items-center  text-[#7065F0] bg-[#F7F7FD] border border-[#E0DEF7] btn-sm'><img src={search} alt="" /> Browse nearby listings</button>
+                        <button
+                            onClick={() => {
+                                window.share_modal.showModal()
+                            }}
+                            className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
+                        <button onClick={() => {
+                            if (listingDetails?.is_favourite) {
+                                roomSeekerFavouriteDelete(listingDetails?.id)
+                            }
+                            if (listingDetails?.is_favourite == false) {
+                                roomSeekerAddFavorite(listingDetails?.id)
+                            }
+                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
+                <dialog id="share_modal" className="modal">
+                    <div method="dialog" className="modal-box h-52  relative">
+                        <button onClick={()=>window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
+                        <div className='flex justify-center items-center gap-6 mt-4'>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
+                                <FacebookShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
+                                    <FaFacebook className='text-5xl text-blue-600' />
+                                    <FaShare
+                                     className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                </FacebookShareButton>
+                            </div>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
+                                <LinkedinShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
+                                    <FaLinkedin className='text-5xl text-blue-600' />
+                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                </LinkedinShareButton>
+                            </div>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
+                                <TwitterShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
+                                    <FaTwitterSquare className='text-5xl text-blue-400' />
+                                    <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                </TwitterShareButton>
+                            </div>
+                            <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Copy Link">
+                                <FaCopy
+                                    onClick={() => {
+                                        const copyText = `${!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}`
+                                        navigator.clipboard.writeText(copyText)
+                                            .then(() => {
+                                                toast.success('Listing Copy Succesfully', {
+                                                    position: "top-center",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                    theme: "colored",
+                                                });
+                                            })
+                                            .catch((error) => {
+                                                console.error('Unable to copy text: ', error);
+                                            });
+                                    }}
+                                    className='text-5xl text-gray-400' />
+                            </div>
+                        </div>
+                    </div >
+                </dialog >
+
                 <div className='flex flex-col gap-2 lg:gap-6 lg:flex-row'>
                     <div className='w-full lg:w-[70%] relative'>
-                    
-                        {<>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={img} />}</>}
+
+                        {<>{listingDetails?.photo ? <img className='h-[250px] rounded-md lg:h-[500px] w-full' src={listingDetails?.photo} /> : <div className='w-full h-[250px] lg:h-[500px] flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
+                            <FaHome></FaHome>
+                        </div>}</>}
                     </div>
                     <div className='w-full lg:w-[30%] '>
                         {/* <img src={img2} className='w-2/4 lg:w-full h-full lg:h-2/4  rounded-lg' alt="" />
@@ -248,8 +335,22 @@ const RoomSeekerListingDetails = () => {
                         </div> */}
                         <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
                         <div className='text-right'>
-                            <button onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
+                            <button onClick={sendMessageFunction} className='btn w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
                         </div>
+                        {
+                            listingDetails?.inspection_time &&
+                            <div className='mt-5 '>
+                                <h1 className=' font-semibold text-xl'>Inspections</h1>
+                                <div className='h-[250px] lg:h-[150px] overflow-y-auto'>
+                                    {listingDetails?.inspection_time.split(',').map((time, i) => {
+                                        return <div key={i} className='flex items-center justify-between text-white bg-[#9288fff3] mt-2 p-2'>
+                                            <p className='font-medium'>{moment(time).format("MMM Do YY,  h:mm a")}</p>
+                                            <p className='opacity-60'>Available</p>
+                                        </div>
+                                    })}
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -327,6 +428,8 @@ const RoomSeekerListingDetails = () => {
 
                             if (key === 'id' || key === 'photo' || key === 'created_at' || key === 'updated_at' || key === 'active' || key === 'user' || key === 'describe_occupants' || key === 'describe_property' || !listingDetails[key] || listingDetails[key]?.length === 0) return
 
+                            if (key == 'inspection_time' || key == 'is_favourite') return
+
                             const stringWithoutHyphens = key.replace(/_/g, ' ');
                             const words = stringWithoutHyphens.split(' ');
 
@@ -341,14 +444,14 @@ const RoomSeekerListingDetails = () => {
                             const vlidarray = Array.isArray(listingDetails[key]);
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
-                                <p className='font-medium opacity-70   lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
                                     vlidarray ? <div className='flex items-center flex-wrap gap-2'>
-                                        {listingDetails[key].map((item, i) => <p className='font-semibold' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
+                                        {listingDetails[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold'>{listingDetails[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{listingDetails[key]}</p>
                                 }
 
                             </div>
@@ -530,6 +633,7 @@ const RoomSeekerListingDetails = () => {
                 </div>
 
             </div>
+            <ToastContainer></ToastContainer>
         </div>
     );
 };

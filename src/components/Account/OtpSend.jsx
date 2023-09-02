@@ -160,9 +160,9 @@ const OtpSend = () => {
             <p className="font-bold text-2xl mb-4 mt-12 lg:mt-16">Mobile number: </p>
 
             <PhoneInput
-                className="w-full py-3 px-4 border-b border-black"
+                className="w-full py-3 px-4 border-b border-black bg-white"
                 international
-                inputClassName="focus:outline-none"
+                inputClassName="focus:outline-none bg-white border-0 w-full p-2"
                 defaultCountry="AU"
                 value={con}
                 onChange={p => {
@@ -175,10 +175,10 @@ const OtpSend = () => {
                 }}
             />
             <div className='text-center mb-44 mt-16'>
-                <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
+                <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn border-0">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
             </div>
             <dialog id="send_otp" className="modal">
-                <div method="dialog" className="modal-box max-w-[640px] p-0 rounded-3xl relative text-[#100A55] ">
+                <div method="dialog" className="modal-box max-w-[640px] bg-white p-0 rounded-3xl relative text-[#100A55] ">
                     <FaWindowClose onClick={() => window.send_otp.close()} className='absolute text-[#100A55]  top-4 text-3xl cursor-pointer left-4'></FaWindowClose>
                     <h1 className="text-2xl mt-7 text-center text-[#100A55] lg:text-4xl">Enter Code</h1>
                     <p className='text-center font-medium my-4 text-red-500'>{err}</p>
@@ -187,7 +187,7 @@ const OtpSend = () => {
                         <div className=' max-w-[500px] mx-auto text-center '>
                             <div>
                                 <OTPInput
-                                    inputClassName='border-2 rounded py-6 border-[#100A55] focus:outline-none flex-grow'
+                                    inputClassName='border-2 bg-white rounded py-6 border-[#100A55] focus:outline-none flex-grow'
                                     className="text-center flex justify-center w-full"
                                     value={otp} onChange={e => {
                                         verifyOtp(e)
@@ -198,7 +198,7 @@ const OtpSend = () => {
                                     disabled={verifyStatus}
                                 />
                                 <div className='text-right mt-5'>
-                                    <button disabled={sec != 120} onClick={resend} className="btn btn-sm  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
+                                    <button disabled={sec != 120} onClick={resend} className="btn btn-sm border-0  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
 
                                 </div>
                             </div> </div>

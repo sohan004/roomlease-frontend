@@ -19,6 +19,8 @@ const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
 
+    const [searchDrpopDown, setSearchDrpopDown] = useState(false)
+
 
     useEffect(() => {
         setLoading(true)
@@ -90,7 +92,8 @@ const AuthProvider = ({ children }) => {
         userData,
         loading,
         setLoading,
-        setUserData
+        setUserData,
+        searchDrpopDown, setSearchDrpopDown
     }
     return (
         <AuthContext.Provider value={valu}>

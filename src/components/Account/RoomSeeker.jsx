@@ -11,9 +11,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { baseURL } from "../../App";
 import { GoogleMap, LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 import Autocomplete from "react-google-autocomplete";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useContext } from "react";
 
 const RoomSeeker = () => {
 
+    const { userData } = useContext(AuthContext)
 
     // all from data
     const [firstName, setFirstName] = useState('')
@@ -37,6 +40,10 @@ const RoomSeeker = () => {
     const [occuption, setOccuption] = useState([])
     const [lookingForPlace, setLookingForPlace] = useState('')
     const [suburbValue, setSuburbValue] = useState([])
+
+    const [url, setUrl] = useState('/listing/room-seekers/')
+    const [apiMethod, setApiMethod] = useState('POST')
+
 
 
 
@@ -453,6 +460,83 @@ const RoomSeeker = () => {
 
     const [addresEmpty, setAddresEmpty] = useState('')
 
+    const onchengeFunction = () => {
+
+        if (firstName === '' || secondName === '' || email === '' || lookingForPlace === '') {
+            return
+        }
+
+        const allInfo = {
+            first_name: firstName,
+            last_name: secondName,
+            email: email,
+            looking_place: lookingForPlace,
+            suburb: suburbValue,
+            "house_type": houseType,
+            "room_type": furnished,
+            "private_bathroom": privateBath,
+            "bed_size": bedSize,
+            "room_features": roomFurnishingsAndFeatures,
+            "amenities": animate,
+            "place_friendliness": placeFriendless,
+            "nearby_community_spaces": nearbyCommunitySpaces,
+            "public_transport_access": publicTransportAccess,
+            "gender": gender,
+            "age": age,
+            "ids_and_checks": checks,
+            "occupation": occuption,
+            "user": userData?.user_id,
+
+        }
+
+        fetch(`${baseURL}${url}`, { // <--
+            method: apiMethod, // <-- 
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+            , body: JSON.stringify(allInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.id) {
+                    setLoad(false)
+                    // window.location.href = `/homeowner-pricing`
+                    setUrl(`/listing/room-seekers/${data?.id}/`)
+                    setApiMethod('PUT')
+                }
+                else {
+                    console.log(data);
+                    // setLoad(false)
+                    toast.error('somthing want wrong!!!  ', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        theme: "colored",
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                }
+            })
+            .catch((err) => {
+                // setLoad(false)
+                console.log(err);
+                toast.error('somthing want wrong!!!  ', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    theme: "colored",
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                }); return
+            })
+    }
+
     return (
         <div className="max-w-[736px]  mx-auto px-4 ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
@@ -462,13 +546,13 @@ const RoomSeeker = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
 
                         <div>
-                            <input onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setFirstName(e.target.value); onchengeFunction() }} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div>
-                            <input onChange={(e) => setSecondName(e.target.value)} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setSecondName(e.target.value); onchengeFunction() }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setEmail(e.target.value); onchengeFunction() }} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
                     <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Preferences</p>
@@ -476,8 +560,8 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">I am looking for a place:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
-                                <p onClick={() => setLookingForPlace('For Myself')} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>For Myself</p>
-                                <p onClick={() => setLookingForPlace('As a couple')} className={`border border-s-0 duration-500 
+                                <p onClick={() => { setLookingForPlace('For Myself'); onchengeFunction() }} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>For Myself</p>
+                                <p onClick={() => { setLookingForPlace('As a couple'); onchengeFunction() }} className={`border border-s-0 duration-500 
                             ${lookingForPlace == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>As a couple</p>
                             </div>
                         </div>
@@ -498,6 +582,7 @@ const RoomSeeker = () => {
                                         if (place.formatted_address) {
                                             const address = place.formatted_address
                                             setSuburbValue(prevSuburbValue => [...prevSuburbValue, address]);
+                                            onchengeFunction()
                                             setAddresEmpty('')
                                         }
                                     }}
@@ -505,7 +590,7 @@ const RoomSeeker = () => {
 
                                 <div className="p-2  flex flex-wrap gap-3 py-5 w-full ">
                                     {suburbValue.map((sub, i) => {
-                                        return <p className="bg-slate-200 flex items-center gap-1" key={i}>{sub} <FaTimes onClick={() => setSuburbValue(suburbValue.filter((_, index) => index !== i))} className=' text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes></p>
+                                        return <p className="bg-slate-200 flex items-center gap-1" key={i}>{sub} <FaTimes onClick={() => { setSuburbValue(suburbValue.filter((_, index) => index !== i)); onchengeFunction() }} className=' text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes></p>
 
                                     })}
                                 </div>
@@ -517,65 +602,66 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">House Type:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-4 text-center font-medium">
-                                <p onClick={() => setHouseType('House')} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>
-                                <p onClick={() => setHouseType('Unit')} className={`font-bold text-[#7065F0] border-t border-e lg:border-e-0 lg:border-y duration-500 ${houseType === 'Unit' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Unit</p>
-                                <p onClick={() => setHouseType('Apartment')} className={`font-bold text-[#7065F0] border-y border-s duration-500 ${houseType === 'Apartment' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Apartment</p>
-                                <p onClick={() => setHouseType('Townhouse')} className={`font-bold text-[#7065F0] border duration-500 ${houseType === 'Townhouse' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Townhouse</p>
+                                <p onClick={() => { setHouseType('House'); onchengeFunction() }} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>
+                                <p onClick={() => { setHouseType('Unit'); onchengeFunction() }} className={`font-bold text-[#7065F0] border-t border-e lg:border-e-0 lg:border-y duration-500 ${houseType === 'Unit' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Unit</p>
+                                <p onClick={() => { setHouseType('Apartment'); onchengeFunction() }} className={`font-bold text-[#7065F0] border-y border-s duration-500 ${houseType === 'Apartment' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Apartment</p>
+                                <p onClick={() => { setHouseType('Townhouse'); onchengeFunction() }} className={`font-bold text-[#7065F0] border duration-500 ${houseType === 'Townhouse' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>Townhouse</p>
                             </div>
                         </div>
 
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Room Type:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
-                                <p onClick={() => setFurnished('Private Bedroom')} className={`border  duration-500 ${furnished == 'Private Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Private Bedroom</p>
-                                <p onClick={() => setFurnished('Shared Bedroom')} className={`border border-s-0 duration-500 ${furnished == 'Shared Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Shared Bedroom</p>
+                                <p onClick={() => { setFurnished('Private Bedroom'); onchengeFunction() }} className={`border  duration-500 ${furnished == 'Private Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Private Bedroom</p>
+                                <p onClick={() => { setFurnished('Shared Bedroom'); onchengeFunction() }} className={`border border-s-0 duration-500 ${furnished == 'Shared Bedroom' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Shared Bedroom</p>
                             </div>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Private Bathroom:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
-                                <p onClick={() => setPrivateBath('yes')} className={`border  duration-500 ${privateBath === 'yes' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Yes</p>
-                                <p onClick={() => setPrivateBath('no')} className={`border border-s-0 duration-500 
+                                <p onClick={() => { setPrivateBath('yes'); onchengeFunction() }} className={`border  duration-500 ${privateBath === 'yes' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Yes</p>
+                                <p onClick={() => { setPrivateBath('no'); onchengeFunction() }} className={`border border-s-0 duration-500 
                             ${privateBath == 'no' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>No</p>
                             </div>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Bed Size:</p>
                             <div className="mt-4 grid grid-cols-3 lg:grid-cols-5 text-center font-medium">
-                                <p onClick={() => setBedSize('single')} className={`border ${bedSize === 'single' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Single</p>
-                                <p onClick={() => setBedSize('double')} className={`border-y border-e ${bedSize === 'double' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Double</p>
-                                <p onClick={() => setBedSize('queen')} className={`border-y border-e ${bedSize === 'queen' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Queen</p>
-                                <p onClick={() => setBedSize('king')} className={`border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${bedSize === 'king' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>King</p>
-                                <p onClick={() => setBedSize('none')} className={`border border-t-0 lg:border-t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
+                                <p onClick={() => { setBedSize('single'); onchengeFunction() }} className={`border ${bedSize === 'single' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Single</p>
+                                <p onClick={() => { setBedSize('double'); onchengeFunction() }} className={`border-y border-e ${bedSize === 'double' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Double</p>
+                                <p onClick={() => { setBedSize('queen'); onchengeFunction() }} className={`border-y border-e ${bedSize === 'queen' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Queen</p>
+                                <p onClick={() => { setBedSize('king'); onchengeFunction() }} className={`border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${bedSize === 'king' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>King</p>
+                                <p onClick={() => { setBedSize('none'); onchengeFunction() }} className={`border border-t-0 lg:border-t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                             </div>
                         </div>
                         <p className="text-[#100A55] font-bold text-lg">Room Features :</p>
                         <RoomFurnishingAndFeture
                             roomFurnishingsAndFeatures={roomFurnishingsAndFeatures}
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
+                            onchengeFunction={onchengeFunction}
                         ></RoomFurnishingAndFeture>
                     </div>
                     <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Amenities </p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                            <p onClick={() => aminetAddFunction('Outdoor Area')} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
-                            <p onClick={() => aminetAddFunction('Kitchen')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate.find(a => a == 'Kitchen') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Kitchen</p>
-                            <p onClick={() => aminetAddFunction('TV')} className={`border-y border-s duration-500 ${animate.find(a => a == 'TV') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>TV</p>
-                            <p onClick={() => aminetAddFunction('Laundry')} className={`border duration-500 ${animate.find(a => a == 'Laundry') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Laundry</p>
-                            <p onClick={() => aminetAddFunction('BBQ')} className={`border border-s border-y-0 lg:border-y lg:border-s-0 duration-500 ${animate.find(a => a == 'BBQ') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>BBQ</p>
-                            <p onClick={() => aminetAddFunction('Pool')} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate.find(a => a == 'Pool') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
-                            <p onClick={() => aminetAddFunction('Spa')} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Spa') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
-                            <p onClick={() => aminetAddFunction('Sauna')} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Sauna') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
-                            <p onClick={() => aminetAddFunction('None')} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
+                            <p onClick={() => { aminetAddFunction('Outdoor Area'); onchengeFunction() }} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Outdoor Area</p>
+                            <p onClick={() => { aminetAddFunction('Kitchen'); onchengeFunction() }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate.find(a => a == 'Kitchen') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Kitchen</p>
+                            <p onClick={() => { aminetAddFunction('TV'); onchengeFunction() }} className={`border-y border-s duration-500 ${animate.find(a => a == 'TV') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>TV</p>
+                            <p onClick={() => { aminetAddFunction('Laundry'); onchengeFunction() }} className={`border duration-500 ${animate.find(a => a == 'Laundry') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Laundry</p>
+                            <p onClick={() => { aminetAddFunction('BBQ'); onchengeFunction() }} className={`border border-s border-y-0 lg:border-y lg:border-s-0 duration-500 ${animate.find(a => a == 'BBQ') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>BBQ</p>
+                            <p onClick={() => { aminetAddFunction('Pool'); onchengeFunction() }} className={`border border-t-0 border-s-0 lg:border-s duration-500 ${animate.find(a => a == 'Pool') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pool</p>
+                            <p onClick={() => { aminetAddFunction('Spa'); onchengeFunction() }} className={`border lg:border-t-0 lg:border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Spa') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Spa</p>
+                            <p onClick={() => { aminetAddFunction('Sauna'); onchengeFunction() }} className={`border border-t-0 border-s-0 border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Sauna') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sauna</p>
+                            <p onClick={() => { aminetAddFunction('None'); onchengeFunction() }} className={`border lg:border-t-0 lg:border-s-0 col-span-2 lg:col-span-1 duration-500 ${animate.find(a => a == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Place friendliness:</p>
                             <div className="mt-4 grid grid-cols-2 text-center font-medium">
-                                <p onClick={() => placeFriendFunction('Pets')} className={`border border-b-0 duration-500 ${placeFriendless.find(p => p == 'Pets') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pets</p>
-                                <p onClick={() => placeFriendFunction('Couples')} className={`border-t border-e duration-500 ${placeFriendless.find(p => p == 'Couples') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
-                                <p onClick={() => placeFriendFunction('Children')} className={`border-y border-s duration-500 ${placeFriendless.find(p => p == 'Children') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Children</p>
-                                <p onClick={() => placeFriendFunction('Visitors')} className={`border duration-500 ${placeFriendless.find(p => p == 'Visitors') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Visitors</p>
-                                <p onClick={() => placeFriendFunction('None')} className={`border border-t-0 col-span-2 duration-500 ${placeFriendless.find(p => p == 'None') ? ' border border-[#bab7e4]  hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
+                                <p onClick={() => { placeFriendFunction('Pets'); onchengeFunction() }} className={`border border-b-0 duration-500 ${placeFriendless.find(p => p == 'Pets') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Pets</p>
+                                <p onClick={() => { placeFriendFunction('Couples'); onchengeFunction() }} className={`border-t border-e duration-500 ${placeFriendless.find(p => p == 'Couples') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Couples</p>
+                                <p onClick={() => { placeFriendFunction('Children'); onchengeFunction() }} className={`border-y border-s duration-500 ${placeFriendless.find(p => p == 'Children') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Children</p>
+                                <p onClick={() => { placeFriendFunction('Visitors'); onchengeFunction() }} className={`border duration-500 ${placeFriendless.find(p => p == 'Visitors') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Visitors</p>
+                                <p onClick={() => { placeFriendFunction('None'); onchengeFunction() }} className={`border border-t-0 col-span-2 duration-500 ${placeFriendless.find(p => p == 'None') ? ' border border-[#bab7e4]  hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
                             </div>
                         </div>
                     </div>
@@ -584,25 +670,25 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => nearbyAddFunction('Parks')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
-                                <p onClick={() => nearbyAddFunction('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
-                                <p onClick={() => nearbyAddFunction('Gyms')} className={`duration-500 border border-y-0 lg:border-t ${nearbyCommunitySpaces.find(n => n == 'Gyms') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Gyms</p>
-                                <p onClick={() => nearbyAddFunction('Libraries')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces.find(n => n == 'Libraries') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
-                                <p onClick={() => nearbyAddFunction('Community Centres')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Community Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
-                                <p onClick={() => nearbyAddFunction('Sports Facilities')} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces.find(n => n == 'Sports Facilities') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
-                                <p onClick={() => nearbyAddFunction('None')} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces.find(n => n == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
+                                <p onClick={() => { nearbyAddFunction('Parks'); onchengeFunction() }} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Parks</p>
+                                <p onClick={() => { nearbyAddFunction('Aquatic Centres'); onchengeFunction() }} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Aquatic Centres</p>
+                                <p onClick={() => { nearbyAddFunction('Gyms'); onchengeFunction() }} className={`duration-500 border border-y-0 lg:border-t ${nearbyCommunitySpaces.find(n => n == 'Gyms') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Gyms</p>
+                                <p onClick={() => { nearbyAddFunction('Libraries'); onchengeFunction() }} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${nearbyCommunitySpaces.find(n => n == 'Libraries') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Libraries</p>
+                                <p onClick={() => { nearbyAddFunction('Community Centres'); onchengeFunction() }} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Community Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Community Centres</p>
+                                <p onClick={() => { nearbyAddFunction('Sports Facilities'); onchengeFunction() }} className={`duration-500 border border-s-0 ${nearbyCommunitySpaces.find(n => n == 'Sports Facilities') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Sports Facilities</p>
+                                <p onClick={() => { nearbyAddFunction('None'); onchengeFunction() }} className={`border border-t-0 col-span-2 lg:col-span-3 duration-500 ${nearbyCommunitySpaces.find(n => n == 'None') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>None</p>
                             </div>
 
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Public Transport Access:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => publicAddFunction('Bus Stop')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bus Stop') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
-                                <p onClick={() => publicAddFunction('Tram Station')} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess.find(p => p == 'Tram Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
-                                <p onClick={() => publicAddFunction('Train Station')} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess.find(p => p == 'Train Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
-                                <p onClick={() => publicAddFunction('Ferry Terminal')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess.find(p => p == 'Ferry Terminal') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
-                                <p onClick={() => publicAddFunction('Bike Paths')} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bike Paths') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
-                                <p onClick={() => publicAddFunction('None')} className={`duration-500 border border-s-0 ${publicTransportAccess.find(p => p == 'None') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
+                                <p onClick={() => { publicAddFunction('Bus Stop'); onchengeFunction() }} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bus Stop') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bus Stop</p>
+                                <p onClick={() => { publicAddFunction('Tram Station'); onchengeFunction() }} className={`duration-500 border-t border-e lg:border-e-0 ${publicTransportAccess.find(p => p == 'Tram Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Tram Station</p>
+                                <p onClick={() => { publicAddFunction('Train Station'); onchengeFunction() }} className={`duration-500 border border-y-0 lg:border-t ${publicTransportAccess.find(p => p == 'Train Station') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Train Station</p>
+                                <p onClick={() => { publicAddFunction('Ferry Terminal'); onchengeFunction() }} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${publicTransportAccess.find(p => p == 'Ferry Terminal') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Ferry Terminal</p>
+                                <p onClick={() => { publicAddFunction('Bike Paths'); onchengeFunction() }} className={`duration-500 border ${publicTransportAccess.find(p => p == 'Bike Paths') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bike Paths</p>
+                                <p onClick={() => { publicAddFunction('None'); onchengeFunction() }} className={`duration-500 border border-s-0 ${publicTransportAccess.find(p => p == 'None') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>None</p>
                             </div>
                         </div>
                     </div>
@@ -612,44 +698,44 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Gender:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                                <p onClick={() => genderFunction('Any')} className={`border border-b-0 lg:border-b duration-500 ${gender.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                                <p onClick={() => genderFunction('Male')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender.find(g => g == 'Male') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Male</p>
-                                <p onClick={() => genderFunction('Female')} className={`border-y border-s duration-500 ${gender.find(g => g == 'Female') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Female</p>
-                                <p onClick={() => genderFunction('LGBTIQA+')} className={`border duration-500 ${gender.find(g => g == 'LGBTIQA+') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>LGBTIQA+</p>
-                                <p onClick={() => genderFunction('Unspecified')} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${gender.find(g => g == 'Unspecified') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Unspecified</p>
+                                <p onClick={() => { genderFunction('Any'); onchengeFunction() }} className={`border border-b-0 lg:border-b duration-500 ${gender.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
+                                <p onClick={() => { genderFunction('Male'); onchengeFunction() }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender.find(g => g == 'Male') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>Male</p>
+                                <p onClick={() => { genderFunction('Female'); onchengeFunction() }} className={`border-y border-s duration-500 ${gender.find(g => g == 'Female') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Female</p>
+                                <p onClick={() => { genderFunction('LGBTIQA+'); onchengeFunction() }} className={`border duration-500 ${gender.find(g => g == 'LGBTIQA+') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>LGBTIQA+</p>
+                                <p onClick={() => { genderFunction('Unspecified'); onchengeFunction() }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${gender.find(g => g == 'Unspecified') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Unspecified</p>
                             </div>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <input onChange={(e) => setAge(e.target.value)} placeholder="age" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
+                            <input onChange={(e) => { setAge(e.target.value); onchengeFunction() }} placeholder="age" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => addFunction('Any')} className={`duration-500 border ${check1 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                                <p onClick={() => addFunction('Digital ID Verification')} className={`duration-500 border-t border-e lg:border-e-0 ${check2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Digital ID Verification</p>
-                                <p onClick={() => addFunction('Student ID')} className={`duration-500 border border-y-0 lg:border-t ${check3 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student ID</p>
-                                <p onClick={() => addFunction('Passport')} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${check4 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Passport</p>
-                                <p onClick={() => addFunction('Medicare')} className={`duration-500 border ${check5 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Medicare</p>
-                                <p onClick={() => addFunction(`Driver's License`)} className={`duration-500 border border-s-0 ${check6 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Driver's License</p>
-                                <p onClick={() => addFunction('Bank Statement')} className={`duration-500 border border-t-0  lg:border-e-0 border-b-0 lg:border-b ${check7 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bank Statement</p>
-                                <p onClick={() => addFunction('Government Issued ID')} className={`duration-500 border-t-0 border-s-0 lg:border-s border ${check8 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Government Issued ID</p>
-                                <p onClick={() => addFunction('National Police Check')} className={`duration-500 border-t lg:border-t-0 border border-s lg:border-s-0 ${check9 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>National Police Check</p>
-                                <p onClick={() => addFunction('Working with Children Check')} className={`duration-500 border border-t-0 border-s-0 lg:border-s lg:border-e-0  ${check10 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Working with Children Check</p>
-                                <p onClick={() => addFunction('Income Proof')} className={`duration-500 border-t-0 border ${check11 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Income Proof</p>
-                                <p onClick={() => addFunction('References')} className={`duration-500 border-t-0 border border-s-0 ${check12 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>References</p>
+                                <p onClick={() => { addFunction('Any'); onchengeFunction() }} className={`duration-500 border ${check1 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
+                                <p onClick={() => { addFunction('Digital ID Verification'); onchengeFunction() }} className={`duration-500 border-t border-e lg:border-e-0 ${check2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Digital ID Verification</p>
+                                <p onClick={() => { addFunction('Student ID'); onchengeFunction() }} className={`duration-500 border border-y-0 lg:border-t ${check3 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student ID</p>
+                                <p onClick={() => { addFunction('Passport'); onchengeFunction() }} className={`duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b ${check4 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Passport</p>
+                                <p onClick={() => { addFunction('Medicare'); onchengeFunction() }} className={`duration-500 border ${check5 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Medicare</p>
+                                <p onClick={() => { addFunction(`Driver's License`); onchengeFunction() }} className={`duration-500 border border-s-0 ${check6 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Driver's License</p>
+                                <p onClick={() => { addFunction('Bank Statement'); onchengeFunction() }} className={`duration-500 border border-t-0  lg:border-e-0 border-b-0 lg:border-b ${check7 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Bank Statement</p>
+                                <p onClick={() => { addFunction('Government Issued ID'); onchengeFunction() }} className={`duration-500 border-t-0 border-s-0 lg:border-s border ${check8 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Government Issued ID</p>
+                                <p onClick={() => { addFunction('National Police Check'); onchengeFunction() }} className={`duration-500 border-t lg:border-t-0 border border-s lg:border-s-0 ${check9 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>National Police Check</p>
+                                <p onClick={() => { addFunction('Working with Children Check'); onchengeFunction() }} className={`duration-500 border border-t-0 border-s-0 lg:border-s lg:border-e-0  ${check10 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Working with Children Check</p>
+                                <p onClick={() => { addFunction('Income Proof'); onchengeFunction() }} className={`duration-500 border-t-0 border ${check11 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Income Proof</p>
+                                <p onClick={() => { addFunction('References'); onchengeFunction() }} className={`duration-500 border-t-0 border border-s-0 ${check12 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>References</p>
                             </div>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold  text-lg">Occupation Preference:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                                <p onClick={() => occuptionFunction('Any')} className={` duration-500 border ${occuption.find(o => o == 'Any') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                                <p onClick={() => occuptionFunction('Student')} className={` duration-500 border-t border-e lg:border-e-0 ${occuption.find(o => o == 'Student') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>
-                                <p onClick={() => occuptionFunction('Professional')} className={` duration-500 border border-y-0 lg:border-t ${occuption.find(o => o == 'Professional') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Professional</p>
-                                <p onClick={() => occuptionFunction('Backpackers')} className={` duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b  ${occuption.find(o => o == 'Backpackers') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Backpackers</p>
-                                <p onClick={() => occuptionFunction('On welfare')} className={` duration-500 border  ${occuption.find(o => o == 'On welfare') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On welfare</p>
-                                <p onClick={() => occuptionFunction('Retired')} className={` duration-500 border border-s-0  ${occuption.find(o => o == 'Retired') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Retired</p>
-                                <p onClick={() => occuptionFunction('Job Seeker')} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${occuption.find(o => o == 'Job Seeker') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Job Seeker</p>
+                                <p onClick={() => { occuptionFunction('Any'); onchengeFunction() }} className={` duration-500 border ${occuption.find(o => o == 'Any') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
+                                <p onClick={() => { occuptionFunction('Student'); onchengeFunction() }} className={` duration-500 border-t border-e lg:border-e-0 ${occuption.find(o => o == 'Student') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>
+                                <p onClick={() => { occuptionFunction('Professional'); onchengeFunction() }} className={` duration-500 border border-y-0 lg:border-t ${occuption.find(o => o == 'Professional') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Professional</p>
+                                <p onClick={() => { occuptionFunction('Backpackers'); onchengeFunction() }} className={` duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b  ${occuption.find(o => o == 'Backpackers') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Backpackers</p>
+                                <p onClick={() => { occuptionFunction('On welfare'); onchengeFunction() }} className={` duration-500 border  ${occuption.find(o => o == 'On welfare') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On welfare</p>
+                                <p onClick={() => { occuptionFunction('Retired'); onchengeFunction() }} className={` duration-500 border border-s-0  ${occuption.find(o => o == 'Retired') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Retired</p>
+                                <p onClick={() => { occuptionFunction('Job Seeker'); onchengeFunction() }} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${occuption.find(o => o == 'Job Seeker') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Job Seeker</p>
                             </div>
                         </div>
                     </div>

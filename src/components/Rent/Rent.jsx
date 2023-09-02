@@ -11,8 +11,11 @@ import ico9 from '../../assets/sec3Icon/Square Meters.svg'
 import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
 import ReactPaginate from "react-paginate";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
+import { baseURL } from "../../App";
+import ListingCard from "../ListingCard/ListingCard";
+import LoadingCard from "../LoadingCard/LoadingCard";
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -20,8 +23,122 @@ const options = [
     { value: 'vanilla', label: 'Vanilla' },
 ];
 
+
+
+
 const Rent = () => {
     const navigate = useNavigate()
+
+
+    const quary = new URLSearchParams(useLocation().search)
+    const type = quary.get('type')
+    const location = quary.get('location')
+    const [page, setPage] = useState(1)
+
+    const [loading, setLoading] = useState(true);
+    const [btnState, setBtnState] = useState(true);
+    const [reFatch, setReFatch] = useState(1)
+
+    const [listingData, setListingData] = useState([])
+
+
+
+    useEffect(() => {
+        setBtnState(true)
+        if (type == 'homeowner') {
+            fetch(`${baseURL}/search/home-listings/?location=${location}&page=1`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setListingData(data);
+                    setLoading(false);
+                    if (data.length < 12) {
+                        setBtnState(false)
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        if (type == 'roomseeker') {
+            fetch(`${baseURL}/search/room-seekers/?location=${location}&page=1`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setListingData(data);
+                    setLoading(false);
+                    if (data.length < 12) {
+                        setBtnState(false)
+                    }
+                    // console.log(type, location);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }, [type, location, reFatch])
+
+    console.log(listingData);
+
+    const paginateFunctiono = () => {
+        setBtnState(true)
+        if (type == 'homeowner') {
+            fetch(`${baseURL}/search/home-listings/?location=${location}&page=${page}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setListingData(d => [...d, ...data]);
+                    setLoading(false);
+                    if (data.length < 12) {
+                        setBtnState(false)
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        if (type == 'roomseeker') {
+            fetch(`${baseURL}/search/room-seekers/?location=${location}&page=${page}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setListingData(d => [...d, ...data]);
+                    setLoading(false);
+                    if (data.length < 12) {
+                        setBtnState(false)
+                    }
+                    // console.log(type, location);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }
+
+
+
     const [selectedOption, setSelectedOption] = useState(null);
     const [data, setData] = useState([])
     useEffect(() => {
@@ -80,10 +197,15 @@ const Rent = () => {
         setItemOffset(newOffset);
     };
 
+    if (loading) {
+        return <LoadingCard></LoadingCard>
+    }
+
     return (
         <div className=" bg-[#F7F7FD]">
-            <div className="max-w-[1440px] mx-auto px-4 py-12">
-                <div className="flex items-center flex-col justify-center gap-y-8 text-center lg:flex-row lg:justify-between">
+            <div className="max-w-[1440px] mx-auto px-4 py-5">
+                {listingData.length > 0 && <h1 className="text-xl font-medium">This listing for {location ? location : type}</h1>}
+                {/* <div className="flex items-center flex-col justify-center gap-y-8 text-center lg:flex-row lg:justify-between">
                     <h1 className=" font-bold text-4xl">Search properties to rent</h1>
                     <Select
                         className="w-full lg:w-64 border border-[#E0DEF7] rounded-lg placeholder:text-[#100A55]"
@@ -92,8 +214,8 @@ const Rent = () => {
                         onChange={setSelectedOption}
                         options={options}
                     />
-                </div>
-                <div className='bg-white mt-4 p-4 rounded-md shadow-lg w-full lg:hidden flex items-center justify-around  '>
+                </div> */}
+                {/* <div className='bg-white mt-4 p-4 rounded-md shadow-lg w-full lg:hidden flex items-center justify-around  '>
                     <input type="text" name="sear" className='p-2 rounded-lg bg-white border-0 ' placeholder='search location' />
                     <FaSearch className='bg-[#7065F0] p-2 text-4xl text-stone-50 rounded-lg' />
                 </div>
@@ -127,61 +249,25 @@ const Rent = () => {
                             <button className='btn bg-[#7065F0] text-white ms-3'>Search</button>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* popular card */}
-                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mb-8 mt-12'>
-                    {popular.map(p => <div onClick={() => navigate(`/details/${p.id}`)} key={p.id} className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
-                        <img src={img} className='w-full rounded-lg -z-0' alt="" />
-                        <div className='bg-[#7065F0]  text-white relative -mt-6 -left-2  flex items-center gap-1 p-2 w-28 rounded-e-lg rounded-ss-lg'>
-                            <img src={ico4} alt="" />
-                            <p className='font-medium'>POPULAR</p>
-                            <img src={kona} className='absolute top-full -left-0' alt="" />
-                        </div>
-                        <div className='px-6 pt-6 pb-8'>
-                            <div className='flex items-center justify-between'>
-                                <h1 className='text-2xl font-bold text-[#7065F0]'>${p.price}<span className='text-base font-medium text-gray-500'>/month</span></h1>
-                                <div className='flex items-center gap-4'>
-                                <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
-                                <img src={ico3} className='border p-3 rounded-full' alt="" />
-                            </div>
-                            </div>
-                            <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
-                            <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
-                            <div className='flex items-center justify-between'>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p.bed} Beds</p>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p.bath} Bathroom</p>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p.size} m<sup>2</sup></p>
-                            </div>
-                        </div>
-                    </div>)}
+                {listingData.length === 0 && <div>
+                    <h1 className="text-center mt-5 text-2xl font-semibold text-[#7065F0]">No listings at this address!!</h1>
+                </div>}
+
+                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mb-8 mt-5'>
+                    {listingData.map((p, i) => <ListingCard key={i} p={p} reFatch={reFatch} setReFatch={setReFatch} />)}
+
                 </div>
 
-                {/* non popular */}
-                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                    {currentItems.map(p => <div onClick={() => navigate(`/details/${p.id}`)} key={p.id} className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
-                        <img src={img} className='w-full rounded-lg -z-0' alt="" />
-                        <div className='px-6 pt-6 pb-8'>
-                            <div className='flex items-center justify-between'>
-                                <h1 className='text-2xl font-bold text-[#7065F0]'>${p.price}<span className='text-base font-medium text-gray-500'>/month</span></h1>
-                                <div className='flex items-center gap-4'>
-                                <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
-                                <img src={ico3} className='border p-3 rounded-full' alt="" />
-                            </div>
-                            </div>
-                            <h1 className='text-2xl font-bold my-2'>{p.name}</h1>
-                            <h1 className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p.address}</h1>
-                            <div className='flex items-center justify-between'>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p.bed} Beds</p>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p.bath} Bathroom</p>
-                                <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p.size} m<sup>2</sup></p>
-                            </div>
-                        </div>
-                    </div>)}
-                </div>
+                {btnState && <div className="text-center">
+                    <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>Next</button>
+                </div>}
+
 
                 {/* pagination */}
-                <div className="">
+                {/* <div className="">
                     <ReactPaginate
                         containerClassName="flex justify-center w-[316px] items-center justify-between mx-auto overflow-hidden mt-[48px] "
                         breakLabel="..."
@@ -195,7 +281,7 @@ const Rent = () => {
                         previousLabel="<"
                         renderOnZeroPageCount={null}
                     />
-                </div>
+                </div> */}
             </div>
         </div>
     );
