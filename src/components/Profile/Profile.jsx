@@ -874,7 +874,7 @@ const Profile = () => {
     // console.log(userData);
     return (
         <div className='home'>
-            <div className='max-w-6xl mx-auto px-4'>
+            <div className='max-w-[1440px] mx-auto px-4'>
                 <div className='flex flex-col lg:flex-row justify-center lg:items-start gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] h-full bg-white   bg-opacity-50'>
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  '>
