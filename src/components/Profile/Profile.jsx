@@ -18,6 +18,7 @@ import DatePicker, { Calendar } from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import verifyed from '../../assets/profileIcon/Untitled-1.png'
+import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -873,19 +874,21 @@ const Profile = () => {
     // console.log(userData);
     return (
         <div className='home'>
-            <div className='max-w-[1440px] mx-auto px-4'>
+            <div className='max-w-6xl mx-auto px-4'>
                 <div className='flex flex-col lg:flex-row justify-center lg:items-start gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] h-full bg-white   bg-opacity-50'>
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  '>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
 
-                                {userData?.verified && <img src={verifyed} className='absolute w-full -left-2 bottom-0' alt="" />}
+                                {userData?.verified && <img src={verifyed2} className='absolute w-full  bottom-0' alt="" />}
 
                                 {userData?.profile_picture ?
                                     <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
                                     <img src={blankImag} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto   w-full `} alt="" />}
                                 <p className={`text-xl text-white cursor-pointer duration-300 absolute ${!profileImgState ? 'scale-0' : 'scale-100'} left-2/4  -translate-x-2/4 top-2/4 -translate-y-2/4`}>Edit</p>
                             </div>
+
+
                             <h1 className='font-semibold flex justify-center items-center gap-2 text-xl lg:text-2xl mt-7 mb-4'>
                                 {!nameEdit && userData?.full_name}
                                 {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
