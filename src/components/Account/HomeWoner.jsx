@@ -12,6 +12,7 @@ import { baseURL } from "../../App";
 import Autocomplete from "react-google-autocomplete";
 import useUserData from "../Hook/useUserData";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const HomeWoner = () => {
     const [roomFeutureOthers, setRoomFeutureOthers] = useState(false)
@@ -286,6 +287,7 @@ const HomeWoner = () => {
         { value: 'Private ', label: 'Private ' },
         { value: 'Entrance', label: 'Entrance' },
     ]
+    const navigate = useNavigate()
     const handle = (e) => {
         e.preventDefault()
         if (!firstName) {
@@ -701,7 +703,12 @@ const HomeWoner = () => {
                 console.log(data)
                 if (data.id) {
                     setLoad(false)
-                    window.location.href = `/homeowner-pricing`
+                    if (userData?.subscription == 'Free') {
+                        navigate('/homeowner-pricing')
+                    }
+                    else {
+                        navigate('/profile')
+                    }
                 }
                 else {
                     setLoad(false)
@@ -861,13 +868,13 @@ const HomeWoner = () => {
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
                         <div>
-                            <input onChange={(e) => { onchengeFunction(); setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { onchengeFunction(); setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 bg-white px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div>
-                            <input onChange={(e) => { onchengeFunction(); setSecondName(e.target.value) }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { onchengeFunction(); setSecondName(e.target.value) }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4  bg-white hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => { onchengeFunction(); setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { onchengeFunction(); setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4  bg-white  hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
                     <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Property Details</p>
@@ -877,9 +884,9 @@ const HomeWoner = () => {
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
                             <div className="dropdown dropdown-bottom dropdown-center w-full">
-                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); onchengeFunction(); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
+                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); onchengeFunction(); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg bg-white " />
                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-2xl  bg-white text-base rounded-none ">
-                                    {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt/>{item?.description}</a></li>)}
+                                    {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
                                 </ul>
                             </div>
 

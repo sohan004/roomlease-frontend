@@ -727,7 +727,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                             <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
 
                             <div className="dropdown dropdown-bottom dropdown-center w-full">
-                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" />
+                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff]  bg-white  border-[#7065F0] rounded-lg" />
                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-2xl  bg-white text-base rounded-none ">
                                     {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
                                 </ul>
@@ -998,8 +998,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                     </div>
                 </div>
                 <div className="text-center flex flex-col lg:flex-row items-center gap-4 mt-7">
-                    <Link className="flex-grow " ><button onClick={() => setRoomEdit(false)} className="btn bg-slate-300 w-full">cancel</button></Link>
-                    <button disabled={load} className='btn flex-grow  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
+                    <Link className="flex-grow " ><button onClick={() => setRoomEdit(false)} className="btn border-0 bg-slate-300 w-full">cancel</button></Link>
+                    <button disabled={load} className='btn flex-grow  hover:bg-[#4e46a1] bg-[#7065F0] border-0 text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
                 </div>
             </form>
             <ToastContainer />

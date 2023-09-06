@@ -69,6 +69,15 @@ const HomeOwnerListingCardDetails = () => {
 
     const [load, setLoad] = useState(true)
 
+    const [isFav, setIsFav] = useState(false)
+
+    useEffect(() => {
+        if (!listingDetails) {
+            return
+        }
+        setIsFav(listingDetails?.is_favourite)
+    }, [listingDetails])
+
     const { userData } = useContext(AuthContext)
 
     useEffect(() => {
@@ -222,6 +231,17 @@ const HomeOwnerListingCardDetails = () => {
 
     const homeOwnerAddFavorite = (id) => {
         if (!userData) navigate('/otp-send')
+        setIsFav(true)
+        toast.success('Add favorite Succesfully', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         fetch(`${baseURL}/listing/add-home-listing-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -230,7 +250,7 @@ const HomeOwnerListingCardDetails = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setReFatch(reFatch + 1)
+                // setReFatch(reFatch + 1)
             })
             .catch(err => {
                 console.log(err)
@@ -238,7 +258,19 @@ const HomeOwnerListingCardDetails = () => {
     }
 
     const homeOwnerFavouriteDelete = (id) => {
+
         if (!userData) navigate('/otp-send')
+        setIsFav(false)
+        toast.success('Remove favorite Succesfully', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         fetch(`${baseURL}/listing/remove-home-listing-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -247,7 +279,7 @@ const HomeOwnerListingCardDetails = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setReFatch(reFatch + 1)
+                // setReFatch(reFatch + 1)
             })
             .catch(err => {
                 console.log(err)
@@ -282,19 +314,19 @@ const HomeOwnerListingCardDetails = () => {
                             }}
                             className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
                         <button onClick={() => {
-                            if (listingDetails?.is_favourite) {
+                            if (isFav) {
                                 homeOwnerFavouriteDelete(listingDetails?.id)
                             }
-                            if (listingDetails?.is_favourite == false) {
+                            if (isFav == false) {
                                 homeOwnerAddFavorite(listingDetails?.id)
                             }
-                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
+                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{isFav ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
                 <dialog id="share_modal" className="modal">
                     <div method="dialog" className="modal-box h-52  relative">
-                        <button onClick={()=>window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
+                        <button onClick={() => window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
                         <div className='flex justify-center items-center gap-6 mt-4'>
                             <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
                                 <FacebookShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
@@ -375,7 +407,7 @@ const HomeOwnerListingCardDetails = () => {
                             <img src={img3} className='w-full h-full   rounded-lg' alt="" />
                             <button className='btn hidden absolute lg:flex items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
                         </div> */}
-                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
                         <div className='text-right'>
                             <button disabled={+listingDetails?.user == +userData?.user_id} onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white w-full'>send message</button>
                         </div>

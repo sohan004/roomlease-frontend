@@ -13,6 +13,7 @@ import { GoogleMap, LoadScript, StandaloneSearchBox } from "@react-google-maps/a
 import Autocomplete from "react-google-autocomplete";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RoomSeeker = () => {
 
@@ -149,6 +150,7 @@ const RoomSeeker = () => {
         }
         setPublicTransportAccess([...filter, p])
     }
+    const navigate = useNavigate()
     const check1 = checks.find(r => r == 'Any')
     const check2 = checks.find(r => r == 'Digital ID Verification')
     const check3 = checks.find(r => r == 'Student ID')
@@ -427,7 +429,12 @@ const RoomSeeker = () => {
                 console.log(data);
                 if (data.id) {
                     setLoad(false)
-                    window.location.href = `/roomseeker-pricing`
+                    if (userData?.subscription == 'Free') {
+                        navigate('/roomseeker-pricing')
+                    }
+                    else {
+                        navigate('/profile')
+                    }
                 }
                 else {
                     setLoad(false)
@@ -546,13 +553,13 @@ const RoomSeeker = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
 
                         <div>
-                            <input onChange={(e) => { setFirstName(e.target.value); onchengeFunction() }} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setFirstName(e.target.value); onchengeFunction() }} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
                         </div>
                         <div>
-                            <input onChange={(e) => { setSecondName(e.target.value); onchengeFunction() }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setSecondName(e.target.value); onchengeFunction() }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]   bg-white rounded-lg" />
                         </div>
                         <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => { setEmail(e.target.value); onchengeFunction() }} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setEmail(e.target.value); onchengeFunction() }} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
                         </div>
                     </div>
                     <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Preferences</p>

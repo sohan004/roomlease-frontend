@@ -70,6 +70,15 @@ const RoomSeekerListingDetails = () => {
 
     const { userData } = useContext(AuthContext)
 
+    const [isFav, setIsFav] = useState(false)
+
+    useEffect(() => {
+        if (!listingDetails) {
+            return
+        }
+        setIsFav(listingDetails?.is_favourite)
+    }, [listingDetails])
+
     useEffect(() => {
         const token = localStorage.getItem('user-token')
         fetch(`${baseURL}/listing/room-seekers/${id}/`, token ? {
@@ -208,7 +217,18 @@ const RoomSeekerListingDetails = () => {
 
     const roomSeekerAddFavorite = (id) => {
         if (!userData) navigate('/otp-send')
-        console.log(id);
+        // console.log(id);
+        setIsFav(true)
+        toast.success('Add favorite Succesfully', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         fetch(`${baseURL}/listing/add-room-seeker-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -218,7 +238,7 @@ const RoomSeekerListingDetails = () => {
             .then(res => res.json())
             .then(data => {
                 // console.log(data);
-                setReFatch(reFatch + 1)
+                // setReFatch(reFatch + 1)
             })
             .catch(err => {
                 console.log(err)
@@ -226,6 +246,17 @@ const RoomSeekerListingDetails = () => {
     }
     const roomSeekerFavouriteDelete = (id) => {
         if (!userData) navigate('/otp-send')
+        setIsFav(false)
+        toast.success('Remove favorite Succesfully', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         fetch(`${baseURL}/listing/remove-room-seeker-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -260,25 +291,25 @@ const RoomSeekerListingDetails = () => {
                             }}
                             className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
                         <button onClick={() => {
-                            if (listingDetails?.is_favourite) {
+                            if (isFav) {
                                 roomSeekerFavouriteDelete(listingDetails?.id)
                             }
-                            if (listingDetails?.is_favourite == false) {
+                            if (isFav == false) {
                                 roomSeekerAddFavorite(listingDetails?.id)
                             }
-                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
+                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{isFav ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
                 <dialog id="share_modal" className="modal">
                     <div method="dialog" className="modal-box h-52  relative">
-                        <button onClick={()=>window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
+                        <button onClick={() => window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
                         <div className='flex justify-center items-center gap-6 mt-4'>
                             <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
                                 <FacebookShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
                                     <FaFacebook className='text-5xl text-blue-600' />
                                     <FaShare
-                                     className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                        className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                 </FacebookShareButton>
                             </div>
                             <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
@@ -333,7 +364,7 @@ const RoomSeekerListingDetails = () => {
                             <img src={img3} className='w-full h-full   rounded-lg' alt="" />
                             <button className='btn hidden absolute lg:flex items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
                         </div> */}
-                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
                         <div className='text-right'>
                             <button onClick={sendMessageFunction} className='btn w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
                         </div>

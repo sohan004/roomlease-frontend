@@ -78,7 +78,6 @@ const MessageList = () => {
             .then(data => setMessageList(data))
             .catch(err => console.log(err))
     }, [id, reFetch])
-    console.log(messageList);
     const [message, setMessage] = useState('')
 
     const sendMessageFunction = () => {
@@ -186,7 +185,7 @@ const MessageList = () => {
                         if (+item.sender === +userData?.user_id) {
                             return <div key={item.id} className="flex gap-4 mt-6 justify-end px-6 lg:px-10">
                                 <div className="">
-                                    {item?.message && <p className="p-4 bg-[#E0DEF7] rounded-lg text-right">{item?.message}</p>}
+                                    {item?.message && <div className="p-4 bg-[#E0DEF7] rounded-lg" style={{ whiteSpace: 'pre-wrap' }}>{item?.message}</div>}
                                     {item?.photo && <img src={`${baseURL}${item?.photo}`} className="w-[50%] ms-auto" alt="" />}
                                     {item?.video && <video className='w-[50%] ms-auto' controls>
                                         <source src={`${baseURL}${item?.video}`} type="video/mp4" />

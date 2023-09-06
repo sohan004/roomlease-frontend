@@ -51,6 +51,7 @@ const ListingCard = ({ p,  reFatch }) => {
     // console.log(p);
 
     const homeOwnerAddFavorite = (id) => {
+        setFav(true)
         fetch(`${baseURL}/listing/add-home-listing-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -60,13 +61,14 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-                setFav(true)
+            
             })
             .catch(err => {
                 console.log(err)
             })
     }
     const roomSeekerAddFavorite = (id) => {
+        setFav(true)
         fetch(`${baseURL}/listing/add-room-seeker-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -76,13 +78,14 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-                setFav(true)
+               
             })
             .catch(err => {
                 console.log(err)
             })
     }
     const homeOwnerFavouriteDelete = (id) => {
+        setFav(false)
         fetch(`${baseURL}/listing/remove-home-listing-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -92,13 +95,14 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-                setFav(false)
+              
             })
             .catch(err => {
                 console.log(err)
             })
     }
     const roomSeekerFavouriteDelete = (id) => {
+        setFav(false)
         fetch(`${baseURL}/listing/remove-room-seeker-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -108,7 +112,7 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-                setFav(false)
+               
             })
             .catch(err => {
                 console.log(err)
