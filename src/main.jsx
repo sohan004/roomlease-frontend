@@ -47,6 +47,7 @@ import RoomSeekerListingDetails from './components/Details/RoomSeekerListingDeta
 import AllListing from './components/AllListing/AllListing.jsx'
 import ListingAddPrivateRoute from './components/ListingAddPrivateRoute/ListingAddPrivateRoute.jsx'
 import CardPayment from './components/CardPayment/CardPayment.jsx'
+import BenifitsOfUpgrade from './components/BenifitsOfUpgrade/BenifitsOfUpgrade.jsx'
 
 
 const router = createBrowserRouter([
@@ -159,6 +160,10 @@ const router = createBrowserRouter([
       {
         path: '/blog',
         element: <Blog></Blog>
+      },
+      {
+        path: '/Benifits-of-upgrade',
+        element: <BenifitsOfUpgrade></BenifitsOfUpgrade>
       },
       {
         path: '/career',

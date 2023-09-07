@@ -66,7 +66,9 @@ const DigitalVerify = () => {
         <div className="text-center mt-7">
             {loading ?
                 <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
+                    <div className='flex justify-start items-center my-12 text-center'>
+                        <span className="loading loading-spinner loading-lg mx-auto"></span>
+                    </div>
                 </div>
                 : <div id="digitalid-verify"></div>}
 

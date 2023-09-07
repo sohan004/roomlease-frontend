@@ -131,8 +131,6 @@ const Profile = () => {
             })
     }, [])
 
-    console.log(userAllListing);
-
     useEffect(() => {
         if (!listing) {
             return
@@ -242,7 +240,7 @@ const Profile = () => {
 
     const profileUpdate = () => {
         const useObjectData = userData
-        useObjectData.bio = titleValue ? titleValue : userData.bio
+        useObjectData.bio = titleValue
 
         fetch(`${baseURL}/account/api/profile/${userData.id}/`, {
             method: 'PUT',
@@ -910,7 +908,7 @@ const Profile = () => {
                             </div>
                             <p className='mt-4'>{userData?.subscription} Account</p>
                             <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
-                            <a href="" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</a>
+                            <Link to="/Benifits-of-upgrade" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
@@ -1249,6 +1247,8 @@ const Profile = () => {
 
                             const vlidarray = Array.isArray(listing[key]);
 
+                            const homeAddressListing = key == 'home_address' && listing[key].split(',')
+
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
                                 <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
@@ -1257,7 +1257,13 @@ const Profile = () => {
                                         {listing[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold text-xs lg:text-base'>{listing[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{key == 'home_address' ?
+                                            <>
+                                                {homeAddressListing.length === 2 && homeAddressListing[0]}
+                                                {homeAddressListing.length > 2 && homeAddressListing[1]}
+
+                                            </>
+                                            : listing[key]}</p>
                                 }
 
                             </div>

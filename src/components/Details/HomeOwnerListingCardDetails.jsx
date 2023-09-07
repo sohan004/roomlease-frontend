@@ -523,6 +523,8 @@ const HomeOwnerListingCardDetails = () => {
                                 return word.charAt(0).toUpperCase() + word.slice(1);
                             });
 
+                            const homeAddressListing = key == 'home_address' && listingDetails[key].split(',')
+
 
                             const vlidarray = Array.isArray(listingDetails[key]);
 
@@ -534,7 +536,13 @@ const HomeOwnerListingCardDetails = () => {
                                         {listingDetails[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold text-xs lg:text-base'>{listingDetails[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{key == 'home_address' ?
+                                            <>
+                                                {homeAddressListing.length === 2 && homeAddressListing[0]}
+                                                {homeAddressListing.length > 2 && homeAddressListing[1]}
+
+                                            </>
+                                            : listingDetails[key]}</p>
                                 }
 
                             </div>

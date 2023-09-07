@@ -33,9 +33,6 @@ const ListingAddPrivateRoute = ({ children }) => {
         })
             .then(res => res.json())
             .then(data => {
-                if (data?.error) {
-                    navigate('/')
-                }
                 setListing(data);
                 setListingLoading(false)
             })
@@ -49,7 +46,7 @@ const ListingAddPrivateRoute = ({ children }) => {
             <span className="loading loading-spinner loading-lg mx-auto"></span>
         </div>
     }
-    if (!listing || userData?.subscription != 'Free') {
+    if (listing?.error == 'No listing found' || userData?.subscription != 'Free') {
         return children
     }
     else {
