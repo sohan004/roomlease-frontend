@@ -118,7 +118,7 @@ const MessageDashboard = () => {
             <div className="max-w-[1440px] mx-auto px-4">
                 <div className="flex flex-col lg:flex-row">
 
-                    <div className="px-5 py-7 w-[30%] hidden lg:flex  flex-col    border-e h-[100vh]">
+                    <div className="px-5 py-7 w-[30%] hidden lg:flex  flex-col    border-e h-[100vh] overflow-y-auto">
                         <Link to='/'>
                             <h3 className="font-medium cursor-pointer  text-lg flex items-center gap-2 text-[#7065F0]"><img src={backarrow} alt="" /> Back to Home</h3>
 

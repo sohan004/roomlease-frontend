@@ -24,7 +24,7 @@ const DigitalVerify = () => {
                 onComplete: function (msg) {
                     console.log(msg);
                     setLoading(true);
-                    const url = `${baseURL}/account/digital-id/}`
+                    const url = `${baseURL}/account/digital-id/`
                     fetch(url, {
                         method: 'POST',
                         headers: {

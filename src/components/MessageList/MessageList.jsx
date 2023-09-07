@@ -185,9 +185,9 @@ const MessageList = () => {
                         if (+item.sender === +userData?.user_id) {
                             return <div key={item.id} className="flex gap-4 mt-6 justify-end px-6 lg:px-10">
                                 <div className="">
-                                    {item?.message && <div className="p-4 bg-[#E0DEF7] rounded-lg" style={{ whiteSpace: 'pre-wrap' }}>{item?.message}</div>}
-                                    {item?.photo && <img src={`${baseURL}${item?.photo}`} className="w-[50%] ms-auto" alt="" />}
-                                    {item?.video && <video className='w-[50%] ms-auto' controls>
+                                    {item?.message && <div className="p-4 bg-[#E0DEF7] rounded-lg w-[250px] lg:w-[350px]" style={{ whiteSpace: 'pre-wrap' }}>{item?.message}</div>}
+                                    {item?.photo && <img src={`${baseURL}${item?.photo}`} className="w-[250px] lg:w-[350px] ms-auto" alt="" />}
+                                    {item?.video && <video className='w-[250px] lg:w-[350px] ms-auto' controls>
                                         <source src={`${baseURL}${item?.video}`} type="video/mp4" />
                                     </video>}
 
@@ -198,9 +198,9 @@ const MessageList = () => {
                         else {
                             return <div key={item.id} className="flex gap-4 mt-6 justify-start px-6 lg:px-10">
                                 <div>
-                                    {item?.message && <p className="p-4 bg-white rounded-lg border-2 border-indigo-100">{item?.message}</p>}
-                                    {item?.photo && <img src={`${baseURL}${item?.photo}`} className="w-[50%] me-auto" alt="" />}
-                                    {item?.video && <video className='w-[50%] me-auto' controls>
+                                    {item?.message && <p className="p-4 bg-white w-[250px] lg:w-[350px] rounded-lg border-2 border-indigo-100">{item?.message}</p>}
+                                    {item?.photo && <img src={`${baseURL}${item?.photo}`} className="w-[250px] lg:w-[350px] me-auto" alt="" />}
+                                    {item?.video && <video className='w-[250px] lg:w-[350px] me-auto' controls>
                                         <source src={`${baseURL}${item?.video}`} type="video/mp4" />
                                     </video>}
 

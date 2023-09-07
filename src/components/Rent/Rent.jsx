@@ -49,7 +49,6 @@ const Rent = () => {
             fetch(`${baseURL}/search/home-listings/?location=${location}&page=1`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
                     'Content-Type': 'application/json',
                 }
             })
@@ -69,7 +68,6 @@ const Rent = () => {
             fetch(`${baseURL}/search/room-seekers/?location=${location}&page=1`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
                     'Content-Type': 'application/json',
                 }
             })
@@ -97,7 +95,6 @@ const Rent = () => {
             fetch(`${baseURL}/search/home-listings/?location=${location}&page=${page}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
                     'Content-Type': 'application/json',
                 }
             })
@@ -117,7 +114,7 @@ const Rent = () => {
             fetch(`${baseURL}/search/room-seekers/?location=${location}&page=${page}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+                   
                     'Content-Type': 'application/json',
                 }
             })

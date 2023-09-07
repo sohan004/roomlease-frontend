@@ -37,6 +37,7 @@ import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import verifyed from '../../assets/profileIcon/Untitled-1.png'
 import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
+import blank from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
 
 
 // Import Swiper styles
@@ -408,7 +409,7 @@ const HomeOwnerListingCardDetails = () => {
                             <img src={img3} className='w-full h-full   rounded-lg' alt="" />
                             <button className='btn hidden absolute lg:flex items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
                         </div> */}
-                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="5"></textarea>
                         <div className='text-right'>
                             <button disabled={+listingDetails?.user == +userData?.user_id} onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white w-full'>send message</button>
                         </div>
@@ -462,7 +463,7 @@ const HomeOwnerListingCardDetails = () => {
                             <div className='flex lg:items-center flex-col lg:flex-row gap-y-8 lg:justify-between'>
                                 <div className='flex items-center gap-3'>
                                     <div className='rounded-full w-16 h-16 overflow-hidden relative'>
-                                        <img src={listingUser?.profile_picture} className='rounded-full h-16 w-16' alt="" />
+                                        <img src={listingUser?.profile_picture ? listingUser?.profile_picture : blank} className='rounded-full h-16 w-16' alt="" />
                                         {listingUser?.verified && <img src={verifyed2} className='absolute w-full  bottom-0' alt="" />}
                                     </div>
                                     <div>
@@ -471,8 +472,11 @@ const HomeOwnerListingCardDetails = () => {
                                     </div>
                                 </div>
                                 <div className='flex lg:items-center gap-4 flex-col lg:flex-row'>
-                                    <button className="btn flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">Ask a question</button>
-                                    <button className="btn  flex-grow lg:flex-grow-0 bg-[#E8E6F9] text-[#7065F0]"><img src={qn} alt="" /> Get more info</button>
+                                    <button onClick={() => {
+                                        if (!userData) return navigate('/otp-send')
+                                        navigate(`/message/${listingUser?.user_id}`)
+                                    }} className="btn flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">send message</button>
+
                                 </div>
                             </div>
                         </div>

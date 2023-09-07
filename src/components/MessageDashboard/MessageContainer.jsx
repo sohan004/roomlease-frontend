@@ -59,7 +59,7 @@ const MessageContainer = ({ setTf, d }) => {
                             <p className="font-bold">{oponent?.full_name}</p>
                             <p className="opacity-60">{d.last_time}</p>
                         </div>
-                        <p className="text-sm my-1 font-medium">{d.last_message}</p>
+                        <p className="text-sm my-1 font-medium">{d.last_message.slice(0, 50)}</p>
                         {/* <p className="text-sm">{'Emily Brown is a determined entrepreneur with a vision to make a positive impact in the world. She is the founder of a successful social enterprise that focuses on sustainable fashion and empowers local artisans. Emily believes in the importance of ethical business practices and aims to create a brand that promotes environmental conservation.'.slice(0, 80)}...</p> */}
                     </div>
                 </div></NavLink>
