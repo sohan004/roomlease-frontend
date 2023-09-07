@@ -1,11 +1,24 @@
 import React from 'react';
 import useTitle from '../Hook/useTitle';
+import { useState } from 'react';
 
 const Contact = () => {
     useTitle("Contact Us")
+    const [subject, setSubject] = useState('')
+    const [message, setMessage] = useState('')
+    const [email, setEmail] = useState('')
+    const sendMessage = (e) => {
+        if (subject === '' || message === '' || email === '') {
+            return
+        }
+
+        //use mailto
+        window.location.href = `mailto:info@roomlease.com.au?subject=${subject}&body=${message}`
+
+    }
     return (
         <div>
-           
+
             <div
                 className="max-w-screen-xl mt-10 px-8 grid gap-8 grid-cols-1 md:grid-cols-2 md:px-12 lg:px-16 xl:px-32 py-16 mx-auto bg-gray-100 text-gray-900 rounded-lg shadow-lg">
                 <div className="flex flex-col justify-between">
@@ -16,7 +29,7 @@ const Contact = () => {
                         </div>
                     </div>
                     <div className="mt-8 text-center">
-                        <svg className="w-full" xmlns="http://www.w3.org/2000/svg"  xlink="http://www.w3.org/1999/xlink"
+                        <svg className="w-full" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink"
                             id="ae37f038-3a9e-4b82-ad68-fc94ba16af2a" data-name="Layer 1"
                             viewBox="0 0 1096 574.74">
                             <defs>
@@ -515,22 +528,23 @@ const Contact = () => {
                 </div>
                 <div className="">
                     <div>
-                        <span className="uppercase text-sm text-gray-600 font-bold">Full Name</span>
-                        <input className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                            type="text" placeholder=""/>
+                        <span className="uppercase text-sm text-gray-600 font-bold">Subject</span>
+                        <input value={subject} onChange={e => setSubject(e.target.value)} className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                            type="text" />
                     </div>
                     <div className="mt-8">
                         <span className="uppercase text-sm text-gray-600 font-bold">Email</span>
-                        <input className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                            type="text"/>
+                        <input value={email} onChange={e => setEmail(e.target.value)} className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                            type="text" />
+
                     </div>
                     <div className="mt-8">
                         <span className="uppercase text-sm text-gray-600 font-bold">Message</span>
-                        <textarea
+                        <textarea value={message} onChange={e => setMessage(e.target.value)}
                             className="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"></textarea>
                     </div>
                     <div className="mt-8">
-                        <button
+                        <button onClick={() => sendMessage()}
                             className="uppercase text-sm font-bold tracking-wide bg-indigo-500 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline">
                             Send Message
                         </button>
