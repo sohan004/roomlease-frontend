@@ -52,7 +52,7 @@ const MessageDashboard = () => {
 
     const [tf, setTf] = useState(true)
     const [reFetch, setReFetch] = useState(1)
-    
+
 
 
     useEffect(() => {
@@ -136,14 +136,7 @@ const MessageDashboard = () => {
                         </div>
                     </div>
                     <div className="w-full lg:w-[70%]">
-                        <div className="w-full border-b bg-white">
-                            <div className=" px-4  py-4  flex items-center justify-between">
 
-                                <p className="text-2xl hidden lg:block font-bold">Messages</p>
-                                <img onClick={() => setTf(true)} src={menu} className="lg:hidden cursor-pointer" alt="" />
-
-                            </div>
-                        </div>
 
 
 
@@ -152,9 +145,7 @@ const MessageDashboard = () => {
 
 
                         {/* message design */}
-                        <div className="w-full  relative h-[90vh] overflow-y-auto bg-gradient-to-r from-[#E7E6F9] via-[#F6F5FC]  to-[#E7E6F9]">
-                            <Outlet></Outlet>
-                        </div>
+                        <Outlet setTf={setTf}></Outlet>
 
                     </div>
                 </div>

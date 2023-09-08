@@ -464,7 +464,7 @@ const HomeOwnerListingCardDetails = () => {
                                 <div className='flex items-center gap-3'>
                                     <div className='rounded-full w-16 h-16 overflow-hidden relative'>
                                         <img src={listingUser?.profile_picture ? listingUser?.profile_picture : blank} className='rounded-full h-16 w-16' alt="" />
-                                        {listingUser?.verified && <img src={verifyed2} className='absolute w-full  bottom-0' alt="" />}
+                                        {listingUser?.verified && <img src={verifyed2} className='absolute w-full  rotate-[25deg] left-1 opacity-70 -bottom-1' alt="" />}
                                     </div>
                                     <div>
                                         <p className='font-semibold'>{listingUser?.full_name}</p>
