@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Select from 'react-select';
 import calender from '../../assets/rentIcon/Icon.svg'
 import arow from '../../assets/rentIcon/Icon (1).svg'
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import ico1 from '../../assets/sec3Icon/Bath.svg'
 import ico2 from '../../assets/sec3Icon/Bed.svg'
 import ico3 from '../../assets/sec3Icon/Frame (1).svg'
@@ -10,18 +10,31 @@ import ico4 from '../../assets/sec3Icon/Frame.svg'
 import ico9 from '../../assets/sec3Icon/Square Meters.svg'
 import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
+import arrow from '../../assets/mapIcon/Icon.svg'
+import search from '../../assets/mapIcon/Icon (1).svg'
+import plus from '../../assets/mapIcon/Icon (2).svg'
+import topArrow from '../../assets/mapIcon/Frame.svg'
+import box from '../../assets/mapIcon/box.svg'
+import list from '../../assets/mapIcon/list.svg'
+import { NavLink } from 'react-router-dom'
+import filter from '../../assets/mapIcon/filter.svg'
+import rangepic from '../../assets/mapIcon/Range.png'
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
+import minus from '../../assets/mapIcon/Button.svg'
+import plusicon from '../../assets/mapIcon/Button (1).svg'
+import fill from '../../assets/mapIcon/Radio Button.svg'
+import blank from '../../assets/mapIcon/Radio Button (1).svg'
+import cross from '../../assets/mapIcon/cross.svg'
 import ReactPaginate from "react-paginate";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
 import { baseURL } from "../../App";
 import ListingCard from "../ListingCard/ListingCard";
 import LoadingCard from "../LoadingCard/LoadingCard";
-
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+import Autocomplete from "react-google-autocomplete";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+import { useContext } from "react";
 
 
 
@@ -38,9 +51,10 @@ const Rent = () => {
     const [loading, setLoading] = useState(true);
     const [btnState, setBtnState] = useState(true);
     const [reFatch, setReFatch] = useState(1)
+    const { userData } = useContext(AuthContext)
 
     const [listingData, setListingData] = useState([])
-
+    const [value, setValue] = useState([1, 1500000]);
 
 
     useEffect(() => {
@@ -114,7 +128,7 @@ const Rent = () => {
             fetch(`${baseURL}/search/room-seekers/?location=${location}&page=${page}`, {
                 method: 'GET',
                 headers: {
-                   
+
                     'Content-Type': 'application/json',
                 }
             })
@@ -134,9 +148,11 @@ const Rent = () => {
         }
     }
 
+    const [type2, setType2] = useState('')
+    const [addresEmpty, setAddresEmpty] = useState('')
+    const [suburbValue, setSuburbValue] = useState([])
 
 
-    const [selectedOption, setSelectedOption] = useState(null);
     const [data, setData] = useState([])
     useEffect(() => {
         fetch('data.json')
@@ -144,35 +160,6 @@ const Rent = () => {
             .then(d => setData(d))
     }, [])
 
-    const popular = [
-        {
-            id: 1,
-            price: 1800,
-            name: 'Hotel Relax',
-            address: '12/1200 Mohakhali Dhaka',
-            bed: 3,
-            bath: 2,
-            size: '5 x 7',
-        },
-        {
-            id: 2,
-            price: 1800,
-            name: 'Hotel Relax',
-            address: '12/1200 Mohakhali Dhaka',
-            bed: 3,
-            bath: 2,
-            size: '5 x 7',
-        },
-        {
-            id: 3,
-            price: 1800,
-            name: 'Hotel Relax',
-            address: '12/1200 Mohakhali Dhaka',
-            bed: 3,
-            bath: 2,
-            size: '5 x 7',
-        },
-    ]
 
 
     // paginate functino 
@@ -193,6 +180,7 @@ const Rent = () => {
         );
         setItemOffset(newOffset);
     };
+    const [right, setRight] = useState(false)
 
     if (loading) {
         return <LoadingCard></LoadingCard>
@@ -201,6 +189,102 @@ const Rent = () => {
     return (
         <div className=" bg-[#F7F7FD]">
             <div className="max-w-[1440px] mx-auto px-4 py-5">
+
+                {right && <div onClick={() => setRight(false)} className="fixed left-0 top-0 w-full bg-opacity-40 h-full bg-black z-30">
+
+                </div>}
+
+
+                <div className={`bg-white  duration-500 fixed   h-full overflow-y-auto ${right ? 'right-0 w-full  lg:w-[423px]' : '-right-[150%]'} border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
+                    <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
+                    <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
+                    <p className='font-semibold   mb-3 '>Category</p>
+                    <div className='flex items-center gap-3 pb-6 mb-6 border-b'>
+                        <button className='btn bg-[#7065F0] text-white '>Houses</button>
+                        <button className='btn bg-transparent border border-black '>Apartment</button>
+                        <button className='btn bg-transparent border border-black '>Rooms</button>
+                    </div>
+                    <p className='font-bold mb-3 '>Price Range</p>
+                    <img className='mx-auto' src={rangepic} alt="" />
+                    <RangeSlider id="range-slider-yellow" className='bg-slate-800 ' min={1} max={1500000} value={value} onInput={setValue} />
+                    <div className='mt-3 flex items-center justify-between pb-6 mb-6 border-b'>
+                        <p className='font-bold text-lg'>${value[0]}</p>
+                        <p className='font-bold text-lg'>${value[1]}</p>
+                    </div>
+                    <p className='font-bold mb-4'>Features</p>
+                    <div className='my-4 pb-6 border-b flex flex-col gap-4'>
+                        <div className='flex items-center justify-between'>
+                            <p className=''>Bedroom</p>
+                            <p className='flex items-center gap-2'><img src={minus} alt="" /> 4 <img src={plusicon} alt="" /></p>
+                        </div>
+                        <div className='flex items-center justify-between'>
+                            <p className=''>Bathroom</p>
+                            <p className='flex items-center gap-2'><img src={minus} alt="" /> 2 <img src={plusicon} alt="" /></p>
+                        </div>
+                    </div>
+                    <p className='font-bold mb-4'>Rental Period</p>
+                    <p className='flex items-center gap-2 mb-5'><img src={fill} alt="" /> Any</p>
+                    <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 1 - 12 months</p>
+                    <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 13 - 24 months</p>
+                    <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 24+ months</p>
+                    <div className='flex justify-center items-center gap-6 mt-16'>
+                        <button className='btn text-[#7065F0]  flex-grow'>Reset</button>
+                        <button className='btn bg-[#7065F0] text-white flex-grow '>Apply</button>
+                    </div>
+                </div>
+
+
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
+                    <div className=" grid grid-cols-2   text-center font-medium  ">
+                        <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                        <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
+  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
+                    </div>
+
+                    <div className="lg:col-span-2">
+                        <Autocomplete
+
+                            className="w-full    border border-[#7065F0]  focus:outline-none py-3 px-5 h-[50px]   bg-[#f6f6ff] "
+                            apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+
+                            options={{
+                                componentRestrictions: { country: "au" },
+                            }}
+                            value={addresEmpty}
+                            onChange={e => setAddresEmpty(e.target.value)}
+                            onPlaceSelected={(place) => {
+                                if (place.formatted_address) {
+                                    const address = place.formatted_address
+                                    setSuburbValue(prevSuburbValue => [...prevSuburbValue, address]);
+                                    setAddresEmpty('')
+                                }
+                            }}
+                        />
+                        {suburbValue.length > 0 && <>
+                            <div className="p-2  flex flex-wrap gap-3 border-t-0 border-[#7065F0] border w-full ">
+                                {suburbValue.map((sub, i) => {
+                                    return <p className="bg-slate-200 flex items-center gap-1" key={i}>{sub} <FaTimes onClick={() => { setSuburbValue(suburbValue.filter((_, index) => index !== i)); }} className=' text-2xl text-white bg-[#7065F0] rounded-full p-1 cursor-pointer'></FaTimes></p>
+
+                                })}
+                            </div>
+                        </>}
+                    </div>
+
+                    <button
+                        onClick={() => {
+                            const urlString = suburbValue.join(', ')
+                            // console.log(urlString);
+                            navigate(`/rent?type=${type}&location=${urlString}`)
+                            setSuburbValue([])
+
+                        }} className='btn h-[50px] w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>search</button>
+
+                    <button onClick={() => setRight(true)} className='btn border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>+ more filters</button>
+                </div>
+
+
+
                 {listingData.length > 0 && <h1 className="text-xl font-medium">This listing for {location ? location : type}</h1>}
                 {/* <div className="flex items-center flex-col justify-center gap-y-8 text-center lg:flex-row lg:justify-between">
                     <h1 className=" font-bold text-4xl">Search properties to rent</h1>
