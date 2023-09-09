@@ -35,6 +35,8 @@ import LoadingCard from "../LoadingCard/LoadingCard";
 import Autocomplete from "react-google-autocomplete";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useContext } from "react";
+import HomeOwnerSearchOption from "./HomeOwnerSearchOption";
+import RoomSeekerSearchOption from "./RoomSeekerSearchOption";
 
 
 
@@ -44,8 +46,28 @@ const Rent = () => {
 
 
     const quary = new URLSearchParams(useLocation().search)
-    const type = quary.get('type')
-    const location = quary.get('location')
+    const type = quary.get('type') || ''
+    const location = quary.get('location') || ''
+    const house_type = quary.get('house_type') || ''
+    const parking_option = quary.get('parking_option') || ''
+    const rent_per_week_single = quary.get('rent_per_week_single') || ''
+    const rent_per_week_couple = quary.get('rent_per_week_couple') || ''
+    const bond = quary.get('bond') || ''
+    const bills_included_in_rent = quary.get('bills_included_in_rent') || ''
+    const bedroom_type = quary.get('bedroom_type') || ''
+    const private_bathroom = quary.get('private_bathroom') || ''
+    const bed_size = quary.get('bed_size') || ''
+    const room_features = quary.get('room_features') || ''
+    const amenities = quary.get('amenities') || ''
+    const place_friendliness = quary.get('place_friendliness') || ''
+    const nearby_community_spaces = quary.get('nearby_community_spaces') || ''
+    const public_transport_access = quary.get('public_transport_access') || ''
+    const gender = quary.get('gender') || ''
+    const age_range = quary.get('age_range') || ''
+    const ids_and_checks = quary.get('ids_and_checks') || ''
+    const occupation_preference = quary.get('occupation_preference') || ''
+    const looking_place = quary.get('looking_place') || ''
+
     const [page, setPage] = useState(1)
 
     const [loading, setLoading] = useState(true);
@@ -57,10 +79,18 @@ const Rent = () => {
     const [value, setValue] = useState([1, 1500000]);
 
 
+    const path1 = `${baseURL}/search/home-listings/?location=${location}&page=${page}&house_type=${house_type}&parking_option=${parking_option}&rent_per_week_single=${rent_per_week_single}&rent_per_week_couple=${rent_per_week_couple}&bond=${bond}&bills_included_in_rent=${bills_included_in_rent}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
+
+    const path2 = `${baseURL}/search/room-seekers/?location=${location}&page=${page}&looking_place=${looking_place}&house_type=${house_type}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
+
+    //give me path 
+
+
     useEffect(() => {
         setBtnState(true)
         if (type == 'homeowner') {
-            fetch(`${baseURL}/search/home-listings/?location=${location}&page=1`, {
+            console.log(path1);
+            fetch(path1, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,6 +98,7 @@ const Rent = () => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     setListingData(data);
                     setLoading(false);
                     if (data.length < 12) {
@@ -79,7 +110,7 @@ const Rent = () => {
                 })
         }
         if (type == 'roomseeker') {
-            fetch(`${baseURL}/search/room-seekers/?location=${location}&page=1`, {
+            fetch(path2, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,12 +132,12 @@ const Rent = () => {
         }
     }, [type, location, reFatch])
 
-    console.log(listingData);
+    // console.log(listingData);
 
     const paginateFunctiono = () => {
         setBtnState(true)
         if (type == 'homeowner') {
-            fetch(`${baseURL}/search/home-listings/?location=${location}&page=${page}`, {
+            fetch(path1, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,7 +156,7 @@ const Rent = () => {
                 })
         }
         if (type == 'roomseeker') {
-            fetch(`${baseURL}/search/room-seekers/?location=${location}&page=${page}`, {
+            fetch(path2, {
                 method: 'GET',
                 headers: {
 
@@ -148,7 +179,7 @@ const Rent = () => {
         }
     }
 
-    const [type2, setType2] = useState('')
+    const [type2, setType2] = useState(type ? type : 'homeowner')
     const [addresEmpty, setAddresEmpty] = useState('')
     const [suburbValue, setSuburbValue] = useState([])
 
@@ -164,6 +195,7 @@ const Rent = () => {
 
     // paginate functino 
     const [itemOffset, setItemOffset] = useState(0);
+    const [category, setCategory] = useState('homeowner')
 
     // Simulate fetching items from another resources.
     // (This could be items from props; or items loaded in a local state
@@ -182,6 +214,8 @@ const Rent = () => {
     };
     const [right, setRight] = useState(false)
 
+
+
     if (loading) {
         return <LoadingCard></LoadingCard>
     }
@@ -199,38 +233,67 @@ const Rent = () => {
                     <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
                     <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
                     <p className='font-semibold   mb-3 '>Category</p>
-                    <div className='flex items-center gap-3 pb-6 mb-6 border-b'>
-                        <button className='btn bg-[#7065F0] text-white '>Houses</button>
-                        <button className='btn bg-transparent border border-black '>Apartment</button>
-                        <button className='btn bg-transparent border border-black '>Rooms</button>
+                    <div className=" grid grid-cols-2   text-center font-medium  ">
+                        <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                        <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
+  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
                     </div>
-                    <p className='font-bold mb-3 '>Price Range</p>
+                    {/* <p className='font-bold mb-3 '>Price Range</p>
                     <img className='mx-auto' src={rangepic} alt="" />
                     <RangeSlider id="range-slider-yellow" className='bg-slate-800 ' min={1} max={1500000} value={value} onInput={setValue} />
                     <div className='mt-3 flex items-center justify-between pb-6 mb-6 border-b'>
                         <p className='font-bold text-lg'>${value[0]}</p>
                         <p className='font-bold text-lg'>${value[1]}</p>
-                    </div>
-                    <p className='font-bold mb-4'>Features</p>
-                    <div className='my-4 pb-6 border-b flex flex-col gap-4'>
-                        <div className='flex items-center justify-between'>
-                            <p className=''>Bedroom</p>
-                            <p className='flex items-center gap-2'><img src={minus} alt="" /> 4 <img src={plusicon} alt="" /></p>
-                        </div>
-                        <div className='flex items-center justify-between'>
-                            <p className=''>Bathroom</p>
-                            <p className='flex items-center gap-2'><img src={minus} alt="" /> 2 <img src={plusicon} alt="" /></p>
-                        </div>
-                    </div>
-                    <p className='font-bold mb-4'>Rental Period</p>
-                    <p className='flex items-center gap-2 mb-5'><img src={fill} alt="" /> Any</p>
-                    <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 1 - 12 months</p>
-                    <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 13 - 24 months</p>
-                    <p className='flex items-center gap-2 mb-5'><img src={blank} alt="" /> 24+ months</p>
-                    <div className='flex justify-center items-center gap-6 mt-16'>
-                        <button className='btn text-[#7065F0]  flex-grow'>Reset</button>
-                        <button className='btn bg-[#7065F0] text-white flex-grow '>Apply</button>
-                    </div>
+                    </div> */}
+                    {category === 'homeowner' ? <HomeOwnerSearchOption
+                        type={type}
+                        location={location}
+                        house_type={house_type}
+                        parking_option={parking_option}
+                        rent_per_week_single={rent_per_week_single}
+                        rent_per_week_couple={rent_per_week_couple}
+                        bond={bond}
+                        bills_included_in_rent={bills_included_in_rent}
+                        bedroom_type={bedroom_type}
+                        private_bathroom={private_bathroom}
+                        bed_size={bed_size}
+                        room_features={room_features}
+                        amenities={amenities}
+                        place_friendliness={place_friendliness}
+                        nearby_community_spaces={nearby_community_spaces}
+                        public_transport_access={public_transport_access}
+                        gender={gender}
+                        age_range={age_range}
+                        ids_and_checks={ids_and_checks}
+                        occupation_preference={occupation_preference}
+                        looking_place={looking_place}
+                    ></HomeOwnerSearchOption> :
+                        <RoomSeekerSearchOption
+                            type={type}
+                            location={location}
+                            house_type={house_type}
+                            parking_option={parking_option}
+                            rent_per_week_single={rent_per_week_single}
+                            rent_per_week_couple={rent_per_week_couple}
+                            bond={bond}
+                            bills_included_in_rent={bills_included_in_rent}
+                            bedroom_type={bedroom_type}
+                            private_bathroom={private_bathroom}
+                            bed_size={bed_size}
+                            room_features={room_features}
+                            amenities={amenities}
+                            place_friendliness={place_friendliness}
+                            nearby_community_spaces={nearby_community_spaces}
+                            public_transport_access={public_transport_access}
+                            gender={gender}
+                            age_range={age_range}
+                            ids_and_checks={ids_and_checks}
+                            occupation_preference={occupation_preference}
+                            looking_place={looking_place}
+                        ></RoomSeekerSearchOption>}
+
+
+
                 </div>
 
 
@@ -275,7 +338,7 @@ const Rent = () => {
                         onClick={() => {
                             const urlString = suburbValue.join(', ')
                             // console.log(urlString);
-                            navigate(`/rent?type=${type}&location=${urlString}`)
+                            window.location.href = `/rent?type=${type2}&location=${urlString}`
                             setSuburbValue([])
 
                         }} className='btn h-[50px] w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>search</button>
