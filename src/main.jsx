@@ -19,6 +19,7 @@ import HomeWoner from './components/Account/HomeWoner.jsx'
 import RoomSeeker from './components/Account/RoomSeeker.jsx'
 import HomeownerPricing from './components/Pricing/HomeownerPricing.jsx'
 import RoomSeekerPricing from './components/Pricing/RoomSeekerPricing.jsx'
+import StripePayment from './components/Pricing/StripePayment.jsx'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx'
 import Profile from './components/Profile/Profile.jsx'
 import AuthProvider from './components/AuthProvider/AuthProvider.jsx'
@@ -45,6 +46,7 @@ import EmtyMessage from './components/MessageDashboard/EmtyMessage.jsx'
 import HomeOwnerListingCardDetails from './components/Details/HomeOwnerListingCardDetails.jsx'
 import RoomSeekerListingDetails from './components/Details/RoomSeekerListingDetails.jsx'
 import AllListing from './components/AllListing/AllListing.jsx'
+import PaypalPayment from './components/Pricing/PaypalPayment.jsx'
 
 
 const router = createBrowserRouter([
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
       {
         path: '/roomseeker-pricing',
         element: <RoomSeekerPricing></RoomSeekerPricing>
+      },
+      {
+        path: '/stripe-payment',
+        element: <StripePayment></StripePayment>
+      },
+      {
+        path: '/paypal-payment',
+        element: <PaypalPayment></PaypalPayment>
       },
       {
         path: '/profile',

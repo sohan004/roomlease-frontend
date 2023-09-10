@@ -5,7 +5,7 @@ import opportunity from '../../assets/aboutPageIcon/opportunity.png'
 import valu from '../../assets/aboutPageIcon/value.png'
 import united from '../../assets/aboutPageIcon/united.png'
 import journey from '../../assets/aboutPageIcon/customer-behavior.png'
-import ReactImageMagnify from "react-image-magnify";
+// import ReactImageMagnify from "react-image-magnify";
 
 
 const About = () => {
