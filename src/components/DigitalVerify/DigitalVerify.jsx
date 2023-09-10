@@ -24,7 +24,7 @@ const DigitalVerify = () => {
                 onComplete: function (msg) {
                     console.log(msg);
                     setLoading(true);
-                    const url = `${baseURL}/account/digital-id/}`
+                    const url = `${baseURL}/account/digital-id/`
                     fetch(url, {
                         method: 'POST',
                         headers: {
@@ -66,7 +66,9 @@ const DigitalVerify = () => {
         <div className="text-center mt-7">
             {loading ?
                 <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
+                    <div className='flex justify-start items-center my-12 text-center'>
+                        <span className="loading loading-spinner loading-lg mx-auto"></span>
+                    </div>
                 </div>
                 : <div id="digitalid-verify"></div>}
 

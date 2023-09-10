@@ -4,7 +4,7 @@ import { useState } from "react";
 import Select from 'react-select';
 import calender from '../../assets/rentIcon/Icon.svg'
 import arow from '../../assets/rentIcon/Icon (1).svg'
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import ico1 from '../../assets/sec3Icon/Bath.svg'
 import ico2 from '../../assets/sec3Icon/Bed.svg'
 import ico3 from '../../assets/sec3Icon/Frame (1).svg'
@@ -14,11 +14,14 @@ import img from '../../assets/sec3Icon/dillon-kydd-XGvwt544g8k-unsplash 1.png'
 import kona from '../../assets/sec3Icon/Vector 2.svg'
 
 
+
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
 import ListingCard from "../ListingCard/ListingCard";
 import LoadingCard from "../LoadingCard/LoadingCard";
+import { useContext } from "react";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const Matches = () => {
 
@@ -26,7 +29,7 @@ const Matches = () => {
     const [list, setList] = useState([]);
     const [showMore, setShowMore] = useState(false);
     const [pageNum, setPageNum] = useState(1);
-    const [userData, setUserData] = useState(null)
+    const { userData } = useContext(AuthContext)
     const [reFatch, setReFatch] = useState(1)
     const navigate = useNavigate()
 
@@ -88,9 +91,24 @@ const Matches = () => {
                 console.log(err)
             })
     }, [reFatch]);
+    const [type, setType] = useState('')
+    const [addresEmpty, setAddresEmpty] = useState('')
+    const [suburbValue, setSuburbValue] = useState([])
+
+    useEffect(() => {
+        if (!userData) return
+        if (userData?.account_type == 'roomseeker') {
+            setType('homeowner')
+        }
+        if (userData?.account_type == 'homeowner') {
+            setType('roomseeker')
+        }
+    }, [userData])
     // console.log(list)
     return (
         <div className="max-w-[1440px] mx-auto px-3">
+          
+
             {!loading && <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
                 {list.map(p => <ListingCard setReFatch={setReFatch} reFatch={reFatch} key={p.id} p={p} />)}
             </div>}

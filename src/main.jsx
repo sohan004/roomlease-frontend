@@ -47,6 +47,9 @@ import HomeOwnerListingCardDetails from './components/Details/HomeOwnerListingCa
 import RoomSeekerListingDetails from './components/Details/RoomSeekerListingDetails.jsx'
 import AllListing from './components/AllListing/AllListing.jsx'
 import PaypalPayment from './components/Pricing/PaypalPayment.jsx'
+import ListingAddPrivateRoute from './components/ListingAddPrivateRoute/ListingAddPrivateRoute.jsx'
+import CardPayment from './components/CardPayment/CardPayment.jsx'
+import BenifitsOfUpgrade from './components/BenifitsOfUpgrade/BenifitsOfUpgrade.jsx'
 
 
 const router = createBrowserRouter([
@@ -80,11 +83,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/homeowner',
-        element: <ListingPrivate><PrivateRoute><HomeWoner></HomeWoner></PrivateRoute></ListingPrivate>
+        element: <ListingAddPrivateRoute><HomeWoner></HomeWoner></ListingAddPrivateRoute>
       },
       {
         path: '/roomseeker',
-        element: <ListingPrivate><PrivateRoute><RoomSeeker></RoomSeeker></PrivateRoute></ListingPrivate>
+        element: <ListingAddPrivateRoute><RoomSeeker></RoomSeeker></ListingAddPrivateRoute>
       },
       {
         path: '/sign-in',
@@ -126,7 +129,7 @@ const router = createBrowserRouter([
         path: '/digital-verify',
         element: <DigitalVerify></DigitalVerify>
       },
-        
+
       {
         path: '/about',
         element: <About></About>
@@ -147,7 +150,11 @@ const router = createBrowserRouter([
         path: '/digital-id-checks',
         element: <DigitalIdChecks></DigitalIdChecks>
       },
-        
+      {
+        path: '/card-payment',
+        element: <CardPayment></CardPayment>
+      },
+
       {
         path: '/faq',
         element: <Faq></Faq>
@@ -163,6 +170,10 @@ const router = createBrowserRouter([
       {
         path: '/blog',
         element: <Blog></Blog>
+      },
+      {
+        path: '/Benifits-of-upgrade',
+        element: <BenifitsOfUpgrade></BenifitsOfUpgrade>
       },
       {
         path: '/career',
@@ -192,7 +203,7 @@ const router = createBrowserRouter([
         path: '/all-listing',
         element: <AllListing></AllListing>
       },
-        
+
     ]
   },
   {

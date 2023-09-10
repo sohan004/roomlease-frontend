@@ -587,7 +587,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <input defaultValue={listing?.age} onChange={(e) => setAge(e.target.value)} placeholder="age" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
+                            <input defaultValue={listing?.age} onChange={(e) => setAge(e.target.value)} placeholder="age" type="text" name="" className="w-full   bg-white py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
@@ -624,8 +624,8 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
 
                 </div>
                 <div className="text-center flex flex-col lg:flex-row items-center gap-4 mt-7">
-                    <button onClick={() => setRoomEdit(false)} className="btn bg-slate-300 flex-grow">cancel</button>
-                    <button disabled={load} className='btn flex-grow  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
+                    <button onClick={() => setRoomEdit(false)} className="btn bg-slate-300 border-0 flex-grow">cancel</button>
+                    <button disabled={load} className='btn flex-grow border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
                 </div>
             </form>
             <ToastContainer></ToastContainer>

@@ -18,6 +18,7 @@ import DatePicker, { Calendar } from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import verifyed from '../../assets/profileIcon/Untitled-1.png'
+import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -113,6 +114,22 @@ const Profile = () => {
     const [parking, setParking] = useState('')
     const [videoDetails, setVideoDetails] = useState({})
     const [imgRefresh, setImgRefresh] = useState(1)
+    const [userAllListing, setUserAllListing] = useState([])
+
+
+    useEffect(() => {
+        fetch(`${baseURL}/listing/my-all-listings/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setUserAllListing(data);
+            })
+    }, [])
 
     useEffect(() => {
         if (!listing) {
@@ -223,7 +240,7 @@ const Profile = () => {
 
     const profileUpdate = () => {
         const useObjectData = userData
-        useObjectData.bio = titleValue ? titleValue : userData.bio
+        useObjectData.bio = titleValue
 
         fetch(`${baseURL}/account/api/profile/${userData.id}/`, {
             method: 'PUT',
@@ -616,7 +633,7 @@ const Profile = () => {
                 progress: undefined,
             });
         }
-        
+
         const vd = e.target.files[0]
         if (vd.type === 'video/mp4' || vd.type === 'video/mkv' || vd.type === 'video/avi') {
             if (!userData) return
@@ -852,22 +869,24 @@ const Profile = () => {
             <span className="loading loading-spinner loading-lg mx-auto"></span>
         </div>
     }
-    console.log(userData);
+    // console.log(userData);
     return (
         <div className='home'>
             <div className='max-w-[1440px] mx-auto px-4'>
-                <div className='flex flex-col lg:flex-row justify-center lg:items-end gap-9 lg:gap-14 pt-20'>
-                    <div className='w-full lg:w-[40%] '>
-                        <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  bg-white  bg-opacity-50'>
+                <div className='flex flex-col lg:flex-row justify-center lg:items-start gap-9 lg:gap-14 pt-20'>
+                    <div className='w-full lg:w-[40%] h-full bg-white   bg-opacity-50'>
+                        <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  '>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
 
-                                {userData?.verified && <img src={verifyed} className='absolute w-full -left-2 bottom-0' alt="" />}
+                                {userData?.verified && <img src={verifyed2} className='absolute w-full rotate-[25deg] left-1 opacity-70 -bottom-1' alt="" />}
 
                                 {userData?.profile_picture ?
                                     <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
                                     <img src={blankImag} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto   w-full `} alt="" />}
                                 <p className={`text-xl text-white cursor-pointer duration-300 absolute ${!profileImgState ? 'scale-0' : 'scale-100'} left-2/4  -translate-x-2/4 top-2/4 -translate-y-2/4`}>Edit</p>
                             </div>
+
+
                             <h1 className='font-semibold flex justify-center items-center gap-2 text-xl lg:text-2xl mt-7 mb-4'>
                                 {!nameEdit && userData?.full_name}
                                 {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
@@ -884,16 +903,16 @@ const Profile = () => {
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
                             <h1 className='  mt-4 text-center'>Make mobile number visible on profile?</h1>
                             <div className='flex mt-2 items-center justify-center gap-4'>
-                                <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary" checked={userData?.show_phone_number} />Yes</p>
-                                <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary" checked={!userData?.show_phone_number} />No</p>
+                                <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary bg-white" checked={userData?.show_phone_number} />Yes</p>
+                                <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary bg-white" checked={!userData?.show_phone_number} />No</p>
                             </div>
                             <p className='mt-4'>{userData?.subscription} Account</p>
                             <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
-                            <a href="" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</a>
+                            <Link to="/Benifits-of-upgrade" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
-                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md mt-10 '>
+                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md '>
                             <h1 className='text-lg: lg:text-xl font-semibold'>Why Digital iD verification by Australia Post?</h1>
                             <p className='mt-4 font-light'>Stand out as a verified member and join a community that values safety, integrity, and transparency.</p>
                             {userData?.verified ? <h1 className='text-xl font-medium flex items-center gap-2 mt-4'><BiSolidSelectMultiple className='text-2xl text-blue-500'></BiSolidSelectMultiple> Digital ID Verified</h1> : <DigitalVerify></DigitalVerify>}
@@ -906,11 +925,11 @@ const Profile = () => {
                             <progress className="progress rounded-none progress-success w-full h-12" value={score} max="100"></progress>
 
                         </div>
-                        <div className='px-4 lg:px-6 py-6 bg-white bg-opacity-50  border-2 rounded-md mt-6 '>
-                            <h1 className='text-center text-xl lg:text-2xl font-bold '>About you</h1>
+                        <div className='px-4 lg:px-6 py-4 bg-white bg-opacity-50  border-2 rounded-md mt-6 '>
+                            <h1 className='text-center text-xl  font-bold '>About you</h1>
                             <div className='flex justify-center items-center  gap-2 mt-3'>
-                                {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
-                                {!title && <p className='text-center  text-xl '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
+                                {title && <textarea onChange={e => setTitleValue(e.target.value)} defaultValue={userData?.bio} className='p-2 text-xl border w-full bg-white rounded max-w-[500px]' name="" id="" cols="30" rows="3"></textarea>}
+                                {!title && <p className='text-center '>{userData?.bio ? userData.bio : 'one or two line'}</p>}
                                 {!title && <FaEdit onClick={() => setTitle(true)} className='text-2xl text-[#7065F0] cursor-pointer' />}
                                 {title && <FaSave onClick={() => profileUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </div>
@@ -920,15 +939,39 @@ const Profile = () => {
 
 
 
+                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
 
+                    {userAllListing.length > 1 && userAllListing?.map((list, i) => <div onClick={() => setListing(list)} key={i} className={`p-2 cursor-pointer border-2 w-full hover:bg-[#dbd7fd] ${listing?.id == list?.id && 'bg-[#dbd7fd]'} duration-300 border-[#7065F0] rounded-md`}>
+                        <h1 className='text-2xl font-bold '>{list?.house_type ? list?.house_type : 'ToDo'}</h1>
+                        {userData?.account_type == 'homeowner' && <p className='font-medium text-gray-500'>{list?.home_address ? list?.home_address : 'Australia'}</p>}
+                        {userData?.account_type == 'roomseeker' && <p className='font-medium text-gray-500'>{list?.suburb ? list?.suburb[0] : 'Australia'}</p>}
+                    </div>)}
 
+                    <div onClick={() => {
+                        if (userData?.subscription == 'Free') {
+                            if (userData?.account_type == 'homeowner') {
+                                navigate('/homeowner-pricing')
+                            }
+                            if (userData?.account_type == 'roomseeker') {
+                                navigate('/roomseeker-pricing')
 
-                <div className='mt-10 lg:mt-20  flex justify-end gap-4'>
-                    <div className='flex items-center cursor-pointer border-2 border-[#7065F0] rounded-md'>
-                        <p className='text-5xl font-extrabold px-2 pb-2 border-e-2 border-[#7065F0] bg-[#7065F0] text-white'>+</p>
+                            }
+                        }
+                        else {
+                            if (userData?.account_type == 'homeowner') {
+                                navigate('/homeowner')
+                            }
+                            if (userData?.account_type == 'roomseeker') {
+                                navigate('/roomseeker')
+
+                            }
+                        }
+                    }} className='flex items-center cursor-pointer border-2 w-full border-[#7065F0] rounded-md'>
+                        <p className='text-5xl font-extrabold px-2 pb-2 border-e-2 h-full border-[#7065F0] bg-[#7065F0] text-white'>+</p>
                         <p className='py-4 flex-grow px-4 hover:bg-[#dbd7fd] cursor-pointer duration-300 h-full my-auto font-medium'>Add New Listing</p>
                     </div>
                 </div>
+
 
                 {userData?.account_type == 'homeowner' && <div className='grid grid-cols-4 lg:grid-cols-7 gap-3 mb-5'>
                     {img.map((im, i) => {
@@ -1204,6 +1247,8 @@ const Profile = () => {
 
                             const vlidarray = Array.isArray(listing[key]);
 
+                            const homeAddressListing = key == 'home_address' && listing[key].split(',')
+
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
                                 <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
@@ -1212,7 +1257,13 @@ const Profile = () => {
                                         {listing[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold text-xs lg:text-base'>{listing[key]}</p>
+                                        <p className='font-semibold text-xs lg:text-base'>{key == 'home_address' ?
+                                            <>
+                                                {homeAddressListing.length === 2 && homeAddressListing[0]}
+                                                {homeAddressListing.length > 2 && homeAddressListing[1]}
+
+                                            </>
+                                            : listing[key]}</p>
                                 }
 
                             </div>
@@ -1291,15 +1342,15 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex justify-center mb-6'>
+                    <div className='flex justify-center mb-6 gap-4'>
                         <button
                             onClick={() => {
                                 deleteListing()
                             }}
-                            className='btn border-0rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
+                            className='btn border-0rounded-none lg:w-56 mt-7 btn-lg border-0 hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
                         <button onClick={() => {
                             setRoomEdit(true)
-                        }} className='btn border-0rounded-none lg:w-56 mt-7 btn-lg  hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                        }} className='btn border-0rounded-none lg:w-56 mt-7 btn-lg border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
                     </div>
                 </div>}
 
@@ -1339,7 +1390,7 @@ const Profile = () => {
                 }
 
                 <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
-                    {fav.map(p => <ListingCard key={p.id} p={p} />)}
+                    {fav.map((p, i) => <ListingCard key={i} p={p} />)}
                 </div>
                 {/* <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-8'>
                     {favRoomSeeker.map(p => <ListingCard key={p.id} p={p} />)}
