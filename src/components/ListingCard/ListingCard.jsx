@@ -130,7 +130,7 @@ const ListingCard = ({ p,  reFatch }) => {
                 <div className='flex items-center justify-between'>
                     {p?.looking_place ? <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>{p?.looking_place}</h1> : <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>${p?.rent_per_week_single}<span className='text-base font-medium text-gray-500'>/week</span></h1>}
                     <div className='flex items-center gap-4'>
-                        <TbMessage2 className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
+                        <TbMessage2 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-5xl border p-3 rounded-full text-[#7065F0]'></TbMessage2>
                         {fav ? <MdFavorite className='text-[50px] border rounded-full p-3  text-[#7065F0] ' onClick={() => {
                             if (p?.looking_place) {
                                 roomSeekerFavouriteDelete(p.id)

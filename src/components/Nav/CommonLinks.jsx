@@ -24,7 +24,7 @@ export default function CommonLinks({ setUserData, userData }) {
       {/* <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink> */}
       {/* <p className='font-medium'>Pricing</p>
     <p className='font-medium'>Blog</p> */}
-      <div onClick={() => navigate('/matches')} className='border-b-2  cursor-pointer relative  border-[#100A55] flex flex-grow items-center justify-center px-4'>
+      <div onClick={() => navigate(`/rent?type=${userData?.account_type == 'homeowner' ? 'roomseeker' : 'homeowner'}&location=`)} className='border-b-2  cursor-pointer relative  border-[#100A55] flex flex-grow items-center justify-center px-4'>
         <FaSearch></FaSearch>
         {/* {searchDrpopDown && <div className='absolute top-0 left-0 w-full bg-white p-1 shadow-2xl lg:p-3  '>
 
@@ -75,7 +75,7 @@ export default function CommonLinks({ setUserData, userData }) {
 
 
         </div>} */}
-        <input value={''} readOnly  type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
+        <input value={''} readOnly type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
       </div>
       <Link to='/profile'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>

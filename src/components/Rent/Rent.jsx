@@ -229,7 +229,7 @@ const Rent = () => {
                 </div>}
 
 
-                <div className={`bg-white  duration-500 fixed   h-full overflow-y-auto ${right ? 'right-0 w-full  lg:w-[423px]' : '-right-[150%]'} border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
+                <div className={`bg-white  duration-500 fixed   h-full overflow-y-auto ${right ? 'right-0 w-full  lg:w-[500px]' : '-right-[150%]'} border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
                     <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
                     <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
                     <p className='font-semibold   mb-3 '>Category</p>
@@ -245,7 +245,7 @@ const Rent = () => {
                         <p className='font-bold text-lg'>${value[0]}</p>
                         <p className='font-bold text-lg'>${value[1]}</p>
                     </div> */}
-                    {category === 'homeowner' ? <HomeOwnerSearchOption
+                    {type2 === 'homeowner' ? <HomeOwnerSearchOption
                         type={type}
                         location={location}
                         house_type={house_type}
