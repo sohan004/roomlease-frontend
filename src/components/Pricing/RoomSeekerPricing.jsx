@@ -65,7 +65,7 @@ const RoomSeekerPricing = () => {
                                             <span className="text-gray-100">Instant messaging	</span>
                                         </li>
                                     </ul>
-                                    <button onClick={()=>navigate('/profile')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
+                                    <button onClick={() => navigate('/profile')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
                                 </div>
                             </div>
                             <div className={` mb-6  duration-500 w-full  bg-white rounded-xl shadow-xl    ${value === 1 ? 'relative scale-110 lg:w-[35%] border-2 z-10  border-[#7065F0]' : 'lg:w-[30%] lg:scale-95'}`}>
@@ -128,7 +128,7 @@ const RoomSeekerPricing = () => {
                                             <span className="text-gray-100">Instant messaging</span>
                                         </li>
                                     </ul>
-                                    <button type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
+                                    <button onClick={() => navigate('/pay?subscription=best value')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
                                 </div>
                                 <div className="absolute rounded-full w-40 bg-indigo-600 text-white text-center text-sm tracking-wider px-4 py-1 -top-3 inset-x-0 mx-auto">MOST POPULAR</div>
                             </div>
@@ -138,7 +138,7 @@ const RoomSeekerPricing = () => {
                                 <div className="text-center p-12">
                                     <p className="text-3xl lg:text-2xl xl:text-3xl pb-4">Premium</p>
                                     <div className="flex justify justify-center items-center">
-                                        <span className={ `duration-300 font-extrabold ${value === 3 ? ' text-5xl lg:text-4xl xl:text-5xl': 'text-4xl'}  align-text-middle pe-2`}>  $14.99 </span>
+                                        <span className={`duration-300 font-extrabold ${value === 3 ? ' text-5xl lg:text-4xl xl:text-5xl' : 'text-4xl'}  align-text-middle pe-2`}>  $14.99 </span>
                                         <span className="font-normal text-xl text-gray-500 inline-block align-text-middle">/ 30 days</span>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@ const RoomSeekerPricing = () => {
                                             <span className="text-gray-100">Instant messaging</span>
                                         </li>
                                     </ul>
-                                    <button type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
+                                    <button onClick={() => navigate('/pay?subscription=premium')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
                                 </div>
                             </div>
                         </div>

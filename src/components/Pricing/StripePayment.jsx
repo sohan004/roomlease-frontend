@@ -7,19 +7,15 @@ import {
     useElements,
 } from '@stripe/react-stripe-js';
 import { baseURL } from "../../App";
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price, subscription, userData }) => {
+
     const appearance = {
         theme: 'stripe'
     };
-    
-    const user = {
-        id: 1,
-        email: 'example@example.com',
-        name: 'John Doe'
-    }
-    // ORDER DATA
-    const order_price = 10;
+
 
 
 
@@ -30,6 +26,7 @@ const CheckoutForm = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [processing, setProcessing] = useState(false);
+    const navigate = useNavigate()
 
 
     const handleSubmit = async (event) => {
@@ -54,12 +51,15 @@ const CheckoutForm = () => {
             setError('');
             console.log('[PaymentMethod]', paymentMethod);
             const url = `${baseURL}/account/stripe-payment/`
+
             const data = {
                 payment_method_id: paymentMethod.id,
-                amount: order_price * 100,
-                email: user.email,
-                userId: user.id
+                amount: price * 100,
+                subscription: 'premium', // <-- Subscription type: 'premium' or 'best value'
+                userId: userData?.user_id, // <-- User id
             }
+
+
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -73,6 +73,15 @@ const CheckoutForm = () => {
             if (result.success) {
                 setSuccess('Your Payment Processed Successfully')
                 setProcessing(false);
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'success',
+                    title: 'Your Payment Processed Successfully',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                navigate('/profile')
+
             } else {
                 setError(result.message)
                 setProcessing(false);
@@ -105,7 +114,7 @@ const CheckoutForm = () => {
                         </button>
                     ) : (
                         <button className='px-5 w-full py-2 bg-sky-500 text-white mt-7 rounded' type="submit" disabled={!stripe || !elements}>
-                            Pay {order_price}$
+                            Pay {price}$
                         </button>
                     )
                 }
@@ -127,25 +136,14 @@ const CheckoutForm = () => {
 
 const stripePromise = loadStripe('pk_test_51NknAKB23sXYlBSuEUIXmBUWnjcxe2ZIFMzcrkfiAwMZMB6JduTcmIzm18olx5clotJ8lGl0kV9aCb9GAZf6I6fS00UGjEGs5y');
 
-const Upgrade = () => {
+const Upgrade = ({ price, subscription, userData }) => {
 
     return (
-        <div className='min-h-screen w-5/6 mx-auto mb-20'>
-            <h1 className='text-3xl font-bold py-10'>Upgrade</h1>
-
-            <div className='text-center'>
-                <p className='py-3 text-lg'>
-                    Pay <span className='font-semibold text-sky-500'>$10</span> to upgrade your account to premium
-                </p>
-                <p className='py-2 text-sm text-center text-gray-400'>
-                    Premium features include unlimited access to premium content, and more.
-                </p>
-
-            </div>
+        <div className=' w-5/6 mx-auto '>
 
             <div className='w-full lg:w-1/3 mx-auto mt-7'>
                 <Elements stripe={stripePromise}>
-                    <CheckoutForm />
+                    <CheckoutForm price={price} subscription={subscription} userData={userData} />
                 </Elements>
             </div>
 

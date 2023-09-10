@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
 
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [listingLoading2, setListingLoading2] = useState(true)
 
     const [searchDrpopDown, setSearchDrpopDown] = useState(false)
 
@@ -51,7 +52,8 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         // setListingLoading(true)
-        if (!localStorage.getItem('user-token')) {
+        setListingLoading2(true)
+        if (!localStorage.getItem('user-token') || !userData) {
             setListing(null)
             setListingLoading(false)
             return
@@ -70,17 +72,19 @@ const AuthProvider = ({ children }) => {
                     console.log(data)
                     setListing(null)
                     setListingLoading(false)
+                    setListingLoading2(false)
                     return
                 }
                 setListing(data);
                 setListingLoading(false)
+                setListingLoading2(false)
             })
             .catch(err => {
                 console.log(err);
                 setListing(null)
                 setListingLoading(false)
             })
-    }, [localStorage.getItem('user-token'), refresh])
+    }, [localStorage.getItem('user-token'), refresh, userData])
 
 
     const valu = {
@@ -93,7 +97,8 @@ const AuthProvider = ({ children }) => {
         loading,
         setLoading,
         setUserData,
-        searchDrpopDown, setSearchDrpopDown
+        searchDrpopDown, setSearchDrpopDown,
+        listingLoading2, setListingLoading2
     }
     return (
         <AuthContext.Provider value={valu}>

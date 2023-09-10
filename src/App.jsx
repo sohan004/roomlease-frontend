@@ -28,34 +28,10 @@ const App = () => {
 
   const navigate = useNavigate()
   const [tf, setTf] = useState(false)
-  const [userData, setUserData] = useState(null)
+
   const [loading, setLoading] = useState(true)
-  const { searchDrpopDown, setSearchDrpopDown } = useContext(AuthContext)
-  useEffect(() => {
-    setLoading(true)
-    fetch(`${baseURL}/account/profile/`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Token ${localStorage.getItem('user-token')}`,
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setLoading(false)
-          setUserData(data.data)
-        }
-        else {
-          setLoading(false)
-          setUserData(null)
-        }
-      })
-      .catch(err => {
-        setLoading(false)
-        setUserData(null)
-      })
-  }, [localStorage.getItem('user-token')])
+  const { searchDrpopDown, setSearchDrpopDown, userData, setUserData } = useContext(AuthContext)
+
 
 
   return (

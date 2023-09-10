@@ -50,6 +50,7 @@ import PaypalPayment from './components/Pricing/PaypalPayment.jsx'
 import ListingAddPrivateRoute from './components/ListingAddPrivateRoute/ListingAddPrivateRoute.jsx'
 import CardPayment from './components/CardPayment/CardPayment.jsx'
 import BenifitsOfUpgrade from './components/BenifitsOfUpgrade/BenifitsOfUpgrade.jsx'
+import Payment from './components/Payment/Payment.jsx'
 
 
 const router = createBrowserRouter([
@@ -154,6 +155,7 @@ const router = createBrowserRouter([
         path: '/card-payment',
         element: <CardPayment></CardPayment>
       },
+     
 
       {
         path: '/faq',
@@ -232,6 +234,10 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '/pay',
+    element: <Payment></Payment>
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

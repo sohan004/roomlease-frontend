@@ -4,9 +4,9 @@ import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ListingPrivate = ({ children }) => {
-    const { listing, setRefresh, refresh, listingLoading } = useContext(AuthContext)
+    const { listing, setRefresh, refresh, listingLoading, listingLoading2 } = useContext(AuthContext)
 
-    if (listingLoading) {
+    if (listingLoading2) {
         return <div className='flex justify-start items-center my-12 text-center'>
             <span className="loading loading-spinner loading-lg mx-auto"></span>
         </div>
