@@ -35,6 +35,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
+import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
+import blank from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
+
 
 
 // Import Swiper styles
@@ -69,6 +72,15 @@ const RoomSeekerListingDetails = () => {
     const [load, setLoad] = useState(true)
 
     const { userData } = useContext(AuthContext)
+
+    const [isFav, setIsFav] = useState(false)
+
+    useEffect(() => {
+        if (!listingDetails) {
+            return
+        }
+        setIsFav(listingDetails?.is_favourite)
+    }, [listingDetails])
 
     useEffect(() => {
         const token = localStorage.getItem('user-token')
@@ -208,7 +220,18 @@ const RoomSeekerListingDetails = () => {
 
     const roomSeekerAddFavorite = (id) => {
         if (!userData) navigate('/otp-send')
-        console.log(id);
+        // console.log(id);
+        setIsFav(true)
+        toast.success('Add favorite Succesfully', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         fetch(`${baseURL}/listing/add-room-seeker-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -218,7 +241,7 @@ const RoomSeekerListingDetails = () => {
             .then(res => res.json())
             .then(data => {
                 // console.log(data);
-                setReFatch(reFatch + 1)
+                // setReFatch(reFatch + 1)
             })
             .catch(err => {
                 console.log(err)
@@ -226,6 +249,17 @@ const RoomSeekerListingDetails = () => {
     }
     const roomSeekerFavouriteDelete = (id) => {
         if (!userData) navigate('/otp-send')
+        setIsFav(false)
+        toast.success('Remove favorite Succesfully', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
         fetch(`${baseURL}/listing/remove-room-seeker-favorite/${id}/`, {
             method: 'POST',
             headers: {
@@ -260,25 +294,25 @@ const RoomSeekerListingDetails = () => {
                             }}
                             className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
                         <button onClick={() => {
-                            if (listingDetails?.is_favourite) {
+                            if (isFav) {
                                 roomSeekerFavouriteDelete(listingDetails?.id)
                             }
-                            if (listingDetails?.is_favourite == false) {
+                            if (isFav == false) {
                                 roomSeekerAddFavorite(listingDetails?.id)
                             }
-                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{listingDetails?.is_favourite ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
+                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{isFav ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
                 <dialog id="share_modal" className="modal">
                     <div method="dialog" className="modal-box h-52  relative">
-                        <button onClick={()=>window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
+                        <button onClick={() => window.share_modal.close()} className="btn  absolute right-2 bottom-2">close</button>
                         <div className='flex justify-center items-center gap-6 mt-4'>
                             <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Facebook share">
                                 <FacebookShareButton url={!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}>
                                     <FaFacebook className='text-5xl text-blue-600' />
                                     <FaShare
-                                     className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
+                                        className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                 </FacebookShareButton>
                             </div>
                             <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Linkedin share">
@@ -333,7 +367,7 @@ const RoomSeekerListingDetails = () => {
                             <img src={img3} className='w-full h-full   rounded-lg' alt="" />
                             <button className='btn hidden absolute lg:flex items-center right-3 bottom-3   bg-[#F7F7FD] border border-[#E0DEF7] '><img src={galary} alt="" /> View all photos</button>
                         </div> */}
-                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="10"></textarea>
+                        <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="5"></textarea>
                         <div className='text-right'>
                             <button onClick={sendMessageFunction} className='btn w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
                         </div>
@@ -385,15 +419,20 @@ const RoomSeekerListingDetails = () => {
                             <p className='opacity-80 mb-6'>Listed by property owner</p>
                             <div className='flex lg:items-center flex-col lg:flex-row gap-y-8 lg:justify-between'>
                                 <div className='flex items-center gap-3'>
-                                    <img src={listingUser?.profile_picture} className='rounded-full h-16 w-16' alt="" />
+                                    <div className='rounded-full w-16 h-16 overflow-hidden relative'>
+                                        <img src={listingUser?.profile_picture ? listingUser?.profile_picture : blank} className='rounded-full h-16 w-16' alt="" />
+                                        {listingUser?.verified && <img src={verifyed2} className='absolute w-full  rotate-[25deg] left-1 opacity-70 -bottom-1' alt="" />}
+                                    </div>
                                     <div>
                                         <p className='font-semibold'>{listingUser?.full_name}</p>
                                         {listingUser?.show_phone_number && <p className='opacity-75'>+{listingUser?.username}</p>}
                                     </div>
                                 </div>
                                 <div className='flex lg:items-center gap-4 flex-col lg:flex-row'>
-                                    <button className="btn flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">Ask a question</button>
-                                    <button className="btn  flex-grow lg:flex-grow-0 bg-[#E8E6F9] text-[#7065F0]"><img src={qn} alt="" /> Get more info</button>
+                                    <button onClick={() => {
+                                        if (!userData) return navigate('/otp-send')
+                                        navigate(`/message/${listingUser?.user_id}`)
+                                    }} className="btn flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">send message</button>
                                 </div>
                             </div>
                         </div>

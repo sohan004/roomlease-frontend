@@ -38,35 +38,7 @@ const Section3 = () => {
                 console.log(err);
             })
     }, [])
-    const popular = [
-        {
-            id: 1,
-            price: 1800,
-            name: 'Hotel Relax',
-            address: '12/1200 Mohakhali Dhaka',
-            bed: 3,
-            bath: 2,
-            size: '5 x 7',
-        },
-        {
-            id: 2,
-            price: 1800,
-            name: 'Hotel Relax',
-            address: '12/1200 Mohakhali Dhaka',
-            bed: 3,
-            bath: 2,
-            size: '5 x 7',
-        },
-        {
-            id: 3,
-            price: 1800,
-            name: 'Hotel Relax',
-            address: '12/1200 Mohakhali Dhaka',
-            bed: 3,
-            bath: 2,
-            size: '5 x 7',
-        },
-    ]
+
     if (load) {
         return <LoadingCard></LoadingCard>
     }

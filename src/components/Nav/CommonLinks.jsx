@@ -24,9 +24,9 @@ export default function CommonLinks({ setUserData, userData }) {
       {/* <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink> */}
       {/* <p className='font-medium'>Pricing</p>
     <p className='font-medium'>Blog</p> */}
-      <div className='border-b-2 relative  border-[#100A55] flex flex-grow items-center justify-center px-4'>
+      <div onClick={() => navigate('/matches')} className='border-b-2  cursor-pointer relative  border-[#100A55] flex flex-grow items-center justify-center px-4'>
         <FaSearch></FaSearch>
-        {searchDrpopDown && <div className='absolute top-0 left-0 w-full bg-white p-1 shadow-2xl lg:p-3  '>
+        {/* {searchDrpopDown && <div className='absolute top-0 left-0 w-full bg-white p-1 shadow-2xl lg:p-3  '>
 
 
           <div className="mt-4 grid grid-cols-2 px-4  text-center font-medium">
@@ -61,7 +61,6 @@ export default function CommonLinks({ setUserData, userData }) {
 
               })}
             </div>
-            {/* <input onChange={e => setHomeAddress(e.target.value)} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg" /> */}
 
           </div>
           <button
@@ -73,12 +72,10 @@ export default function CommonLinks({ setUserData, userData }) {
               setSuburbValue([])
 
             }} className='btn w-full mt-2 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>search</button>
-          {/* <p className='p-1 bg-slate-300 mt-5'>Recent a search</p>
-          <p className='flex gap-1 items-center text-sm mt-2'><FaMapMarkerAlt></FaMapMarkerAlt> Austrelia mauntail</p> */}
 
 
-        </div>}
-        <input value={''} onClick={() => setSearchDrpopDown(true)} type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
+        </div>} */}
+        <input value={''} readOnly  type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
       </div>
       <Link to='/profile'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
