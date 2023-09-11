@@ -45,9 +45,12 @@ const Payment = () => {
                     Premium features include unlimited access to premium content, and more.
                 </p>
                 <div>
-                    <img onClick={() => setPayType('stripe')} src={card} className='w-[200px] mx-auto my-4 cursor-pointer' alt="" />
+                    <img onClick={() => setPayType('stripe')} src={card} className='w-[200px] mx-auto mt-7 cursor-pointer border h-10 p-2  rounded-md' alt="" />
                     {payType === 'stripe' && <StripePayment price={userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice} subscription={subscription} userData={userData}></StripePayment>}
-                    <img onClick={() => setPayType('paypal')} src={paypal} className='w-[200px] mx-auto my-4 cursor-pointer' alt="" />
+
+<p className='text-center my-1 font-medium'>or</p>
+
+                    <img onClick={() => setPayType('paypal')} src={paypal} className='w-[200px] mx-auto  cursor-pointer border h-10 p-2  rounded-md' alt="" />
                     {payType === 'paypal' && <PaypalPayment price={userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice} subscription={subscription} userData={userData}></PaypalPayment>}
                 </div>
 
