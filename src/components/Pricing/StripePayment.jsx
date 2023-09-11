@@ -55,7 +55,7 @@ const CheckoutForm = ({ price, subscription, userData }) => {
             const data = {
                 payment_method_id: paymentMethod.id,
                 amount: price * 100,
-                subscription: 'premium', // <-- Subscription type: 'premium' or 'best value'
+                subscription: subscription, // <-- Subscription type: 'premium' or 'best value'
                 userId: userData?.user_id, // <-- User id
             }
 
