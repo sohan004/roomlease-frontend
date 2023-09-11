@@ -36,7 +36,7 @@ const Payment = () => {
 
 
     return (
-        <div className='max-w-6xl mx-auto px-4'>
+        <div className='max-w-6xl mx-auto px-4 pb-10'>
             <div className='text-center lg:mt-20 mt-8'>
                 <p className='py-3 text-lg'>
                     Pay <span className='font-semibold text-sky-500'>${userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice}</span> to upgrade your account to {subscription}
