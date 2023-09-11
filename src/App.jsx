@@ -28,34 +28,10 @@ const App = () => {
 
   const navigate = useNavigate()
   const [tf, setTf] = useState(false)
-  const [userData, setUserData] = useState(null)
+
   const [loading, setLoading] = useState(true)
-  const { searchDrpopDown, setSearchDrpopDown } = useContext(AuthContext)
-  useEffect(() => {
-    setLoading(true)
-    fetch(`${baseURL}/account/profile/`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Token ${localStorage.getItem('user-token')}`,
-        'Content-Type': 'application/json',
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setLoading(false)
-          setUserData(data.data)
-        }
-        else {
-          setLoading(false)
-          setUserData(null)
-        }
-      })
-      .catch(err => {
-        setLoading(false)
-        setUserData(null)
-      })
-  }, [localStorage.getItem('user-token')])
+  const { userData, setUserData } = useContext(AuthContext)
+
 
 
   return (
@@ -99,7 +75,7 @@ const App = () => {
       }}
         className={tf ? 'opacity-5 lg:opacity-100 duration-500 bg-white' : 'bg-white opacity-100 duration-500'}>
         <Nav setTf={setTf}></Nav>
-        <div onClick={() => setSearchDrpopDown(false)}>
+        <div >
           <Outlet></Outlet>
         </div>
         <Footer></Footer>

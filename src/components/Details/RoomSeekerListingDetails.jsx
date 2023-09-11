@@ -116,6 +116,7 @@ const RoomSeekerListingDetails = () => {
     }, [reFatch])
 
     useEffect(() => {
+        if(!userData) return
         if (!listingDetails?.user) {
             return
         }
@@ -181,7 +182,7 @@ const RoomSeekerListingDetails = () => {
         if (!message) return
 
         if (!userData) {
-            navigate('/otp-send')
+           return navigate('/otp-send')
         }
 
         const formData = new FormData()
@@ -219,7 +220,7 @@ const RoomSeekerListingDetails = () => {
     }
 
     const roomSeekerAddFavorite = (id) => {
-        if (!userData) navigate('/otp-send')
+        if (!userData) return navigate('/otp-send')
         // console.log(id);
         setIsFav(true)
         toast.success('Add favorite Succesfully', {
@@ -248,7 +249,7 @@ const RoomSeekerListingDetails = () => {
             })
     }
     const roomSeekerFavouriteDelete = (id) => {
-        if (!userData) navigate('/otp-send')
+        if (!userData) return navigate('/otp-send')
         setIsFav(false)
         toast.success('Remove favorite Succesfully', {
             position: "top-center",
@@ -429,10 +430,25 @@ const RoomSeekerListingDetails = () => {
                                     </div>
                                 </div>
                                 <div className='flex lg:items-center gap-4 flex-col lg:flex-row'>
-                                    <button onClick={() => {
+                                    <button disabled={userData?.user_id == listingDetails?.user} onClick={() => {
                                         if (!userData) return navigate('/otp-send')
-                                        navigate(`/message/${listingUser?.user_id}`)
+                                        fetch(`${baseURL}/message/create-conversation/${listingDetails?.user}/`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                                                'Content-Type': 'application/json',
+                                            }
+                                        })
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                console.log(data);
+                                                navigate(`/message`)
+                                            })
+                                            .catch(err => {
+                                                console.log(err);
+                                            })
                                     }} className="btn flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">send message</button>
+
                                 </div>
                             </div>
                         </div>

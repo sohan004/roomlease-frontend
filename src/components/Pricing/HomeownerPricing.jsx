@@ -118,7 +118,7 @@ const HomeownerPricing = () => {
                                             <span className="text-gray-100">Reference check template</span>
                                         </li>
                                     </ul>
-                                    <button type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
+                                    <button onClick={()=>navigate('/pay?subscription=best value')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
                                 </div>
                                 <div className="absolute rounded-full w-40 bg-indigo-600 text-white text-center text-sm tracking-wider px-4 py-1 -top-3 inset-x-0 mx-auto">MOST POPULAR</div>
                             </div>
@@ -178,7 +178,7 @@ const HomeownerPricing = () => {
                                             <span className="text-gray-100">Reference check template</span>
                                         </li>
                                     </ul>
-                                    <button type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
+                                    <button onClick={()=>navigate('/pay?subscription=premium')} type="button" className="w-full text-center bg-white text-lg text-indigo-600 mt-8 p-3 rounded shadow-xl transition hover:text-white hover:bg-indigo-600">Start your trial</button>
                                 </div>
                             </div>
                         </div>

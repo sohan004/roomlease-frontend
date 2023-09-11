@@ -17,40 +17,20 @@ import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import { TbMessage2 } from "react-icons/tb";
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import { useContext } from 'react';
 
-const ListingCard = ({ p,  reFatch }) => {
+const ListingCard = ({ p, reFatch }) => {
 
-    const [userData, setUserData] = useState(null)
+    const { userData } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const [fav, setFav] = useState(p?.is_favourite ? true : false)
 
-    useEffect(() => {
-
-
-        fetch(`${baseURL}/account/profile/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setUserData(data.data)
-                }
-                else {
-                    setUserData({})
-                }
-            })
-            .catch(err => {
-                setUserData({})
-            })
-    }, []);
     // console.log(p);
 
     const homeOwnerAddFavorite = (id) => {
+        if (!userData) return navigate('/otp-send')
         setFav(true)
         fetch(`${baseURL}/listing/add-home-listing-favorite/${id}/`, {
             method: 'POST',
@@ -61,13 +41,14 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-            
+
             })
             .catch(err => {
                 console.log(err)
             })
     }
     const roomSeekerAddFavorite = (id) => {
+        if (!userData) return navigate('/otp-send')
         setFav(true)
         fetch(`${baseURL}/listing/add-room-seeker-favorite/${id}/`, {
             method: 'POST',
@@ -78,13 +59,14 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-               
+
             })
             .catch(err => {
                 console.log(err)
             })
     }
     const homeOwnerFavouriteDelete = (id) => {
+        if (!userData) return navigate('/otp-send')
         setFav(false)
         fetch(`${baseURL}/listing/remove-home-listing-favorite/${id}/`, {
             method: 'POST',
@@ -95,13 +77,14 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-              
+
             })
             .catch(err => {
                 console.log(err)
             })
     }
     const roomSeekerFavouriteDelete = (id) => {
+        if (!userData) return navigate('/otp-send')
         setFav(false)
         fetch(`${baseURL}/listing/remove-room-seeker-favorite/${id}/`, {
             method: 'POST',
@@ -112,7 +95,7 @@ const ListingCard = ({ p,  reFatch }) => {
             .then(res => res.json())
             .then(data => {
                 // setReFatch(reFatch + 1)
-               
+
             })
             .catch(err => {
                 console.log(err)
@@ -149,10 +132,10 @@ const ListingCard = ({ p,  reFatch }) => {
                     </div>
                 </div>
                 <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold my-2'>{p?.house_type}</h1>
-                {p?.looking_place ? 
-                <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.suburb?.length > 0 ? p?.suburb[0] : 'Australia'}</h1> 
-                : 
-                <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.suburb || 'Australia'}</h1>
+                {p?.looking_place ?
+                    <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.suburb?.length > 0 ? p?.suburb[0] : 'Australia'}</h1>
+                    :
+                    <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.suburb || 'Australia'}</h1>
                 }
 
                 <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>

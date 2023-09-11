@@ -8,38 +8,11 @@ import { useState } from 'react';
 import { AuthContext } from '../../AuthProvider/AuthProvider';
 import { useContext } from 'react';
 const NewSection2 = () => {
-    const { listing } = useContext(AuthContext)
-    const [userData, setUserData] = useState(null)
-    const [loading, setLoading] = useState(true)
-
+    const { listing , loading, setLoading, userData, setUserData} = useContext(AuthContext)
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        setLoading(true)
-        fetch(`${baseURL}/account/profile/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setLoading(false)
-                    setUserData(data.data)
-                }
-                else {
-                    setLoading(false)
-                    setUserData(null)
-                }
-            })
-            .catch(err => {
-                setLoading(false)
-                setUserData(null)
-            })
-    }, [localStorage.getItem('user-token')])
+  
 
     return (
         <div className="max-w-[1440px] mx-auto px-4 ">

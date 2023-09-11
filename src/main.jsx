@@ -20,6 +20,7 @@ import RoomSeeker from './components/Account/RoomSeeker.jsx'
 import HomeownerPricing from './components/Pricing/HomeownerPricing.jsx'
 import RoomSeekerPricing from './components/Pricing/RoomSeekerPricing.jsx'
 import StripePayment from './components/Pricing/StripePayment.jsx'
+import PaypalPayment from './components/Pricing/PaypalPayment.jsx'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx'
 import Profile from './components/Profile/Profile.jsx'
 import AuthProvider from './components/AuthProvider/AuthProvider.jsx'
@@ -46,10 +47,10 @@ import EmtyMessage from './components/MessageDashboard/EmtyMessage.jsx'
 import HomeOwnerListingCardDetails from './components/Details/HomeOwnerListingCardDetails.jsx'
 import RoomSeekerListingDetails from './components/Details/RoomSeekerListingDetails.jsx'
 import AllListing from './components/AllListing/AllListing.jsx'
-import PaypalPayment from './components/Pricing/PaypalPayment.jsx'
 import ListingAddPrivateRoute from './components/ListingAddPrivateRoute/ListingAddPrivateRoute.jsx'
 import CardPayment from './components/CardPayment/CardPayment.jsx'
 import BenifitsOfUpgrade from './components/BenifitsOfUpgrade/BenifitsOfUpgrade.jsx'
+import Payment from './components/Payment/Payment.jsx'
 
 
 const router = createBrowserRouter([
@@ -155,6 +156,7 @@ const router = createBrowserRouter([
         element: <CardPayment></CardPayment>
       },
 
+
       {
         path: '/faq',
         element: <Faq></Faq>
@@ -170,6 +172,10 @@ const router = createBrowserRouter([
       {
         path: '/blog',
         element: <Blog></Blog>
+      },
+      {
+        path: '/pay',
+        element: <Payment></Payment>
       },
       {
         path: '/Benifits-of-upgrade',
@@ -232,6 +238,7 @@ const router = createBrowserRouter([
       }
     ]
   },
+
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
