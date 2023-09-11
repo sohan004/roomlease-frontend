@@ -1,5 +1,5 @@
 import { FaArrowLeft, FaPlus, FaPlusCircle } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import logo from '../../assets/settingIcon/Frame.svg'
 import ball from '../../assets/settingIcon/Icon.svg'
 import menu from '../../assets/messagePageIcon/menu.svg'
@@ -40,9 +40,14 @@ import { useContext } from "react";
 import { useRef } from "react";
 import moment from "moment";
 const MessageList = ({ setTf }) => {
+
     const [img, setImg] = useState('')
     const [video, setVideo] = useState('')
     const [err, setErr] = useState('')
+    //get email on url like ?email=...
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    const reciver = params.get('reciver');
 
     const {
         listing,
@@ -79,46 +84,27 @@ const MessageList = ({ setTf }) => {
             .catch(err => console.log(err))
     }, [id, reFetch])
     const [message, setMessage] = useState('')
+    const navigate = useNavigate()
 
     const [oponent, setOponent] = useState(null)
     useEffect(() => {
-        if (messageList.length == 0) return
-        if (+userData?.user_id != +messageList[0].receiver) {
-            fetch(`${baseURL}/account/get-user-profile/${messageList[0].receiver}/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
+        fetch(`${baseURL}/account/get-user-profile/${reciver}/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')} `,
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+
+                    setOponent(data.data);
                 }
             })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-
-                        setOponent(data.data);
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
-        if (+userData?.user_id != +messageList[0].sender) {
-            fetch(`${baseURL}/account/get-user-profile/${messageList[0].sender}/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')} `,
-                }
+            .catch(err => {
+                console.log(err);
+                navigate('/message')
             })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-
-                        setOponent(data.data);
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
 
     }, [messageList])
 
@@ -130,7 +116,7 @@ const MessageList = ({ setTf }) => {
         const formData = new FormData()
         formData.append('message', message)
 
-        fetch(`${baseURL}/message/send-message/${messageList[0].receiver == userData?.user_id ? messageList[0].sender : messageList[0].receiver}/`, {
+        fetch(`${baseURL}/message/send-message/${reciver}/`, {
             method: 'POST',
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`
@@ -147,6 +133,7 @@ const MessageList = ({ setTf }) => {
             })
             .catch(err => {
                 console.log(err);
+                navigate('/message')
             })
     }
 
@@ -158,7 +145,7 @@ const MessageList = ({ setTf }) => {
             const formData = new FormData()
             formData.append('photo', img)
 
-            fetch(`${baseURL}/message/send-message/${messageList[0].receiver == userData?.user_id ? messageList[0].sender : messageList[0].receiver}/`, {
+            fetch(`${baseURL}/message/send-message/${reciver}/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('user-token')}`
@@ -178,6 +165,7 @@ const MessageList = ({ setTf }) => {
                 })
                 .catch(err => {
                     console.log(err);
+                    navigate('/message')
                 })
         }
         else {
@@ -191,7 +179,7 @@ const MessageList = ({ setTf }) => {
             const formData = new FormData()
             formData.append('video', video)
 
-            fetch(`${baseURL}/message/send-message/${messageList[0].receiver == userData?.user_id ? messageList[0].sender : messageList[0].receiver}/`, {
+            fetch(`${baseURL}/message/send-message/${reciver}/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('user-token')}`
@@ -211,6 +199,7 @@ const MessageList = ({ setTf }) => {
                 })
                 .catch(err => {
                     console.log(err);
+                    navigate('/message')
                 })
         }
         else {

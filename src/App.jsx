@@ -30,7 +30,7 @@ const App = () => {
   const [tf, setTf] = useState(false)
 
   const [loading, setLoading] = useState(true)
-  const { searchDrpopDown, setSearchDrpopDown, userData, setUserData } = useContext(AuthContext)
+  const { userData, setUserData } = useContext(AuthContext)
 
 
 
@@ -75,7 +75,7 @@ const App = () => {
       }}
         className={tf ? 'opacity-5 lg:opacity-100 duration-500 bg-white' : 'bg-white opacity-100 duration-500'}>
         <Nav setTf={setTf}></Nav>
-        <div onClick={() => setSearchDrpopDown(false)}>
+        <div >
           <Outlet></Outlet>
         </div>
         <Footer></Footer>

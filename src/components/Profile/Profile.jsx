@@ -129,7 +129,7 @@ const Profile = () => {
             .then(data => {
                 setUserAllListing(data);
             })
-    }, [])
+    }, [refresh])
 
     useEffect(() => {
         if (!listing) {
@@ -907,8 +907,10 @@ const Profile = () => {
                                 <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary bg-white" checked={!userData?.show_phone_number} />No</p>
                             </div>
                             <p className='mt-4'>{userData?.subscription} Account</p>
-                            <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
-                            <Link to="/Benifits-of-upgrade" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
+                           {userData.subscription == 'Free' &&  <>
+                                <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
+                                <Link to="/Benifits-of-upgrade" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
+                            </>}
                         </div>
                     </div>
                     <div className='w-full lg:w-[60%]'>
