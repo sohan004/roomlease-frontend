@@ -44,14 +44,16 @@ const Payment = () => {
                 <p className='py-2 text-sm text-center text-gray-400'>
                     Premium features include unlimited access to premium content, and more.
                 </p>
-                <div>
-                    <img onClick={() => setPayType('stripe')} src={card} className='w-[200px] mx-auto mt-7 cursor-pointer border h-12 p-2  rounded-md' alt="" />
-                    {payType === 'stripe' && <StripePayment price={userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice} subscription={subscription} userData={userData}></StripePayment>}
+                <div className='md:flex items-center justify-center mt-7'>
+                    <img onClick={() => setPayType('stripe')} src={card} className='mx-auto md:mx-0 cursor-pointer border h-12 p-2  rounded-md' alt="" />
 
-<p className='text-center my-1 font-medium'>or</p>
+                    <p className='text-center text-gray-400 m-1 font-medium'>or</p>
 
-                    <img onClick={() => setPayType('paypal')} src={paypal} className='w-[200px] mx-auto  cursor-pointer border h-12 p-2 mb-3 rounded-md' alt="" />
-                    {payType === 'paypal' && <PaypalPayment price={userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice} subscription={subscription} userData={userData}></PaypalPayment>}
+                    <img onClick={() => setPayType('paypal')} src={paypal} className='mx-auto md:mx-0 cursor-pointer border h-12 p-2 rounded-md' alt="" />
+                </div>
+                <div className='my-10'>
+                {payType === 'stripe' && <StripePayment price={userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice} subscription={subscription} userData={userData}></StripePayment>}
+                {payType === 'paypal' && <PaypalPayment price={userData?.account_type == 'homeowner' ? homeownerPrice : roomseekerPrice} subscription={subscription} userData={userData}></PaypalPayment>}
                 </div>
 
             </div>

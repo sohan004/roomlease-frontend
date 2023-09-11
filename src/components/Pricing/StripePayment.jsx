@@ -139,7 +139,7 @@ const stripePromise = loadStripe('pk_test_51NknAKB23sXYlBSuEUIXmBUWnjcxe2ZIFMzcr
 const Upgrade = ({ price, subscription, userData }) => {
 
     return (
-        <div className=' w-5/6 mx-auto '>
+        <div className='px-2 mx-auto '>
 
             <div className='w-full lg:w-1/3 mx-auto mt-7'>
                 <Elements stripe={stripePromise}>
