@@ -9,10 +9,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import { formatPhoneNumberIntl } from 'react-phone-number-input'
 
 
 const OtpSend = () => {
-    const [con, setCon] = useState('')
+    const [con, setCon] = useState('+61')
     const [seconds, setSeconds] = useState(120);
     const [sec, setSec] = useState(120);
     const [timer, setTimer] = useState(false);
@@ -155,17 +156,21 @@ const OtpSend = () => {
                 }
             })
     }
+    
     return (
         <div className="px-4 max-w-[550px] mx-auto">
             <p className="font-bold text-2xl mb-4 mt-12 lg:mt-16">Mobile number: </p>
 
             <PhoneInput
+            
                 className="w-full py-3 px-4 border-b border-black bg-white"
                 international
+                 usenationalFormatForDefaultCountryValue={true}
                 inputClassName="focus:outline-none bg-white border-0 w-full p-2"
                 defaultCountry="AU"
                 value={con}
                 onChange={p => {
+                    console.log(formatPhoneNumberIntl(p));
                     if (p) {
                         setCon(p)
                     }

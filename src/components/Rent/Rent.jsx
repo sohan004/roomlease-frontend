@@ -224,12 +224,12 @@ const Rent = () => {
         <div className=" bg-[#F7F7FD]">
             <div className="max-w-[1440px] mx-auto px-4 py-5">
 
-                {right && <div onClick={() => setRight(false)} className="fixed left-0 top-0 w-full bg-opacity-40 h-full bg-black z-30">
+                {right && <div onClick={() => setRight(false)} className="fixed lg:hidden left-0 top-0 w-full bg-opacity-40 h-full bg-black z-30">
 
                 </div>}
 
 
-                <div className={`bg-white  duration-500 fixed   h-full overflow-y-auto ${right ? 'right-0 w-full  lg:w-[500px]' : '-right-[150%]'} border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
+                <div className={`bg-white  duration-500 fixed lg:hidden   h-full overflow-y-auto ${right ? 'right-0 w-full  lg:w-[500px]' : '-right-[150%]'} border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
                     <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
                     <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
                     <p className='font-semibold   mb-3 '>Category</p>
@@ -292,11 +292,7 @@ const Rent = () => {
                             looking_place={looking_place}
                         ></RoomSeekerSearchOption>}
 
-
-
                 </div>
-
-
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
                     <div className=" grid grid-cols-2   text-center font-medium  ">
@@ -395,19 +391,90 @@ const Rent = () => {
                     </div>
                 </div> */}
 
-                {/* popular card */}
-                {listingData.length === 0 && <div>
-                    <h1 className="text-center mt-5 text-2xl font-semibold text-[#7065F0]">No listings at this address!!</h1>
-                </div>}
+                <div className="flex w-full gap-5">
+                    <div className="flex-grow">
+                        {listingData.length === 0 && <div>
+                            <h1 className="text-center mt-5 text-2xl font-semibold text-[#7065F0]">No listings at this address!!</h1>
+                        </div>}
 
-                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mb-8 mt-5'>
-                    {listingData.map((p, i) => <ListingCard key={i} p={p} reFatch={reFatch} setReFatch={setReFatch} />)}
+                        <div className='grid md:grid-cols-2 grid-cols-1  gap-4 mb-8 mt-5'>
+                            {listingData.map((p, i) => <ListingCard key={i} p={p} reFatch={reFatch} setReFatch={setReFatch} />)}
+                        </div>
 
+                        {btnState && <div className="text-center">
+                            <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>Next</button>
+                        </div>}
+                    </div>
+                    <div className="w-[500px] hidden lg:block">
+                        <div className={`bg-white   border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
+                            <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
+                            <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
+                            <p className='font-semibold   mb-3 '>Category</p>
+                            <div className=" grid grid-cols-2   text-center font-medium  ">
+                                <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                                <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
+  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
+                            </div>
+                            {/* <p className='font-bold mb-3 '>Price Range</p>
+                    <img className='mx-auto' src={rangepic} alt="" />
+                    <RangeSlider id="range-slider-yellow" className='bg-slate-800 ' min={1} max={1500000} value={value} onInput={setValue} />
+                    <div className='mt-3 flex items-center justify-between pb-6 mb-6 border-b'>
+                        <p className='font-bold text-lg'>${value[0]}</p>
+                        <p className='font-bold text-lg'>${value[1]}</p>
+                    </div> */}
+                            {type2 === 'homeowner' ? <HomeOwnerSearchOption
+                                type={type}
+                                location={location}
+                                house_type={house_type}
+                                parking_option={parking_option}
+                                rent_per_week_single={rent_per_week_single}
+                                rent_per_week_couple={rent_per_week_couple}
+                                bond={bond}
+                                bills_included_in_rent={bills_included_in_rent}
+                                bedroom_type={bedroom_type}
+                                private_bathroom={private_bathroom}
+                                bed_size={bed_size}
+                                room_features={room_features}
+                                amenities={amenities}
+                                place_friendliness={place_friendliness}
+                                nearby_community_spaces={nearby_community_spaces}
+                                public_transport_access={public_transport_access}
+                                gender={gender}
+                                age_range={age_range}
+                                ids_and_checks={ids_and_checks}
+                                occupation_preference={occupation_preference}
+                                looking_place={looking_place}
+                            ></HomeOwnerSearchOption> :
+                                <RoomSeekerSearchOption
+                                    type={type}
+                                    location={location}
+                                    house_type={house_type}
+                                    parking_option={parking_option}
+                                    rent_per_week_single={rent_per_week_single}
+                                    rent_per_week_couple={rent_per_week_couple}
+                                    bond={bond}
+                                    bills_included_in_rent={bills_included_in_rent}
+                                    bedroom_type={bedroom_type}
+                                    private_bathroom={private_bathroom}
+                                    bed_size={bed_size}
+                                    room_features={room_features}
+                                    amenities={amenities}
+                                    place_friendliness={place_friendliness}
+                                    nearby_community_spaces={nearby_community_spaces}
+                                    public_transport_access={public_transport_access}
+                                    gender={gender}
+                                    age_range={age_range}
+                                    ids_and_checks={ids_and_checks}
+                                    occupation_preference={occupation_preference}
+                                    looking_place={looking_place}
+                                ></RoomSeekerSearchOption>}
+
+                        </div>
+                    </div>
                 </div>
 
-                {btnState && <div className="text-center">
-                    <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>Next</button>
-                </div>}
+
+
 
 
                 {/* pagination */}
