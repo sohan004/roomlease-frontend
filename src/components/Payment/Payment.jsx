@@ -34,6 +34,8 @@ const Payment = () => {
         </div>
     }
 
+    console.log(userData);
+
 
     return (
         <div className='max-w-6xl mx-auto px-4 pb-10'>

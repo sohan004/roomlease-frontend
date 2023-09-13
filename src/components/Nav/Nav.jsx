@@ -21,6 +21,30 @@ const Nav = ({ setTf }) => {
     const navigate = useNavigate()
 
 
+    // const [bgColor, setBgColor] = useState(true); // Initial background color
+
+    // useEffect(() => {
+    //     // Function to handle scrolling
+    //     const handleScroll = () => {
+    //         // Check the scroll position
+    //         if (window.scrollY > 0) {
+    //             setBgColor(false); // Change background color to black when scrolled down
+    //         } else {
+    //             setBgColor(true); // Change background color to white when at the top
+    //         }
+    //     };
+
+    //     // Attach the scroll event listener
+    //     window.addEventListener('scroll', handleScroll);
+
+    //     // Clean up the event listener when the component unmounts
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
+
+    // console.log(bgColor);
+
     return (
         <>
             <div className='bg-[#EDECFB] sticky top-0 z-40'>

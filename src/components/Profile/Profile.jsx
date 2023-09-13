@@ -135,6 +135,8 @@ const Profile = () => {
         if (!listing) {
             return
         }
+        if (userData?.account_type === 'roomseeker') return
+
         fetch(`${baseURL}/listing/get-house-listing-video/${listing?.id}/`, {
             method: 'GET',
             headers: {
@@ -153,6 +155,7 @@ const Profile = () => {
         if (!listing || userData?.account_type === 'roomseeker') {
             return
         }
+        
         fetch(`${baseURL}/listing/get-house-listing-photos/${listing?.id}/`, {
             method: 'GET',
             headers: {

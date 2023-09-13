@@ -412,12 +412,12 @@ const RoomSeeker = () => {
             "age": age,
             "ids_and_checks": checks,
             "occupation": occuption,
-            "user": localStorage.getItem('user-token'),
+            "user": userData?.user_id,
 
         }
         setLoad(true)
-        fetch(`${baseURL}/listing/room-seekers/`, {
-            method: 'POST',
+        fetch(`${baseURL}${url}`, { // <--
+            method: apiMethod,
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
                 'Content-Type': 'application/json',
@@ -465,9 +465,14 @@ const RoomSeeker = () => {
             })
     }
 
+    const [sta, setSta] = useState(false)
+
     const [addresEmpty, setAddresEmpty] = useState('')
 
     const onchengeFunction = () => {
+        if (sta) {
+            return
+        }
 
         if (firstName === '' || secondName === '' || email === '' || lookingForPlace === '') {
             return
@@ -508,6 +513,7 @@ const RoomSeeker = () => {
             .then(data => {
                 console.log(data)
                 if (data.id) {
+                    setSta(false)
                     setLoad(false)
                     // window.location.href = `/homeowner-pricing`
                     setUrl(`/listing/room-seekers/${data?.id}/`)
@@ -542,6 +548,7 @@ const RoomSeeker = () => {
                     progress: undefined,
                 }); return
             })
+        setSta(true)
     }
 
     return (

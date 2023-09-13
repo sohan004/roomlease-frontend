@@ -687,11 +687,11 @@ const HomeWoner = () => {
             "age_range": age,
             "ids_and_checks": checks,
             "occupation_preference": occuption,
-            "user": localStorage.getItem('user-token'),
+            "user": userData?.user_id,
         }
         setLoad(true)
-        fetch(`${baseURL}/listing/home-listings/`, {
-            method: 'POST',
+        fetch(`${baseURL}${url}`, {
+            method: apiMethod,
             headers: {
                 'Authorization': `Token ${localStorage.getItem('user-token')}`,
                 'Content-Type': 'application/json',
@@ -739,14 +739,10 @@ const HomeWoner = () => {
             })
 
     }
-
-    //click to scrool bottom 100px
-    const clickToScrool = () => {
-        window.scrollTo(0, 100);
-
-    }
+    const [sta, setSta] = useState(false)
 
     const onchengeFunction = (e) => {
+        if (sta) return
         if (firstName === '' || secondName === '' || email === '') {
             return
         }
@@ -801,8 +797,9 @@ const HomeWoner = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                console.log(url)
                 if (data.id) {
+                    setSta(false)
                     setLoad(false)
                     // window.location.href = `/homeowner-pricing`
                     setUrl(`/listing/home-listings/${data.id}/`)
@@ -837,6 +834,8 @@ const HomeWoner = () => {
                     progress: undefined,
                 }); return
             })
+        setSta(true)
+
     }
     const getStreetAddress = (a) => {
         if (a.length === 0) {

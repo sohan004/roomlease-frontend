@@ -301,7 +301,7 @@ const Rent = () => {
   ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
                     </div>
 
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-3">
                         <Autocomplete
 
                             className="w-full    border border-[#7065F0]  focus:outline-none py-3 px-5 h-[50px]   bg-[#f6f6ff] "
@@ -339,7 +339,7 @@ const Rent = () => {
 
                         }} className='btn h-[50px] w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>search</button>
 
-                    <button onClick={() => setRight(true)} className='btn border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>+ more filters</button>
+                    <button onClick={() => setRight(true)} className='btn lg:hidden border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>+ more filters</button>
                 </div>
 
 

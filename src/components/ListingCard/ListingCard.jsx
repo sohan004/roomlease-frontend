@@ -105,7 +105,7 @@ const ListingCard = ({ p, reFatch }) => {
     return (
         // <Link to={`/details/${p.id}`}>
         <div className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
-            {p?.photo && <img onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={`${p?.photo.includes('https://roomlease.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg ' alt="" />}
+            {p?.photo && <img onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} src={`${p?.photo.includes('https://roomleaseau.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg ' alt="" />}
             {!p?.photo && <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='w-full h-64 flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
                 <FaHome></FaHome>
             </div>}

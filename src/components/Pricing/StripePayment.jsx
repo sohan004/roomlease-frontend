@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = ({ price, subscription, userData }) => {
+    console.log(price, subscription, userData);
 
     const appearance = {
         theme: 'stripe'
@@ -49,43 +50,48 @@ const CheckoutForm = ({ price, subscription, userData }) => {
             setProcessing(false);
         } else {
             setError('');
+            const orginalPrice = price * 100
             console.log('[PaymentMethod]', paymentMethod);
             const url = `${baseURL}/account/stripe-payment/`
 
             const data = {
                 payment_method_id: paymentMethod.id,
-                amount: price * 100,
+                amount: Math.round(orginalPrice),
                 subscription: subscription, // <-- Subscription type: 'premium' or 'best value'
                 userId: userData?.user_id, // <-- User id
             }
-
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('user-token')}`
-                },
-                body: JSON.stringify(data)
-            })
-            const result = await response.json()
-            console.log(result)
-            if (result.success) {
-                setSuccess('Your Payment Processed Successfully')
-                setProcessing(false);
-                Swal.fire({
-                    position: 'top-center',
-                    icon: 'success',
-                    title: 'Your Payment Processed Successfully',
-                    showConfirmButton: false,
-                    timer: 2000
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${localStorage.getItem('user-token')}`
+                    },
+                    body: JSON.stringify(data)
                 })
-                navigate('/profile')
+                const result = await response.json()
+                console.log(result)
+                if (result.success) {
+                    setSuccess('Your Payment Processed Successfully')
+                    setProcessing(false);
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: 'Your Payment Processed Successfully',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    navigate('/profile')
 
-            } else {
-                setError(result.message)
-                setProcessing(false);
+                } else {
+                    setError(result.message)
+                    setProcessing(false);
+                }
+            } catch (error) {
+                console.log(error);
             }
+
+
         }
     };
 
