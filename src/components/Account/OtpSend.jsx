@@ -192,7 +192,7 @@ const OtpSend = () => {
                         <div className=' max-w-[500px] mx-auto text-center '>
                             <div>
                                 <OTPInput
-                                    inputClassName='border-2 bg-white rounded py-6 border-[#100A55] focus:outline-none flex-grow'
+                                    inputClassName='border-2 text-black bg-white rounded py-6 border-[#100A55] focus:outline-none flex-grow'
                                     className="text-center flex justify-center w-full"
                                     value={otp} onChange={e => {
                                         verifyOtp(e)

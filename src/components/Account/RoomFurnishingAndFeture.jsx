@@ -111,7 +111,7 @@ const RoomFurnishingAndFeture = ({ roomFurnishingsAndFeatures, setRoomFurnishing
                         <f.icon className={`duration-500 ${f.matchName ? 'bg-[#7065F0] hover:bg-[#5149ac] text-white': 'text-[#7065F0] bg-white hover:bg-indigo-100'} border border-[#7065F0]  text-5xl p-2 rounded-xl mx-auto`} />
                         
                     </div>
-                    <p className="text-center mt-2">{f.name}</p>
+                    <p className="text-center text-xs lg:text-base mt-2">{f.name}</p>
                 </div>)}
             </div>
         </div>

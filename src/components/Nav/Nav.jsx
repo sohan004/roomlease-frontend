@@ -48,7 +48,7 @@ const Nav = ({ setTf }) => {
     return (
         <>
             <div className='bg-[#EDECFB] sticky top-0 z-40'>
-                <div className=' max-w-[1440px] mx-auto py-4  flex items-center gap-14 justify-between px-8'>
+                <div className=' max-w-[1440px] mx-auto py-4  flex items-center gap-5 lg:gap-14 justify-between px-5 lg:px-8'>
 
                     <div className='flex items-center gap-14 '>
 
@@ -71,7 +71,7 @@ const Nav = ({ setTf }) => {
                     </div>
 
                     {userData && <div className='lg:flex gap-12 flex-grow items-center hidden'>
-                        <CommonLinks userData={userData} setUserData={setUserData} />
+                        <CommonLinks setTf={setTf} userData={userData} setUserData={setUserData} />
                     </div>}
 
                     {!userData && <div className=' '>

@@ -337,7 +337,7 @@ const Rent = () => {
                             window.location.href = `/rent?type=${type2}&location=${urlString}`
                             setSuburbValue([])
 
-                        }} className='btn h-[50px] w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>search</button>
+                        }} className='btn h-[50px] w-full hover:bg-[#4e46a1] border-0 bg-[#7065F0] text-white '>search</button>
 
                     <button onClick={() => setRight(true)} className='btn lg:hidden border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>+ more filters</button>
                 </div>

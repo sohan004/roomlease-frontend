@@ -10,7 +10,7 @@ import { AuthContext } from '../AuthProvider/AuthProvider'
 import { useContext } from 'react'
 import Autocomplete from "react-google-autocomplete";
 
-export default function CommonLinks({ setUserData, userData }) {
+export default function CommonLinks({ setUserData, userData, setTf }) {
   const { listing, setListing, setRefresh, refresh, listingLoading, searchDrpopDown, setSearchDrpopDown } = useContext(AuthContext)
   const [type, setType] = useState('homeowner')
   const [addresEmpty, setAddresEmpty] = useState('')
@@ -24,7 +24,7 @@ export default function CommonLinks({ setUserData, userData }) {
       {/* <NavLink to='/rent'  className={({isActive})=>`font-medium ${isActive? 'bg-[#e3e0ff] py-1 px-2 rounded-md text-[#7065F0]': ''}`}>Rent</NavLink> */}
       {/* <p className='font-medium'>Pricing</p>
     <p className='font-medium'>Blog</p> */}
-      <div onClick={() => navigate(`/rent?type=${userData?.account_type == 'homeowner' ? 'roomseeker' : 'homeowner'}&location=`)} className='border-b-2  cursor-pointer relative  border-[#100A55] flex flex-grow items-center justify-center px-4'>
+      <div onClick={() => { navigate(`/rent?type=${userData?.account_type == 'homeowner' ? 'roomseeker' : 'homeowner'}&location=`); setTf(false) }} className='border-b-2  cursor-pointer relative  border-[#100A55] flex flex-grow items-center justify-center px-4'>
         <FaSearch></FaSearch>
         {/* {searchDrpopDown && <div className='absolute top-0 left-0 w-full bg-white p-1 shadow-2xl lg:p-3  '>
 
@@ -77,13 +77,13 @@ export default function CommonLinks({ setUserData, userData }) {
         </div>} */}
         <input value={''} readOnly type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
       </div>
-      <Link to='/profile'>
+      <Link onClick={() => setTf(false)} to='/profile'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
           <FaUser></FaUser>
           <p className='font-medium'>Profile</p>
         </div>
       </Link>
-      <Link to='/matches'>
+      <Link onClick={() => setTf(false)} to='/matches'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
           <div className='flex justify-center items-center'>
             <BsPersonCheckFill></BsPersonCheckFill>
@@ -92,7 +92,7 @@ export default function CommonLinks({ setUserData, userData }) {
           <p className='font-medium'>Matches</p>
         </div>
       </Link>
-      <Link to='/message' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+      <Link onClick={() => setTf(false)} to='/message' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
       </Link>
@@ -101,6 +101,7 @@ export default function CommonLinks({ setUserData, userData }) {
         <p className='font-medium'>Settings</p>
       </div>
       <div onClick={() => {
+        setTf(false)
         setListing(null)
         setUserData(null)
         localStorage.removeItem('user-token')

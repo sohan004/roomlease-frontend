@@ -35,7 +35,7 @@ const App = () => {
 
 
   return (
-    <>
+    <div className='text-black'>
       <div className={`fixed lg:hidden bg-white shadow-2xl duration-500 z-50  w-[85%] py-6 h-full ${!tf ? '-left-[150%]' : 'left-0'}`}>
         <div onClick={() => navigate('/')} className='flex cursor-pointer justify-center items-center '>
           <p className='font-bold text-xl lg:text-3xl justify-center text-[#100A55] flex items-start '>
@@ -53,11 +53,11 @@ const App = () => {
         </div>
 
         {userData && <div className='flex flex-col items-center  px-14 my-12 gap-8'>
-          <CommonLinks userData={userData} setUserData={setUserData} />
+          <CommonLinks setTf={setTf} userData={userData} setUserData={setUserData} />
         </div>}
 
         {!userData && <div className='text-center mt-20'>
-          <NavLink to='/otp-send'><button className='btn text-xl bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
+          <NavLink onClick={() => setTf(false)} to='/otp-send'><button className='btn text-xl border-0 bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
         </div>}
 
         <div className='absolute top-16 -right-4'>
@@ -80,7 +80,7 @@ const App = () => {
         </div>
         <Footer></Footer>
       </div >
-    </>
+    </div>
   );
 };
 

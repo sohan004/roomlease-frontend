@@ -23,7 +23,7 @@ const Footer = () => {
                         </p></Link>
                     </div>
                 </div>
-                <div className="w-full lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
+                <div className="w-full text-black lg:w-3/4 grid grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 lg:gap-x-20 lg:gap-y-12">
                     <div className=''>
                         <Link to='/about'> <p className='mb-2'>About Us</p></Link>
                         <Link to='/how-to-list'><p className='mb-2'>How to List Your Room</p></Link>
