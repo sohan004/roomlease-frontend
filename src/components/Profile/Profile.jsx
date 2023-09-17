@@ -135,6 +135,8 @@ const Profile = () => {
         if (!listing) {
             return
         }
+        if (userData?.account_type === 'roomseeker') return
+
         fetch(`${baseURL}/listing/get-house-listing-video/${listing?.id}/`, {
             method: 'GET',
             headers: {
@@ -153,6 +155,7 @@ const Profile = () => {
         if (!listing || userData?.account_type === 'roomseeker') {
             return
         }
+        
         fetch(`${baseURL}/listing/get-house-listing-photos/${listing?.id}/`, {
             method: 'GET',
             headers: {
@@ -875,9 +878,9 @@ const Profile = () => {
     }
     // console.log(userData);
     return (
-        <div className='home'>
+        <div className='home text-black'>
             <div className='max-w-[1440px] mx-auto px-4'>
-                <div className='flex flex-col lg:flex-row justify-center lg:items-start gap-9 lg:gap-14 pt-20'>
+                <div className='flex flex-col  lg:flex-row justify-center lg:items-start gap-9 lg:gap-14 pt-20'>
                     <div className='w-full lg:w-[40%] h-full bg-white   bg-opacity-50'>
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  '>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
@@ -912,7 +915,7 @@ const Profile = () => {
                             </div>
                             <p className='mt-4'>{userData?.subscription} Account</p>
                             {userData.subscription == 'Free' && <>
-                                <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
+                                <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0 block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
                                 <Link to="/Benifits-of-upgrade" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
                             </>}
                         </div>

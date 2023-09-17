@@ -662,11 +662,10 @@ const RoomSeekerListingDetails = () => {
                     <p className='text-sm opacity-80'>{`You agree to Estatery's Terms of Use & Privacy Policy. By choosing to contact a property, you also agree that Estatery Group, landlords, and property managers may call or text you about any inquiries you submit through our services, which may involve use of automated means and prerecorded/artificial voices. You don't need to consent as a condition of renting any property, or buying any other goods or services. Message/data rates may apply.`}</p> */}
                 </div>
             </div>
-            <div className='bg-[#F7F7FD] mt-16'>
+            {/* <div className='bg-[#F7F7FD] mt-16'>
                 <div className='max-w-[1440px] mx-auto px-4 py-12 lg:py-16'>
                     <h1 className='text-2xl font-bold '>Similar listings</h1>
 
-                    {/* non popular data */}
                     <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-5 lg:mt-12'>
                         {popular.map(p => <div key={p.id} className='w-full border rounded-lg bg-white  border-[#F0EFFB]'>
                             <img src={img} className='w-full rounded-lg -z-0' alt="" />
@@ -687,7 +686,7 @@ const RoomSeekerListingDetails = () => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
             <ToastContainer></ToastContainer>
         </div>
     );

@@ -51,12 +51,15 @@ const MessageDashboard = () => {
     const [data2, setData2] = useState([])
 
     const [tf, setTf] = useState(true)
+    const [loading, setLoading] = useState(true)
     const [reFetch, setReFetch] = useState(1)
 
 
 
     useEffect(() => {
-        if (!userData) return
+        setLoading(true)
+        if (!userData) return 
+
         fetch(`${baseURL}/message/get-conversations/`, {
             method: 'GET',
             headers: {
@@ -71,8 +74,12 @@ const MessageDashboard = () => {
                     setData(data)
 
                 }
+                setLoading(false)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setLoading(false)
+                console.log(err)
+            })
     }, [userData])
 
 
@@ -90,9 +97,14 @@ const MessageDashboard = () => {
         })
         setData(filterData)
     }
+    if (loading) {
+        return <div className='flex justify-start items-center my-12 text-center'>
+            <span className="loading loading-spinner loading-lg mx-auto"></span>
+        </div>
+    }
 
     return (
-        <div className="bg-white">
+        <div className="bg-white text-black">
 
             <div className={`fixed  bg-white shadow-2xl duration-500 z-50 overflow-y-auto  w-full lg:hidden py-6 h-full ${!tf ? '-left-[150%]' : 'left-0'}`}>
                 <div className="px-5 py-7 w-full flex  flex-col    border-e h-[100vh]">
@@ -108,9 +120,9 @@ const MessageDashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 w-full">
+                    {data.length > 0 ? <div className="grid grid-cols-1 w-full">
                         {data.map((d, i) => <MessageContainer key={d.id} d={d} setTf={setTf}></MessageContainer>)}
-                    </div>
+                    </div> : <h1 className="text-center font-medium text-xl text-[#7065F0]">No message available</h1>}
                 </div>
             </div>
 
@@ -131,9 +143,9 @@ const MessageDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 w-full">
+                        {data.length > 0 ? <div className="grid grid-cols-1 w-full">
                             {data.map((d, i) => <MessageContainer key={d.id} d={d} setTf={setTf}></MessageContainer>)}
-                        </div>
+                        </div> : <h1 className="text-center font-medium text-xl text-[#7065F0]">No message available</h1>}
                     </div>
                     <div className="w-full lg:w-[70%]">
 

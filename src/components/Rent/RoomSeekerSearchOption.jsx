@@ -432,7 +432,7 @@ const RoomSeekerSearchOption = (props) => {
             </div>
 
 
-            <div className='flex justify-center items-center gap-6  bg-white p-3 -bottom-8 sticky w-full'>
+            <div className='flex justify-center items-center gap-6  bg-white p-3 -bottom-8 lg:bottom-0 sticky w-full'>
                 <button onClick={clickReset} className='btn text-[#7065F0]  flex-grow'>Reset</button>
                 <button onClick={clickApply} className='btn bg-[#7065F0] hover:bg-[#3f3981] text-white flex-grow '>Apply</button>
             </div>

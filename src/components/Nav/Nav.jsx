@@ -21,10 +21,34 @@ const Nav = ({ setTf }) => {
     const navigate = useNavigate()
 
 
+    // const [bgColor, setBgColor] = useState(true); // Initial background color
+
+    // useEffect(() => {
+    //     // Function to handle scrolling
+    //     const handleScroll = () => {
+    //         // Check the scroll position
+    //         if (window.scrollY > 0) {
+    //             setBgColor(false); // Change background color to black when scrolled down
+    //         } else {
+    //             setBgColor(true); // Change background color to white when at the top
+    //         }
+    //     };
+
+    //     // Attach the scroll event listener
+    //     window.addEventListener('scroll', handleScroll);
+
+    //     // Clean up the event listener when the component unmounts
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
+
+    // console.log(bgColor);
+
     return (
         <>
             <div className='bg-[#EDECFB] sticky top-0 z-40'>
-                <div className=' max-w-[1440px] mx-auto py-4  flex items-center gap-14 justify-between px-8'>
+                <div className=' max-w-[1440px] mx-auto py-4  flex items-center gap-5 lg:gap-14 justify-between px-5 lg:px-8'>
 
                     <div className='flex items-center gap-14 '>
 
@@ -47,7 +71,7 @@ const Nav = ({ setTf }) => {
                     </div>
 
                     {userData && <div className='lg:flex gap-12 flex-grow items-center hidden'>
-                        <CommonLinks userData={userData} setUserData={setUserData} />
+                        <CommonLinks setTf={setTf} userData={userData} setUserData={setUserData} />
                     </div>}
 
                     {!userData && <div className=' '>

@@ -10,7 +10,7 @@ const Section5 = () => {
                 <p className="mb-8 opacity-80">{`Get the latest insights, tips and trends straight to your inbox.`}</p>
                 <div className="bg-white p-4 rounded-lg flex items-center justify-between w-full md:w-[540px] mb-4 lg:mb-6">
                     <input type="text" name="" className=" bg-transparent p-1" placeholder="Enter your email address" />
-                    <button className="btn hover:scale-110 duration-500 cursor-pointer border-0  bg-[#7065F0] text-white px-6 hidden md:block">submit</button>
+                    <button className="btn hover:scale-110 duration-500 border-0 cursor-pointer border-0  bg-[#7065F0] text-white px-6 hidden md:block">submit</button>
                 </div>
                 <button className="btn hover:bg-[#4e46a1] bg-[#7065F0]  text-white w-full  md:hidden mb-6">submit</button>
                 <div className="flex justify-center items-center gap-4 lg:gap-10 mt-4 lg:mt-7">
