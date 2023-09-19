@@ -412,7 +412,7 @@ const HomeOwnerListingCardDetails = () => {
                         </div> */}
                         <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="5"></textarea>
                         <div className='text-right'>
-                            <button disabled={+listingDetails?.user == +userData?.user_id} onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white w-full'>send message</button>
+                            <button disabled={+listingDetails?.user == +userData?.user_id} onClick={sendMessageFunction} className='btn  hover:bg-[#4e46a1] bg-[#7065F0] border-0 text-white w-full'>send message</button>
                         </div>
 
                         {
@@ -490,7 +490,7 @@ const HomeOwnerListingCardDetails = () => {
                                             .catch(err => {
                                                 console.log(err);
                                             })
-                                    }} className="btn flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">send message</button>
+                                    }} className="btn flex-grow lg:flex-grow-0 border-0 bg-[#E8E6F9] text-[#7065F0]">send message</button>
 
                                 </div>
                             </div>

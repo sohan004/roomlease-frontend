@@ -46,11 +46,9 @@ import MessageContainer from "./MessageContainer";
 
 
 const MessageDashboard = () => {
-    const { userData } = useContext(AuthContext)
+    const { userData , tf, setTf} = useContext(AuthContext)
     const [data, setData] = useState([])
     const [data2, setData2] = useState([])
-
-    const [tf, setTf] = useState(true)
     const [loading, setLoading] = useState(true)
     const [reFetch, setReFetch] = useState(1)
 

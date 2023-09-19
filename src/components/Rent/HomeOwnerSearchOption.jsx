@@ -297,13 +297,13 @@ const HomeOwnerSearchOption = (props) => {
                     <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                         <label className="input-group">
                             <span className="bg-white border-e border-[#7065F0] ">$</span>
-                            <input placeholder="Singles" onChange={(e) => setRent_per_week_single(e.target.value)} type="text" className="input   w-full " />
+                            <input placeholder="Singles" onChange={(e) => setRent_per_week_single(e.target.value)} type="text" className="input bg-white  w-full " />
                         </label>
                     </div>
                     <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                         <label className="input-group">
                             <span className="bg-white border-e border-[#7065F0] ">$</span>
-                            <input placeholder="Couples" onChange={(e) => setRent_per_week_couple(e.target.value)} type="text" className="input   w-full " />
+                            <input placeholder="Couples" onChange={(e) => setRent_per_week_couple(e.target.value)} type="text" className="input bg-white  w-full " />
                         </label>
                     </div>
                 </div>
@@ -481,8 +481,8 @@ const HomeOwnerSearchOption = (props) => {
 
 
             <div className='flex justify-center items-center gap-6  bg-white p-3 -bottom-8 lg:bottom-0 sticky w-full'>
-                <button onClick={clickReset} className='btn text-[#7065F0]  flex-grow'>Reset</button>
-                <button onClick={clickApply} className='btn bg-[#7065F0] hover:bg-[#3f3981] text-white flex-grow '>Apply</button>
+                <button onClick={clickReset} className='btn bg-gray-200 border-0 text-[#7065F0]  flex-grow'>Reset</button>
+                <button onClick={clickApply} className='btn bg-[#7065F0] border-0 hover:bg-[#3f3981] text-white flex-grow '>Apply</button>
             </div>
         </>
     );

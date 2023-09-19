@@ -51,6 +51,8 @@ import ListingAddPrivateRoute from './components/ListingAddPrivateRoute/ListingA
 import CardPayment from './components/CardPayment/CardPayment.jsx'
 import BenifitsOfUpgrade from './components/BenifitsOfUpgrade/BenifitsOfUpgrade.jsx'
 import Payment from './components/Payment/Payment.jsx'
+import BlogDetails from './components/Blog/BlogDetails.jsx'
+import TestimonialDetails from './components/Testimonial/TestimonialDetails.jsx'
 
 
 const router = createBrowserRouter([
@@ -186,8 +188,16 @@ const router = createBrowserRouter([
         element: <Career></Career>
       },
       {
+        path: '/blog/:id',
+        element: <BlogDetails></BlogDetails>
+      },
+      {
         path: '/testimonial',
         element: <Testimonial></Testimonial>
+      },
+      {
+        path: '/testimonial/:id',
+        element: <TestimonialDetails></TestimonialDetails>
       },
       {
         path: '/contact',
@@ -245,7 +255,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
-
     </AuthProvider>
   </React.StrictMode>,
 )

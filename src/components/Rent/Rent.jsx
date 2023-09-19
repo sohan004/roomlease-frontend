@@ -411,9 +411,9 @@ const Rent = () => {
                             <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
                             <p className='font-semibold   mb-3 '>Category</p>
                             <div className=" grid grid-cols-2   text-center font-medium  ">
-                                <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                                <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer`}>Home Owner</p>
                                 <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
-  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
+  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer `}>Room Seeker</p>
                             </div>
                             {/* <p className='font-bold mb-3 '>Price Range</p>
                     <img className='mx-auto' src={rangepic} alt="" />
