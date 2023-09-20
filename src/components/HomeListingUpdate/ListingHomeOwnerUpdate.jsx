@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Select from 'react-select'
 import RoomFurnishingAndFeture from "../Account/RoomFurnishingAndFeture";
 import { FaArrowRight, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
@@ -35,7 +35,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [email, setEmail] = useState('')
     const [houseType, setHouseType] = useState(listingData?.house_type ? listingData?.house_type : [])
     // const [homeAddress, setHomeAddress] = useState(listingData?.suburb ? listingData?.suburb : '')
-    const [parkingOptions, setParkingOptions] = useState(listingData?.parking_option ? listingData?.parking_option : [])
+    const [parkingOptions, setParkingOptions] = useState(listingData?.parking_option ? listingData?.parking_option : '')
     const [furnished, setFurnished] = useState(listingData?.bedroom_type ? listingData?.bedroom_type : '')
     const [privateBath, setPrivateBath] = useState(listingData?.private_bathroom ? listingData?.private_bathroom : '')
     const [selectedOption, setSelectedOption] = useState(null);
@@ -59,7 +59,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState(listingData?.nearby_community_spaces ? listingData?.nearby_community_spaces : [])
     const [publicTransportAccess, setPublicTransportAccess] = useState(listingData?.public_transport_access ? listingData?.public_transport_access : [])
     const [gender, setGender] = useState(listing?.gender ? listing?.gender : [])
-    const [age, setAge] = useState(listing?.age_range ? listing?.age_range : '')
+    const [age, setAge] = useState(listing?.age_range.split(',').length > 0 ? listing?.age_range.split(',') : [])
     const [checks, setChecks] = useState(listing?.ids_and_checks ? listing?.ids_and_checks : [])
     const [smoke, setSmoke] = useState('')
     const [pets, setPets] = useState('')
@@ -180,6 +180,21 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
         }
         setChecks([...checks, p])
     }
+    const ageFunction = (p) => {
+        if (p == 'Any') {
+            setAge(['Any'])
+            return
+        }
+        const filter = age.filter(filt => filt != 'Any')
+        const findData = age.find(r => r == p)
+        if (findData) {
+            const filterData = age.filter(filt => filt != p && filt != 'Any')
+            setAge(filterData)
+            return
+        }
+        setAge([...filter, p])
+    }
+
     const aminetAddFunction = (p) => {
         if (p == 'N/A') {
             setAnimate(['N/A'])
@@ -308,7 +323,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
         //     });
         //     return
         // }
-       
+
         const year = startDate.getFullYear();
         const month = String(startDate.getMonth() + 1).padStart(2, "0");
         const day = String(startDate.getDate()).padStart(2, "0");
@@ -341,7 +356,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
             listingObject.nearby_community_spaces = nearbyCommunitySpaces,
             listingObject.public_transport_access = publicTransportAccess,
             listingObject.gender = gender,
-            listingObject.age_range = age,
+            listingObject.age_range = age.join(','),
             listingObject.ids_and_checks = checks,
             listingObject.occupation_preference = occuption,
             // setLoad(true)
@@ -359,10 +374,12 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data);
                     setRefresh(refresh + 1)
                     setRoomEdit(false)
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.log(error);
                     setLoad(false)
                     toast.error('somthing want wrong!!!  ', {
                         position: "top-center",
@@ -379,21 +396,6 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     }
 
 
-    const [query, setQuery] = useState('');
-    const [results, setResults] = useState([]);
-
-    const handleInputChange = async (event) => {
-        setQuery(event.target.value);
-        fetch(
-            `https://maps.googleapis.com/maps/api/place/geocode/json?query=${encodeURIComponent(query)}&key=${'AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA'}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-            }).catch(err => {
-                console.log(err);
-            })
-
-    };
 
     const getStreetAddress = (a) => {
         if (a.length === 0) {
@@ -418,6 +420,27 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
     }
 
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const tgdropdown = (t) => {
+        setIsOpen(t);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+
     return (
         <div className="max-w-[736px]  mx-auto  ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Update Your Listing</h1>
@@ -427,13 +450,13 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                     <p className="text-center text-xl lg:text-2xl font-semibold  mb-6 text-[#100A55]">Property Details</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
+                            <p className=" text-[#100A55] font-bold text-lg ">Home Address: </p>
+                            <div className="relative mt-4">
+                                <input onClick={() => tgdropdown(true)} tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); ; getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full  hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg bg-white " />
 
-                            <div className="dropdown dropdown-bottom dropdown-center w-full">
-                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff]  bg-white  border-[#7065F0] rounded-lg" />
-                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-2xl  bg-white text-base rounded-none ">
-                                    {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
-                                </ul>
+                                {isOpen && <ul className=" menu p-2 shadow-2xl  bg-white text-base rounded-none absolute top-full w-full">
+                                    {street.map((item, i) => <li onClick={() => { setHomeaddress2(item?.description); tgdropdown(false) }} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
+                                </ul>}
                             </div>
                         </div>
                         {/* <div>
@@ -659,13 +682,13 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p onClick={() => setAge('Any')} className={` duration-500 border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
-                                <p onClick={() => setAge('18 - 25')} className={` duration-500 border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>18 - 25</p>
-                                <p onClick={() => setAge('26-35')} className={` duration-500 border-y border-e ${age === '26-35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26-35</p>
-                                <p onClick={() => setAge('36-45')} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36-45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36-45</p>
-                                <p onClick={() => setAge('46-60')} className={` duration-500 border border-t-0 lg:border-t ${age === '46-60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46-60</p>
-                                <p onClick={() => setAge('61+')} className={` duration-500 border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
+                            <div className="mt-4 grid grid-cols-2 lg:grid-cols-6 text-center font-medium">
+                                <p onClick={() => { ageFunction('Any'); }} className={`border border-b-0 lg:border-b duration-500 ${age.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
+                                <p onClick={() => { ageFunction('18 - 25'); }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${age.find(g => g == '18 - 25') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>18 - 25</p>
+                                <p onClick={() => { ageFunction('26 - 35'); }} className={`border-y border-s duration-500 ${age.find(g => g == '26 - 35') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26 - 35</p>
+                                <p onClick={() => { ageFunction('36 - 45'); }} className={`border duration-500 ${age.find(g => g == '36 - 45') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36 - 45</p>
+                                <p onClick={() => { ageFunction('46 - 60'); }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${age.find(g => g == '46 - 60') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46 - 60</p>
+                                <p onClick={() => { ageFunction('61+'); }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${age.find(g => g == '61+') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
                             </div>
                         </div>
                         <div>

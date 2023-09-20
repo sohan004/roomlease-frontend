@@ -197,7 +197,7 @@ const HomeOwnerSearchOption = (props) => {
 
     const genderOptionsList = ['Any', 'Male', 'Female', 'LGBTIQA+', 'Unspecified'];
 
-    const [selectedAge, setSelectedAge] = useState(age_range ? age_range : '');
+    const [selectedAge, setSelectedAge] = useState(age_range ? age_range.split(',') : []);
 
     const handleSelect = (age) => {
         setSelectedAge(age);
@@ -254,12 +254,28 @@ const HomeOwnerSearchOption = (props) => {
         setSelectedSpaces([])
         setSelectedTransportOptions([])
         setSelectedGenders([])
-        setSelectedAge('')
+        setSelectedAge([])
         setSelectedChecks([])
         setSelectedOccupations([])
     }
     const clickApply = () => {
-        window.location.href = `/rent?type=homeowner&location=${location}&page=1&house_type=${houseType}&parking_option=${parkingOptions}&rent_per_week_single_max=${rent_per_week_single_max1}&rent_per_week_single_min=${rent_per_week_single_min1}&rent_per_week_couple_max=${rent_per_week_couple_max1}&rent_per_week_couple_min=${rent_per_week_couple_min1}&bond=${bond}&bills_included_in_rent=${billRent}&bedroom_type=${bedroomType}&private_bathroom=${privateBath}&bed_size=${bedSize}&room_features=${selectedFeatures.join(',')}&amenities=${selectedAmenities.join(',')}&place_friendliness=${selectedPlaceFriendliness.join(',')}&nearby_community_spaces=${selectedSpaces.join(',')}&public_transport_access=${selectedTransportOptions.join(',')}&gender=${selectedGenders.join(',')}&age_range=${selectedAge}&ids_and_checks=${selectedChecks.join(',')}&occupation_preference=${selectedOccupations.join(',')}`
+        window.location.href = `/rent?type=homeowner&location=${location}&page=1&house_type=${houseType}&parking_option=${parkingOptions}&rent_per_week_single_max=${rent_per_week_single_max1}&rent_per_week_single_min=${rent_per_week_single_min1}&rent_per_week_couple_max=${rent_per_week_couple_max1}&rent_per_week_couple_min=${rent_per_week_couple_min1}&bond=${bond}&bills_included_in_rent=${billRent}&bedroom_type=${bedroomType}&private_bathroom=${privateBath}&bed_size=${bedSize}&room_features=${selectedFeatures.join(',')}&amenities=${selectedAmenities.join(',')}&place_friendliness=${selectedPlaceFriendliness.join(',')}&nearby_community_spaces=${selectedSpaces.join(',')}&public_transport_access=${selectedTransportOptions.join(',')}&gender=${selectedGenders.join(',')}&age_range=${selectedAge.join(',')}&ids_and_checks=${selectedChecks.join(',')}&occupation_preference=${selectedOccupations.join(',')}`
+    }
+
+
+    const ageFunction = (p) => {
+        if (p == 'Any') {
+            setSelectedAge(['Any'])
+            return
+        }
+        const filter = selectedAge.filter(filt => filt != 'Any')
+        const findData = selectedAge.find(r => r == p)
+        if (findData) {
+            const filterData = selectedAge.filter(filt => filt != p && filt != 'Any')
+            setSelectedAge(filterData)
+            return
+        }
+        setSelectedAge([...filter, p])
     }
 
     const occupationOptionsList = [
@@ -473,14 +489,14 @@ const HomeOwnerSearchOption = (props) => {
             </div>
 
             <div className='my-4 pb-6 border-b flex flex-col gap-4'>
-                <p className='font-bold text-lg'>Age Range:</p>
-                <div className="text-xs grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                    <p onClick={() => setSelectedAge('Any')} className={` duration-500 border ${selectedAge === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                    <p onClick={() => setSelectedAge('18 - 25')} className={` duration-500 border-y border-e ${selectedAge === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>18 - 25</p>
-                    <p onClick={() => setSelectedAge('26-35')} className={` duration-500 border-y border-e ${selectedAge === '26-35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>26-35</p>
-                    <p onClick={() => setSelectedAge('36-45')} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${selectedAge === '36-45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>36-45</p>
-                    <p onClick={() => setSelectedAge('46-60')} className={` duration-500 border border-t-0 lg:border-t ${selectedAge === '46-60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>46-60</p>
-                    <p onClick={() => setSelectedAge('61+')} className={` duration-500 border border-s-0 border-t-0 lg:border-t ${selectedAge === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>61+</p>
+                <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
+                <div className=" grid grid-cols-2 lg:grid-cols-6 text-center font-medium">
+                    <p onClick={() => { ageFunction('Any'); }} className={`border border-b-0 lg:border-b duration-500 ${selectedAge.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs `}>Any</p>
+                    <p onClick={() => { ageFunction('18 - 25'); }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${selectedAge.find(g => g == '18 - 25') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs  `}>18 - 25</p>
+                    <p onClick={() => { ageFunction('26 - 35'); }} className={`border-y border-s duration-500 ${selectedAge.find(g => g == '26 - 35') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs `}>26 - 35</p>
+                    <p onClick={() => { ageFunction('36 - 45'); }} className={`border duration-500 ${selectedAge.find(g => g == '36 - 45') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs `}>36 - 45</p>
+                    <p onClick={() => { ageFunction('46 - 60'); }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${selectedAge.find(g => g == '46 - 60') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs `}>46 - 60</p>
+                    <p onClick={() => { ageFunction('61+'); }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${selectedAge.find(g => g == '61+') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs `}>61+</p>
                 </div>
             </div>
 
