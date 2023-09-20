@@ -14,8 +14,8 @@ const RoomSeekerSearchOption = (props) => {
         location,
         house_type,
         parking_option,
-        rent_per_week_single: rent_per_week_single2,
-        rent_per_week_couple: rent_per_week_couple2,
+        rent_per_week_single_min: rent_per_week_single2,
+        rent_per_week_couple_min: rent_per_week_couple2,
         bond: bond2,
         bills_included_in_rent,
         bedroom_type,
@@ -260,9 +260,9 @@ const RoomSeekerSearchOption = (props) => {
     return (
         <>
             <div className='my-4 pb-6 border-b flex flex-col gap-4'>
-                <p className='font-bold '>I am looking for a place:</p>
+                <p className='font-bold '>Search people who are looking place for: </p>
                 <div className="text-xs grid grid-cols-2  text-center font-medium">
-                    <p onClick={() => setLooking_for('For Myself')} className={`border  duration-500 ${looking_for === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>For Myself</p>
+                    <p onClick={() => setLooking_for('For Myself')} className={`border  duration-500 ${looking_for === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>For themselves</p>
                     <p onClick={() => setLooking_for('As a couple')} className={`border border-s-0 duration-500 
                             ${looking_for == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer `}>As a couple</p>
                 </div>
@@ -270,6 +270,7 @@ const RoomSeekerSearchOption = (props) => {
 
 
             <div className='my-4 pb-6 border-b flex flex-col gap-4'>
+            <h1 className='text-2xl  mt-3  font-bold'>Preference</h1>
                 <p className='font-bold '>House Type:</p>
                 <div className="grid grid-cols-2 text-xs lg:grid-cols-4 text-center font-medium">
                     <p onClick={() => setHouseType('House')} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>

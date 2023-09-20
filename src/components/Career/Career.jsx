@@ -3,6 +3,7 @@ import useTitle from "../Hook/useTitle";
 import { useState } from "react";
 import { useEffect } from "react";
 import { baseURL } from "../../App";
+import { Link } from "react-router-dom";
 
 const Career = () => {
     useTitle("Careers")
@@ -33,7 +34,7 @@ const Career = () => {
                 </div>
                 <div className="flex flex-col justify-between items-center">
                     <p className="bg-blue-200 px-2 rounded-full">{item.job_type}</p>
-                 <button className="btn btn-primary btn-sm">apply now</button>
+                    <Link to={`/career/${item.id}`}><button className="btn btn-primary btn-sm">apply now</button></Link>
                 </div>
             </div>)}
 

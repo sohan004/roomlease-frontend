@@ -53,6 +53,7 @@ import BenifitsOfUpgrade from './components/BenifitsOfUpgrade/BenifitsOfUpgrade.
 import Payment from './components/Payment/Payment.jsx'
 import BlogDetails from './components/Blog/BlogDetails.jsx'
 import TestimonialDetails from './components/Testimonial/TestimonialDetails.jsx'
+import CareerDetails from './components/Career/CareerDetails.jsx'
 
 
 const router = createBrowserRouter([
@@ -186,6 +187,10 @@ const router = createBrowserRouter([
       {
         path: '/career',
         element: <Career></Career>
+      },
+      {
+        path: '/career/:id',
+        element: <CareerDetails></CareerDetails>
       },
       {
         path: '/blog/:id',

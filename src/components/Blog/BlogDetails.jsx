@@ -21,11 +21,11 @@ const BlogDetails = () => {
     console.log(faq);
     return (
         <div className='max-w-6xl mx-auto px-3 bg-white text-black'>
-            <img src={faq.image} className='w-full lg:h-[500px]' alt="" />
+            <img src={faq.image} className='w-full lg:h-[600px]' alt="" />
             <div className="py-6 space-y-2">
                 <h3 className="text-2xl font-semibold group-hover:underline group-focus:underline">{faq.title}</h3>
                 <span className="text-xs dark:text-gray-400">{moment(faq.created_at).format("MMM Do YY")}</span>
-                <p>{faq.content}</p>
+                <div>{faq.content}</div>
             </div>
         </div>
     );

@@ -106,7 +106,7 @@ const MessageDashboard = () => {
 
             <div className={`fixed  bg-white shadow-2xl duration-500 z-50 overflow-y-auto  w-full lg:hidden py-6 h-full ${!tf ? '-left-[150%]' : 'left-0'}`}>
                 <div className="px-5 py-7 w-full flex  flex-col    border-e h-[100vh]">
-                    <Link onClick={() => setTf(false)} to='/'>
+                    <Link onClick={() => setTf(true)} to='/'>
                         <h3 className="font-medium cursor-pointer  text-lg flex items-center gap-2 text-[#7065F0]"><img src={backarrow} alt="" /> Back to Home</h3>
 
                     </Link>

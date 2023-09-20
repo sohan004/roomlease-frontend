@@ -15,8 +15,10 @@ const HomeOwnerSearchOption = (props) => {
         location,
         house_type,
         parking_option,
-        rent_per_week_single: rent_per_week_single2,
-        rent_per_week_couple: rent_per_week_couple2,
+        rent_per_week_single_min,
+        rent_per_week_single_max,
+        rent_per_week_couple_min,
+        rent_per_week_couple_max,
         bond: bond2,
         bills_included_in_rent,
         bedroom_type,
@@ -44,8 +46,10 @@ const HomeOwnerSearchOption = (props) => {
     const [privateBath, setPrivateBath] = useState(private_bathroom)
     const [bedSize, setBedSize] = useState(bed_size)
     const [selectedAmenities, setSelectedAmenities] = useState(amenities ? amenities.split(',') : []);
-    const [rent_per_week_couple, setRent_per_week_couple] = useState(rent_per_week_single2)
-    const [rent_per_week_single, setRent_per_week_single] = useState(rent_per_week_couple2)
+    const [rent_per_week_single_min1, setRent_per_week_single_min1] = useState(rent_per_week_single_min)
+    const [rent_per_week_single_max1, setRent_per_week_single_max1] = useState(rent_per_week_single_max)
+    const [rent_per_week_couple_min1, setRent_per_week_couple_min1] = useState(rent_per_week_couple_min)
+    const [rent_per_week_couple_max1, setRent_per_week_couple_max1] = useState(rent_per_week_couple_max)
     const [selectedFeatures, setSelectedFeatures] = useState(room_features ? room_features.split(',') : []);
 
     const toggleFeature = (feature) => {
@@ -241,8 +245,10 @@ const HomeOwnerSearchOption = (props) => {
         setPrivateBath('')
         setBedSize('')
         setSelectedAmenities([])
-        setRent_per_week_couple('')
-        setRent_per_week_single('')
+        setRent_per_week_single_min1('')
+        setRent_per_week_single_max1('')
+        setRent_per_week_couple_min1('')
+        setRent_per_week_couple_max1('')
         setSelectedFeatures([])
         setSelectedPlaceFriendliness([])
         setSelectedSpaces([])
@@ -253,7 +259,7 @@ const HomeOwnerSearchOption = (props) => {
         setSelectedOccupations([])
     }
     const clickApply = () => {
-        window.location.href = `/rent?type=homeowner&location=${location}&page=1&house_type=${houseType}&parking_option=${parkingOptions}&rent_per_week_single=${rent_per_week_single}&rent_per_week_couple=${rent_per_week_couple}&bond=${bond}&bills_included_in_rent=${billRent}&bedroom_type=${bedroomType}&private_bathroom=${privateBath}&bed_size=${bedSize}&room_features=${selectedFeatures.join(',')}&amenities=${selectedAmenities.join(',')}&place_friendliness=${selectedPlaceFriendliness.join(',')}&nearby_community_spaces=${selectedSpaces.join(',')}&public_transport_access=${selectedTransportOptions.join(',')}&gender=${selectedGenders.join(',')}&age_range=${selectedAge}&ids_and_checks=${selectedChecks.join(',')}&occupation_preference=${selectedOccupations.join(',')}`
+        window.location.href = `/rent?type=homeowner&location=${location}&page=1&house_type=${houseType}&parking_option=${parkingOptions}&rent_per_week_single_max=${rent_per_week_single_max1}&rent_per_week_single_min=${rent_per_week_single_min1}&rent_per_week_couple_max=${rent_per_week_couple_max1}&rent_per_week_couple_min=${rent_per_week_couple_min1}&bond=${bond}&bills_included_in_rent=${billRent}&bedroom_type=${bedroomType}&private_bathroom=${privateBath}&bed_size=${bedSize}&room_features=${selectedFeatures.join(',')}&amenities=${selectedAmenities.join(',')}&place_friendliness=${selectedPlaceFriendliness.join(',')}&nearby_community_spaces=${selectedSpaces.join(',')}&public_transport_access=${selectedTransportOptions.join(',')}&gender=${selectedGenders.join(',')}&age_range=${selectedAge}&ids_and_checks=${selectedChecks.join(',')}&occupation_preference=${selectedOccupations.join(',')}`
     }
 
     const occupationOptionsList = [
@@ -270,6 +276,7 @@ const HomeOwnerSearchOption = (props) => {
     return (
         <>
             <div className='my-4 pb-6 border-b flex flex-col gap-4'>
+                <h1 className='text-2xl  mt-3  font-bold'>Preference</h1>
                 <p className='font-bold '>House Type:</p>
                 <div className="grid grid-cols-2 text-xs lg:grid-cols-4 text-center font-medium">
                     <p onClick={() => setHouseType('House')} className={`font-bold text-[#7065F0] border border-b-0 lg:border-b duration-500 ${houseType === 'House' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] py-3 cursor-pointer`}>House</p>
@@ -292,19 +299,49 @@ const HomeOwnerSearchOption = (props) => {
             </div>
 
             <div className='my-4 pb-6 border-b'>
-                <p className="text-[#100A55] font-bold text-lg">Rent per Week:</p>
+                <p className="text-[#100A55] font-bold text-lg">Rent per Week Single:</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
-                        <label className="input-group">
-                            <span className="bg-white border-e border-[#7065F0] ">$</span>
-                            <input placeholder="Singles" onChange={(e) => setRent_per_week_single(e.target.value)} type="text" className="input bg-white  w-full " />
-                        </label>
+                    <div className='mt-2'>
+                        <p>Minimum</p>
+                        <div className="form-control mt-1 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
+                            <label className="input-group">
+                                <span className="bg-white border-e border-[#7065F0] ">$</span>
+                                <input placeholder="Minimum" value={rent_per_week_single_min1} onChange={(e) => setRent_per_week_single_min1(e.target.value)} type="text" className="input bg-white  w-full " />
+                            </label>
+                        </div>
                     </div>
-                    <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
-                        <label className="input-group">
-                            <span className="bg-white border-e border-[#7065F0] ">$</span>
-                            <input placeholder="Couples" onChange={(e) => setRent_per_week_couple(e.target.value)} type="text" className="input bg-white  w-full " />
-                        </label>
+                    <div className='mt-2'>
+                        <p>Maximum</p>
+                        <div className="form-control mt-1 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
+                            <label className="input-group">
+                                <span className="bg-white border-e border-[#7065F0] ">$</span>
+                                <input placeholder="Maximum" value={rent_per_week_single_max1} onChange={(e) => setRent_per_week_single_max1(e.target.value)} type="text" className="input bg-white  w-full " />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='my-4 pb-6 border-b'>
+                <p className="text-[#100A55] font-bold text-lg">Rent per Week Couple:</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div className='mt-2'>
+                        <p>Minimum</p>
+                        <div className="form-control mt-1 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
+                            <label className="input-group">
+                                <span className="bg-white border-e border-[#7065F0] ">$</span>
+                                <input placeholder="Minimum" value={rent_per_week_couple_min1} onChange={(e) => setRent_per_week_couple_min1(e.target.value)} type="text" className="input bg-white  w-full " />
+                            </label>
+                        </div>
+                    </div>
+                    <div className='mt-2'>
+                        <p>Maximum</p>
+                        <div className="form-control mt-1 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
+                            <label className="input-group">
+                                <span className="bg-white border-e border-[#7065F0] ">$</span>
+                                <input placeholder="Maximum" value={rent_per_week_couple_max1} onChange={(e) => setRent_per_week_couple_max1(e.target.value)} type="text" className="input bg-white  w-full " />
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -466,18 +503,6 @@ const HomeOwnerSearchOption = (props) => {
                 </div>
             </div>
 
-            <div className='my-4 pb-6 border-b flex flex-col gap-4'>
-                <p className='font-bold text-lg'>Occupation Preference:</p>
-                <div className="text-xs grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
-                    <p onClick={() => toggleOccupation('Any')} className={` duration-500 border ${selectedOccupations.find(o => o == 'Any') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Any</p>
-                    <p onClick={() => toggleOccupation('Student')} className={` duration-500 border-t border-e lg:border-e-0 ${selectedOccupations.find(o => o == 'Student') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Student</p>
-                    <p onClick={() => toggleOccupation('Professional')} className={` duration-500 border border-y-0 lg:border-t ${selectedOccupations.find(o => o == 'Professional') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Professional</p>
-                    <p onClick={() => toggleOccupation('Backpackers')} className={` duration-500 border lg:border-t-0 border-s-0 lg:border-s lg:border-e-0 border-b-0 lg:border-b  ${selectedOccupations.find(o => o == 'Backpackers') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Backpackers</p>
-                    <p onClick={() => toggleOccupation('On welfare')} className={` duration-500 border  ${selectedOccupations.find(o => o == 'On welfare') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>On welfare</p>
-                    <p onClick={() => toggleOccupation('Retired')} className={` duration-500 border border-s-0  ${selectedOccupations.find(o => o == 'Retired') ? 'hover:bg-[#554db3] border border-[#bab7e4] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Retired</p>
-                    <p onClick={() => toggleOccupation('Job Seeker')} className={` duration-500 border border-t-0 col-span-2 lg:col-span-3  ${selectedOccupations.find(o => o == 'Job Seeker') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer`}>Job Seeker</p>
-                </div>
-            </div>
 
 
             <div className='flex justify-center items-center gap-6  bg-white p-3 -bottom-8 lg:bottom-0 sticky w-full'>

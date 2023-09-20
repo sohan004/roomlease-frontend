@@ -539,6 +539,7 @@ const HomeOwnerListingCardDetails = () => {
                             });
 
                             const homeAddressListing = key == 'home_address' && listingDetails[key].split(',')
+                            const homeAddressListingLength = key == 'home_address' && homeAddressListing.length
 
 
                             const vlidarray = Array.isArray(listingDetails[key]);
@@ -553,8 +554,8 @@ const HomeOwnerListingCardDetails = () => {
 
                                         <p className='font-semibold text-xs lg:text-base'>{key == 'home_address' ?
                                             <>
-                                                {homeAddressListing.length === 2 && homeAddressListing[0]}
-                                                {homeAddressListing.length > 2 && homeAddressListing[1]}
+                                                {homeAddressListing.length === 1 && homeAddressListing[0]}
+                                                {homeAddressListing.length > 1 && homeAddressListing[homeAddressListingLength - 2]}
 
                                             </>
                                             : listingDetails[key]}</p>
