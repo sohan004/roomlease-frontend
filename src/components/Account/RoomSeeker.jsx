@@ -560,13 +560,13 @@ const RoomSeeker = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
 
                         <div>
-                            <input onChange={(e) => { setFirstName(e.target.value); onchengeFunction() }} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
+                            <input onChange={(e) => { setFirstName(e.target.value); }} placeholder="First Name" type="text" name="" className="w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
                         </div>
                         <div>
-                            <input onChange={(e) => { setSecondName(e.target.value); onchengeFunction() }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]   bg-white rounded-lg" />
+                            <input onChange={(e) => { setSecondName(e.target.value); }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]   bg-white rounded-lg" />
                         </div>
                         <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => { setEmail(e.target.value); onchengeFunction() }} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
+                            <input onChange={(e) => { setEmail(e.target.value); }} placeholder="Email" type="email" name="" className="w-full py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
                         </div>
                     </div>
                     <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Preferences</p>
@@ -574,8 +574,8 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">I am looking for a place:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
-                                <p onClick={() => { setLookingForPlace('For Myself'); onchengeFunction() }} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>For Myself</p>
-                                <p onClick={() => { setLookingForPlace('As a couple'); onchengeFunction() }} className={`border border-s-0 duration-500 
+                                <p onClick={() => { setLookingForPlace('For Myself'); }} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>For Myself</p>
+                                <p onClick={() => { setLookingForPlace('As a couple'); }} className={`border border-s-0 duration-500 
                             ${lookingForPlace == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>As a couple</p>
                             </div>
                         </div>

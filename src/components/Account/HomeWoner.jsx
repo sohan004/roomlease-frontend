@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Select from 'react-select'
 import RoomFurnishingAndFeture from "./RoomFurnishingAndFeture";
 import { FaArrowRight, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
@@ -50,7 +50,7 @@ const HomeWoner = () => {
     const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState([])
     const [publicTransportAccess, setPublicTransportAccess] = useState([])
     const [gender, setGender] = useState([])
-    const [age, setAge] = useState('')
+    const [age, setAge] = useState([])
     const [checks, setChecks] = useState([])
     const [smoke, setSmoke] = useState('')
     const [pets, setPets] = useState('')
@@ -212,6 +212,20 @@ const HomeWoner = () => {
             return
         }
         setGender([...filter, p])
+    }
+    const ageFunction = (p) => {
+        if (p == 'Any') {
+            setAge(['Any'])
+            return
+        }
+        const filter = age.filter(filt => filt != 'Any')
+        const findData = age.find(r => r == p)
+        if (findData) {
+            const filterData = age.filter(filt => filt != p && filt != 'Any')
+            setAge(filterData)
+            return
+        }
+        setAge([...filter, p])
     }
 
 
@@ -684,7 +698,7 @@ const HomeWoner = () => {
             "nearby_community_spaces": nearbyCommunitySpaces,
             "public_transport_access": publicTransportAccess,
             "gender": gender,
-            "age_range": age,
+            "age_range": age.join(','),
             "ids_and_checks": checks,
             "occupation_preference": occuption,
             "user": userData?.user_id,
@@ -748,7 +762,7 @@ const HomeWoner = () => {
         }
 
 
-
+        console.log(email);
 
         const year = startDate.getFullYear();
         const month = String(startDate.getMonth() + 1).padStart(2, "0");
@@ -781,7 +795,7 @@ const HomeWoner = () => {
             "nearby_community_spaces": nearbyCommunitySpaces,
             "public_transport_access": publicTransportAccess,
             "gender": gender,
-            "age_range": age,
+            "age_range": age.join(',') || '',
             "ids_and_checks": checks,
             "occupation_preference": occuption,
             "user": userData?.user_id,
@@ -859,35 +873,58 @@ const HomeWoner = () => {
             .catch(err => setStreet([]))
 
     }
+
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const tgdropdown = (t) => {
+        setIsOpen(t);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="max-w-[736px]  mx-auto px-4 ">
+        <div ref={dropdownRef} className="max-w-[736px]  mx-auto px-4 ">
             <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
             <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
             <form onSubmit={handle} >
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
                         <div>
-                            <input onChange={(e) => { onchengeFunction(); setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 bg-white px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 bg-white px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div>
-                            <input onChange={(e) => { onchengeFunction(); setSecondName(e.target.value) }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4  bg-white hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setSecondName(e.target.value) }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4  bg-white hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => { onchengeFunction(); setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4  bg-white  hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4  bg-white  hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
                     <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Property Details</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
 
-                            <p className=" text-[#100A55] font-bold text-lg">Home Address: </p>
+                            <p className=" text-[#100A55] font-bold text-lg ">Home Address: </p>
+                            <div className="relative mt-4">
+                                <input onClick={() => tgdropdown(true)} tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); onchengeFunction(); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full  hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg bg-white " />
 
-                            <div className="dropdown dropdown-bottom dropdown-center w-full">
-                                <input tabIndex={0} value={homeaddress2} onChange={e => { setHomeaddress2(e.target.value); onchengeFunction(); getStreetAddress(e.target.value) }} placeholder="Home Address: " type="text" name="" className="w-full mt-4 hover:border-2 focus:border-2 py-3 px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg bg-white " />
-                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-2xl  bg-white text-base rounded-none ">
-                                    {street.map((item, i) => <li onClick={() => setHomeaddress2(item?.description)} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
-                                </ul>
+                                {isOpen && <ul className=" menu p-2 shadow-2xl  bg-white text-base rounded-none absolute top-full w-full">
+                                    {street.map((item, i) => <li onClick={() => { setHomeaddress2(item?.description); tgdropdown(false) }} key={i}><a>  <FaMapMarkerAlt />{item?.description}</a></li>)}
+                                </ul>}
                             </div>
+
+
 
                         </div>
                         {/* <div>
@@ -1048,7 +1085,7 @@ const HomeWoner = () => {
                     <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Amenities </p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 text-center font-medium">
-                            <p onClick={() => { aminetAddFunction('Outdoor Area'); onchengeFunction() }} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 ' }  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Outdoor Area</p>
+                            <p onClick={() => { aminetAddFunction('Outdoor Area'); onchengeFunction() }} className={`border border-b-0 lg:border-b duration-500 ${animate.find(a => a == 'Outdoor Area') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white   border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100 '}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Outdoor Area</p>
                             <p onClick={() => { aminetAddFunction('Kitchen'); onchengeFunction() }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${animate.find(a => a == 'Kitchen') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>Kitchen</p>
                             <p onClick={() => { aminetAddFunction('TV'); onchengeFunction() }} className={`border-y border-s duration-500 ${animate.find(a => a == 'TV') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>TV</p>
                             <p onClick={() => { aminetAddFunction('Laundry'); onchengeFunction() }} className={`border duration-500 ${animate.find(a => a == 'Laundry') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Laundry</p>
@@ -1112,15 +1149,16 @@ const HomeWoner = () => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p onClick={() => { setAge('Any'); onchengeFunction() }} className={` duration-500 border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
-                                <p onClick={() => { setAge('18 - 25'); onchengeFunction() }} className={` duration-500 border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>18 - 25</p>
-                                <p onClick={() => { setAge('26-35'); onchengeFunction() }} className={` duration-500 border-y border-e ${age === '26-35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26-35</p>
-                                <p onClick={() => { setAge('36-45'); onchengeFunction() }} className={` duration-500 border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36-45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36-45</p>
-                                <p onClick={() => { setAge('46-60'); onchengeFunction() }} className={` duration-500 border border-t-0 lg:border-t ${age === '46-60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46-60</p>
-                                <p onClick={() => { setAge('61+'); onchengeFunction() }} className={` duration-500 border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
+                            <div className="mt-4 grid grid-cols-2 lg:grid-cols-6 text-center font-medium">
+                                <p onClick={() => { ageFunction('Any'); onchengeFunction() }} className={`border border-b-0 lg:border-b duration-500 ${age.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
+                                <p onClick={() => { ageFunction('18 - 25'); onchengeFunction() }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${age.find(g => g == '18 - 25') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>18 - 25</p>
+                                <p onClick={() => { ageFunction('26 - 35'); onchengeFunction() }} className={`border-y border-s duration-500 ${age.find(g => g == '26 - 35') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26 - 35</p>
+                                <p onClick={() => { ageFunction('36 - 45'); onchengeFunction() }} className={`border duration-500 ${age.find(g => g == '36 - 45') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36 - 45</p>
+                                <p onClick={() => { ageFunction('46 - 60'); onchengeFunction() }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${age.find(g => g == '46 - 60') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46 - 60</p>
+                                <p onClick={() => { ageFunction('61+'); onchengeFunction() }} className={`duration-500 col-span-2 lg:col-span-1 border border-t-0 lg:border-t lg:border-s-0  ${age.find(g => g == '61+') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
                             </div>
                         </div>
+
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">

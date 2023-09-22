@@ -14,6 +14,7 @@ const AuthProvider = ({ children }) => {
     const [listing, setListing] = useState(null)
     const [refresh, setRefresh] = useState(1)
     const [listingLoading, setListingLoading] = useState(true)
+    const [tf, setTf] = useState(true)
 
 
     const [userData, setUserData] = useState(null)
@@ -105,7 +106,8 @@ const AuthProvider = ({ children }) => {
         setLoading,
         setUserData,
         searchDrpopDown, setSearchDrpopDown,
-        listingLoading2, setListingLoading2
+        listingLoading2, setListingLoading2,
+        tf, setTf
     }
     return (
         <AuthContext.Provider value={valu}>

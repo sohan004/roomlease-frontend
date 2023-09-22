@@ -26,7 +26,7 @@ export default function PaypalPayment({ price, subscription, userData: user }) {
                                     amount: {
                                         value: amount,
                                     },
-                                    custom_id: JSON.stringify(userData),
+                                    custom_id: `${userData.id}-${userData.subscription}`,
                                 },
                             ],
                         });

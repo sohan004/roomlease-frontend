@@ -155,7 +155,7 @@ const Profile = () => {
         if (!listing || userData?.account_type === 'roomseeker') {
             return
         }
-        
+
         fetch(`${baseURL}/listing/get-house-listing-photos/${listing?.id}/`, {
             method: 'GET',
             headers: {
@@ -685,6 +685,7 @@ const Profile = () => {
 
     }
 
+
     const addYoutubeVideoLink = async () => {
         if (!userData) return
         if (userData.subscription === 'Free') {
@@ -907,6 +908,7 @@ const Profile = () => {
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
+                            <h1 className='font-medium   my-3'>{userData?.email}</h1>
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
                             <h1 className='  mt-4 text-center'>Make mobile number visible on profile?</h1>
                             <div className='flex mt-2 items-center justify-center gap-4'>
@@ -1257,6 +1259,7 @@ const Profile = () => {
                             const vlidarray = Array.isArray(listing[key]);
 
                             const homeAddressListing = key == 'home_address' && listing[key].split(',')
+                            const homeAddressListingLength = key == 'home_address' && homeAddressListing.length
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
                                 <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
@@ -1268,9 +1271,8 @@ const Profile = () => {
 
                                         <p className='font-semibold text-xs lg:text-base'>{key == 'home_address' ?
                                             <>
-                                                {homeAddressListing.length === 2 && homeAddressListing[0]}
-                                                {homeAddressListing.length > 2 && homeAddressListing[1]}
-
+                                                {homeAddressListing.length === 1 && homeAddressListing[0]}
+                                                {homeAddressListing.length > 1 && homeAddressListing[homeAddressListingLength - 2]}
                                             </>
                                             : listing[key]}</p>
                                 }

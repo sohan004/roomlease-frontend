@@ -50,8 +50,10 @@ const Rent = () => {
     const location = quary.get('location') || ''
     const house_type = quary.get('house_type') || ''
     const parking_option = quary.get('parking_option') || ''
-    const rent_per_week_single = quary.get('rent_per_week_single') || ''
-    const rent_per_week_couple = quary.get('rent_per_week_couple') || ''
+    const rent_per_week_single_min = quary.get('rent_per_week_single_min') || ''
+    const rent_per_week_single_max = quary.get('rent_per_week_single_max') || ''
+    const rent_per_week_couple_min = quary.get('rent_per_week_couple_min') || ''
+    const rent_per_week_couple_max = quary.get('rent_per_week_couple_max') || ''
     const bond = quary.get('bond') || ''
     const bills_included_in_rent = quary.get('bills_included_in_rent') || ''
     const bedroom_type = quary.get('bedroom_type') || ''
@@ -79,7 +81,7 @@ const Rent = () => {
     const [value, setValue] = useState([1, 1500000]);
 
 
-    const path1 = `${baseURL}/search/home-listings/?location=${location}&page=${page}&house_type=${house_type}&parking_option=${parking_option}&rent_per_week_single=${rent_per_week_single}&rent_per_week_couple=${rent_per_week_couple}&bond=${bond}&bills_included_in_rent=${bills_included_in_rent}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
+    const path1 = `${baseURL}/search/home-listings/?location=${location}&page=${page}&house_type=${house_type}&parking_option=${parking_option}&rent_per_week_single_max=${rent_per_week_single_max}&rent_per_week_single_min=${rent_per_week_single_min}&rent_per_week_couple_max=${rent_per_week_couple_max}&rent_per_week_couple_min=${rent_per_week_couple_min}&bond=${bond}&bills_included_in_rent=${bills_included_in_rent}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
 
     const path2 = `${baseURL}/search/room-seekers/?location=${location}&page=${page}&looking_place=${looking_place}&house_type=${house_type}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
 
@@ -231,7 +233,7 @@ const Rent = () => {
 
                 <div className={`bg-white  duration-500 fixed lg:hidden   h-full overflow-y-auto ${right ? 'right-0 w-full  lg:w-[500px]' : '-right-[150%]'} border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
                     <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
-                    <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
+                    {/* <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1> */}
                     <p className='font-semibold   mb-3 '>Category</p>
                     <div className=" grid grid-cols-2   text-center font-medium  ">
                         <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
@@ -250,8 +252,10 @@ const Rent = () => {
                         location={location}
                         house_type={house_type}
                         parking_option={parking_option}
-                        rent_per_week_single={rent_per_week_single}
-                        rent_per_week_couple={rent_per_week_couple}
+                        rent_per_week_single_min={rent_per_week_single_min}
+                        rent_per_week_single_max={rent_per_week_single_max}
+                        rent_per_week_couple_min={rent_per_week_couple_min}
+                        rent_per_week_couple_max={rent_per_week_couple_max}
                         bond={bond}
                         bills_included_in_rent={bills_included_in_rent}
                         bedroom_type={bedroom_type}
@@ -273,8 +277,10 @@ const Rent = () => {
                             location={location}
                             house_type={house_type}
                             parking_option={parking_option}
-                            rent_per_week_single={rent_per_week_single}
-                            rent_per_week_couple={rent_per_week_couple}
+                            rent_per_week_single_min={rent_per_week_single_min}
+                            rent_per_week_single_max={rent_per_week_single_max}
+                            rent_per_week_couple_min={rent_per_week_couple_min}
+                            rent_per_week_couple_max={rent_per_week_couple_max}
                             bond={bond}
                             bills_included_in_rent={bills_included_in_rent}
                             bedroom_type={bedroom_type}
@@ -295,13 +301,13 @@ const Rent = () => {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
-                    <div className=" grid grid-cols-2   text-center font-medium  ">
-                        <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                    <div className=" grid grid-cols-2 col-span-2 lg:col-span-1  text-center font-medium  ">
+                        <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-sm cursor-pointer `}>Home Owner</p>
                         <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
-  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
+  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-sm cursor-pointer `}>Room Seeker</p>
                     </div>
 
-                    <div className="lg:col-span-3">
+                    <div className="col-span-2 lg:col-span-3">
                         <Autocomplete
 
                             className="w-full    border border-[#7065F0]  focus:outline-none py-3 px-5 h-[50px]   bg-[#f6f6ff] "
@@ -408,12 +414,12 @@ const Rent = () => {
                     <div className="w-[500px] hidden lg:block">
                         <div className={`bg-white   border lg:border-0  top-0 z-40 py-8 px-6 lg:px-12 `}>
                             <p onClick={() => setRight(false)} className='pb-4 mb-4 border-b lg:hidden'><img src={cross} alt="" /></p>
-                            <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1>
+
                             <p className='font-semibold   mb-3 '>Category</p>
                             <div className=" grid grid-cols-2   text-center font-medium  ">
-                                <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                                <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer`}>Home Owner</p>
                                 <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
-  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
+  ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer `}>Room Seeker</p>
                             </div>
                             {/* <p className='font-bold mb-3 '>Price Range</p>
                     <img className='mx-auto' src={rangepic} alt="" />
@@ -427,8 +433,10 @@ const Rent = () => {
                                 location={location}
                                 house_type={house_type}
                                 parking_option={parking_option}
-                                rent_per_week_single={rent_per_week_single}
-                                rent_per_week_couple={rent_per_week_couple}
+                                rent_per_week_single_min={rent_per_week_single_min}
+                                rent_per_week_single_max={rent_per_week_single_max}
+                                rent_per_week_couple_min={rent_per_week_couple_min}
+                                rent_per_week_couple_max={rent_per_week_couple_max}
                                 bond={bond}
                                 bills_included_in_rent={bills_included_in_rent}
                                 bedroom_type={bedroom_type}
@@ -450,8 +458,10 @@ const Rent = () => {
                                     location={location}
                                     house_type={house_type}
                                     parking_option={parking_option}
-                                    rent_per_week_single={rent_per_week_single}
-                                    rent_per_week_couple={rent_per_week_couple}
+                                    rent_per_week_single_min={rent_per_week_single_min}
+                                    rent_per_week_single_max={rent_per_week_single_max}
+                                    rent_per_week_couple_min={rent_per_week_couple_min}
+                                    rent_per_week_couple_max={rent_per_week_couple_max}
                                     bond={bond}
                                     bills_included_in_rent={bills_included_in_rent}
                                     bedroom_type={bedroom_type}

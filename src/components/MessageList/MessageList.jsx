@@ -38,8 +38,10 @@ import { baseURL } from "../../App";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 import { useContext } from "react";
 import { useRef } from "react";
+import backarrow from '../../assets/detailsPageIcon/Icon.svg'
+
 import moment from "moment";
-const MessageList = ({ setTf }) => {
+const MessageList = () => {
 
     const [img, setImg] = useState('')
     const [video, setVideo] = useState('')
@@ -58,7 +60,7 @@ const MessageList = ({ setTf }) => {
         userData,
         loading,
         setLoading,
-        setUserData
+        setUserData, tf, setTf
     } = useContext(AuthContext)
 
     const [messageList, setMessageList] = useState([])
@@ -212,7 +214,7 @@ const MessageList = ({ setTf }) => {
 
             <div className="w-full border-b bg-white">
                 <div className="p-4 flex items-center gap-4 w-full border-b">
-                    <img className="w-12 h-12 rounded-full" src={oponent?.profile_picture ? oponent?.profile_picture : blankImag} alt="" />
+                    <img onClick={() => setTf(true)} src={backarrow} className="lg:hidden" alt="" /> <img className="w-12 h-12 rounded-full" src={oponent?.profile_picture ? oponent?.profile_picture : blankImag} alt="" />
                     <div className="flex-grow">
                         <div className="flex justify-between flex-grow items-center">
                             <p className="font-bold">{oponent?.full_name}</p>
@@ -261,13 +263,13 @@ const MessageList = ({ setTf }) => {
                         <div className="mx-auto w-full flex items-start gap-3 z-30 p-3 rounded-lg bg-white border-2 border-indigo-100">
                             <div className="dropdown dropdown-top">
                                 <FaPlusCircle tabIndex={0} className="text-3xl text-[#7065F0] cursor-pointer"></FaPlusCircle>
-                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-white rounded-box w-52">
                                     <li onClick={() => window.message_photo.showModal()}><a>Photo</a></li>
                                     <li onClick={() => window.message_video.showModal()}><a>Video</a></li>
                                 </ul>
                             </div>
-                            <textarea onChange={e => setMessage(e.target.value)} value={message} type="text" name="" className="  flex-grow w-full focus:outline-none" placeholder="Write your message..." id="" />
-                            <button disabled={message === '' ? true : false} onClick={sendMessageFunction} className="btn  btn-sm text-white bg-[#7065F0] hover:bg-[#433c8f]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
+                            <textarea onChange={e => setMessage(e.target.value)} value={message} type="text" name="" className="  flex-grow w-full focus:outline-none bg-white" placeholder="Write your message..." id="" />
+                            <button disabled={message === '' ? true : false} onClick={sendMessageFunction} className="btn  btn-sm text-white bg-[#7065F0] border-0 hover:bg-[#433c8f]"><span className="hidden  lg:inline">send</span> <img src={text7} alt="" /></button>
                         </div>
                     </div>
 
@@ -277,7 +279,7 @@ const MessageList = ({ setTf }) => {
                     {/* Open the modal using ID.showModal() method */}
                     {/* Open the modal using ID.showModal() method */}
                     <dialog id="message_photo" className="modal">
-                        <div method="dialog" className="modal-box max-w-2xl">
+                        <div method="dialog" className="modal-box max-w-2xl bg-white">
                             <p className="text-red-500 my-4 ">{err}</p>
                             {img && <img className="w-40 shadow-md h-40" src={URL.createObjectURL(img)} alt="" />}
                             <fieldset className="w-full space-y-1 dark:text-gray-100">
@@ -294,7 +296,7 @@ const MessageList = ({ setTf }) => {
                         </div>
                     </dialog>
                     <dialog id="message_video" className="modal">
-                        <div method="dialog" className="modal-box max-w-2xl">
+                        <div method="dialog" className="modal-box max-w-2xl bg-white">
                             <p className="text-red-500 my-4 ">{err}</p>
                             {video && <video className='w-40 ' controls>
                                 <source src={URL.createObjectURL(video)} type="video/mp4" />
