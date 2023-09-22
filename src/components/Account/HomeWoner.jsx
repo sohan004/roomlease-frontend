@@ -762,7 +762,7 @@ const HomeWoner = () => {
         }
 
 
-
+        console.log(email);
 
         const year = startDate.getFullYear();
         const month = String(startDate.getMonth() + 1).padStart(2, "0");
@@ -902,13 +902,13 @@ const HomeWoner = () => {
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
                         <div>
-                            <input onChange={(e) => { onchengeFunction(); setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 bg-white px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 bg-white px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div>
-                            <input onChange={(e) => { onchengeFunction(); setSecondName(e.target.value) }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4  bg-white hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setSecondName(e.target.value) }} placeholder="Last Name" type="text" name="" className="w-full py-3 px-4  bg-white hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                         <div className="col-span-1 lg:col-span-2 ">
-                            <input onChange={(e) => { onchengeFunction(); setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4  bg-white  hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
+                            <input onChange={(e) => { setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4  bg-white  hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
                     </div>
                     <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Property Details</p>

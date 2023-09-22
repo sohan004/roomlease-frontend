@@ -685,6 +685,7 @@ const Profile = () => {
 
     }
 
+
     const addYoutubeVideoLink = async () => {
         if (!userData) return
         if (userData.subscription === 'Free') {
@@ -907,6 +908,7 @@ const Profile = () => {
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className='font-medium text-lg lg:text-lg my-3'>+{userData?.username}</h1>
+                            <h1 className='font-medium   my-3'>{userData?.email}</h1>
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
                             <h1 className='  mt-4 text-center'>Make mobile number visible on profile?</h1>
                             <div className='flex mt-2 items-center justify-center gap-4'>

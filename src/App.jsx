@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Nav from './components/Nav/Nav'
 import logo from './assets/Frame.svg'
-import logo11 from './assets/🦆 icon _arrow circle right_.svg'
+// import logo11 from './assets/🦆 icon _arrow circle right_.svg'
 import Footer from './components/Footer/Footer';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import CommonLinks from './components/Nav/CommonLinks';
@@ -61,7 +61,7 @@ const App = () => {
         </div>}
 
         <div className='absolute top-16 -right-4'>
-          <img onClick={() => setTf(false)} className='bg-[#7065F0] rounded-full  p-1 h-11' src={logo11} alt="" />
+          <img onClick={() => setTf(false)} className='bg-[#7065F0] rounded-full  p-1 h-11'  alt="" />
         </div>
 
       </div>
