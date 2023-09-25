@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const HomeWoner = () => {
     const [roomFeutureOthers, setRoomFeutureOthers] = useState(false)
-    const { userData } = useContext(AuthContext)
+    const { userData, listing } = useContext(AuthContext)
 
 
 
@@ -304,372 +304,16 @@ const HomeWoner = () => {
     const navigate = useNavigate()
     const handle = (e) => {
         e.preventDefault()
-        if (!firstName) {
-            toast.error('Please type your first name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            return
-        }
-        if (!secondName) {
-            toast.error('Please type your second name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-                progress: undefined,
-            });
-            return
-        }
-        if (!email) {
-            toast.error('Please type your email address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                theme: "colored",
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!homeaddress2) {
-            toast.error('Please type your home address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        // if (!homeAddress) {
-        //     toast.error('Please type suburb', {
-        //         position: "top-center",
-        //         autoClose: 5000,
-        //         hideProgressBar: false,
-        //         theme: "colored",
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //     });
-        //     return
-        // }
-        if (!houseType) {
-            toast.error('Please select your house type', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!parkingOptions) {
-            toast.error('Please select your parking options', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!startDate) {
-            toast.error('Please select Available from', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!minimumStayOthers) {
-            if (!minimumStay) {
-                toast.error('Please select minimum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (!maximumStayOthers) {
-            if (!maximumStay) {
-                toast.error('Please select maximum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (minimumStayOthers) {
-            if (!minimumStayOthersValue) {
-                toast.error('Please type minimum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (maximumStayOthers) {
-            if (!maximumStayOthersValue) {
-                toast.error('Please type maximum stay', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (!rentPerweeksingle) {
-            toast.error('Please type rent per week for single', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!rentPerweekcouple) {
-            toast.error('Please type rent per week for couple', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!bond) {
-            toast.error('Please select bond', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!billRent) {
-            if (!approximatecost) {
-                toast.error('Please type approximate cost', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    theme: "colored",
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                return
-            }
-        }
-        if (!furnished) {
-            toast.error('Please select Bedrom Type', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!privateBath) {
-            toast.error('Please select Private Bathroom ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!bedSize) {
-            toast.error('Please select Bed Size ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (roomFurnishingsAndFeatures.length === 0) {
-            toast.error('Please select Room  Features ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!animate) {
-            toast.error('Please select Amenities ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!placeFriendless) {
-            toast.error('Please select Place Friendless ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!nearbyCommunitySpaces) {
-            toast.error('Please select Nearby Community Spaces  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!publicTransportAccess) {
-            toast.error('Please select Public Transport Access  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!gender) {
-            toast.error('Please select gender  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!age) {
-            toast.error('Please select age  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (checks.length === 0) {
-            toast.error('Please select checks  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!occuption) {
-            toast.error('Please select occuption  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
 
-        }
         const year = startDate.getFullYear();
         const month = String(startDate.getMonth() + 1).padStart(2, "0");
         const day = String(startDate.getDate()).padStart(2, "0");
+
+        if (!listing) {
+            if (firstName === '' || secondName === '' || email === '') {
+                return
+            }
+        }
 
         const allInfo = {
             first_name: firstName,
@@ -717,12 +361,7 @@ const HomeWoner = () => {
                 console.log(data)
                 if (data.id) {
                     setLoad(false)
-                    if (userData?.subscription == 'Free') {
-                        navigate('/homeowner-pricing')
-                    }
-                    else {
-                        navigate('/profile')
-                    }
+                    window.location.href = `/profile`
                 }
                 else {
                     setLoad(false)
@@ -896,11 +535,13 @@ const HomeWoner = () => {
 
     return (
         <div ref={dropdownRef} className="max-w-[736px]  mx-auto px-4 ">
-            <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
-            <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
+            {!listing && <div>
+                <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
+                <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
+            </div>}
             <form onSubmit={handle} >
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
+                    {!listing && <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
                         <div>
                             <input onChange={(e) => { setFirstName(e.target.value) }} placeholder="First Name" type="text" name="" className="w-full py-3 bg-white px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
@@ -910,7 +551,7 @@ const HomeWoner = () => {
                         <div className="col-span-1 lg:col-span-2 ">
                             <input onChange={(e) => { setEmail(e.target.value) }} placeholder="Email" type="email" name="" className="w-full py-3 px-4  bg-white  hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg" />
                         </div>
-                    </div>
+                    </div>}
                     <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Property Details</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
@@ -1106,10 +747,9 @@ const HomeWoner = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Local Amenities and Transport</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#100A55] font-bold  text-lg">Nearby Community Spaces:</p>
+                            <p className="text-[#100A55] font-bold mt-6 text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => { nearbyAddFunction('Parks'); onchengeFunction() }} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Parks</p>
                                 <p onClick={() => { nearbyAddFunction('Aquatic Centres'); onchengeFunction() }} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Aquatic Centres</p>
@@ -1135,10 +775,9 @@ const HomeWoner = () => {
 
                         </div>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Preferences for Potential Tenant</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#100A55] font-bold text-lg">Gender:</p>
+                            <p className="text-[#100A55] font-bold text-lg mt-6">Gender:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => { genderFunction('Any'); onchengeFunction() }} className={`border border-b-0 lg:border-b duration-500 ${gender.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
                                 <p onClick={() => { genderFunction('Male'); onchengeFunction() }} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender.find(g => g == 'Male') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>Male</p>

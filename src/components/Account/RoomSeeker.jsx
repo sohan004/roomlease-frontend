@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 const RoomSeeker = () => {
 
-    const { userData } = useContext(AuthContext)
+    const { userData, listing } = useContext(AuthContext)
 
     // all from data
     const [firstName, setFirstName] = useState('')
@@ -170,229 +170,13 @@ const RoomSeeker = () => {
     const handle = (e) => {
         e.preventDefault();
 
-        if (!firstName) {
-            toast.error('Please type your first name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            return
+        if (!listing) {
+            if (firstName === '' || secondName === '' || email === '' || lookingForPlace === '') {
+                return
+            }
         }
-        if (!secondName) {
-            toast.error('Please type your second name', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "colored",
-                progress: undefined,
-            });
-            return
-        }
-        if (!email) {
-            toast.error('Please type your email address', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                theme: "colored",
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!lookingForPlace) {
-            toast.error('Please select  looking for place', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                theme: "colored",
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!houseType) {
-            toast.error('Please select your house type', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            return
-        }
-        if (!furnished) {
-            toast.error('Please select Bedrom Type', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!privateBath) {
-            toast.error('Please select Private Bathroom ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!bedSize) {
-            toast.error('Please select Bed Size ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (roomFurnishingsAndFeatures.length === 0) {
-            toast.error('Please select Room  Features ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!animate) {
-            toast.error('Please select Amenities ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!placeFriendless) {
-            toast.error('Please select Place Friendless ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!nearbyCommunitySpaces) {
-            toast.error('Please select Nearby Community Spaces  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!publicTransportAccess) {
-            toast.error('Please select Public Transport Access  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!gender) {
-            toast.error('Please select gender  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!age) {
-            toast.error('Please select age  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (checks.length === 0) {
-            toast.error('Please select checks  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
-        }
-        if (!occuption) {
-            toast.error('Please select occuption  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
 
-        }
-        if (!suburbValue.length) {
-            toast.error('Please select suburb  ', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                theme: "colored",
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            }); return
 
-        }
         const allInfo = {
             first_name: firstName,
             last_name: secondName,
@@ -516,8 +300,7 @@ const RoomSeeker = () => {
                     setSta(false)
                     setLoad(false)
                     // window.location.href = `/homeowner-pricing`
-                    setUrl(`/listing/room-seekers/${data?.id}/`)
-                    setApiMethod('PUT')
+                    window.location.href = `/profile`
                 }
                 else {
                     console.log(data);
@@ -553,8 +336,10 @@ const RoomSeeker = () => {
 
     return (
         <div className="max-w-[736px]  mx-auto px-4 ">
-            <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
-            <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
+            {!listing && <div>
+                <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
+                <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
+            </div>}
             <form onSubmit={handle}>
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
@@ -574,8 +359,8 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">I am looking for a place:</p>
                             <div className="mt-4 grid grid-cols-2  text-center font-medium">
-                                <p onClick={() => { setLookingForPlace('For Myself'); }} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>For Myself</p>
-                                <p onClick={() => { setLookingForPlace('As a couple'); }} className={`border border-s-0 duration-500 
+                                <p onClick={() => { setLookingForPlace('For Myself'); onchengeFunction() }} className={`border  duration-500 ${lookingForPlace === 'For Myself' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>For Myself</p>
+                                <p onClick={() => { setLookingForPlace('As a couple'); onchengeFunction() }} className={`border border-s-0 duration-500 
                             ${lookingForPlace == 'As a couple' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>As a couple</p>
                             </div>
                         </div>
@@ -679,10 +464,9 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Local Amenities and Transport</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#100A55] font-bold  text-lg">Nearby Community Spaces:</p>
+                            <p className="text-[#100A55] font-bold mt-6  text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => { nearbyAddFunction('Parks'); onchengeFunction() }} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Parks</p>
                                 <p onClick={() => { nearbyAddFunction('Aquatic Centres'); onchengeFunction() }} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Aquatic Centres</p>
@@ -721,7 +505,15 @@ const RoomSeeker = () => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <input onChange={(e) => { setAge(e.target.value); onchengeFunction() }} placeholder="age" type="text" name="" className="w-full py-3 px-4 bg-white hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
+
+                            <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
+                                <p onClick={() => { setAge('Any'); onchengeFunction() }} className={`border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
+                                <p onClick={() => { setAge('18 - 25'); onchengeFunction() }} className={`border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>18 - 25</p>
+                                <p onClick={() => { setAge('26 - 35'); onchengeFunction() }} className={`border-y border-e ${age === '26 - 35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26 - 35</p>
+                                <p onClick={() => { setAge('36 - 45'); onchengeFunction() }} className={`border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36 - 45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36 - 45</p>
+                                <p onClick={() => { setAge('46 - 60'); onchengeFunction() }} className={`border border-t-0 lg:border-t ${age === '46 - 60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46 - 60</p>
+                                <p onClick={() => { setAge('61+'); onchengeFunction() }} className={`border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
+                            </div>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
