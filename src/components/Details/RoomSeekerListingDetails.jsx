@@ -35,7 +35,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
+import verifyed2 from '../../assets/profileIcon/new-whatsapp.png'
 import blank from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
 
 
@@ -422,7 +422,7 @@ const RoomSeekerListingDetails = () => {
                                 <div className='flex items-center gap-3'>
                                     <div className='rounded-full w-16 h-16 overflow-hidden relative'>
                                         <img src={listingUser?.profile_picture ? listingUser?.profile_picture : blank} className='rounded-full h-16 w-16' alt="" />
-                                        {listingUser?.verified && <img src={verifyed2} className='absolute w-full  rotate-[25deg] left-1 opacity-70 -bottom-1' alt="" />}
+                                        {listingUser?.verified && <img src={verifyed2} className='absolute w-full  rotate-[25deg] -left-[6px] opacity-70 bottom-0' alt="" />}
                                     </div>
                                     <div>
                                         <p className='font-semibold'>{listingUser?.full_name}</p>

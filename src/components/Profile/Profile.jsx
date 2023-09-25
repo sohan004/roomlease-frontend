@@ -19,6 +19,7 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import verifyed from '../../assets/profileIcon/Untitled-1.png'
 import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
+import verifyed3 from '../../assets/profileIcon/new-whatsapp.png'
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -1044,7 +1045,7 @@ const Profile = () => {
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  '>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
 
-                                {userData?.verified && <img src={verifyed2} className='absolute w-full rotate-[25deg] left-1 opacity-70 -bottom-1' alt="" />}
+                                {userData?.verified && <img src={verifyed3} className='absolute w-full rotate-[25deg] opacity-70 -left-3 bottom-0' alt="" />}
 
                                 {userData?.profile_picture ?
                                     <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
