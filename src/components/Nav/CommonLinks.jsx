@@ -77,12 +77,20 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
         </div>} */}
         <input value={''} readOnly type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
       </div>
-      <Link onClick={() => setTf(false)} to='/profile'>
+      <p onClick={() => {
+        setTf(false)
+        if(listing){
+          navigate('/profile')
+        }
+        else{
+          window.location.href = '/profile'
+        }
+        }} className='cursor-pointer'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
           <FaUser></FaUser>
           <p className='font-medium'>Profile</p>
         </div>
-      </Link>
+      </p>
       <Link onClick={() => setTf(false)} to='/matches'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
           <div className='flex justify-center items-center'>
@@ -96,10 +104,10 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
       </Link>
-      <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+      {/* <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <GrSettingsOption></GrSettingsOption>
         <p className='font-medium'>Settings</p>
-      </div>
+      </div> */}
       <div onClick={() => {
         setTf(false)
         setListing(null)

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
-import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaFileImage, FaHome, FaInstagramSquare, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
+import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaFileImage, FaHome, FaInstagramSquare, FaLink, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
 import { BiSolidSelectMultiple } from "react-icons/bi";
@@ -351,6 +351,8 @@ const Profile = () => {
             })
             .catch(err => console.log(err))
     }
+
+    console.log(listing);
 
 
     const houseUpdate = () => {
@@ -805,6 +807,160 @@ const Profile = () => {
         }
     }
 
+    const [linkInputValue, setLinkInputValue] = useState('')
+
+    const addSocialLink = () => {
+        if (!userData) return
+
+        if (linkInputValue == '') return
+
+
+        if (userData?.account_type === 'roomseeker') {
+            const useObjectData = listing || {}
+            useObjectData.social_media_link = linkInputValue
+
+            const photoKey = useObjectData['photo']
+            if (photoKey) {
+                delete useObjectData['photo']
+            }
+
+            fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(useObjectData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data);
+                    setAddLinkTf(false)
+                    setRefresh(refresh + 1)
+                    toast.success('Link add Succesfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+
+                })
+                .catch(err => console.log(err))
+        }
+        if (userData?.account_type === 'homeowner') {
+            const useObjectData = listing || {}
+            useObjectData.social_media_link = linkInputValue
+
+            const photoKey = useObjectData['photo']
+            if (photoKey) {
+                delete useObjectData['photo']
+            }
+
+            fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(useObjectData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setAddLinkTf(false)
+                    setRefresh(refresh + 1)
+                    toast.success('Link add Succesfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
+
+    const removesocialLink = () => {
+        if (userData?.account_type === 'roomseeker') {
+            const useObjectData = listing || {}
+            useObjectData.social_media_link = ''
+
+            const photoKey = useObjectData['photo']
+            if (photoKey) {
+                delete useObjectData['photo']
+            }
+
+            fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(useObjectData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data);
+                    setAddLinkTf(false)
+                    setRefresh(refresh + 1)
+                    toast.success('Link remove Succesfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+
+                })
+                .catch(err => console.log(err))
+        }
+        if (userData?.account_type === 'homeowner') {
+            const useObjectData = listing || {}
+            useObjectData.social_media_link = ''
+
+            const photoKey = useObjectData['photo']
+            if (photoKey) {
+                delete useObjectData['photo']
+            }
+
+            fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(useObjectData)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setAddLinkTf(false)
+                    setRefresh(refresh + 1)
+                    toast.success('Link remove Succesfully', {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
     const deleteVideo = () => {
         Swal.fire({
             title: 'Are you sure?',
@@ -853,6 +1009,8 @@ const Profile = () => {
 
 
     }, [userData])
+
+    const [addLinkTf, setAddLinkTf] = useState(false)
 
     useEffect(() => {
         if (!userData) return
@@ -950,7 +1108,7 @@ const Profile = () => {
 
 
 
-                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
+                {userData.account_type == 'homeowner' && <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
 
                     {userAllListing.length > 1 && userAllListing?.map((list, i) => <div onClick={() => setListing(list)} key={i} className={`p-2 cursor-pointer border-2 w-full hover:bg-[#dbd7fd] ${listing?.id == list?.id && 'bg-[#dbd7fd]'} duration-300 border-[#7065F0] rounded-md`}>
                         <h1 className='text-2xl font-bold '>{list?.house_type ? list?.house_type : 'ToDo'}</h1>
@@ -981,7 +1139,7 @@ const Profile = () => {
                         <p className='text-5xl font-extrabold px-2 pb-2 border-e-2 h-full border-[#7065F0] bg-[#7065F0] text-white'>+</p>
                         <p className='py-4 flex-grow px-4 hover:bg-[#dbd7fd] cursor-pointer duration-300 h-full my-auto font-medium'>Add New Listing</p>
                     </div>
-                </div>
+                </div>}
 
 
                 {userData?.account_type == 'homeowner' && <div className='grid grid-cols-4 lg:grid-cols-7 gap-3 mb-5'>
@@ -1053,7 +1211,7 @@ const Profile = () => {
                                     </SwiperSlide>
                                 }) : <div className='h-[300px] lg:h-[330px] flex flex-col justify-center items-center p-2'>
                                     <FaFileImage className='mx-auto text-5xl   rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                                    <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Listing Image</h1>
+                                    <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Listing Image (optional)</h1>
                                     <p className='text-center text-sm mb-7'>Uploading a Image of your home can reduce the need for in-person inspections</p></div>}
 
                             </Swiper>
@@ -1066,7 +1224,7 @@ const Profile = () => {
                                 {listing?.photo ? <img className='w-full  h-[300px] lg:h-[350px]' src={`${listing?.photo}`} alt="" /> :
                                     <div className='h-[300px] lg:h-[330px] flex flex-col justify-center items-center p-2'>
                                         <FaFileImage className='mx-auto text-5xl   rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
-                                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Listing Image</h1>
+                                        <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Listing Image (optional)</h1>
                                         <p className='text-center text-sm mb-7'>Uploading a Image of your home can reduce the need for in-person inspections</p></div>}
                                 {listing?.photo && <MdDelete onClick={() => roomseekerPhotoDelete()} className='absolute top-3 right-3 text-4xl rounded-full text-white  cursor-pointer duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
 
@@ -1114,9 +1272,40 @@ const Profile = () => {
                         ''}
 
 
+                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center relative'>
 
-                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center'>
-                        <div>
+                        {listing?.social_media_link && <MdDelete onClick={removesocialLink} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
+
+                        {!listing.social_media_link && <div>
+                            <FaLink className='mx-auto text-3xl  text-[#7065F0] ' />
+                            {!addLinkTf ? <div>
+                                <h1 className=' font-medium text-xl mt-4'>Social Media Link (optional)</h1>
+                                <p className='text-sm my-2 mb-20'>upload your any social media link</p>
+                            </div> :
+                                <input onChange={e => setLinkInputValue(e.target.value)} placeholder='paste your link' type="text" className='w-full mt-4 border focus:outline-none p-2 rounded-md mb-20' />}
+
+                            {!addLinkTf ? <btn onClick={() => setAddLinkTf(true)} className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' >Add link</btn> :
+                                <div className='absolute z-30 bottom-8 left-2/4 -translate-x-2/4'>
+                                    <btn onClick={addSocialLink} className=' hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 ' >save</btn>
+                                    <btn onClick={() => setAddLinkTf(false)} className=' hover:bg-[#974739] ms-2 py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#df5037] text-white border-0 ' >cencel</btn>
+                                </div>}
+                        </div>}
+
+                        {listing?.social_media_link &&
+                            <div>
+                                <h1 className=' font-medium text-xl mt-4'>Your social media link</h1>
+                                <a href={listing?.social_media_link} target='_blank' className='text-sm underline text-blue-600 my-2 mb-20'>{listing?.social_media_link}</a>
+                            </div>
+                        }
+
+
+
+                    </div>
+
+
+
+                    {userData.account_type == 'homeowner' && <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center'>
+                        {userData.account_type == 'homeowner' && <div>
                             {!listing?.inspection_time && <div>
                                 <FaRegCalendarAlt className='mx-auto text-5xl  text-[#7065F0] ' />
                                 <h1 className=' font-medium text-xl mt-4'>Finalise your inspection times</h1>
@@ -1130,9 +1319,9 @@ const Profile = () => {
                                 {listing?.inspection_time.split(',').map((ins, i) => <p className='bg-slate-200 mt-2' key={i}>{moment(ins).format("MMM Do YY,  h:mm a")}</p>)}
                             </div>}
                             <button onClick={() => window.inspection.showModal()} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4 block mx-auto'>Finish setting up inspections</button>
-                        </div>
+                        </div>}
 
-                    </div>
+                    </div>}
                 </div>
 
 
@@ -1400,7 +1589,12 @@ const Profile = () => {
                     </div>
                 }
 
-                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-12'>
+                {fav.length > 0 &&
+                    <div className='flex justify-between items-center mt-12'>
+                        <p className='p-4 lg:p-6 text-2xl font-bold'>Favourite Listing</p>
+                    </div>}
+
+                <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 '>
                     {fav.map((p, i) => <ListingCard key={i} p={p} />)}
                 </div>
                 {/* <div className='grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-8 mt-8'>

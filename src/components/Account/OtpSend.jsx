@@ -88,7 +88,7 @@ const OtpSend = () => {
     const verifyOtp = (e) => {
         setOtp(e)
         setErr('')
-        if (e.length === 6) {
+        if (e.length === 4) {
             setVerifyStatus(true)
             fetch(`${baseURL}/account/verify-phone/`, {
                 method: 'POST',
@@ -193,12 +193,12 @@ const OtpSend = () => {
                             <div>
                                 <OTPInput
                                     inputClassName='border-2 text-black bg-white rounded py-6 border-[#100A55] focus:outline-none flex-grow'
-                                    className="text-center flex justify-center w-full"
+                                    className="text-center flex justify-center w-full max-w-[300px] mx-auto"
                                     value={otp} onChange={e => {
                                         verifyOtp(e)
 
                                     }}
-                                    autoFocus OTPLength={6}
+                                    autoFocus OTPLength={4}
                                     otpType="number"
                                     disabled={verifyStatus}
                                 />

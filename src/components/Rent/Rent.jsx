@@ -70,6 +70,8 @@ const Rent = () => {
     const occupation_preference = quary.get('occupation_preference') || ''
     const looking_place = quary.get('looking_place') || ''
 
+
+
     const [page, setPage] = useState(1)
 
     const [loading, setLoading] = useState(true);
@@ -184,6 +186,12 @@ const Rent = () => {
     const [type2, setType2] = useState(type ? type : 'homeowner')
     const [addresEmpty, setAddresEmpty] = useState('')
     const [suburbValue, setSuburbValue] = useState([])
+
+    useEffect(() => {
+        if (location == 'Melbourne' || location == 'Sydney' || location == 'Brisbane' || location == 'Perth') {
+            setSuburbValue(prev => [location])
+        }
+    }, [])
 
 
     const [data, setData] = useState([])

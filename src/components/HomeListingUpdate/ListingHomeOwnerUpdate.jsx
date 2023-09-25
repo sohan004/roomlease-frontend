@@ -639,10 +639,9 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                             </div>
                         </div>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Local Amenities and Transport</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#100A55] font-bold  text-lg">Nearby Community Spaces:</p>
+                            <p className="text-[#100A55] font-bold mt-6 text-lg">Nearby Community Spaces:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => nearbyAddFunction('Parks')} className={`duration-500 border ${nearbyCommunitySpaces.find(n => n == 'Parks') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Parks</p>
                                 <p onClick={() => nearbyAddFunction('Aquatic Centres')} className={`duration-500 border-t border-e lg:border-e-0 ${nearbyCommunitySpaces.find(n => n == 'Aquatic Centres') ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border border-[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Aquatic Centres</p>
@@ -668,10 +667,9 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
 
                         </div>
                     </div>
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Preferences for Potential Tenant</p>
                     <div className="grid grid-cols-1 gap-10  ">
                         <div>
-                            <p className="text-[#100A55] font-bold text-lg">Gender:</p>
+                            <p className="text-[#100A55] font-bold text-lg mt-6">Gender:</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-5 text-center font-medium">
                                 <p onClick={() => genderFunction('Any')} className={`border border-b-0 lg:border-b duration-500 ${gender.find(g => g == 'Any') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
                                 <p onClick={() => genderFunction('Male')} className={`border-t border-e lg:border-e-0 lg:border-y duration-500 ${gender.find(g => g == 'Male') ? 'border border-[#bab7e4] hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>Male</p>
