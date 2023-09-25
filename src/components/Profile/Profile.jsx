@@ -1272,7 +1272,7 @@ const Profile = () => {
                         ''}
 
 
-                    <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center relative'>
+                 {userData?.account_type == 'roomseeker'  &&  <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center relative'>
 
                         {listing?.social_media_link && <MdDelete onClick={removesocialLink} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
 
@@ -1300,7 +1300,7 @@ const Profile = () => {
 
 
 
-                    </div>
+                    </div>}
 
 
 

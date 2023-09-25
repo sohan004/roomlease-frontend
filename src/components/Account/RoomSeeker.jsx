@@ -213,12 +213,7 @@ const RoomSeeker = () => {
                 console.log(data);
                 if (data.id) {
                     setLoad(false)
-                    if (userData?.subscription == 'Free') {
-                        navigate('/roomseeker-pricing')
-                    }
-                    else {
-                        navigate('/profile')
-                    }
+                    window.location.href = `/profile`
                 }
                 else {
                     setLoad(false)
@@ -300,7 +295,7 @@ const RoomSeeker = () => {
                     setSta(false)
                     setLoad(false)
                     // window.location.href = `/homeowner-pricing`
-                    window.location.href = `/profile`
+                   
                 }
                 else {
                     console.log(data);

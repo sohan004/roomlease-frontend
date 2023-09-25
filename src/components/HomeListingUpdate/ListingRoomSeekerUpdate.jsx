@@ -403,7 +403,14 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
-                            <input defaultValue={listing?.age} onChange={(e) => setAge(e.target.value)} placeholder="age" type="text" name="" className="w-full   bg-white py-3 px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  rounded-lg mt-4" />
+                            <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
+                                <p onClick={() => { setAge('Any');  }} className={`border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
+                                <p onClick={() => { setAge('18 - 25');  }} className={`border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>18 - 25</p>
+                                <p onClick={() => { setAge('26 - 35');  }} className={`border-y border-e ${age === '26 - 35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26 - 35</p>
+                                <p onClick={() => { setAge('36 - 45');  }} className={`border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36 - 45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36 - 45</p>
+                                <p onClick={() => { setAge('46 - 60');  }} className={`border border-t-0 lg:border-t ${age === '46 - 60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46 - 60</p>
+                                <p onClick={() => { setAge('61+');  }} className={`border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
+                            </div>
                         </div>
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>

@@ -450,7 +450,7 @@ const HomeWoner = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(url)
+                // console.log(url)
                 if (data.id) {
                     setSta(false)
                     setLoad(false)
