@@ -44,6 +44,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
     const [occuption, setOccuption] = useState(listing?.occupation ? listing?.occupation : [])
     const [lookingForPlace, setLookingForPlace] = useState(listing?.looking_place ? listing?.looking_place : '')
     const [suburbValue, setSuburbValue] = useState(listing?.suburb ? listing?.suburb : [])
+    const [weeklybudget, setWeeklybudget] = useState(listing?.weekly_budget ? listing?.weekly_budget : '')
 
 
 
@@ -170,7 +171,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
     const handle = (e) => {
         e.preventDefault();
 
-      
+
 
         const listingObject = listing
 
@@ -192,6 +193,8 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
         listingObject.public_transport_access = publicTransportAccess
         listingObject.gender = gender
         listingObject.age = age
+        listingObject.weekly_budget = weeklybudget
+        listingObject.ids_and_checks = checks
         listingObject.occupation = occuption
         listingObject.looking_place = lookingForPlace
 
@@ -402,14 +405,24 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                             </div>
                         </div>
                         <div>
+                            <p className="text-[#100A55] font-bold text-lg">Weekly Budget:</p>
+                            <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
+                                <label className="input-group">
+                                    <span className="bg-white border-e border-[#7065F0] ">$</span>
+                                    <input placeholder="weekly_budget" value={weeklybudget} onChange={(e) => { setWeeklybudget(e.target.value);  }} type="text" className="input bg-white  w-full " />
+                                </label>
+                            </div>
+
+                        </div>
+                        <div>
                             <p className="text-[#100A55] font-bold text-lg">Age Range:</p>
                             <div className="mt-4 grid grid-cols-3 lg:grid-cols-6 text-center font-medium">
-                                <p onClick={() => { setAge('Any');  }} className={`border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
-                                <p onClick={() => { setAge('18 - 25');  }} className={`border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>18 - 25</p>
-                                <p onClick={() => { setAge('26 - 35');  }} className={`border-y border-e ${age === '26 - 35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26 - 35</p>
-                                <p onClick={() => { setAge('36 - 45');  }} className={`border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36 - 45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36 - 45</p>
-                                <p onClick={() => { setAge('46 - 60');  }} className={`border border-t-0 lg:border-t ${age === '46 - 60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46 - 60</p>
-                                <p onClick={() => { setAge('61+');  }} className={`border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
+                                <p onClick={() => { setAge('Any'); }} className={`border ${age === 'Any' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
+                                <p onClick={() => { setAge('18 - 25'); }} className={`border-y border-e ${age === '18 - 25' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>18 - 25</p>
+                                <p onClick={() => { setAge('26 - 35'); }} className={`border-y border-e ${age === '26 - 35' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>26 - 35</p>
+                                <p onClick={() => { setAge('36 - 45'); }} className={`border-t-0 lg:border-t border-s lg:border-s-0 border-y  ${age === '36 - 45' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>36 - 45</p>
+                                <p onClick={() => { setAge('46 - 60'); }} className={`border border-t-0 lg:border-t ${age === '46 - 60' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>46 - 60</p>
+                                <p onClick={() => { setAge('61+'); }} className={`border border-s-0 border-t-0 lg:border-t ${age === '61+' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>61+</p>
                             </div>
                         </div>
                         <div>

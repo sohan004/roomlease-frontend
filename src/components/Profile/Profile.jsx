@@ -1045,7 +1045,7 @@ const Profile = () => {
                         <div className='w-full text-center p-4 lg:p-6  border-2 rounded-lg  '>
                             <div onClick={() => window.upload_profile_img.showModal()} onMouseEnter={() => setProfileImgState(true)} onMouseLeave={() => setProfileImgState(false)} className={`w-20 overflow-hidden -mt-14 lg:-mt-20 h-20 lg:w-28  border-2   rounded-full lg:h-28 mx-auto relative cursor-pointer duration-500 ${profileImgState ? 'border-gray-600 bg-black' : 'bg-white bg-opacity-50 border-white'}`}>
 
-                                {userData?.verified && <img src={verifyed3} className='absolute w-full rotate-[25deg] opacity-70 -left-3 bottom-0' alt="" />}
+                                {userData?.verified && <img src={verifyed3} className='absolute w-full rotate-[25deg] opacity-70 lg:-left-3 -left-2 bottom-0' alt="" />}
 
                                 {userData?.profile_picture ?
                                     <img src={userData?.profile_picture} className={`${profileImgState ? 'opacity-60' : 'opacity-100'} rounded-full mx-auto  h-full w-full `} alt="" /> :
