@@ -75,7 +75,7 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
 
 
         </div>} */}
-        <input value={''} readOnly type="text" name="" placeholder='search listings' className='py-1 px-3 w-full focus:outline-none bg-transparent' />
+        <input value={''} readOnly type="text" name="" placeholder='Search Listings' className='py-1 px-3 w-full text-lg focus:outline-none bg-transparent' />
       </div>
       <p onClick={() => {
         setTf(false)

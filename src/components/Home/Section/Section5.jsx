@@ -1,7 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaFacebookF, FaInstagram, FaLinkedin, FaPinterestP, FaTiktok, FaTwitter } from "react-icons/fa";
+import { baseURL } from '../../../App'
+import Swal from 'sweetalert2';
 
 const Section5 = () => {
+    const [email, setEmail] = useState("")
+
+    const saveEmail = () => {
+        console.log(email)
+        fetch(`${baseURL}/cms/subscriber/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setEmail("")
+                if (data.email) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thank you for subscribing!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
    
     return (
         <div className="bg-[#F9F9FD] py-12 lg:py-16">
@@ -9,8 +47,8 @@ const Section5 = () => {
                 <h1 className=" text-3xl lg:text-[40px] font-bold mt-2 mb-4" >Subscribe to our newsletter</h1>
                 <p className="mb-8 opacity-80">{`Get the latest insights, tips and trends straight to your inbox.`}</p>
                 <div className="bg-white p-4 rounded-lg flex items-center justify-between w-full md:w-[540px] mb-4 lg:mb-6">
-                    <input type="text" name="" className=" bg-transparent p-1" placeholder="Enter your email address" />
-                    <button className="btn hover:scale-110 duration-500 border-0 cursor-pointer border-0  bg-[#7065F0] text-white px-6 hidden md:block">submit</button>
+                    <input type="text" name="" className="w-full focus:outline-none bg-transparent p-1" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <button onClick={saveEmail} className="btn hover:scale-110 duration-500 border-0 cursor-pointer border-0  bg-[#7065F0] text-white px-6 hidden md:block">submit</button>
                 </div>
                 <button className="btn hover:bg-[#4e46a1] bg-[#7065F0]  text-white w-full  md:hidden mb-6">submit</button>
                 <div className="flex justify-center items-center gap-4 lg:gap-10 mt-4 lg:mt-7">

@@ -41,6 +41,7 @@ const Footer = () => {
                         <Link to='/career'>     <p className='mb-2'>Careers</p></Link>
                         <Link to='/terms-&-conditions'><p className='mb-2'>Terms of Service</p></Link>
                         <Link to='/privacy-policy'><p className='mb-2 hidden lg:block'>Privacy Policy</p></Link>
+                        <Link to='/site-map'><p className='mb-2 hidden lg:block'>Site Map</p></Link>
                     </div>
                     <div className='lg:hidden'>
                         <Link to='/agreement'>  <p className='mb-2 '>Free Roommate Agreement</p></Link>

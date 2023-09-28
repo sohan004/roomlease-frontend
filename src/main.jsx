@@ -54,6 +54,7 @@ import Payment from './components/Payment/Payment.jsx'
 import BlogDetails from './components/Blog/BlogDetails.jsx'
 import TestimonialDetails from './components/Testimonial/TestimonialDetails.jsx'
 import CareerDetails from './components/Career/CareerDetails.jsx'
+import SiteMap from './components/SiteMap/SiteMap.jsx'
 
 
 const router = createBrowserRouter([
@@ -171,6 +172,10 @@ const router = createBrowserRouter([
       {
         path: '/privacy-policy',
         element: <Privacy></Privacy>
+      },
+      {
+        path: '/site-map',
+        element: <SiteMap></SiteMap>
       },
       {
         path: '/blog',

@@ -1546,14 +1546,15 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className='flex justify-center mb-6 gap-4'>
+                        <button onClick={() => {
+                            setRoomEdit(true)
+                        }} className='btn border-0rounded-none lg:w-56 mt-7 btn-lg border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
                         <button
                             onClick={() => {
                                 deleteListing()
                             }}
                             className='btn border-0rounded-none lg:w-56 mt-7 btn-lg border-0 hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
-                        <button onClick={() => {
-                            setRoomEdit(true)
-                        }} className='btn border-0rounded-none lg:w-56 mt-7 btn-lg border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '><FaPencilAlt></FaPencilAlt> edit</button>
+                        
                     </div>
                 </div>}
 
@@ -1583,8 +1584,8 @@ const Profile = () => {
                                 {!description && <p>{listing?.describe_occupants ? listing?.describe_occupants : 'write home description...'}</p>}
                                 {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
                                 {description && <div className='flex gap-3 justify-start mt-3'>
-                                    <button onClick={() => setDescription(false)} className="btn border-0bg-slate-300">calcel</button>
                                     <button onClick={addDescription} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
+                                    <button onClick={() => setDescription(false)} className="btn border-0bg-slate-300">calcel</button>
                                 </div>}
                             </div>
                         </div>
