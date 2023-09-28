@@ -19,7 +19,7 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import verifyed from '../../assets/profileIcon/Untitled-1.png'
 import verifyed2 from '../../assets/profileIcon/WhatsApp_Image_2023-09-06_at_22.26.16-removebg-preview.png'
-import verifyed3 from '../../assets/profileIcon/new-whatsapp.png'
+import verifyed3 from '../../assets/profileIcon/WhatsApp 3 Image 2023-09-28 at 09.59.19_7e3764cf.png'
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -593,7 +593,8 @@ const Profile = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                if (userData.account_type === 'roomseeker') {
+                // return console.log(listing?.id);
+                if (userData.account_type == 'roomseeker') {
                     fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
                         method: 'DELETE',
                         headers: {
@@ -602,6 +603,7 @@ const Profile = () => {
                         }
                     })
                         .then(data => {
+                            console.log(data);
                             setRefresh(refresh + 1)
                         })
                         .catch(err => console.log(err))

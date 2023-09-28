@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import ball from '../../assets/settingIcon/Icon.svg'
 
 import useUserData from '../Hook/useUserData';
-import bol from '../../assets/navIcon/bol.png'
+import bol from '../../assets/navIcon/bol3.png'
 import logoHome from '../../assets/navIcon/logoHome.png'
 import { useContext } from 'react';
 import { AuthContext } from '../AuthProvider/AuthProvider';

@@ -20,12 +20,13 @@ const Home = () => {
             <Section4></Section4>
             <NewSection3></NewSection3>
             <NewSection4></NewSection4>
-            <Section5></Section5>
-            <NewSection2></NewSection2>
-            <div className="max-w-[1440px] mx-auto px-4">
+            <div className="max-w-[1440px] mx-auto px-4 mb-7">
                 <Section3></Section3>
                 {/* <Section2></Section2> */}
             </div>
+            <Section5></Section5>
+            <NewSection2></NewSection2>
+
         </>
     );
 };
