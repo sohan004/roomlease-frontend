@@ -202,7 +202,7 @@ const OtpSend = () => {
                                     otpType="number"
                                     disabled={verifyStatus}
                                 />
-                                <div className='text-right mt-5'>
+                                <div className='text-center mt-5'>
                                     <button disabled={sec != 120} onClick={resend} className="btn btn-sm border-0  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
 
                                 </div>

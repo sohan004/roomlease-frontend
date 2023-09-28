@@ -34,13 +34,7 @@ export default function PaypalPayment({ price, subscription, userData: user }) {
 
                     onApprove={(data, actions) => {
                         return actions.order.capture().then(function (details) {
-                            Swal.fire({
-                                position: 'top-center',
-                                icon: 'success',
-                                title: "Transaction completed by " + details.payer.name.given_name,
-                                showConfirmButton: false,
-                                timer: 2000
-                            })
+                            alert('We have received your payment. It may take 5 minutes to update your account.')
                             navigate('/profile')
                         });
                     }}

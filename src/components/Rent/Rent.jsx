@@ -69,6 +69,7 @@ const Rent = () => {
     const ids_and_checks = quary.get('ids_and_checks') || ''
     const occupation_preference = quary.get('occupation_preference') || ''
     const looking_place = quary.get('looking_place') || ''
+    const weekly_budget = quary.get('weekly_budget') || ''
 
 
 
@@ -85,7 +86,7 @@ const Rent = () => {
 
     const path1 = `${baseURL}/search/home-listings/?location=${location}&page=${page}&house_type=${house_type}&parking_option=${parking_option}&rent_per_week_single_max=${rent_per_week_single_max}&rent_per_week_single_min=${rent_per_week_single_min}&rent_per_week_couple_max=${rent_per_week_couple_max}&rent_per_week_couple_min=${rent_per_week_couple_min}&bond=${bond}&bills_included_in_rent=${bills_included_in_rent}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
 
-    const path2 = `${baseURL}/search/room-seekers/?location=${location}&page=${page}&looking_place=${looking_place}&house_type=${house_type}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
+    const path2 = `${baseURL}/search/room-seekers/?location=${location}&page=${page}&looking_place=${looking_place}&house_type=${house_type}&bedroom_type=${bedroom_type}&weekly_budget=${weekly_budget}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
 
     //give me path 
 
@@ -281,6 +282,7 @@ const Rent = () => {
                         looking_place={looking_place}
                     ></HomeOwnerSearchOption> :
                         <RoomSeekerSearchOption
+                        weekly_budget={weekly_budget}
                             type={type}
                             location={location}
                             house_type={house_type}
@@ -353,7 +355,7 @@ const Rent = () => {
 
                         }} className='btn h-[50px] w-full hover:bg-[#4e46a1] border-0 bg-[#7065F0] text-white '>search</button>
 
-                    <button onClick={() => setRight(true)} className='btn lg:hidden border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>+ more filters</button>
+                    <button onClick={() => setRight(true)} className='btn lg:hidden border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>filters</button>
                 </div>
 
 

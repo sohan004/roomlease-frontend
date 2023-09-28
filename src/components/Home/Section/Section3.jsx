@@ -99,7 +99,7 @@ const Section3 = () => {
             </div>
 
             <div className='text-center'>
-                <Link to='/all-listing'><button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4'>show all listings</button></Link>
+                <Link to='/all-listing'><button className='btn  hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-4'>listings</button></Link>
             </div>
         </div>
     );
