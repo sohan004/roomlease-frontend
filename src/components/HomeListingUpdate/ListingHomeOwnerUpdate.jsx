@@ -724,8 +724,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                     </div>
                 </div>
                 <div className="text-center flex flex-col lg:flex-row items-center gap-4 mt-7">
-                    <Link className="flex-grow " ><button onClick={() => setRoomEdit(false)} className="btn border-0 bg-slate-300 w-full">cancel</button></Link>
                     <button disabled={load} className='btn flex-grow  hover:bg-[#4e46a1] bg-[#7065F0] border-0 text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} save</button>
+                    <Link className="flex-grow " ><button onClick={() => setRoomEdit(false)} className="btn border-0 bg-slate-300 w-full">cancel</button></Link>
                 </div>
             </form>
             <ToastContainer />

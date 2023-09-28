@@ -25,7 +25,7 @@ const NewSection2 = () => {
                         }
                         if (userData) {
                             if (listing) {
-                                navigate('/all-listing')
+                                navigate('/profile')
                                 return
                             }
                             navigate('/homeowner')
@@ -41,7 +41,7 @@ const NewSection2 = () => {
                         }
                         if (userData) {
                             if (listing) {
-                                navigate('/all-listing')
+                                navigate('/profile')
                                 return
                             }
                             navigate('/roomseeker')
