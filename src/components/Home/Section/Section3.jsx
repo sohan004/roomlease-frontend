@@ -20,12 +20,16 @@ const Section3 = () => {
     const [data, setData] = useState([])
     const [reFatch, setReFatch] = useState(1)
     const [load, setLoad] = useState(true)
+    const token = localStorage.getItem('user-token')
     useEffect(() => {
         fetch(`${baseURL}/listing/latest-listings/`, {
             method: 'GET',
-            headers: {
-                // 'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                'content-type': 'application/json'
+            headers : token ? {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json'
+            }
+            : {
+                'Content-Type': 'application/json'
             }
         })
             .then(res => res.json())

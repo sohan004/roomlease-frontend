@@ -36,7 +36,7 @@ import { useEffect } from 'react'
 import { baseURL } from '../../App'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import verifyed from '../../assets/profileIcon/Untitled-1.png'
-import verifyed2 from '../../assets/profileIcon/new-whatsapp.png'
+import verifyed2 from '../../assets/profileIcon/WhatsApp 3 Image 2023-09-28 at 09.59.19_7e3764cf.png'
 import blank from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
 
 

@@ -77,6 +77,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [load, setLoad] = useState(false)
     const [homeaddress2, setHomeaddress2] = useState(listing?.home_address ? listing?.home_address : '')
     const [street, setStreet] = useState([])
+    
+    console.log(age);
 
     const [minimumStayArray, setMinimumStayArray] = useState([
         {
