@@ -6,22 +6,23 @@ const SiteMap = () => {
   const navigate = useNavigate()
 
   return (
-    <div className='max-w-[1440px] mx-auto px-4 pt-9 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7'>
+    <div className='max-w-[1400px] mx-auto px-4 pt-9 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7'>
 
+    
       <div className=''>
-        <h1 className='text-[#7065F0] text-xl font-semibold'>Listings Link</h1>
-        <p onClick={() => navigate('/matches')} className='underline mt-1 cursor-pointer'>Matches Listings</p>
-        <p onClick={() => navigate('/rent?type=homeowner&location=')} className='underline mt-1 cursor-pointer'>Listing by search</p>
-        <p onClick={() => navigate('/rent?type=homeowner&location=')} className='underline mt-1 cursor-pointer'>Listing by Homeowner</p>
-        <p onClick={() => navigate('/rent?type=roomseeker&location=')} className='underline mt-1 cursor-pointer'>Listing by RoomSeeker</p>
+        <h1 className='text-[#7065F0] text-xl font-semibold'>Listings</h1>
+        <p onClick={() => navigate('/matches')} className='underline mt-1 cursor-pointer'>Matches</p>
+        <p onClick={() => navigate('/rent?type=homeowner&location=')} className='underline mt-1 cursor-pointer'>Search Listings</p>
+        <p onClick={() => navigate('/rent?type=homeowner&location=')} className='underline mt-1 cursor-pointer'>Homeowner Listing</p>
+        <p onClick={() => navigate('/rent?type=roomseeker&location=')} className='underline mt-1 cursor-pointer'>RoomSeeker Listing</p>
       </div>
 
       <div className=''>
-        <h1 className='text-[#7065F0] text-xl font-semibold'>Area Listing Link</h1>
-        <p onClick={() => navigate('/rent?type=roomseeker&location=Melbourne')} className='underline mt-1 cursor-pointer'>Melbourne area listing</p>
-        <p onClick={() => navigate('/rent?type=roomseeker&location=Sydney')} className='underline mt-1 cursor-pointer'>Sydney area listing</p>
-        <p onClick={() => navigate('/rent?type=roomseeker&location=Brisbane')} className='underline mt-1 cursor-pointer'>Brisbane area listing</p>
-        <p onClick={() => navigate('/rent?type=roomseeker&location=Perth')} className='underline mt-1 cursor-pointer'>Perth area listing</p>
+        <h1 className='text-[#7065F0] text-xl font-semibold'>Listings by Area</h1>
+        <p onClick={() => navigate('/rent?type=roomseeker&location=Melbourne')} className='underline mt-1 cursor-pointer'>Roomseeker in Melbourne</p>
+        <p onClick={() => navigate('/rent?type=roomseeker&location=Sydney')} className='underline mt-1 cursor-pointer'>Roomseeker in Sydney</p>
+        <p onClick={() => navigate('/rent?type=roomseeker&location=Brisbane')} className='underline mt-1 cursor-pointer'>Roomseeker in Brisbane</p>
+        <p onClick={() => navigate('/rent?type=roomseeker&location=Perth')} className='underline mt-1 cursor-pointer'>Roomseeker in Perth</p>
       </div>
 
       <div className=''>
