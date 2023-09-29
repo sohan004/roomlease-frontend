@@ -25,7 +25,7 @@ const Section4 = () => {
                         </span></h1>
                     </div>
                     <div className="w-full lg:w-4/5">
-                        <p style={{ fontSize: '20px' }}>Enriching Society, Proudly Australian</p>
+                        <p style={{ fontSize: '20px' }}>Enriching Society, Proudly Australian, Initiative of agiii.org</p>
                         {/* <p className='pt-3'></p> */}
                     </div>
                 </div>
@@ -36,7 +36,7 @@ const Section4 = () => {
                         </div>
                         <div className='lg:w-[70%]  w-full'>
                             <h1 className='text-2xl mb-6 font-semibold'>Safety First</h1>
-                            <p className='text-base opacity-70'> Digital ID verification by Australia Post and by checks (National police, working with children check, credit history, references)</p>
+                            <p className='text-base opacity-70'> Verification isn’t just an option, it’s our standard and we have partnered with Australia Post for Digital iD verification.</p>
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-white text-black p-6 rounded-lg'>
@@ -44,8 +44,8 @@ const Section4 = () => {
                             <GrTechnology className='bg-[#E8E6F9] text-[55px]  rounded-full p-2 border-4 shadow-md border-white' />
                         </div>
                         <div className='lg:w-[70%]  w-full'>
-                            <h1 className='text-2xl mb-6 font-semibold'>Smart Matching</h1>
-                            <p className='text-base opacity-70'>Our AI technology matches homeowners and tenants based on preferences for harmonious living</p>
+                            <h1 className='text-2xl mb-6 font-semibold'>Ideal Matching: </h1>
+                            <p className='text-base opacity-70'>Our AI isn’t just smart, it’s intuitive and it brings you together based on compatibility and shared values.</p>
                         </div>
                     </div>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-[#7065F0] text-white p-6 rounded-lg'>
@@ -53,8 +53,8 @@ const Section4 = () => {
                             <img src={ico2} className='bg-white rounded-full p-2 border-4 shadow-md border-white' alt="" />
                         </div>
                         <div className='lg:w-[70%]  w-full'>
-                            <h1 className='text-2xl mb-6 font-semibold'>Zero Commission Fees</h1>
-                            <p className='text-base opacity-70'>Homeowners keep 100% of the rental income</p>
+                            <h1 className='text-2xl mb-6 font-semibold'>Free</h1>
+                            <p className='text-base opacity-70'>List or Search Rooms absolutely free and don’t lose money on other platforms.</p>
                         </div>
                     </div>
                 </div>
