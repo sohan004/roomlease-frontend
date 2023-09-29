@@ -79,13 +79,13 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
       </div>
       <p onClick={() => {
         setTf(false)
-        if(listing){
+        if (listing) {
           navigate('/profile')
         }
-        else{
+        else {
           window.location.href = '/profile'
         }
-        }} className='cursor-pointer'>
+      }} className='cursor-pointer'>
         <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
           <FaUser></FaUser>
           <p className='font-medium'>Profile</p>
@@ -104,10 +104,10 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
       </Link>
-      {/* <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+      <Link to='/setting_profile' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <GrSettingsOption></GrSettingsOption>
         <p className='font-medium'>Settings</p>
-      </div> */}
+      </Link>
       <div onClick={() => {
         setTf(false)
         setListing(null)

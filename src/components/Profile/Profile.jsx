@@ -1322,7 +1322,7 @@ const Profile = () => {
                             :
                             <div className='absolute z-30 bottom-8 left-2/4 -translate-x-2/4'>
                                 <btn onClick={addSocialLink} className=' hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 ' >save</btn>
-                                <btn onClick={() => setAddLinkTf(false)} className=' hover:bg-[#974739] ms-2 py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#df5037] text-white border-0 ' >cencel</btn>
+                                <btn onClick={() => setAddLinkTf(false)} className=' hover:bg-[#974739] ms-2 py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#df5037] text-white border-0 ' >cancel</btn>
                             </div>}
 
 

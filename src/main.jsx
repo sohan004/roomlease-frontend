@@ -229,6 +229,10 @@ const router = createBrowserRouter([
         path: '/all-listing',
         element: <AllListing></AllListing>
       },
+      {
+        path: '/setting_profile',
+        element: <SettingProfile></SettingProfile>
+      },
 
     ]
   },
@@ -240,10 +244,7 @@ const router = createBrowserRouter([
     path: '/new_listing2',
     element: <NewListingPage2></NewListingPage2>
   },
-  {
-    path: '/setting_profile',
-    element: <SettingProfile></SettingProfile>
-  },
+
   {
     path: '/message',
     element: <MessageDashboard></MessageDashboard>,

@@ -22,6 +22,7 @@ const AuthProvider = ({ children }) => {
     const [listingLoading2, setListingLoading2] = useState(true)
 
     const [searchDrpopDown, setSearchDrpopDown] = useState(false)
+    const [userDataRefresh, setUserDataRefresh] = useState(1)
 
 
     useEffect(() => {
@@ -53,7 +54,7 @@ const AuthProvider = ({ children }) => {
                 setUserData(null)
                 setLoading(false)
             })
-    }, [localStorage.getItem('user-token')])
+    }, [localStorage.getItem('user-token'), userDataRefresh])
 
 
     useEffect(() => {
@@ -107,7 +108,8 @@ const AuthProvider = ({ children }) => {
         setUserData,
         searchDrpopDown, setSearchDrpopDown,
         listingLoading2, setListingLoading2,
-        tf, setTf
+        tf, setTf,
+        userDataRefresh, setUserDataRefresh
     }
     return (
         <AuthContext.Provider value={valu}>
