@@ -1,4 +1,4 @@
-import { FaUserLock } from 'react-icons/fa';
+import { FaDollarSign, FaUserLock } from 'react-icons/fa';
 import ico1 from '../../../assets/sec4Icon/Icon (1).svg'
 import ico2 from '../../../assets/sec4Icon/Icon (2).svg'
 import ico3 from '../../../assets/sec4Icon/Icon.svg'
@@ -50,7 +50,7 @@ const Section4 = () => {
                     </div>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-[#7065F0] text-white p-6 rounded-lg'>
                         <div className=' lg:w-[30%] w-full'>
-                            <img src={ico2} className='bg-white rounded-full p-2 border-4 shadow-md border-white' alt="" />
+                            <FaDollarSign className='bg-white text-5xl text-[#7065F0] rounded-full p-2 border-4 shadow-md border-white'></FaDollarSign>
                         </div>
                         <div className='lg:w-[70%]  w-full'>
                             <h1 className='text-2xl mb-6 font-semibold'>Free</h1>

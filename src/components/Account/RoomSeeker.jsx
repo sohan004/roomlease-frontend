@@ -166,17 +166,19 @@ const RoomSeeker = () => {
     const check12 = checks.find(r => r == 'References')
 
     const [load, setLoad] = useState(false)
+    console.log(userData);
 
 
     const handle = (e) => {
         e.preventDefault();
 
+
         if (!listing) {
-            if (firstName === '' || secondName === '' || email === '' || lookingForPlace === '') {
+            if (firstName === '' || secondName === '' || email === '') {
                 return
             }
         }
-
+        if (lookingForPlace === '') return
 
         const allInfo = {
             first_name: firstName,
@@ -195,7 +197,7 @@ const RoomSeeker = () => {
             "public_transport_access": publicTransportAccess,
             "gender": gender,
             "age": age,
-            "weekly_budget" : weeklybudget,
+            "weekly_budget": weeklybudget,
             "ids_and_checks": checks,
             "occupation": occuption,
             "user": userData?.user_id,
@@ -255,9 +257,12 @@ const RoomSeeker = () => {
             return
         }
 
-        if (firstName === '' || secondName === '' || email === '' || lookingForPlace === '') {
-            return
+        if (!listing) {
+            if (firstName === '' || secondName === '' || email === '') {
+                return
+            }
         }
+        if (lookingForPlace === '') return
 
         const allInfo = {
             first_name: firstName,
@@ -276,7 +281,7 @@ const RoomSeeker = () => {
             "public_transport_access": publicTransportAccess,
             "gender": gender,
             "age": age,
-            "weekly_budget" : weeklybudget,
+            "weekly_budget": weeklybudget,
             "ids_and_checks": checks,
             "occupation": occuption,
             "user": userData?.user_id,
@@ -300,7 +305,7 @@ const RoomSeeker = () => {
                     setUrl(`/listing/room-seekers/${data.id}/`)
                     setApiMethod('PUT')
                     // window.location.href = `/homeowner-pricing`
-                   
+
                 }
                 else {
                     console.log(data);
@@ -335,14 +340,14 @@ const RoomSeeker = () => {
     }
 
     return (
-        <div className="max-w-[736px]  mx-auto px-4 ">
-            {!listing && <div>
+        <div className="max-w-[736px]  mx-auto px-4 pt-5">
+            {<div>
                 <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
                 <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
             </div>}
             <form onSubmit={handle}>
                 <div className="p-4 border-2 lg:p-6  rounded-lg">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
+                    {!listing && <div className="grid grid-cols-1 lg:grid-cols-2 gap-6  ">
 
                         <div>
                             <input onChange={(e) => { setFirstName(e.target.value); }} placeholder="First Name" type="text" name="" className="w-full py-3   px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
@@ -353,7 +358,7 @@ const RoomSeeker = () => {
                         <div className="col-span-1 lg:col-span-2 ">
                             <input onChange={(e) => { setEmail(e.target.value); }} placeholder="Email" type="email" name="" className="w-full py-3   px-4 hover:border-2 focus:border-2 border focus:bg-[#f8f8fc] focus:outline-none border-[#7065F0]  bg-white  rounded-lg" />
                         </div>
-                    </div>
+                    </div>}
                     <p className="text-center text-lg lg:text-2xl font-semibold mt-14 mb-6 text-[#100A55]">Room Preferences</p>
                     <div className="grid gap-2 mb-5 grid-cols-1 gap-10  ">
                         <div>
@@ -506,11 +511,11 @@ const RoomSeeker = () => {
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Weekly Budget:</p>
                             <div className="form-control mt-4 rounded-md border-[#7065F0] border -[#7065F0] rounded-md border-[#7065F0] border  hover:rounded-md border-[#7065F0] border -2 focus:rounded-md border-[#7065F0] border -2 rounded-lg">
-                                    <label className="input-group">
-                                        <span className="bg-white border-e rounded-md border-[#7065F0] border-[#7065F0] ">$</span>
-                                        <input placeholder="weekly_budget" onChange={(e) => { setWeeklybudget(e.target.value); onchengeFunction() }} type="text" className="input bg-white  w-full " />
-                                    </label>
-                                </div>
+                                <label className="input-group">
+                                    <span className="bg-white border-e rounded-md border-[#7065F0] border-[#7065F0] ">$</span>
+                                    <input placeholder="weekly_budget" onChange={(e) => { setWeeklybudget(e.target.value); onchengeFunction() }} type="text" className="input bg-white  w-full " />
+                                </label>
+                            </div>
 
                         </div>
                         <div>

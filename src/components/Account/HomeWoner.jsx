@@ -313,7 +313,9 @@ const HomeWoner = () => {
             if (firstName === '' || secondName === '' || email === '') {
                 return
             }
+
         }
+
 
         const allInfo = {
             first_name: firstName,
@@ -396,10 +398,14 @@ const HomeWoner = () => {
 
     const onchengeFunction = (e) => {
         if (sta) return
-        if (firstName === '' || secondName === '' || email === '') {
-            return
-        }
 
+
+        if (!listing) {
+            if (firstName === '' || secondName === '' || email === '') {
+                return
+            }
+
+        }
 
         console.log(email);
 
@@ -534,8 +540,8 @@ const HomeWoner = () => {
     }, []);
 
     return (
-        <div ref={dropdownRef} className="max-w-[736px]  mx-auto px-4 ">
-            {!listing && <div>
+        <div ref={dropdownRef} className="max-w-[736px]  mx-auto px-4 pt-7">
+            {<div>
                 <h1 className="text-center text-3xl font-bold mt-8 mb-4">Add New Listing</h1>
                 <p className="text-center opacity-80 pb-8 mb-8 border-b">Make sure you have filled in all the necessary fields and have uploaded all the required files.</p>
             </div>}

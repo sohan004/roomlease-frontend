@@ -28,7 +28,30 @@ const SettingProfile = () => {
     const [name, setName] = useState(userData?.full_name)
     const [dateOBEdit, setDateOBEdit] = useState(false)
     const [dateOB, setDateOB] = useState(userData?.dob)
+    const [email, setEmail] = useState(userData?.email)
+    const [emailEdit, setEmailEdit] = useState(false)
 
+
+    const cngEmail = () => {
+       
+
+        fetch(`${baseURL}/account/change-email/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setEmailEdit(false)
+                setUserDataRefresh(prev => prev + 1)
+            })
+    }
 
     const quary = new URLSearchParams(useLocation().search)
     const tw = quary.get('r')
@@ -188,7 +211,6 @@ const SettingProfile = () => {
             })
     }
 
-    console.log(userData);
 
     const deleteAccount = () => {
 
@@ -308,7 +330,12 @@ const SettingProfile = () => {
                             </div>
                             <div>
                                 <p className="font-medium text-sm mb-1">Email</p>
-                                <h1 className="font-semibold">{userData?.email}</h1>
+                                <h1 className='font-semibold flex  items-center gap-2 '>
+                                    {!emailEdit && userData?.email}
+                                    {emailEdit && <input type="text" defaultValue={userData.email} onChange={(e) => setEmail(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                    {!emailEdit && <FaEdit onClick={() => setEmailEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer`} />}
+                                    {emailEdit && <FaSave onClick={() => cngEmail()} className='text-4xl text-[#7065F0] cursor-pointer' />}
+                                </h1>
                             </div>
                             {/* <div className="col-span-1 lg:col-span-2">
                                 <p className="font-medium text-sm mb-2">Number</p>

@@ -1094,7 +1094,7 @@ const Profile = () => {
 
 
 
-                {userData.account_type == 'homeowner' && <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
+                { <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
 
                     {userAllListing.length > 1 && userAllListing?.map((list, i) => <div onClick={() => setListing(list)} key={i} className={`p-2 cursor-pointer border-2 w-full hover:bg-[#dbd7fd] ${listing?.id == list?.id && 'bg-[#dbd7fd]'} duration-300 border-[#7065F0] rounded-md`}>
                         <h1 className='text-2xl font-bold '>{list?.house_type ? list?.house_type : 'ToDo'}</h1>
