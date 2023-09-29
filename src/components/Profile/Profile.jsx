@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import blankImag from '../../assets/profileIcon/blank-profile-picture-gb085c28e0_1280.png'
-import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaFileImage, FaHome, FaInstagramSquare, FaLink, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTimes, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
+import { FaBed, FaCarSide, FaCopy, FaEdit, FaFacebook, FaFileImage, FaHome, FaInstagram, FaInstagramSquare, FaLink, FaLinkedin, FaPenAlt, FaPencilAlt, FaPlay, FaRegCalendarAlt, FaRegPlayCircle, FaSave, FaShare, FaTiktok, FaTimes, FaTwitter, FaTwitterSquare, FaYoutube } from 'react-icons/fa';
 import { useState } from 'react';
 import { BsHouseAddFill } from "react-icons/bs";
 import { BiSolidSelectMultiple } from "react-icons/bi";
@@ -353,7 +353,7 @@ const Profile = () => {
             .catch(err => console.log(err))
     }
 
-    console.log(listing);
+    console.log(userData);
 
 
     const houseUpdate = () => {
@@ -811,23 +811,40 @@ const Profile = () => {
     }
 
     const [linkInputValue, setLinkInputValue] = useState('')
+    const [linkFb, setLinkFb] = useState('')
+    const [linkInsta, setLinkInsta] = useState('')
+    const [linkTwitter, setLinkTwitter] = useState('')
+    const [linkTiktok, setLinkTiktok] = useState('')
+
+    useEffect(() => {
+        if (!userData) return
+        setLinkFb(userData?.facebook_link ? userData?.facebook_link : '')
+        setLinkInsta(userData?.instagram_link ? userData?.instagram_link : '')
+        setLinkTwitter(userData?.twitter_link ? userData?.twitter_link : '')
+        setLinkTiktok(userData?.tiktok_link ? userData?.tiktok_link : '')
+    }, [userData])
+
+    const checkLink = userData?.facebook_link || userData?.instagram_link || userData?.twitter_link || userData?.tiktok_link
+ 
 
     const addSocialLink = () => {
         if (!userData) return
 
-        if (linkInputValue == '') return
 
 
         if (userData?.account_type === 'roomseeker') {
-            const useObjectData = listing || {}
-            useObjectData.social_media_link = linkInputValue
+            const useObjectData = userData || {}
+            useObjectData.facebook_link = linkFb
+            useObjectData.instagram_link = linkInsta
+            useObjectData.twitter_link = linkTwitter
+            useObjectData.tiktok_link = linkTiktok
 
             const photoKey = useObjectData['photo']
             if (photoKey) {
                 delete useObjectData['photo']
             }
 
-            fetch(`${baseURL}/listing/room-seekers/${listing?.id}/`, {
+            fetch(`${baseURL}/account/api/profile/${userData.id}/`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('user-token')}`,
@@ -837,7 +854,7 @@ const Profile = () => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    // console.log(data);
+                    console.log(data);
                     setAddLinkTf(false)
                     setRefresh(refresh + 1)
                     toast.success('Link add Succesfully', {
@@ -851,40 +868,6 @@ const Profile = () => {
                         theme: "colored",
                     });
 
-                })
-                .catch(err => console.log(err))
-        }
-        if (userData?.account_type === 'homeowner') {
-            const useObjectData = listing || {}
-            useObjectData.social_media_link = linkInputValue
-
-            const photoKey = useObjectData['photo']
-            if (photoKey) {
-                delete useObjectData['photo']
-            }
-
-            fetch(`${baseURL}/listing/home-listings/${listing?.id}/`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('user-token')}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(useObjectData)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setAddLinkTf(false)
-                    setRefresh(refresh + 1)
-                    toast.success('Link add Succesfully', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                    });
                 })
                 .catch(err => console.log(err))
         }
@@ -1275,31 +1258,73 @@ const Profile = () => {
                         ''}
 
 
-                 {userData?.account_type == 'roomseeker'  &&  <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center relative'>
+                    {userData?.account_type == 'roomseeker' && <div className='w-full p-4 lg:p-6 text-center  bg-white bg-opacity-50  border-2 rounded-md flex justify-center items-center relative'>
 
-                        {listing?.social_media_link && <MdDelete onClick={removesocialLink} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white duration-200 hover:scale-110 bg-[#7065F0] p-2'></MdDelete>}
+                        {checkLink && <FaEdit onClick={() => setAddLinkTf(true)} className='absolute cursor-pointer top-3 right-3 text-4xl rounded-full text-white duration-200 hover:scale-110 bg-[#7065F0] p-2'></FaEdit>}
 
-                        {!listing.social_media_link && <div>
-                            <FaLink className='mx-auto text-3xl  text-[#7065F0] ' />
-                            {!addLinkTf ? <div>
-                                <h1 className=' font-medium text-xl mt-4'>Social Media Link (optional)</h1>
-                                <p className='text-sm my-2 mb-20'>upload your any social media link</p>
-                            </div> :
-                                <input onChange={e => setLinkInputValue(e.target.value)} placeholder='paste your link' type="text" className='w-full mt-4 border focus:outline-none p-2 rounded-md mb-20' />}
+                        {!checkLink ?
 
-                            {!addLinkTf ? <btn onClick={() => setAddLinkTf(true)} className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' >Add link</btn> :
-                                <div className='absolute z-30 bottom-8 left-2/4 -translate-x-2/4'>
-                                    <btn onClick={addSocialLink} className=' hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 ' >save</btn>
-                                    <btn onClick={() => setAddLinkTf(false)} className=' hover:bg-[#974739] ms-2 py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#df5037] text-white border-0 ' >cencel</btn>
-                                </div>}
-                        </div>}
-
-                        {listing?.social_media_link &&
                             <div>
-                                <h1 className=' font-medium text-xl mt-4'>Your social media link</h1>
-                                <a href={listing?.social_media_link} target='_blank' className='text-sm underline text-blue-600 my-2 mb-20'>{listing?.social_media_link}</a>
+                                {!addLinkTf ?
+                                    <>
+                                        <FaLink className='mx-auto text-3xl  text-[#7065F0] ' />
+                                        <h1 className=' font-medium text-xl mt-2'>Social Media Link (optional)</h1>
+                                        <p className='text-sm my-2 mb-20'>upload your any social media link</p>
+                                    </>
+                                    :
+                                    <>
+                                        <>
+                                            <FaLink className='mx-auto text-3xl  text-[#7065F0] ' />
+                                            <h1 className=' font-medium text-xl mt-2'>Social Media Link (optional)</h1>
+                                            <input value={linkFb} onChange={e => setLinkFb(e.target.value)} placeholder='Facebook' type="text" className='w-full mt-2  border focus:outline-none p-2 rounded-md mb-2' />
+                                            <input value={linkInsta} onChange={e => setLinkInsta(e.target.value)} placeholder='Instagram' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-2' />
+                                            <input value={linkTwitter} onChange={e => setLinkTwitter(e.target.value)} placeholder='X.com(Twitter)' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-2' />
+                                            <input value={linkTiktok} onChange={e => setLinkTiktok(e.target.value)} placeholder='TikTok' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-20' />
+                                        </>
+                                    </>
+                                }
+                            </div>
+                            :
+                            <div>
+                                {!addLinkTf ?
+                                    <>
+                                        <div>
+                                            <h1 className=' font-medium text-xl mt-4'>Your social media link</h1>
+
+                                            <div className='mt-4 mb-20 lg:mb-6 flex justify-center items-center gap-3'>
+                                                {userData?.facebook_link && <a href={linkFb} target='_blank' className='text-blue-500'><FaFacebook className='text-4xl' /></a>}
+                                                {userData?.instagram_link && <a href={linkInsta} target='_blank' className='text-pink-500'><FaInstagram className='text-4xl' /></a>}
+                                                {userData?.twitter_link && <a href={linkTwitter} target='_blank' className='text-blue-500'><FaTwitter className='text-4xl' /></a>}
+                                                {userData?.tiktok_link && <a href={linkTiktok} target='_blank' className='text-black'><FaTiktok className='text-4xl' /></a>}
+
+                                            </div>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <FaLink className='mx-auto text-3xl  text-[#7065F0] ' />
+                                        <h1 className=' font-medium text-xl mt-2'>Social Media Link (optional)</h1>
+                                        <input value={linkFb} onChange={e => setLinkFb(e.target.value)} placeholder='Facebook' type="text" className='w-full mt-2  border focus:outline-none p-2 rounded-md mb-2' />
+                                        <input value={linkInsta} onChange={e => setLinkInsta(e.target.value)} placeholder='Instagram' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-2' />
+                                        <input value={linkTwitter} onChange={e => setLinkTwitter(e.target.value)} placeholder='X.com(Twitter)' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-2' />
+                                        <input value={linkTiktok} onChange={e => setLinkTiktok(e.target.value)} placeholder='TikTok' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-20' />
+                                    </>
+                                }
                             </div>
                         }
+
+
+
+                        {!addLinkTf ?
+                            <div>
+                                {!checkLink && <btn onClick={() => setAddLinkTf(true)} className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' >Add link</btn>}
+                            </div>
+                            :
+                            <div className='absolute z-30 bottom-8 left-2/4 -translate-x-2/4'>
+                                <btn onClick={addSocialLink} className=' hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 ' >save</btn>
+                                <btn onClick={() => setAddLinkTf(false)} className=' hover:bg-[#974739] ms-2 py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#df5037] text-white border-0 ' >cancel</btn>
+                            </div>}
+
 
 
 
@@ -1554,7 +1579,7 @@ const Profile = () => {
                                 deleteListing()
                             }}
                             className='btn border-0rounded-none lg:w-56 mt-7 btn-lg border-0 hover:bg-[#b34f4f] bg-[#f06565] text-white '>delete</button>
-                        
+
                     </div>
                 </div>}
 

@@ -14,8 +14,6 @@ import { formatPhoneNumberIntl } from 'react-phone-number-input'
 
 const OtpSend = () => {
     const [con, setCon] = useState('+61')
-    const [seconds, setSeconds] = useState(120);
-    const [sec, setSec] = useState(120);
     const [timer, setTimer] = useState(false);
     const [otp, setOtp] = useState('')
     const [err, setErr] = useState('')
@@ -24,28 +22,28 @@ const OtpSend = () => {
     const navigate = useNavigate()
     const { listing, setLoading, setRefresh, refresh } = useContext(AuthContext)
 
+    const [time, setTime] = useState(120); // 2 minutes in seconds
+
     useEffect(() => {
         if (!timer) return
-        let intervalId;
-
-        intervalId = setInterval(() => {
-            setSeconds(prevSeconds => prevSeconds - 1);
-            setSec(prevSec => prevSec - 1);
+        const timer2 = setInterval(() => {
+            if (time > 0) {
+                setTime(time - 1);
+            }
         }, 1000);
 
-        if (sec === 0) {
-            setTimeout(() => {
-                setTimer(false)
-                setSeconds(120)
-                setSec(120)
-            }, 1000);
-        }
-
         return () => {
-
-            clearInterval(intervalId);
+            clearInterval(timer2);
         };
-    }, [seconds, timer]);
+    }, [time, timer]);
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+
 
     const sendOtp = () => {
         setLoad(true)
@@ -72,8 +70,8 @@ const OtpSend = () => {
                 setLoad(false)
                 if (data.success) {
                     window.send_otp.showModal()
+                    setTime(120)
                     setTimer(true)
-                    setSec(120)
                 }
                 else {
                     setLoad(false)
@@ -140,6 +138,7 @@ const OtpSend = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    setTime(120)
                     setTimer(true)
                 }
                 else {
@@ -156,16 +155,16 @@ const OtpSend = () => {
                 }
             })
     }
-    
+
     return (
         <div className="px-4 max-w-[550px] mx-auto">
             <p className="font-bold text-2xl mb-4 mt-12 lg:mt-16">Mobile number: </p>
 
             <PhoneInput
-            
+
                 className="w-full py-3 px-4 border-b border-black bg-white"
                 international
-                 usenationalFormatForDefaultCountryValue={true}
+                usenationalFormatForDefaultCountryValue={true}
                 inputClassName="focus:outline-none bg-white border-0 w-full p-2"
                 defaultCountry="AU"
                 value={con}
@@ -188,7 +187,7 @@ const OtpSend = () => {
                     <h1 className="text-2xl mt-7 text-center text-[#100A55] lg:text-4xl">Enter Code</h1>
                     <p className='text-center font-medium my-4 text-red-500'>{err}</p>
                     <div className="p-6 mb-7   lg:mb-5">
-                        <h1 className='text-center  text-2xl lg:text-5xl mb-14'>{sec}</h1>
+                        <h1 className='text-center  text-2xl lg:text-5xl mb-14'>{formatTime(time)}</h1>
                         <div className=' max-w-[500px] mx-auto text-center '>
                             <div>
                                 <OTPInput
@@ -203,7 +202,7 @@ const OtpSend = () => {
                                     disabled={verifyStatus}
                                 />
                                 <div className='text-center mt-5'>
-                                    <button disabled={sec != 120} onClick={resend} className="btn btn-sm border-0  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
+                                    <button disabled={time != 0} onClick={resend} className="btn btn-sm border-0  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
 
                                 </div>
                             </div> </div>
