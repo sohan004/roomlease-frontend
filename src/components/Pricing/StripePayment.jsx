@@ -81,7 +81,7 @@ const CheckoutForm = ({ price, subscription, userData }) => {
                         showConfirmButton: false,
                         timer: 2000
                     })
-                    navigate('/profile')
+                   window.location.href = '/profile'
 
                 } else {
                     setError(result.message)

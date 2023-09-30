@@ -435,7 +435,7 @@ const SettingProfile = () => {
                                 <p className="text-sm font-medium">Send email when someone messages you?</p>
                                 <input
                                     onClick={e => chgNotification(e.target.checked, 'send_message_email')}
-                                    type="checkbox" checked={userData?.send_message_email} className="toggle bg-transparent toggle-primary" />
+                                    type="checkbox" checked={userData?.send_message_email} className="toggle  toggle-primary" />
                             </div>
                         </div>
                         <div className="mt-6 mb-6 pb-6 border-b-2 ">
@@ -443,7 +443,7 @@ const SettingProfile = () => {
                                 <p className="text-sm font-medium">Send email when a listing matches?</p>
                                 <input
                                     onClick={e => chgNotification(e.target.checked, 'send_match_email')}
-                                    type="checkbox" checked={userData?.send_match_email} className="toggle bg-transparent toggle-primary" />
+                                    type="checkbox" checked={userData?.send_match_email} className="toggle  toggle-primary" />
                             </div>
                         </div>
 

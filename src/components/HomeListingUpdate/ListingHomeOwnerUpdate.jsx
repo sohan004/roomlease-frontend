@@ -59,7 +59,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState(listingData?.nearby_community_spaces ? listingData?.nearby_community_spaces : [])
     const [publicTransportAccess, setPublicTransportAccess] = useState(listingData?.public_transport_access ? listingData?.public_transport_access : [])
     const [gender, setGender] = useState(listing?.gender ? listing?.gender : [])
-    const [age, setAge] = useState(listing?.age_range.split(',').length > 0 ? listing?.age_range.split(',') : [])
+    const [age, setAge] = useState(listing?.age_range ? listing?.age_range.split(',') : [])
     const [checks, setChecks] = useState(listing?.ids_and_checks ? listing?.ids_and_checks : [])
     const [smoke, setSmoke] = useState('')
     const [pets, setPets] = useState('')
@@ -77,7 +77,11 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [load, setLoad] = useState(false)
     const [homeaddress2, setHomeaddress2] = useState(listing?.home_address ? listing?.home_address : '')
     const [street, setStreet] = useState([])
-    
+   
+    useEffect(() => {
+        
+    }, [listing])
+
     console.log(age);
 
     const [minimumStayArray, setMinimumStayArray] = useState([

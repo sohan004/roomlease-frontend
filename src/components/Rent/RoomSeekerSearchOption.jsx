@@ -31,8 +31,8 @@ const RoomSeekerSearchOption = (props) => {
         ids_and_checks,
         occupation_preference,
         looking_place,
-        weekly_budget_min,
-        weekly_budget_max
+        weekly_max,
+        weekly_min
     } = props;
     const [houseType, setHouseType] = useState(house_type)
     const [parkingOptions, setParkingOptions] = useState(parking_option)
@@ -46,8 +46,8 @@ const RoomSeekerSearchOption = (props) => {
     const [rent_per_week_single, setRent_per_week_single] = useState(rent_per_week_couple2)
     const [looking_for, setLooking_for] = useState(looking_place)
     const [selectedFeatures, setSelectedFeatures] = useState(room_features ? room_features.split(',') : []);
-    const [weeklyBudgetMin, setWeeklyBudgetMin] = useState(weekly_budget_min)
-    const [weeklyBudgetMax, setWeeklyBudgetMax] = useState(weekly_budget_max)
+    const [weeklyBudgetMin, setWeeklyBudgetMin] = useState(weekly_min)
+    const [weeklyBudgetMax, setWeeklyBudgetMax] = useState(weekly_max)
     const toggleFeature = (feature) => {
         if (selectedFeatures.includes(feature)) {
             setSelectedFeatures(selectedFeatures.filter((f) => f !== feature));
@@ -55,6 +55,7 @@ const RoomSeekerSearchOption = (props) => {
             setSelectedFeatures([...selectedFeatures, feature]);
         }
     };
+
 
     const fetures = [
 

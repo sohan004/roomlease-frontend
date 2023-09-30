@@ -84,6 +84,8 @@ const Rent = () => {
     const [listingData, setListingData] = useState([])
     const [value, setValue] = useState([1, 1500000]);
 
+  
+
 
     const path1 = `${baseURL}/search/home-listings/?location=${location}&page=${page}&house_type=${house_type}&parking_option=${parking_option}&rent_per_week_single_max=${rent_per_week_single_max}&rent_per_week_single_min=${rent_per_week_single_min}&rent_per_week_couple_max=${rent_per_week_couple_max}&rent_per_week_couple_min=${rent_per_week_couple_min}&bond=${bond}&bills_included_in_rent=${bills_included_in_rent}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
 
@@ -205,6 +207,7 @@ const Rent = () => {
 
 
 
+
     // paginate functino 
     const [itemOffset, setItemOffset] = useState(0);
     const [category, setCategory] = useState('homeowner')
@@ -283,8 +286,7 @@ const Rent = () => {
                         looking_place={looking_place}
                     ></HomeOwnerSearchOption> :
                         <RoomSeekerSearchOption
-                        weekly_budget_min={weekly_budget_min}
-                        weekly_budget_max={weekly_budget_max}
+
                             type={type}
                             location={location}
                             house_type={house_type}
@@ -308,6 +310,8 @@ const Rent = () => {
                             ids_and_checks={ids_and_checks}
                             occupation_preference={occupation_preference}
                             looking_place={looking_place}
+                            weekly_max={weekly_budget_max}
+                            weekly_min={weekly_budget_min}
                         ></RoomSeekerSearchOption>}
 
                 </div>
@@ -489,6 +493,8 @@ const Rent = () => {
                                     ids_and_checks={ids_and_checks}
                                     occupation_preference={occupation_preference}
                                     looking_place={looking_place}
+                                    weekly_max={weekly_budget_max}
+                                    weekly_min={weekly_budget_min}
                                 ></RoomSeekerSearchOption>}
 
                         </div>

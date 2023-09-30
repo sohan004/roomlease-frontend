@@ -35,7 +35,7 @@ export default function PaypalPayment({ price, subscription, userData: user }) {
                     onApprove={(data, actions) => {
                         return actions.order.capture().then(function (details) {
                             alert('We have received your payment. It may take 5 minutes to update your account.')
-                            navigate('/profile')
+                            window.location.href = '/profile'
                         });
                     }}
                     onError={(err) => {

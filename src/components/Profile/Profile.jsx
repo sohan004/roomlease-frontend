@@ -353,7 +353,7 @@ const Profile = () => {
             .catch(err => console.log(err))
     }
 
-    console.log(userData);
+    console.log(listing);
 
 
     const houseUpdate = () => {
