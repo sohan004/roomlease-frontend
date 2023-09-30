@@ -41,20 +41,29 @@ const Section4 = () => {
                     </div>
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-white text-black p-6 rounded-lg'>
                         <div className=' lg:w-[30%] w-full'>
+                        <FaDollarSign className='bg-[#E8E6F9] text-[55px] text-5xl rounded-full p-2 border-4 shadow-md border-white'></FaDollarSign>
+                        </div>
+                        <div className='lg:w-[70%]  w-full'>
+                            <h1 className='text-2xl mb-6 font-semibold'>Free </h1>
+                            <p className='text-base '>List or Search Rooms absolutely free and don’t lose money on other platforms.</p>
+                        </div>
+                    </div>
+                    {/* <div className='flex flex-col gap-y-6 lg:flex-row bg-white text-black p-6 rounded-lg'>
+                        <div className=' lg:w-[30%] w-full'>
                             <GrTechnology className='bg-[#E8E6F9] text-[55px]  rounded-full p-2 border-4 shadow-md border-white' />
                         </div>
                         <div className='lg:w-[70%]  w-full'>
-                            <h1 className='text-2xl mb-6 font-semibold'>Ideal Matching: </h1>
+                            <h1 className='text-2xl mb-6 font-semibold'>Ideal Matching </h1>
                             <p className='text-base opacity-70'>Our AI isn’t just smart, it’s intuitive and it brings you together based on compatibility and shared values.</p>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex flex-col gap-y-6 lg:flex-row bg-[#7065F0] text-white p-6 rounded-lg'>
                         <div className=' lg:w-[30%] w-full'>
-                            <FaDollarSign className='bg-white text-5xl text-[#7065F0] rounded-full p-2 border-4 shadow-md border-white'></FaDollarSign>
+                        <GrTechnology className='bg-[#E8E6F9] text-[55px]  rounded-full p-2 border-4 shadow-md border-white' />
                         </div>
                         <div className='lg:w-[70%]  w-full'>
-                            <h1 className='text-2xl mb-6 font-semibold'>Free</h1>
-                            <p className='text-base opacity-70'>List or Search Rooms absolutely free and don’t lose money on other platforms.</p>
+                            <h1 className='text-2xl mb-6 font-semibold'>Ideal Matching </h1>
+                            <p className='text-base opacity-70'>Our AI isn’t just smart, it’s intuitive and it brings you together based on compatibility and shared values.</p>
                         </div>
                     </div>
                 </div>
