@@ -310,7 +310,7 @@ const SettingProfile = () => {
                                 <p className="font-medium text-sm mb-1">Full Name</p>
                                 <h1 className='font-semibold flex  items-center gap-2 '>
                                     {!nameEdit && userData?.full_name}
-                                    {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                    {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2 bg-white outline-none  text-center w-full' />}
                                     {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                     {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                                 </h1>
@@ -319,7 +319,7 @@ const SettingProfile = () => {
                                 <p className="font-medium text-sm mb-1">Date Of Birth</p>
                                 <h1 className=' flex font-semibold items-center gap-2  mt-2 '>
                                     {!dateOBEdit && <span>{userData?.dob ? moment(userData?.dob).format('Do MMMM YYYY') : 'date of birth'}</span>}
-                                    {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData?.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                    {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData?.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2 bg-white outline-none  text-center w-full' />}
                                     {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                     {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                                 </h1>
@@ -332,7 +332,7 @@ const SettingProfile = () => {
                                 <p className="font-medium text-sm mb-1">Email</p>
                                 <h1 className='font-semibold flex  items-center gap-2 '>
                                     {!emailEdit && userData?.email}
-                                    {emailEdit && <input type="text" defaultValue={userData.email} onChange={(e) => setEmail(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                    {emailEdit && <input type="text" defaultValue={userData.email} onChange={(e) => setEmail(e.target.value)} className='border p-2  outline-none bg-white text-center w-full' />}
                                     {!emailEdit && <FaEdit onClick={() => setEmailEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer`} />}
                                     {emailEdit && <FaSave onClick={() => cngEmail()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                                 </h1>
@@ -452,7 +452,7 @@ const SettingProfile = () => {
 
 
                 <dialog id="upload_profile_img2" className="modal">
-                    <div method="dialog" className="modal-box">
+                    <div method="dialog" className="modal-box bg-white">
                         <div className="flex flex-col items-center gap-7 mb-14">
                             <h3 className="font-bold font-mono text-lg text-center">Upload Profile Picture</h3>
                             <input onChange={e => setProfilePicture(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-xs" />

@@ -1041,13 +1041,13 @@ const Profile = () => {
 
                             <h1 className='font-semibold flex justify-center items-center gap-2 text-xl lg:text-2xl mt-7 mb-4'>
                                 {!nameEdit && userData?.full_name}
-                                {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2 bg-white outline-none  text-center w-full' />}
                                 {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                 {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
                             <h1 className=' flex justify-center items-center gap-2  mt-2 '>
                                 {!dateOBEdit && <span>{userData?.dob ? moment(userData?.dob).format('Do MMMM YYYY') : 'date of birth'}</span>}
-                                {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2 bg-white outline-none  text-center w-full' />}
                                 {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                 {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                             </h1>
@@ -1097,9 +1097,9 @@ const Profile = () => {
                 { <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
 
                     {userAllListing.length > 1 && userAllListing?.map((list, i) => <div onClick={() => setListing(list)} key={i} className={`p-2 cursor-pointer border-2 w-full hover:bg-[#dbd7fd] ${listing?.id == list?.id && 'bg-[#dbd7fd]'} duration-300 border-[#7065F0] rounded-md`}>
-                        <h1 className='text-2xl font-bold '>{list?.house_type ? list?.house_type : 'ToDo'}</h1>
-                        {userData?.account_type == 'homeowner' && <p className='font-medium text-gray-500'>{list?.home_address ? list?.home_address : 'Australia'}</p>}
-                        {userData?.account_type == 'roomseeker' && <p className='font-medium text-gray-500'>{list?.suburb ? list?.suburb[0] : 'Australia'}</p>}
+                        <h1 className='text-lg md:text-2xl font-bold '>{list?.house_type ? list?.house_type : 'ToDo'}</h1>
+                        {userData?.account_type == 'homeowner' && <p className='font-medium  text-xs md:text-base text-gray-500'>{list?.home_address ? list?.home_address : 'Australia'}</p>}
+                        {userData?.account_type == 'roomseeker' && <p className='font-medium text-xs md:text-base  text-gray-500'>{list?.suburb ? list?.suburb[0] : 'Australia'}</p>}
                     </div>)}
 
                     <div onClick={() => {
@@ -1123,7 +1123,7 @@ const Profile = () => {
                         }
                     }} className='flex items-center cursor-pointer border-2 w-full border-[#7065F0] rounded-md'>
                         <p className='text-5xl font-extrabold px-2 pb-2 border-e-2 h-full border-[#7065F0] bg-[#7065F0] text-white'>+</p>
-                        <p className='py-4 flex-grow px-4 hover:bg-[#dbd7fd] cursor-pointer duration-300 h-full my-auto font-medium'>Add New Listing</p>
+                        <p className='py-4 flex-grow px-4 hover:bg-[#dbd7fd] cursor-pointer duration-300 h-full my-auto font-medium text-xs md:text-base'>Add New Listing</p>
                     </div>
                 </div>}
 
@@ -1607,7 +1607,7 @@ const Profile = () => {
                             </div>
                             <div className='p-4 lg:p-6'>
                                 {!description && <p>{listing?.describe_occupants ? listing?.describe_occupants : 'write home description...'}</p>}
-                                {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full'></textarea>}
+                                {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full bg-white'></textarea>}
                                 {description && <div className='flex gap-3 justify-start mt-3'>
                                     <button onClick={addDescription} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>save changes</button>
                                     <button onClick={() => setDescription(false)} className="btn border-0bg-slate-300">calcel</button>
@@ -1640,8 +1640,8 @@ const Profile = () => {
                 </div> */}
             </div>
             <dialog id="upload_profile_img" className="modal">
-                <div method="dialog" className="modal-box">
-                    <div className="flex flex-col items-center gap-7 mb-14">
+                <div method="dialog" className="modal-box bg-white">
+                    <div className="flex flex-col items-center gap-7 mb-14 ">
                         <h3 className="font-bold font-mono text-lg text-center">Upload Profile Picture</h3>
                         <input onChange={e => setProfilePicture(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-xs" />
                     </div>
@@ -1654,7 +1654,7 @@ const Profile = () => {
             </dialog>
 
             <dialog id="inspection" className="modal">
-                <div method="dialog" className="modal-box max-w-3xl h-[500px] lg:h-[500px] relative">
+                <div method="dialog" className="modal-box max-w-3xl h-[500px] lg:h-[500px] relative bg-white">
                     <div className="flex flex-col items-start gap-7 mb-14 ">
                         <DatePicker
                             value={inspectionDate}

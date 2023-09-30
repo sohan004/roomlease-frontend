@@ -54,6 +54,7 @@ const Matches = () => {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 if (data.length < 12) {
                     setShowMore(false);
                 }
