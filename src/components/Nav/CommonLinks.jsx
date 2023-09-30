@@ -104,7 +104,7 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
         <FaInbox></FaInbox>
         <p className='font-medium'>Inbox</p>
       </Link>
-      <Link to='/setting_profile' className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+      <Link to='/setting_profile' onClick={() => setTf(false)} className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
         <GrSettingsOption></GrSettingsOption>
         <p className='font-medium'>Settings</p>
       </Link>

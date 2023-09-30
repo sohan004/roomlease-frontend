@@ -686,8 +686,8 @@ const HomeWoner = () => {
                             {billRent == 'no' &&
                                 <div className="form-control mt-4 border-[#7065F0] rounded-md border -[#7065F0] border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 rounded-lg">
                                     <label className="input-group">
-                                        <span className="bg-white border-[#7065F0] rounded-md border -e border-[#7065F0] rounded-md border -[#7065F0] ">$</span>
-                                        <input onChange={(e) => { setApproximatecost(e.target.value); onchengeFunction() }} type="text" className="input   w-full " />
+                                        <span className="bg-white border-[#7065F0] rounded-md border-e border-[#7065F0] rounded-md border-[#7065F0] ">$</span>
+                                        <input onChange={(e) => { setApproximatecost(e.target.value); onchengeFunction() }} type="text" className="input  bg-transparent w-full " />
                                     </label>
                                 </div>}
 

@@ -409,7 +409,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                             <div className="form-control mt-4 border-[#7065f0] rounded-md border -[#7065F0] border-[#7065f0] rounded-md border  hover:border-[#7065f0] rounded-md border -2 focus:border-[#7065f0] rounded-md border -2 rounded-lg">
                                 <label className="input-group">
                                     <span className="bg-white border-e border-[#7065f0] rounded-md border-[#7065F0] ">$</span>
-                                    <input placeholder="weekly_budget" value={weeklybudget} onChange={(e) => { setWeeklybudget(e.target.value);  }} type="text" className="input bg-white  w-full " />
+                                    <input placeholder="200" value={weeklybudget} onChange={(e) => { setWeeklybudget(e.target.value);  }} type="text" className="input bg-white  w-full " />
                                 </label>
                             </div>
 

@@ -1276,10 +1276,10 @@ const Profile = () => {
                                         <>
                                             <FaLink className='mx-auto text-3xl  text-[#7065F0] ' />
                                             <h1 className=' font-medium text-xl mt-2'>Social Media Link (optional)</h1>
-                                            <input value={linkFb} onChange={e => setLinkFb(e.target.value)} placeholder='Facebook' type="text" className='w-full mt-2  border focus:outline-none p-2 rounded-md mb-2' />
-                                            <input value={linkInsta} onChange={e => setLinkInsta(e.target.value)} placeholder='Instagram' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-2' />
-                                            <input value={linkTwitter} onChange={e => setLinkTwitter(e.target.value)} placeholder='X.com(Twitter)' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-2' />
-                                            <input value={linkTiktok} onChange={e => setLinkTiktok(e.target.value)} placeholder='TikTok' type="text" className='w-full  border focus:outline-none p-2 rounded-md mb-20' />
+                                            <input value={linkFb} onChange={e => setLinkFb(e.target.value)} placeholder='Facebook' type="text" className='w-full mt-2  border bg-transparent focus:outline-none p-2 rounded-md mb-2' />
+                                            <input value={linkInsta} onChange={e => setLinkInsta(e.target.value)} placeholder='Instagram' type="text" className='w-full  border bg-transparent focus:outline-none p-2 rounded-md mb-2' />
+                                            <input value={linkTwitter} onChange={e => setLinkTwitter(e.target.value)} placeholder='X.com(Twitter)' type="text" className='w-full  border bg-transparent focus:outline-none p-2 rounded-md mb-2' />
+                                            <input value={linkTiktok} onChange={e => setLinkTiktok(e.target.value)} placeholder='TikTok' type="text" className='w-full  border bg-transparent focus:outline-none p-2 rounded-md mb-20' />
                                         </>
                                     </>
                                 }
@@ -1479,7 +1479,7 @@ const Profile = () => {
                             const homeAddressListingLength = key == 'home_address' && homeAddressListing.length
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
-                                <p className='font-medium opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70 text-xs lg:text-base w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
                                     vlidarray ? <div className='flex items-center flex-wrap gap-2'>

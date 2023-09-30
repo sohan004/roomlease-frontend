@@ -300,7 +300,7 @@ const SettingProfile = () => {
                                 <img className="bg-[#E0DEF7]  rounded-full h-20 w-20" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
                             </div>
                             <div className="flex flex-col lg:flex-row gap-2 ">
-                                <button onClick={() => window.upload_profile_img2.showModal()} className="btn btn-sm bg-[#7065F0] w-[155px] lg:w-[105px] hover:bg-[#5047aa] text-white">Upload</button>
+                                <button onClick={() => window.upload_profile_img2.showModal()} className="btn btn-sm bg-[#7065F0] w-[155px] lg:w-[105px] hover:bg-[#5047aa] border-0 text-white">Upload</button>
                                 {/* <button onClick={removePhoto} className="btn btn-sm border-2 w-[155px] lg:w-[105px] border-[#E0DEF7] bg-transparent text-[#7065F0]">Remove</button> */}
                             </div>
                         </div>
@@ -379,7 +379,7 @@ const SettingProfile = () => {
                                 <p className="font-bold">Delete Account</p>
                                 <p className=" mt-2 opacity-80 text-sm">Delete your account and all the data</p>
                             </div>
-                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-red-400 bg-transparent text-red-400">Remove</button>
+                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-[#766cdb] bg-transparent text-[#766cdb] hover:bg-[#bcb8e7]">Delete</button>
                         </div>
 
                     </div>}
