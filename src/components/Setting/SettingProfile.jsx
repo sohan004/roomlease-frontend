@@ -28,7 +28,30 @@ const SettingProfile = () => {
     const [name, setName] = useState(userData?.full_name)
     const [dateOBEdit, setDateOBEdit] = useState(false)
     const [dateOB, setDateOB] = useState(userData?.dob)
+    const [email, setEmail] = useState(userData?.email)
+    const [emailEdit, setEmailEdit] = useState(false)
 
+
+    const cngEmail = () => {
+       
+
+        fetch(`${baseURL}/account/change-email/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${localStorage.getItem('user-token')}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setEmailEdit(false)
+                setUserDataRefresh(prev => prev + 1)
+            })
+    }
 
     const quary = new URLSearchParams(useLocation().search)
     const tw = quary.get('r')
@@ -188,7 +211,6 @@ const SettingProfile = () => {
             })
     }
 
-    console.log(userData);
 
     const deleteAccount = () => {
 
@@ -278,7 +300,7 @@ const SettingProfile = () => {
                                 <img className="bg-[#E0DEF7]  rounded-full h-20 w-20" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
                             </div>
                             <div className="flex flex-col lg:flex-row gap-2 ">
-                                <button onClick={() => window.upload_profile_img2.showModal()} className="btn btn-sm bg-[#7065F0] w-[155px] lg:w-[105px] hover:bg-[#5047aa] text-white">Upload</button>
+                                <button onClick={() => window.upload_profile_img2.showModal()} className="btn btn-sm bg-[#7065F0] w-[155px] lg:w-[105px] hover:bg-[#5047aa] border-0 text-white">Upload</button>
                                 {/* <button onClick={removePhoto} className="btn btn-sm border-2 w-[155px] lg:w-[105px] border-[#E0DEF7] bg-transparent text-[#7065F0]">Remove</button> */}
                             </div>
                         </div>
@@ -288,7 +310,7 @@ const SettingProfile = () => {
                                 <p className="font-medium text-sm mb-1">Full Name</p>
                                 <h1 className='font-semibold flex  items-center gap-2 '>
                                     {!nameEdit && userData?.full_name}
-                                    {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                    {nameEdit && <input type="text" defaultValue={userData.full_name} onChange={(e) => setName(e.target.value)} className='border p-2 bg-white outline-none  text-center w-full' />}
                                     {!nameEdit && <FaEdit onClick={() => setNameEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                     {nameEdit && <FaSave onClick={() => fullNameUpdate()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                                 </h1>
@@ -297,7 +319,7 @@ const SettingProfile = () => {
                                 <p className="font-medium text-sm mb-1">Date Of Birth</p>
                                 <h1 className=' flex font-semibold items-center gap-2  mt-2 '>
                                     {!dateOBEdit && <span>{userData?.dob ? moment(userData?.dob).format('Do MMMM YYYY') : 'date of birth'}</span>}
-                                    {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData?.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2  outline-none  text-center w-full' />}
+                                    {dateOBEdit && <input placeholder='YYYY-MM-DD' type="date" defaultValue={userData?.dob} onChange={(e) => setDateOB(e.target.value)} className='border p-2 bg-white outline-none  text-center w-full' />}
                                     {!dateOBEdit && <FaEdit onClick={() => setDateOBEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer ${userData?.verified && 'hidden'}`} />}
                                     {dateOBEdit && <FaSave onClick={() => dateOBFunction()} className='text-4xl text-[#7065F0] cursor-pointer' />}
                                 </h1>
@@ -308,7 +330,12 @@ const SettingProfile = () => {
                             </div>
                             <div>
                                 <p className="font-medium text-sm mb-1">Email</p>
-                                <h1 className="font-semibold">{userData?.email}</h1>
+                                <h1 className='font-semibold flex  items-center gap-2 '>
+                                    {!emailEdit && userData?.email}
+                                    {emailEdit && <input type="text" defaultValue={userData.email} onChange={(e) => setEmail(e.target.value)} className='border p-2  outline-none bg-white text-center w-full' />}
+                                    {!emailEdit && <FaEdit onClick={() => setEmailEdit(true)} className={`text-2xl text-[#7065F0] cursor-pointer`} />}
+                                    {emailEdit && <FaSave onClick={() => cngEmail()} className='text-4xl text-[#7065F0] cursor-pointer' />}
+                                </h1>
                             </div>
                             {/* <div className="col-span-1 lg:col-span-2">
                                 <p className="font-medium text-sm mb-2">Number</p>
@@ -352,7 +379,7 @@ const SettingProfile = () => {
                                 <p className="font-bold">Delete Account</p>
                                 <p className=" mt-2 opacity-80 text-sm">Delete your account and all the data</p>
                             </div>
-                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-red-400 bg-transparent text-red-400">Remove</button>
+                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-[#766cdb] bg-transparent text-[#766cdb] hover:bg-[#bcb8e7]">Delete</button>
                         </div>
 
                     </div>}
@@ -408,7 +435,7 @@ const SettingProfile = () => {
                                 <p className="text-sm font-medium">Send email when someone messages you?</p>
                                 <input
                                     onClick={e => chgNotification(e.target.checked, 'send_message_email')}
-                                    type="checkbox" checked={userData?.send_message_email} className="toggle toggle-primary" />
+                                    type="checkbox" checked={userData?.send_message_email} className="toggle  toggle-primary" />
                             </div>
                         </div>
                         <div className="mt-6 mb-6 pb-6 border-b-2 ">
@@ -416,7 +443,7 @@ const SettingProfile = () => {
                                 <p className="text-sm font-medium">Send email when a listing matches?</p>
                                 <input
                                     onClick={e => chgNotification(e.target.checked, 'send_match_email')}
-                                    type="checkbox" checked={userData?.send_match_email} className="toggle toggle-primary" />
+                                    type="checkbox" checked={userData?.send_match_email} className="toggle  toggle-primary" />
                             </div>
                         </div>
 
@@ -425,7 +452,7 @@ const SettingProfile = () => {
 
 
                 <dialog id="upload_profile_img2" className="modal">
-                    <div method="dialog" className="modal-box">
+                    <div method="dialog" className="modal-box bg-white">
                         <div className="flex flex-col items-center gap-7 mb-14">
                             <h3 className="font-bold font-mono text-lg text-center">Upload Profile Picture</h3>
                             <input onChange={e => setProfilePicture(e.target.files[0])} type="file" className="file-input file-input-bordered w-full max-w-xs" />

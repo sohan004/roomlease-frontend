@@ -437,24 +437,24 @@ const HomeOwnerListingCardDetails = () => {
                     <div className='w-full lg:w-[70%] '>
                         <div className='grid grid-cols-2 lg:grid-cols-4 border rounded-lg p-6 gap-x-8'>
                             <div>
-                                <p className='opacity-70 mb-4'>Bedrooms Type</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={bed} alt="" />{listingDetails?.bedroom_type || listingDetails?.room_type}</p>
+                                <p className='opacity-70 text-xs lg:text-base  mb-4'>Bedrooms Type</p>
+                                <p className='text-xs md:text-base font-semibold flex items-center gap-2 mb-4'><img src={bed} alt="" />{listingDetails?.bedroom_type || listingDetails?.room_type}</p>
                             </div>
                             <div>
-                                <p className='opacity-70 mb-4'>Private Bathroom</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><img src={bath} alt="" />{listingDetails?.private_bathroom}</p>
+                                <p className='opacity-70 text-xs lg:text-base  mb-4'>Private Bathroom</p>
+                                <p className='text-xs md:text-base font-semibold flex items-center gap-2 mb-4'><img src={bath} alt="" />{listingDetails?.private_bathroom}</p>
                             </div>
                             {listingDetails?.parking_option && <div className=''>
-                                <p className='opacity-70 mb-4 '>Parking</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><FaCarAlt className='text-2xl opacity-60' /> {listingDetails?.parking_option}</p>
+                                <p className='opacity-70 text-xs lg:text-base  mb-4 '>Parking</p>
+                                <p className='text-xs md:text-base font-semibold flex items-center gap-2 mb-4'><FaCarAlt className='text-2xl opacity-60' /> {listingDetails?.parking_option}</p>
                             </div>}
                             {listingDetails?.looking_place && <div className=''>
-                                <p className='opacity-70 mb-4 '>Looking Place</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'><FaPersonBooth className='text-2xl opacity-60' /> {listingDetails?.looking_place}</p>
+                                <p className='opacity-70 text-xs lg:text-base  mb-4 '>Looking Place</p>
+                                <p className='text-xs md:text-base font-semibold flex items-center gap-2 mb-4'><FaPersonBooth className='text-2xl opacity-60' /> {listingDetails?.looking_place}</p>
                             </div>}
                             <div>
-                                <p className='opacity-70 mb-4'>Status</p>
-                                <p className='text-lg font-semibold flex items-center gap-2 mb-4'>{listingDetails?.active ? <><img src={active} alt="" />Active</> : 'Deactive'}</p>
+                                <p className='opacity-70 text-xs lg:text-base  mb-4'>Status</p>
+                                <p className='text-xs md:text-base font-semibold flex items-center gap-2 mb-4'>{listingDetails?.active ? <><img src={active} alt="" />Active</> : 'Deactive'}</p>
                             </div>
                         </div>
                         <h1 className='text-xl lg:text-2xl font-bold mt-8  lg:mt-12 '>About this home</h1>
@@ -545,7 +545,7 @@ const HomeOwnerListingCardDetails = () => {
                             const vlidarray = Array.isArray(listingDetails[key]);
 
                             return <div key={index} className='flex gap-3 items-start lg:items-center lg:gap-7 border-b pb-4  mb-4'>
-                                <p className='font-medium opacity-70  w-32  lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
+                                <p className='font-medium opacity-70 text-xs lg:text-base  w-32  lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
                                     vlidarray ? <div className='flex items-center flex-wrap gap-2'>

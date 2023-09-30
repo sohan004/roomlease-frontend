@@ -59,7 +59,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [nearbyCommunitySpaces, setNearbyCommunitySpaces] = useState(listingData?.nearby_community_spaces ? listingData?.nearby_community_spaces : [])
     const [publicTransportAccess, setPublicTransportAccess] = useState(listingData?.public_transport_access ? listingData?.public_transport_access : [])
     const [gender, setGender] = useState(listing?.gender ? listing?.gender : [])
-    const [age, setAge] = useState(listing?.age_range.split(',').length > 0 ? listing?.age_range.split(',') : [])
+    const [age, setAge] = useState(listing?.age_range ? listing?.age_range.split(',') : [])
     const [checks, setChecks] = useState(listing?.ids_and_checks ? listing?.ids_and_checks : [])
     const [smoke, setSmoke] = useState('')
     const [pets, setPets] = useState('')
@@ -77,7 +77,11 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
     const [load, setLoad] = useState(false)
     const [homeaddress2, setHomeaddress2] = useState(listing?.home_address ? listing?.home_address : '')
     const [street, setStreet] = useState([])
-    
+   
+    useEffect(() => {
+        
+    }, [listing])
+
     console.log(age);
 
     const [minimumStayArray, setMinimumStayArray] = useState([
@@ -512,7 +516,7 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                             <p className="text-[#100A55]font-bold text-lg">Available from:</p>
                             <DatePicker
                                 defaultValue={listing?.available_from}
-                                className="mt-4 py-3 px-4 border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 focus:bg-[#f7f6ff] border-[#7065F0] rounded-md border -[#7065F0] focus:outline-none w-full rounded-lg"
+                                className="mt-4 py-3 px-4 border-[#7065F0] bg-transparent rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 focus:bg-[#f7f6ff] border-[#7065F0] rounded-md border -[#7065F0] focus:outline-none w-full rounded-lg"
                                 showIcon
                                 selected={startDate}
                                 onChange={(date) => setStartDate(date)}
@@ -545,13 +549,13 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                 <div className="form-control mt-4 border-[#7065F0] rounded-md border -[#7065F0] border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white border-e border-[#7065F0] rounded-md border-[#7065F0] ">$</span>
-                                        <input defaultValue={listing?.rent_per_week_single} placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="text" className="input   w-full " />
+                                        <input defaultValue={listing?.rent_per_week_single} placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="text" className="input bg-transparent  w-full " />
                                     </label>
                                 </div>
                                 <div className="form-control mt-4 border-[#7065F0] rounded-md border -[#7065F0] border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white  rounded-md border-e border-[#7065F0]  ">$</span>
-                                        <input defaultValue={listing?.rent_per_week_couple} placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="text" className="input   w-full " />
+                                        <input defaultValue={listing?.rent_per_week_couple} placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="text" className="input bg-transparent  w-full " />
                                     </label>
                                 </div>
                             </div>
@@ -575,8 +579,8 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                             {billRent == 'no' &&
                                 <div className="form-control mt-4 border-[#7065F0] rounded-md border -[#7065F0] border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 rounded-lg">
                                     <label className="input-group">
-                                        <span className="bg-white border-[#7065F0] rounded-md border -e border-[#7065F0] rounded-md border -[#7065F0] ">$</span>
-                                        <input onChange={(e) => setApproximatecost(e.target.value)} type="text" className="input   w-full " />
+                                        <span className="bg-white border-[#7065F0] rounded-md border-e border-[#7065F0] rounded-md border-[#7065F0] ">$</span>
+                                        <input onChange={(e) => setApproximatecost(e.target.value)} type="text" className="input   w-full bg-transparent" />
                                     </label>
                                 </div>}
 
