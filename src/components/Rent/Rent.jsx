@@ -84,7 +84,7 @@ const Rent = () => {
     const [listingData, setListingData] = useState([])
     const [value, setValue] = useState([1, 1500000]);
 
-  
+
 
 
     const path1 = `${baseURL}/search/home-listings/?location=${location}&page=${page}&house_type=${house_type}&parking_option=${parking_option}&rent_per_week_single_max=${rent_per_week_single_max}&rent_per_week_single_min=${rent_per_week_single_min}&rent_per_week_couple_max=${rent_per_week_couple_max}&rent_per_week_couple_min=${rent_per_week_couple_min}&bond=${bond}&bills_included_in_rent=${bills_included_in_rent}&bedroom_type=${bedroom_type}&private_bathroom=${private_bathroom}&bed_size=${bed_size}&room_features=${room_features}&amenities=${amenities}&place_friendliness=${place_friendliness}&nearby_community_spaces=${nearby_community_spaces}&public_transport_access=${public_transport_access}&gender=${gender}&age_range=${age_range}&ids_and_checks=${ids_and_checks}&occupation_preference=${occupation_preference}`;
@@ -249,8 +249,8 @@ const Rent = () => {
                     {/* <h1 className='text-2xl hidden mb-8 lg:block font-bold'>More Filters</h1> */}
                     <p className='font-semibold   mb-3 '>Category</p>
                     <div className=" grid grid-cols-2   text-center font-medium  ">
-                        <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
-                        <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
+                        <p onClick={() => { setType2('homeowner'), navigate('/rent?type=homeowner&location=') }} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer`}>Home Owner</p>
+                        <p onClick={() =>{ setType2('roomseeker'), navigate('/rent?type=roomseeker&location=')}} className={`border lg:h-[50px] border-s-0 duration-500 
   ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-base cursor-pointer `}>Room Seeker</p>
                     </div>
                     {/* <p className='font-bold mb-3 '>Price Range</p>
@@ -318,8 +318,8 @@ const Rent = () => {
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
                     <div className=" grid grid-cols-2 col-span-2 lg:col-span-1  text-center font-medium  ">
-                        <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-sm cursor-pointer `}>Home Owner</p>
-                        <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
+                        <p onClick={() => {setType2('homeowner'), navigate('/rent?type=homeowner&location=')}} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-sm cursor-pointer `}>Home Owner</p>
+                        <p onClick={() => {setType2('roomseeker'), navigate('/rent?type=roomseeker&location=')}} className={`border lg:h-[50px] border-s-0 duration-500 
   ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-xs lg:text-sm cursor-pointer `}>Room Seeker</p>
                     </div>
 
@@ -359,9 +359,9 @@ const Rent = () => {
                             window.location.href = `/rent?type=${type2}&location=${urlString}`
                             setSuburbValue([])
 
-                        }} className='btn h-[50px] w-full hover:bg-[#4e46a1] border-0 bg-[#7065F0] text-white '>search</button>
+                        }} className='btn h-[50px] w-full hover:bg-[#4e46a1] border-0 bg-[#7065F0] text-white capitalize'>Search</button>
 
-                    <button onClick={() => setRight(true)} className='btn lg:hidden border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white '>filters</button>
+                    <button onClick={() => setRight(true)} className='btn lg:hidden border-0 w-full h-[50px] hover:bg-[#4e46a1] bg-[#7065F0] text-white capitalize'>Filters</button>
                 </div>
 
 
@@ -424,7 +424,7 @@ const Rent = () => {
                         </div>
 
                         {btnState && <div className="text-center">
-                            <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white '>Next</button>
+                            <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white capitalize'>Next</button>
                         </div>}
                     </div>
                     <div className="w-[500px] hidden lg:block">
@@ -433,8 +433,8 @@ const Rent = () => {
 
                             <p className='font-semibold   mb-3 '>Category</p>
                             <div className=" grid grid-cols-2   text-center font-medium  ">
-                                <p onClick={() => setType2('homeowner')} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer`}>Home Owner</p>
-                                <p onClick={() => setType2('roomseeker')} className={`border lg:h-[50px] border-s-0 duration-500 
+                                <p onClick={() => {setType2('homeowner'), navigate('/rent?type=homeowner&location=')}} className={`border lg:h-[50px]  duration-500 ${type2 === 'homeowner' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer`}>Home Owner</p>
+                                <p onClick={() => {setType2('roomseeker'), navigate('/rent?type=roomseeker&location=')}} className={`border lg:h-[50px] border-s-0 duration-500 
   ${type2 == 'roomseeker' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : ' hover:bg-indigo-100'} border-[#7065F0] text-[#7065F0] font-bold py-3 text-[8px] lg:text-base cursor-pointer `}>Room Seeker</p>
                             </div>
                             {/* <p className='font-bold mb-3 '>Price Range</p>

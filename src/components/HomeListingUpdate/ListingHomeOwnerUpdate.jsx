@@ -549,13 +549,13 @@ const ListingHomeOwnerUpdate = ({ setRoomEdit }) => {
                                 <div className="form-control mt-4 border-[#7065F0] rounded-md border -[#7065F0] border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white border-e border-[#7065F0] rounded-md border-[#7065F0] ">$</span>
-                                        <input defaultValue={listing?.rent_per_week_single} placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="text" className="input bg-transparent  w-full " />
+                                        <input defaultValue={listing?.rent_per_week_single} placeholder="Singles" onChange={(e) => setRentPerweeksingle(e.target.value)} type="number" className="input bg-transparent  w-full " />
                                     </label>
                                 </div>
                                 <div className="form-control mt-4 border-[#7065F0] rounded-md border -[#7065F0] border-[#7065F0] rounded-md border  hover:border-[#7065F0] rounded-md border -2 focus:border-[#7065F0] rounded-md border -2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white  rounded-md border-e border-[#7065F0]  ">$</span>
-                                        <input defaultValue={listing?.rent_per_week_couple} placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="text" className="input bg-transparent  w-full " />
+                                        <input defaultValue={listing?.rent_per_week_couple} placeholder="Couples" onChange={(e) => setRentPerweekcouple(e.target.value)} type="number" className="input bg-transparent  w-full " />
                                     </label>
                                 </div>
                             </div>

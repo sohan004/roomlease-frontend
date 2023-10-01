@@ -101,7 +101,6 @@ const ListingCard = ({ p, reFatch }) => {
                 console.log(err)
             })
     }
-    // console.log(p);
     return (
         // <Link to={`/details/${p.id}`}>
         <div className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
@@ -131,17 +130,23 @@ const ListingCard = ({ p, reFatch }) => {
                         }} src={ico3} className='border p-3 rounded-full' alt="" />}
                     </div>
                 </div>
-                <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold my-2'>{p?.house_type}</h1>
+                <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold my-2'>{p?.looking_place ?
+                    <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='text-2xl font-bold text-[#7065F0]'>${p?.weekly_budget}<span className='text-base font-medium text-gray-500'>/week</span></h1>
+                    : p?.house_type}</h1>
                 {p?.looking_place ?
                     <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.suburb?.length > 0 ? p?.suburb[0] : 'Australia'}</h1>
                     :
-                    <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.suburb || 'Australia'}</h1>
+                    <h1 onClick={() => p?.looking_place ? navigate(`/room-seeker/${p?.id}`) : navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.home_address ?
+                        <>
+                            {p.home_address.split(',')[p.home_address.split(',').length - 2]}
+                        </>
+                        : 'Australia'}</h1>
                 }
 
                 <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>
-                    <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico1} alt="" />{p?.bedroom_type || p?.room_type}</p>
-                    <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bed_size}</p>
-                    <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.bond || p?.private_bathroom}</p>
+
+                    <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
+                    <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p>
                 </div>
             </div>
         </div>
