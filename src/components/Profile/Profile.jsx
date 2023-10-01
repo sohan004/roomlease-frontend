@@ -52,7 +52,6 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { MdDelete } from 'react-icons/md';
 import DigitalVerify from '../DigitalVerify/DigitalVerify';
 import moment from 'moment/moment';
-import ListingCard from '../ListingCard/ListingCard';
 
 
 const Profile = () => {
@@ -825,7 +824,7 @@ const Profile = () => {
     }, [userData])
 
     const checkLink = userData?.facebook_link || userData?.instagram_link || userData?.twitter_link || userData?.tiktok_link
- 
+
 
     const addSocialLink = () => {
         if (!userData) return
@@ -1094,7 +1093,7 @@ const Profile = () => {
 
 
 
-                { <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
+                {<div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-10 lg:mt-20 gap-4'>
 
                     {userAllListing.length > 1 && userAllListing?.map((list, i) => <div onClick={() => setListing(list)} key={i} className={`p-2 cursor-pointer border-2 w-full hover:bg-[#dbd7fd] ${listing?.id == list?.id && 'bg-[#dbd7fd]'} duration-300 border-[#7065F0] rounded-md`}>
                         <h1 className='text-lg md:text-2xl font-bold '>{list?.house_type ? list?.house_type : 'ToDo'}</h1>
@@ -1294,7 +1293,9 @@ const Profile = () => {
                                             <div className='mt-4 mb-20 lg:mb-6 flex justify-center items-center gap-3'>
                                                 {userData?.facebook_link && <a href={linkFb} target='_blank' className='text-blue-500'><FaFacebook className='text-4xl' /></a>}
                                                 {userData?.instagram_link && <a href={linkInsta} target='_blank' className='text-pink-500'><FaInstagram className='text-4xl' /></a>}
-                                                {userData?.twitter_link && <a href={linkTwitter} target='_blank' className='text-blue-500'><FaTwitter className='text-4xl' /></a>}
+                                                {userData?.twitter_link && <a href={linkTwitter} target='_blank' className='text-blue-500'><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 50 50">
+                                                    <path d="M 6.9199219 6 L 21.136719 26.726562 L 6.2285156 44 L 9.40625 44 L 22.544922 28.777344 L 32.986328 44 L 43 44 L 28.123047 22.3125 L 42.203125 6 L 39.027344 6 L 26.716797 20.261719 L 16.933594 6 L 6.9199219 6 z"></path>
+                                                </svg></a>}
                                                 {userData?.tiktok_link && <a href={linkTiktok} target='_blank' className='text-black'><FaTiktok className='text-4xl' /></a>}
 
                                             </div>
@@ -1540,7 +1541,12 @@ const Profile = () => {
                                 </div>
                                 <div className='relative tooltip tooltip-bottom cursor-pointer' data-tip="Twitter share">
                                     <TwitterShareButton url={userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}>
-                                        <FaTwitterSquare className='text-5xl text-blue-400' />
+
+                                        <div >
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 50 50">
+                                                <path d="M 6.9199219 6 L 21.136719 26.726562 L 6.2285156 44 L 9.40625 44 L 22.544922 28.777344 L 32.986328 44 L 43 44 L 28.123047 22.3125 L 42.203125 6 L 39.027344 6 L 26.716797 20.261719 L 16.933594 6 L 6.9199219 6 z"></path>
+                                            </svg>
+                                        </div>
                                         <FaShare className='absolute -right-1 shadow-lg -bottom-2 bg-white bg-opacity-50 rounded-full p-1 text-xl'></FaShare>
                                     </TwitterShareButton>
                                 </div>

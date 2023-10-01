@@ -33,7 +33,7 @@ const SettingProfile = () => {
 
 
     const cngEmail = () => {
-       
+
 
         fetch(`${baseURL}/account/change-email/`, {
             method: 'POST',
@@ -53,15 +53,7 @@ const SettingProfile = () => {
             })
     }
 
-    const quary = new URLSearchParams(useLocation().search)
-    const tw = quary.get('r')
-
-    useEffect(() => {
-        if (tw) {
-            setValue('n')
-        }
-    }, [])
-
+    
 
 
     const fullNameUpdate = () => {
@@ -276,7 +268,7 @@ const SettingProfile = () => {
                     <div className="flex ">
                         <p onClick={() => setValue('p')} className={`text-sm  ${value === 'p' ? 'font-bold border-b-4 border-[#7065F0]' : ''} py-3 flex-grow text-center`}>Profile</p>
                         {/* <p onClick={() => setValue('a')} className={`text-sm  ${value === 'a' ? 'font-bold border-b-4 border-[#7065F0]' : ''} py-3 flex-grow text-center`}>My Account</p> */}
-                        <p onClick={() => setValue('n')} className={`text-sm  ${value === 'n' ? 'font-bold border-b-4 border-[#7065F0]' : ''} py-3 flex-grow text-center`}>Notifications</p>
+                        {/* <p onClick={() => setValue('n')} className={`text-sm  ${value === 'n' ? 'font-bold border-b-4 border-[#7065F0]' : ''} py-3 flex-grow text-center`}>Notifications</p> */}
                     </div>
                 </div>
             </div>
@@ -286,7 +278,7 @@ const SettingProfile = () => {
                     <div className="hidden lg:block">
                         <p onClick={() => setValue('p')} className={`py-4 ps-5 pe-20 cursor-pointer border-b-2 ${value === 'p' ? "border-s-4 border-s-[#7065F0]" : ''}`}>Profile</p>
                         {/* <p onClick={() => setValue('a')} className={`py-4 ps-5 pe-20 cursor-pointer border-b-2 ${value === 'a' ? "border-s-4 border-s-[#7065F0]" : ''}`}>My Account</p> */}
-                        <p onClick={() => setValue('n')} className={`py-4 ps-5 pe-20 cursor-pointer border-b-2 ${value === 'n' ? "border-s-4 border-s-[#7065F0]" : ''}`}>Notifications</p>
+                        {/* <p onClick={() => setValue('n')} className={`py-4 ps-5 pe-20 cursor-pointer border-b-2 ${value === 'n' ? "border-s-4 border-s-[#7065F0]" : ''}`}>Notifications</p> */}
                     </div>
 
 
@@ -294,7 +286,7 @@ const SettingProfile = () => {
                     {/* profile section start */}
                     {value === 'p' && <div className=" bg-white mb-20 p-6 rounded-lg flex-grow w-full lg:max-w-[630px] border-2 border-[#E0DEF7]">
                         <p className="text-xl font-bold">Personal Info</p>
-                        <p className="font-medium mt-6 mb-4">Avatar</p>
+                        <p className="font-medium mt-6 mb-4">Profile Picture</p>
                         <div className="flex gap-6 items-center mb-6 pb-6 border-b-2">
                             <div>
                                 <img className="bg-[#E0DEF7]  rounded-full h-20 w-20" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
@@ -359,6 +351,24 @@ const SettingProfile = () => {
                                 <Link to="/Benifits-of-upgrade" className='text-xs mx-auto text-center lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
                             </div>
                         </>}
+
+                        <p className="text-xl font-bold mt-5">Notifications</p>
+                        <div className="mt-4 mb-6 pb-6 border-b-2 ">
+                            <div className="flex justify-between">
+                                <p className="text-sm font-medium">Send email when someone messages you?</p>
+                                <input
+                                    onClick={e => chgNotification(e.target.checked, 'send_message_email')}
+                                    type="checkbox" checked={userData?.send_message_email} className="toggle  toggle-primary" />
+                            </div>
+                        </div>
+                        <div className="mt-6 mb-6 pb-6 border-b-2 ">
+                            <div className="flex justify-between">
+                                <p className="text-sm font-medium">Send email when a listing matches?</p>
+                                <input
+                                    onClick={e => chgNotification(e.target.checked, 'send_match_email')}
+                                    type="checkbox" checked={userData?.send_match_email} className="toggle  toggle-primary" />
+                            </div>
+                        </div>
 
 
                         <div>
@@ -429,23 +439,7 @@ const SettingProfile = () => {
 
                     {/* notification section start */}
                     {value === 'n' && <div className=" bg-white mb-20 p-6 rounded-lg flex-grow w-full lg:max-w-[630px] border-2 border-[#E0DEF7]">
-                        <p className="text-xl font-bold">Notifications</p>
-                        <div className="mt-6 mb-6 pb-6 border-b-2 ">
-                            <div className="flex justify-between">
-                                <p className="text-sm font-medium">Send email when someone messages you?</p>
-                                <input
-                                    onClick={e => chgNotification(e.target.checked, 'send_message_email')}
-                                    type="checkbox" checked={userData?.send_message_email} className="toggle  toggle-primary" />
-                            </div>
-                        </div>
-                        <div className="mt-6 mb-6 pb-6 border-b-2 ">
-                            <div className="flex justify-between">
-                                <p className="text-sm font-medium">Send email when a listing matches?</p>
-                                <input
-                                    onClick={e => chgNotification(e.target.checked, 'send_match_email')}
-                                    type="checkbox" checked={userData?.send_match_email} className="toggle  toggle-primary" />
-                            </div>
-                        </div>
+
 
                     </div>}
                 </div>

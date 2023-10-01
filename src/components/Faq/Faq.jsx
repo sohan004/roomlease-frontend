@@ -38,11 +38,11 @@ const Faq = () => {
                     <img src={journey} className='w-40 mx-auto' alt="" />
                     <h2 className="text-2xl font-bold">Listing a Room</h2>
                     {faq.map((item) => <div key={item.id} className="collapse collapse-plus mt-5 bg-base-200">
-                        <input type="radio" name="my-accordion-3" />
-                        <div className="collapse-title text-xl font-medium">
+                        <input type="radio" name="my-accordion-3" className='bg-base-200' />
+                        <div className="collapse-title text-xl font-medium bg-base-200">
                             <p className="font-semibold">{item?.question}</p>
                         </div>
-                        <div className="collapse-content">
+                        <div className="collapse-content bg-base-200">
                             <p className='ml-6 mt-1'>
                                 {item.answer}
                             </p>
