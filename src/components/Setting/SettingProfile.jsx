@@ -354,8 +354,8 @@ const SettingProfile = () => {
 
                         <div className="mt-7">
                             <p className="text-xl font-bold">Payment History</p>
-                            {userData?.subscription == 'Free' && <p className=" mt-1 text-red-600">There are no transactions.</p>}
-                            {userData?.subscription != 'Free' && <p className=" mt-1 text-green-600">Your account is {userData?.subscription}</p>}
+                            {userData?.subscription == 'Free' && <p className=" mt-1 text-red-600">There are no transactions yet.</p>}
+                            {userData?.subscription != 'Free' && <p className=" mt-1 text-green-600">Your account type is <b>{userData?.subscription}</b></p>}
 
                         </div>
 
@@ -385,9 +385,9 @@ const SettingProfile = () => {
                         </div>
 
                         <div className="mt-2 mb-5 grid gap-2 grid-cols-2  text-center font-medium">
-                            <p onClick={() => activeStatusCng(true)} className={`border-[#7065F0] rounded-md border   duration-500 ${userData?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Yes</p>
+                            <p onClick={() => activeStatusCng(true)} className={`border-[#7065F0] rounded-md border   duration-500 ${userData?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Active</p>
                             <p onClick={() => activeStatusCng(false)} className={`border-[#7065F0] rounded-md border  border-[#7065F0] rounded-md border -s-0 duration-500 
-                            ${!userData?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>No</p>
+                            ${!userData?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>Deactive</p>
                         </div>
 
                         <div className="mt-6 mb-6 pb-6 border-b-2 flex flex-col lg:flex-row gap-4 lg:items-center justify-between">
@@ -395,7 +395,7 @@ const SettingProfile = () => {
                                 <p className="font-bold">Delete Account</p>
                                 <p className=" mt-2 opacity-80 text-sm">Delete your account and all the data</p>
                             </div>
-                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-[#7065F0] bg-transparent text-[#7065F0]  hover:bg-[#7065F0] hover:text-white capitalize">Delete</button>
+                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-[#7065F0] hover:bg-[#554db3] bg-[#7065F0] text-white capitalize">Delete</button>
                         </div>
 
                     </div>}
