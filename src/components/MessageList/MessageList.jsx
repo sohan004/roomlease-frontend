@@ -269,7 +269,7 @@ const MessageList = () => {
                                 </ul>
                             </div>
                             <textarea onChange={e => setMessage(e.target.value)} value={message} type="text" name="" className="  flex-grow w-full focus:outline-none bg-white" placeholder="Write your message..." id="" />
-                            <button disabled={message === '' ? true : false} onClick={sendMessageFunction} className="btn  btn-sm text-white bg-[#7065F0] border-0 hover:bg-[#433c8f]"><span className="hidden  lg:inline">send</span> <img src={text7} alt="" /></button>
+                            <button disabled={message === '' ? true : false} onClick={sendMessageFunction} className="btn capitalize btn-sm text-white bg-[#7065F0] border-0 hover:bg-[#433c8f]"><span className="hidden  lg:inline">send</span> <img src={text7} alt="" /></button>
                         </div>
                     </div>
 
@@ -290,8 +290,8 @@ const MessageList = () => {
                             </fieldset>
                             <div className="modal-action">
                                 {/* if there is a button in form, it will close the modal */}
-                                <button onClick={() => { setImg(); setErr(''); window.message_photo.close() }} className="btn btn-sm border">close</button>
-                                <button onClick={imgUpload} className="btn  btn-sm text-white hover:bg-[#433c8f] bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
+                                <button onClick={() => { setImg(); setErr(''); window.message_photo.close() }} className="btn btn-sm border capitalize">close</button>
+                                <button onClick={imgUpload} className="btn capitalize btn-sm text-white hover:bg-[#433c8f] bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
                             </div>
                         </div>
                     </dialog>
@@ -309,8 +309,8 @@ const MessageList = () => {
                             </fieldset>
                             <div className="modal-action">
                                 {/* if there is a button in form, it will close the modal */}
-                                <button onClick={() => { setVideo(''); setErr(''); window.message_video.close() }} className="btn btn-sm border">close</button>
-                                <button onClick={videoUpload} className="btn  btn-sm text-white hover:bg-[#433c8f] bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
+                                <button onClick={() => { setVideo(''); setErr(''); window.message_video.close() }} className="btn btn-sm border capitalize">close</button>
+                                <button onClick={videoUpload} className="btn capitalize btn-sm text-white hover:bg-[#433c8f] bg-[#7065F0]"><span className="hidden lg:inline">send</span> <img src={text7} alt="" /></button>
                             </div>
                         </div>
                     </dialog>

@@ -117,7 +117,7 @@ const Matches = () => {
             {loading && <LoadingCard></LoadingCard>}
 
             {showMore && <div className="text-center mt-5">
-                <button onClick={nextListing} className='btn text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>show more listing</button>
+                <button onClick={nextListing} className='btn capitalize text-l hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>show more listing</button>
             </div>}
         </div>
     );

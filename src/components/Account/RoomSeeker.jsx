@@ -513,7 +513,7 @@ const RoomSeeker = () => {
                             <div className="form-control mt-4 rounded-md border-[#7065F0] border -[#7065F0] rounded-md border-[#7065F0] border  hover:rounded-md border-[#7065F0] border -2 focus:rounded-md border-[#7065F0] border -2 rounded-lg">
                                 <label className="input-group">
                                     <span className="bg-white border-e rounded-md border-[#7065F0] border-[#7065F0] ">$</span>
-                                    <input placeholder="200" onChange={(e) => { setWeeklybudget(e.target.value); onchengeFunction() }} type="text" className="input bg-white  w-full " />
+                                    <input placeholder="200" onChange={(e) => { setWeeklybudget(e.target.value); onchengeFunction() }} type="number" className="input bg-white  w-full " />
                                 </label>
                             </div>
 

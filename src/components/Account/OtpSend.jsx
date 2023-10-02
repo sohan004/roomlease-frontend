@@ -179,7 +179,7 @@ const OtpSend = () => {
                 }}
             />
             <div className='text-center mb-44 mt-16'>
-                <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn border-0">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
+                <button disabled={load ? true : false} onClick={sendOtp} className="w-full hover:bg-[#454094] bg-[#7065F0] text-white btn border-0 capitalize">{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} Continue <FaArrowRight /></button>
             </div>
             <dialog id="send_otp" className="modal">
                 <div method="dialog" className="modal-box max-w-[640px] bg-white p-0 rounded-3xl relative text-[#100A55] ">
@@ -202,7 +202,7 @@ const OtpSend = () => {
                                     disabled={verifyStatus}
                                 />
                                 <div className='text-center mt-5'>
-                                    <button disabled={time != 0} onClick={resend} className="btn btn-sm border-0  hover:bg-[#484196] bg-[#7065F0] text-white">Resend Code</button>
+                                    <button disabled={time != 0} onClick={resend} className="btn btn-sm border-0  hover:bg-[#484196] bg-[#7065F0] capitalize text-white">Resend Code</button>
 
                                 </div>
                             </div> </div>

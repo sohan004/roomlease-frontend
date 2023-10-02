@@ -53,7 +53,7 @@ const SettingProfile = () => {
             })
     }
 
-    
+
 
 
     const fullNameUpdate = () => {
@@ -292,7 +292,7 @@ const SettingProfile = () => {
                                 <img className="bg-[#E0DEF7]  rounded-full h-20 w-20" alt="" src={userData?.profile_picture ? userData?.profile_picture : profileImg} />
                             </div>
                             <div className="flex flex-col lg:flex-row gap-2 ">
-                                <button onClick={() => window.upload_profile_img2.showModal()} className="btn btn-sm bg-[#7065F0] w-[155px] lg:w-[105px] hover:bg-[#5047aa] border-0 text-white">Upload</button>
+                                <button onClick={() => window.upload_profile_img2.showModal()} className="btn btn-sm bg-[#7065F0] w-[155px] lg:w-[105px] capitalize hover:bg-[#5047aa] border-0 text-white">Upload</button>
                                 {/* <button onClick={removePhoto} className="btn btn-sm border-2 w-[155px] lg:w-[105px] border-[#E0DEF7] bg-transparent text-[#7065F0]">Remove</button> */}
                             </div>
                         </div>
@@ -352,21 +352,28 @@ const SettingProfile = () => {
                             </div>
                         </>}
 
+                        <div className="mt-7">
+                            <p className="text-xl font-bold">Payment History</p>
+                            {userData?.subscription == 'Free' && <p className=" mt-1 text-red-600">There are no transactions.</p>}
+                            {userData?.subscription != 'Free' && <p className=" mt-1 text-green-600">Your account is {userData?.subscription}</p>}
+
+                        </div>
+
+
                         <p className="text-xl font-bold mt-5">Notifications</p>
                         <div className="mt-4 mb-6 pb-6 border-b-2 ">
                             <div className="flex justify-between">
                                 <p className="text-sm font-medium">Send email when someone messages you?</p>
-                                <input
-                                    onClick={e => chgNotification(e.target.checked, 'send_message_email')}
-                                    type="checkbox" checked={userData?.send_message_email} className="toggle  toggle-primary" />
+
+                                <input onClick={e => chgNotification(e.target.checked, 'send_message_email')} type="checkbox" checked={userData?.send_message_email} className="checkbox checkbox-primary" />
                             </div>
                         </div>
                         <div className="mt-6 mb-6 pb-6 border-b-2 ">
                             <div className="flex justify-between">
                                 <p className="text-sm font-medium">Send email when a listing matches?</p>
-                                <input
-                                    onClick={e => chgNotification(e.target.checked, 'send_match_email')}
-                                    type="checkbox" checked={userData?.send_match_email} className="toggle  toggle-primary" />
+
+                                    
+                                <input onClick={e => chgNotification(e.target.checked, 'send_match_email')} type="checkbox" checked={userData?.send_match_email} className="checkbox checkbox-primary" />
                             </div>
                         </div>
 
@@ -374,14 +381,13 @@ const SettingProfile = () => {
                         <div>
                             <p className="font-bold mt-7">Account Status</p>
 
-                            <div className='mt-2 flex flex-col lg:flex-row gap-x-7 gap-y-4'>
-                                <p onClick={() => {
-                                    activeStatusCng(true)
-                                }} className='flex items-center gap-2 '><input type="radio" className="radio radio-primary" checked={userData?.active} />Active</p>
-                                <p onClick={() => {
-                                    activeStatusCng(false)
-                                }} className='flex items-center gap-2 '><input type="radio" className="radio radio-primary" checked={!userData?.active} />Deactive</p>
-                            </div>
+
+                        </div>
+
+                        <div className="mt-2 mb-5 grid gap-2 grid-cols-2  text-center font-medium">
+                            <p onClick={() => activeStatusCng(true)} className={`border-[#7065F0] rounded-md border   duration-500 ${userData?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Yes</p>
+                            <p onClick={() => activeStatusCng(false)} className={`border-[#7065F0] rounded-md border  border-[#7065F0] rounded-md border -s-0 duration-500 
+                            ${!userData?.active ? 'hover:bg-[#554db3] bg-[#7065F0] text-white ' : 'bg-white hover:bg-indigo-100'} border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base `}>No</p>
                         </div>
 
                         <div className="mt-6 mb-6 pb-6 border-b-2 flex flex-col lg:flex-row gap-4 lg:items-center justify-between">
@@ -389,11 +395,13 @@ const SettingProfile = () => {
                                 <p className="font-bold">Delete Account</p>
                                 <p className=" mt-2 opacity-80 text-sm">Delete your account and all the data</p>
                             </div>
-                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-[#766cdb] bg-transparent text-[#766cdb] hover:bg-[#bcb8e7]">Delete</button>
+                            <button onClick={deleteAccount} className="btn border-2 w-[130px]  border-[#7065F0] bg-transparent text-[#7065F0]  hover:bg-[#7065F0] hover:text-white capitalize">Delete</button>
                         </div>
 
                     </div>}
                     {/* profile section end */}
+
+
 
 
                     {/* my account section start */}
@@ -430,7 +438,7 @@ const SettingProfile = () => {
                             <button className="btn border-2 w-[130px]  border-red-400 bg-transparent text-red-400">Remove</button>
                         </div>
                         <div className="text-right">
-                            <button className="btn bg-[#7065F0]  text-white w-full lg:w-[156px]">Save changes</button>
+                            <button className="btn bg-[#7065F0] capitalize text-white w-full lg:w-[156px]">Save changes</button>
                         </div>
                     </div>}
                     {/* my accout sectioon end */}
@@ -453,8 +461,8 @@ const SettingProfile = () => {
                         </div>
                         <div className="modal-action mt-7">
                             {/* if there is a button in form, it will close the modal */}
-                            <button onClick={() => changeProfilePicture()} className="btn border-0 btn-primary">save changes</button>
-                            <button onClick={() => window.upload_profile_img2.close()} className="btn">Close</button>
+                            <button onClick={() => changeProfilePicture()} className="btn capitalize border-0 btn-primary">save changes</button>
+                            <button onClick={() => window.upload_profile_img2.close()} className="btn capitalize">Close</button>
                         </div>
                     </div>
                 </dialog>

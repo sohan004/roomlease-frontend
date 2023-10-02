@@ -293,7 +293,7 @@ const RoomSeekerListingDetails = () => {
                             onClick={() => {
                                 window.share_modal.showModal()
                             }}
-                            className='btn text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
+                            className='btn capitalize text-[#7065F0] w-[45%] lg:w-28 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'><img src={share} alt="" /> Share</button>
                         <button onClick={() => {
                             if (isFav) {
                                 roomSeekerFavouriteDelete(listingDetails?.id)
@@ -301,7 +301,7 @@ const RoomSeekerListingDetails = () => {
                             if (isFav == false) {
                                 roomSeekerAddFavorite(listingDetails?.id)
                             }
-                        }} className='btn text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{isFav ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
+                        }} className='btn capitalize text-[#7065F0] w-[45%] lg:w-32 bg-[#F7F7FD] border border-[#E0DEF7] lg:btn-sm'>{isFav ? <MdFavorite className='text-[17px] rounded-full  text-[#7065F0] '></MdFavorite> : <img src={fav} alt="" />} Favorite</button>
                     </div>
                 </div>
 
@@ -374,7 +374,7 @@ const RoomSeekerListingDetails = () => {
                         </div> */}
                         <textarea value={message} onChange={(e) => setMessage(e.target.value)} className='w-full py-3 px-4 border hover:border-2 focus:border-2 focus:bg-[#f8f8fc] focus:outline-none bg-white border-[#7065F0]  rounded-lg' placeholder='write message..' cols="30" rows="5"></textarea>
                         <div className='text-right'>
-                            <button onClick={sendMessageFunction} className='btn border-0 w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white '>send message</button>
+                            <button onClick={sendMessageFunction} className='btn border-0 w-full hover:bg-[#4e46a1] bg-[#7065F0] text-white capitalize'>send message</button>
                         </div>
                         {
                             listingDetails?.inspection_time &&
@@ -451,7 +451,7 @@ const RoomSeekerListingDetails = () => {
                                             .catch(err => {
                                                 console.log(err);
                                             })
-                                    }} className="btn border-0 flex-grow lg:flex-grow-0  bg-[#E8E6F9] text-[#7065F0]">send message</button>
+                                    }} className="btn border-0 flex-grow lg:flex-grow-0 capitalize bg-[#E8E6F9] text-[#7065F0]">send message</button>
 
                                 </div>
                             </div>

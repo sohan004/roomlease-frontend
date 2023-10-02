@@ -656,13 +656,13 @@ const HomeWoner = () => {
                                 <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input placeholder="Singles" onChange={(e) => { setRentPerweeksingle(e.target.value); onchengeFunction() }} type="text" className="input bg-white  w-full " />
+                                        <input placeholder="Singles" onChange={(e) => { setRentPerweeksingle(e.target.value); onchengeFunction() }} type="number" className="input bg-white  w-full " />
                                     </label>
                                 </div>
                                 <div className="form-control mt-4 border-[#7065F0] border hover:border-2 focus:border-2 rounded-lg">
                                     <label className="input-group">
                                         <span className="bg-white border-e border-[#7065F0] ">$</span>
-                                        <input placeholder="Couples" onChange={(e) => { setRentPerweekcouple(e.target.value); onchengeFunction() }} type="text" className="input bg-white  w-full " />
+                                        <input placeholder="Couples" onChange={(e) => { setRentPerweekcouple(e.target.value); onchengeFunction() }} type="number" className="input bg-white  w-full " />
                                     </label>
                                 </div>
                             </div>

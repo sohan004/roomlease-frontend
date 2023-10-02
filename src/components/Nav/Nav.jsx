@@ -75,7 +75,7 @@ const Nav = ({ setTf }) => {
                     </div>}
 
                     {!userData && <div className=' '>
-                        <NavLink to='/otp-send'><button className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3'>Login</button></NavLink>
+                        <NavLink to='/otp-send'><button className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white ms-3 capitalize'>Login</button></NavLink>
                     </div>}
 
                    {userData && <img onClick={() => setTf(true)} src={menu} className=' lg:hidden' alt="" />}
