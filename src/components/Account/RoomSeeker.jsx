@@ -531,7 +531,7 @@ const RoomSeeker = () => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
+                            <p className="text-[#100A55] font-bold text-lg">IDs & Checks Preference</p>
                             <div className="mt-4 grid gap-2 mb-5 grid-cols-2 lg:grid-cols-3 text-center font-medium">
                                 <p onClick={() => { addFunction('Any'); onchengeFunction() }} className={`duration-500 rounded-md border-[#7065F0] border  ${check1 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  rounded-md border-[#7065F0] border  rounded-md border-[#7065F0] border -[#bab7e4]' : 'bg-white hover:bg-indigo-100'} rounded-md border-[#7065F0] border -[#7065F0] text-[#7065F0] font-bold py-3   cursor-pointer text-xs lg:text-base`}>Any</p>
                                 <p onClick={() => { addFunction('Digital ID Verification'); onchengeFunction() }} className={`duration-500 rounded-md border-[#7065F0] border -t rounded-md border-[#7065F0] border -e lg:rounded-md border-[#7065F0] border -e-0 ${check2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  rounded-md border-[#7065F0] border  rounded-md border-[#7065F0] border -[#bab7e4]' : 'bg-white hover:bg-indigo-100'} rounded-md border-[#7065F0] border -[#7065F0] text-[#7065F0] font-bold py-3   cursor-pointer text-xs lg:text-base`}>Digital ID Verification</p>
@@ -565,7 +565,7 @@ const RoomSeeker = () => {
 
                 </div>
                 <div className="text-center mt-7">
-                    <button disabled={load} className='btn w-full border-0  hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
+                    <button disabled={load} className='btn w-full border-0 capitalize hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
                 </div>
             </form>
             <ToastContainer></ToastContainer>

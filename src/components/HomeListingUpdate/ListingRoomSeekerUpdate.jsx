@@ -426,7 +426,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[#100A55] font-bold text-lg">IDs & Checks</p>
+                            <p className="text-[#100A55] font-bold text-lg">IDs & Checks Preference</p>
                             <div className="mt-4 grid grid-cols-2 lg:grid-cols-3 text-center font-medium gap-2">
                                 <p onClick={() => addFunction('Any')} className={`duration-500 border-[#7065f0] rounded-md border  ${check1 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border-[#7065f0] rounded-md border  border-[#7065f0] rounded-md border -[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065f0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Any</p>
                                 <p onClick={() => addFunction('Digital ID Verification')} className={`duration-500 border-[#7065f0] rounded-md border -t border-[#7065f0] rounded-md border -e lg:border-[#7065f0] rounded-md border -e-0 ${check2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border-[#7065f0] rounded-md border  border-[#7065f0] rounded-md border -[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065f0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>Digital ID Verification</p>
