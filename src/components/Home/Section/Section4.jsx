@@ -25,7 +25,7 @@ const Section4 = () => {
                         </span></h1>
                     </div>
                     <div className="w-full lg:w-4/5">
-                        <p style={{ fontSize: '20px' }}>Enriching Society, Proudly Australian, Initiative of agiii.org</p>
+                        <p style={{ fontSize: '20px' }}>Enriching Society, Proudly Australian, Initiative of <a href='https://agiii.org' target='_blank' rel='noreferrer'>agiii.org</a></p>
                         {/* <p className='pt-3'></p> */}
                     </div>
                 </div>

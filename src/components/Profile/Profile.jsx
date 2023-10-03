@@ -1061,7 +1061,7 @@ const Profile = () => {
                             </div>
                             <p className='mt-4'>{userData?.subscription} Account</p>
                             {userData.subscription == 'Free' && <>
-                                <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0 block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
+                                <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0 capitalize block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
                                 <Link to="/Benifits-of-upgrade" className='text-xs lg:text-sm mt-2 text-[#7065F0]'>Benefits of upgrade?</Link>
                             </>}
                         </div>
@@ -1174,7 +1174,7 @@ const Profile = () => {
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
                     <div className=' bg-white bg-opacity-50 border relative h-[300px] lg:h-[350px]'>
-                        <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-2 px-3 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' htmlFor="img">Add Photo</label>
+                        <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-3 px-4 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' style={{fontSize:'14px', fontWeight: '600px'}} htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
 

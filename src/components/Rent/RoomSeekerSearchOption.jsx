@@ -431,7 +431,7 @@ const RoomSeekerSearchOption = (props) => {
 
 
             <div className='my-4 pb-6 border-b flex flex-col gap-4'>
-                <p className='font-bold text-lg'>IDs & Checks</p>
+                <p className='font-bold text-lg'>IDs & Checks Preference</p>
                 <div className="text-xs grid gap-2 grid-cols-2 lg:grid-cols-3 text-center font-medium">
                     <p onClick={() => toggleCheck('Any')} className={`duration-500 border-[#7065f0] rounded-md border  ${check1 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border-[#7065f0] rounded-md border  border-[#7065f0] rounded-md border -[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065f0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3  cursor-pointer`}>Any</p>
                     <p onClick={() => toggleCheck('Digital ID Verification')} className={`duration-500 border-[#7065f0] rounded-md border -t border-[#7065f0] rounded-md border -e lg:border-[#7065f0] rounded-md border -e-0 ${check2 ? 'hover:bg-[#554db3] bg-[#7065F0] text-white  border-[#7065f0] rounded-md border  border-[#7065f0] rounded-md border -[#bab7e4]' : 'bg-white hover:bg-indigo-100'} border-[#7065f0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3  cursor-pointer`}>Digital ID Verification</p>
