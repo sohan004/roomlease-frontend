@@ -50,7 +50,7 @@ const Section5 = () => {
                     <input type="text" name="" className="w-full focus:outline-none bg-transparent p-1" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <button onClick={saveEmail} className="btn hover:scale-110 duration-500 border-0 cursor-pointer   bg-[#7065F0] text-white px-6 capitalize hidden md:block">Submit</button>
                 </div>
-                <button onClick={saveEmail} className="btn hover:bg-[#4e46a1] bg-[#7065F0] border-0 text-white w-full  md:hidden mb-6">submit</button>
+                <button onClick={saveEmail} className="btn hover:bg-[#4e46a1] bg-[#7065F0] border-0 text-white w-full capitalize md:hidden mb-6">submit</button>
                 <div className="flex justify-center items-center gap-4 lg:gap-10 mt-4 lg:mt-7">
                     <FaFacebookF className="hover:scale-110 duration-500 cursor-pointer  text-3xl lg:text-5xl hover:bg-blue-700 bg-blue-500 text-white p-1 lg:p-2 rounded-full"></FaFacebookF>
                     <FaInstagram className="hover:scale-110 duration-500 cursor-pointer text-3xl lg:text-5xl hover:bg-[#a1254e]   bg-[#E1306C] text-white p-1 lg:p-2 rounded-full"></FaInstagram>
