@@ -69,6 +69,7 @@ const OtpSend = () => {
             .then(data => {
                 setLoad(false)
                 if (data.success) {
+                    setOtp('')
                     window.send_otp.showModal()
                     setTime(120)
                     setTimer(true)
@@ -195,6 +196,7 @@ const OtpSend = () => {
                                     className="text-center flex justify-center w-full max-w-[300px] mx-auto"
                                     value={otp} onChange={e => {
                                         verifyOtp(e)
+                                        setOtp(e)
 
                                     }}
                                     autoFocus OTPLength={4}
