@@ -1617,7 +1617,7 @@ const Profile = () => {
                                 {description && <textarea defaultValue={listing?.describe_occupants} onChange={e => setDescriptionValue(e.target.value)} name="" id="" cols="30" rows="3" className='p-2 border-2 rounded-md w-full bg-white'></textarea>}
                                 {description && <div className='flex gap-3 justify-start mt-3'>
                                     <button onClick={addDescription} className='btn border-0 hover:bg-[#4e46a1] bg-[#7065F0] text-white capitalize'>save changes</button>
-                                    <button onClick={() => setDescription(false)} className="btn border-0bg-slate-300 capitalize">cancel</button>
+                                    <button onClick={() => setDescription(false)} className="btn border-0 bg-slate-300 capitalize">cancel</button>
                                 </div>}
                             </div>
                         </div>
