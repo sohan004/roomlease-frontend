@@ -695,7 +695,7 @@ const HomeWoner = () => {
 
                     </div>
 
-                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6  text-[#100A55]">Room Features</p>
+                    <p className="text-center text-xl lg:text-2xl font-semibold mt-14 mb-6  text-[#100A55]">Room Features Preference</p>
                     <div className="grid gap-2 grid-cols-1 gap-10  ">
                         <div>
                             <p className="text-[#100A55] font-bold text-lg">Bedroom Type:</p>
@@ -722,7 +722,7 @@ const HomeWoner = () => {
                                 <p onClick={() => { setBedSize('none'); onchengeFunction() }} className={`border-[#7065F0] rounded-md border  border-[#7065F0] rounded-md border -t-0 lg:border-[#7065F0] rounded-md border -t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'}  border-[#7065F0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3  cursor-pointer text-xs lg:text-base`}>None</p>
                             </div>
                         </div>
-                        <p className="text-[#100A55] font-bold text-lg mt-5">Room Features :</p>
+                        <p className="text-[#100A55] font-bold text-lg mt-5">Room Features Preference :</p>
                         <RoomFurnishingAndFeture
                             roomFurnishingsAndFeatures={roomFurnishingsAndFeatures}
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}

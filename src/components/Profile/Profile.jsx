@@ -1241,7 +1241,7 @@ const Profile = () => {
                                     <div className=''>
                                         <FaPlay className='mx-auto text-5xl border-2 p-2 rounded-lg border-blue-950 px-3 text-[#7065F0] ' />
                                         <h1 className=' font-medium text-xl mb-2 mt-4'>Upload Video tour (recommended)</h1>
-                                        <p className='text-center text-sm mb-7 px-5'>Uploading a video of your home can reduce the need for in-person inspections</p>
+                                        <p className='text-center text-sm mb-7 px-6'>Uploading a video of your home can reduce the need for in-person inspections</p>
                                         <div className="dropdown dropdown-bottom">
                                             <label tabIndex={0} className='btn border-0 capitalize hover:bg-[#4e46a1] bg-[#7065F0] text-white  '>add video</label>
                                             <ul tabIndex={0} className="dropdown-content z-[1] bg-[#c0baff]  menu p-2 shadow  rounded-box w-52">
