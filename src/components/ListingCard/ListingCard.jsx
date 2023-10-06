@@ -144,18 +144,16 @@ const ListingCard = ({ p, reFatch }) => {
 
                     <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/room-seeker/${p.id}`)} className='flex items-center justify-between'>
 
-                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img className='h-[17px] w-[17px] opacity-80' src={ageIcon} alt="" /> {p?.age || ''}</p>
+                        {p?.age && <p className='font-medium text-slate-600 text-base flex items-center gap-2'><img className='h-[17px] w-[17px] opacity-80' src={ageIcon} alt="" /> {p?.age || ''}</p>}
 
                         {p?.looking_place == 'For Myself' ?
-                            <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <IoPerson className=''></IoPerson>Individual</p> :
-                            <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'>
+                            <p className='font-medium text-slate-600 text-base flex items-center gap-2'> <IoPerson className=''></IoPerson>Individual</p> :
+                            <p className='font-medium text-slate-600 text-base flex items-center gap-2'>
                                 <div className='flex items-end '>
                                     <IoPerson className=''></IoPerson>
                                     <IoPerson className='text-lg -ms-2'></IoPerson>
                                 </div> Couple</p>}
 
-
-                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <FaPeopleArrows className=''></FaPeopleArrows>{p?.gender?.length > 0 ? p?.gender[0] : ''}</p>
                         {/* <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
                     <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p> */}
                     </div>
@@ -205,9 +203,8 @@ const ListingCard = ({ p, reFatch }) => {
 
                     <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>
 
-                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <FaCarSide className=''></FaCarSide>{p?.parking_option || ''}</p>
-                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <IoBedSharp className=''></IoBedSharp>{p?.bedroom_type ? p?.bedroom_type?.split(' ')[0] : ''}</p>
-                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <FaPeopleArrows className=''></FaPeopleArrows>{p?.gender?.length > 0 ? p?.gender[0] : ''}</p>
+                        {p?.parking_option && <p className='font-medium text-slate-600 text-base flex items-center gap-2'> <FaCarSide className=''></FaCarSide>{p?.parking_option || ''}</p>}
+                       {p?.bedroom_type?.length > 0 && <p className='font-medium text-slate-600 text-base flex items-center gap-2'> <IoBedSharp className=''></IoBedSharp>{p?.bedroom_type ? p?.bedroom_type?.split(' ')[0] : ''}</p>}
                         {/* <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
                         <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p> */}
                     </div>

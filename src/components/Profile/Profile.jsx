@@ -1059,7 +1059,7 @@ const Profile = () => {
                                 <div onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '> <div className='p-1 border cursor-pointer rounded-full border-[#7065F0]'><p className={`h-4 w-4  ${userData?.show_phone_number && 'bg-[#6156db]'} rounded-full`}></p></div>Yes</div>
                                 <div onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '> <div className='p-1 border cursor-pointer rounded-full border-[#7065F0]'><p className={`h-4 w-4  ${!userData?.show_phone_number && 'bg-[#6156db]'} rounded-full`}></p></div>No</div>
                             </div>
-                            
+
                             <p className='mt-4'>{userData?.subscription} Account</p>
                             {userData.subscription == 'Free' && <>
                                 <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0 capitalize block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
@@ -1505,7 +1505,7 @@ const Profile = () => {
                             <h1 className='  font-bold text-xl '>Listing Status</h1>
 
                             <div className='mt-4 flex flex-col lg:flex-row gap-x-7 gap-y-4'>
-                                <p onClick={() => {
+                                {/* <p onClick={() => {
 
                                     if (userData?.account_type == 'roomseeker') {
                                         roomSeekersactiveUpdate(true)
@@ -1521,7 +1521,26 @@ const Profile = () => {
                                     else {
                                         activeUpdate(false)
                                     }
-                                }} className='flex items-center gap-2 '><input type="radio" className="radio radio-primary" checked={!listing?.active} />Deactive</p>
+                                }} className='flex items-center gap-2 '><input type="radio" className="radio radio-primary" checked={!listing?.active} />Deactive</p> */}
+
+                                <div onClick={() => {
+
+                                    if (userData?.account_type == 'roomseeker') {
+                                        roomSeekersactiveUpdate(true)
+                                    }
+                                    else {
+                                        activeUpdate(true)
+                                    }
+                                }} className='flex text-sm items-center gap-2 '> <div className='p-1 border cursor-pointer rounded-full border-[#7065F0]'><p className={`h-4 w-4  ${listing?.active && 'bg-[#6156db]'} rounded-full`}></p></div>Active</div>
+                                <div onClick={() => {
+
+                                    if (userData?.account_type == 'roomseeker') {
+                                        roomSeekersactiveUpdate(false)
+                                    }
+                                    else {
+                                        activeUpdate(false)
+                                    }
+                                }} className='flex text-sm items-center gap-2 '> <div className='p-1 border cursor-pointer rounded-full border-[#7065F0]'><p className={`h-4 w-4  ${!listing?.active && 'bg-[#6156db]'} rounded-full`}></p></div>Deactive</div>
                             </div>
                         </div>
 
