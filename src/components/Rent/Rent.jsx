@@ -424,7 +424,7 @@ const Rent = () => {
                         </div>
 
                         {btnState && <div className="text-center">
-                            <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white capitalize'>Next</button>
+                            <button onClick={() => { setPage(page + 1); paginateFunctiono() }} className='btn w-36 hover:bg-[#4e46a1] bg-[#7065F0] text-white capitalize border-0'>Next</button>
                         </div>}
                     </div>
                     <div className="w-[500px] hidden lg:block">

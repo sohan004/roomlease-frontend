@@ -338,9 +338,9 @@ const RoomSeekerListingDetails = () => {
                                         const copyText = `${!listingDetails?.looking_place ? `https://bristo-boss-2efa1.web.app/home-listing/${listingDetails?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listingDetails?.id}`}`
                                         navigator.clipboard.writeText(copyText)
                                             .then(() => {
-                                                toast.success('Listing Copy Succesfully', {
+                                                toast.success('Listing link copied', {
                                                     position: "top-center",
-                                                    autoClose: 5000,
+                                                    autoClose: 2000,
                                                     hideProgressBar: false,
                                                     closeOnClick: true,
                                                     pauseOnHover: true,
@@ -506,11 +506,11 @@ const RoomSeekerListingDetails = () => {
                                 <p className='font-medium text-xs lg:text-base opacity-70  w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
-                                    vlidarray ? <div className='flex items-center flex-wrap gap-2'>
+                                    vlidarray ? <div className='flex w-[128px] lg:w-[300px] items-center flex-wrap gap-2'>
                                         {listingDetails[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listingDetails[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold text-xs lg:text-base'>{listingDetails[key]}</p>
+                                        <p className='font-semibold w-[128px] lg:w-[300px] text-xs lg:text-base'>{listingDetails[key]}</p>
                                 }
 
                             </div>

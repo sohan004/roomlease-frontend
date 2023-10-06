@@ -1056,9 +1056,10 @@ const Profile = () => {
                             {/* <h1 className=' lg:text-lg font-semibold'>Do you want members to be able to contact you directly on your mobile?</h1> */}
                             <h1 className='  mt-4 text-center'>Make mobile number visible on profile?</h1>
                             <div className='flex mt-2 items-center justify-center gap-4'>
-                                <p onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-2" className="radio radio-primary bg-white" checked={userData?.show_phone_number} />Yes</p>
-                                <p onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '><input type="radio" name="radio-3" className="radio radio-primary bg-white" checked={!userData?.show_phone_number} />No</p>
+                                <div onClick={() => phoneStatusUpdate(true)} className='flex text-sm items-center gap-2 '> <div className='p-1 border cursor-pointer rounded-full border-[#7065F0]'><p className={`h-4 w-4  ${userData?.show_phone_number && 'bg-[#6156db]'} rounded-full`}></p></div>Yes</div>
+                                <div onClick={() => phoneStatusUpdate(false)} className='flex text-sm items-center gap-2 '> <div className='p-1 border cursor-pointer rounded-full border-[#7065F0]'><p className={`h-4 w-4  ${!userData?.show_phone_number && 'bg-[#6156db]'} rounded-full`}></p></div>No</div>
                             </div>
+                            
                             <p className='mt-4'>{userData?.subscription} Account</p>
                             {userData.subscription == 'Free' && <>
                                 <Link to={userData?.account_type == 'homeowner' ? '/homeowner-pricing' : '/roomseeker-pricing'}><button className='btn border-0 capitalize block hover:bg-[#4e46a1] bg-[#7065F0] text-white mt-3 w-full'>upgrade</button></Link>
@@ -1174,7 +1175,7 @@ const Profile = () => {
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 mb-7'>
 
                     <div className=' bg-white bg-opacity-50 border relative h-[300px] lg:h-[350px]'>
-                        <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-3 px-4 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' style={{fontSize:'14px', fontWeight: '600px'}} htmlFor="img">Add Photo</label>
+                        <label className='absolute z-30 bottom-8 hover:bg-[#4e46a1] py-3 px-4 rounded-md cursor-pointer duration-200 bg-[#7065F0] text-white border-0 left-2/4 -translate-x-2/4' style={{ fontSize: '14px', fontWeight: '600px' }} htmlFor="img">Add Photo</label>
 
                         {userData?.account_type == 'homeowner' && <div className='w-full  relative'  >
 
@@ -1484,11 +1485,11 @@ const Profile = () => {
                                 <p className='font-medium opacity-70 text-xs lg:text-base w-32 lg:w-[250px] '>{capitalizedWords.join(' ')}</p>
                                 <p className='font-medium opacity-70 lg:w-[100px]'>:</p>
                                 {
-                                    vlidarray ? <div className='flex items-center flex-wrap gap-2'>
+                                    vlidarray ? <div className='flex items-center w-[128px] lg:w-[300px] flex-wrap gap-2'>
                                         {listing[key].map((item, i) => <p className='font-semibold text-xs lg:text-base' key={i}>{item}{listing[key].length > 1 && ','}</p>)}
                                     </div> :
 
-                                        <p className='font-semibold text-xs lg:text-base'>{key == 'home_address' ?
+                                        <p className='font-semibold w-[128px] lg:w-[300px] text-xs lg:text-base'>{key == 'home_address' ?
                                             <>
                                                 {homeAddressListing.length === 1 && homeAddressListing[0]}
                                                 {homeAddressListing.length > 1 && homeAddressListing[homeAddressListingLength - 2]}
@@ -1557,9 +1558,9 @@ const Profile = () => {
                                             const copyText = `${userData?.account_type == 'homeowner' ? `https://bristo-boss-2efa1.web.app/home-listing/${listing?.id}` : `https://bristo-boss-2efa1.web.app/room-seeker/${listing?.id}`}`
                                             navigator.clipboard.writeText(copyText)
                                                 .then(() => {
-                                                    toast.success('Listing Copy Succesfully', {
+                                                    toast.success('Listing link copied', {
                                                         position: "top-center",
-                                                        autoClose: 5000,
+                                                        autoClose: 2000,
                                                         hideProgressBar: false,
                                                         closeOnClick: true,
                                                         pauseOnHover: true,
