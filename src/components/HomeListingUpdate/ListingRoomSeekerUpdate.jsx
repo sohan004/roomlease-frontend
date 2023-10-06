@@ -335,7 +335,7 @@ const ListingRoomSeekerUpdate = ({ setRoomEdit }) => {
                                 <p onClick={() => setBedSize('none')} className={`border-[#7065f0] rounded-md border  border-[#7065f0] rounded-md border -t-0 lg:border-[#7065f0] rounded-md border -t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} border-[#7065f0] rounded-md border -[#7065F0] text-[#7065F0] font-bold py-3 cursor-pointer text-xs lg:text-base`}>None</p>
                             </div>
                         </div>
-                        <p className="text-[#100A55] font-bold text-lg">Room Features :</p>
+                        <p className="text-[#100A55] font-bold text-lg">Room Features Preference :</p>
                         <RoomFurnishingAndFeture
                             roomFurnishingsAndFeatures={roomFurnishingsAndFeatures}
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
