@@ -438,7 +438,7 @@ const RoomSeeker = () => {
                                 <p onClick={() => { setBedSize('none'); onchengeFunction() }} className={`rounded-md border-[#7065F0] border  rounded-md border-[#7065F0] border -t-0 lg:rounded-md border-[#7065F0] border -t ${bedSize === 'none' ? 'hover:bg-[#554db3] bg-[#7065F0] text-white' : 'bg-white hover:bg-indigo-100'} rounded-md border-[#7065F0] border -[#7065F0] text-[#7065F0] font-bold py-3   cursor-pointer text-xs lg:text-base`}>None</p>
                             </div>
                         </div>
-                        <p className="text-[#100A55] font-bold text-lg">Room Features :</p>
+                        <p className="text-[#100A55] font-bold text-lg">Room Features Preference :</p>
                         <RoomFurnishingAndFeture
                             roomFurnishingsAndFeatures={roomFurnishingsAndFeatures}
                             setRoomFurnishingsAndFeatures={setRoomFurnishingsAndFeatures}
@@ -565,7 +565,7 @@ const RoomSeeker = () => {
 
                 </div>
                 <div className="text-center mt-7">
-                    <button disabled={load} className='btn w-full border-0 capitalize hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
+                    <button disabled={load} className='btn w-full border-0 capitalize hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit</button>
                 </div>
             </form>
             <ToastContainer></ToastContainer>
