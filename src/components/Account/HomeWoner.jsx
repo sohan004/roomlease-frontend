@@ -837,7 +837,7 @@ const HomeWoner = () => {
                     </div>
                 </div>
                 <div className="text-center mt-7">
-                    <button disabled={load} className='btn w-full border-0 capitalize hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit all Information</button>
+                    <button disabled={load} className='btn w-full border-0 capitalize hover:bg-[#4e46a1] bg-[#7065F0] text-white '>{load ? <FaSpinner className='text-xl animate-spin'></FaSpinner> : ''} submit</button>
                 </div>
             </form>
             <ToastContainer />
