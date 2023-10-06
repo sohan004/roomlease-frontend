@@ -19,7 +19,9 @@ import { TbMessage2 } from "react-icons/tb";
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { AuthContext } from '../AuthProvider/AuthProvider';
 import { useContext } from 'react';
-import { IoPerson } from 'react-icons/io5';
+import { IoBedSharp, IoPerson } from 'react-icons/io5';
+import moment from 'moment/moment';
+import ageIcon from '../../assets/rentIcon/age.png'
 
 const ListingCard = ({ p, reFatch }) => {
 
@@ -106,7 +108,7 @@ const ListingCard = ({ p, reFatch }) => {
 
     if (p?.looking_place) {
         return <div >
-            <div className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
+            <div className='w-full border rounded-lg  h-full border-[#F0EFFB] cursor-pointer bg-white'>
                 {p?.photo && <img onClick={() => navigate(`/room-seeker/${p.id}`)} src={`${p?.photo.includes('https://roomleaseau.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg ' alt="" />}
                 {!p?.photo && <div onClick={() => navigate(`/room-seeker/${p.id}`)} className='w-full h-64 flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
                     <FaHome></FaHome>
@@ -137,25 +139,25 @@ const ListingCard = ({ p, reFatch }) => {
                     {
                         <h1 onClick={() => navigate(`/room-seeker/${p?.id}`)} className='text-base font-medium text-gray-500  mb-2 mt-3'>{p?.suburb?.length > 0 ? p?.suburb[0].replace(/, Australia/, '') : ''}</h1>
                     }
-                    <h1 onClick={() => navigate(`/room-seeker/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.available_from ? p?.available_from : '--'}</h1>
+                    <h1 onClick={() => navigate(`/room-seeker/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.available_from ? 'Available from' + ' ' + moment(p?.available_from).format('D MMMM YYYY') : ''}</h1>
 
 
                     <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/room-seeker/${p.id}`)} className='flex items-center justify-between'>
 
-                        <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'> <FaDeezer className='text-lg'></FaDeezer>{p?.age || '--'}</p>
+                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img className='h-[17px] w-[17px] opacity-80' src={ageIcon} alt="" /> {p?.age || ''}</p>
 
                         {p?.looking_place == 'For Myself' ?
-                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'> <IoPerson className='text-lg'></IoPerson>Individual</p> :
-                            <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'>
+                            <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <IoPerson className=''></IoPerson>Individual</p> :
+                            <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'>
                                 <div className='flex items-end '>
-                                    <IoPerson className='text-lg'></IoPerson>
-                                    <IoPerson className='text-lg'></IoPerson>
+                                    <IoPerson className=''></IoPerson>
+                                    <IoPerson className='text-lg -ms-2'></IoPerson>
                                 </div> Couple</p>}
 
 
-                        <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'> <FaPeopleArrows className='text-lg'></FaPeopleArrows>{p?.gender?.length > 0 ? p?.gender[0] : '--'}</p>
-                        {/* <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
-                    <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p> */}
+                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <FaPeopleArrows className=''></FaPeopleArrows>{p?.gender?.length > 0 ? p?.gender[0] : ''}</p>
+                        {/* <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
+                    <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p> */}
                     </div>
                 </div>
             </div>
@@ -163,7 +165,7 @@ const ListingCard = ({ p, reFatch }) => {
     }
     else {
         return <div>
-            <div className='w-full border rounded-lg  border-[#F0EFFB] cursor-pointer bg-white'>
+            <div className='w-full border rounded-lg h-full  border-[#F0EFFB] cursor-pointer bg-white'>
                 {p?.photo && <img onClick={() => navigate(`/home-listing/${p.id}`)} src={`${p?.photo.includes('https://roomleaseau.pythonanywhere') ? p?.photo : `${baseURL}${p?.photo}`}  `} className='w-full lg:h-64 rounded-lg ' alt="" />}
                 {!p?.photo && <div onClick={() => navigate(`/home-listing/${p.id}`)} className='w-full h-64 flex justify-center items-center text-6xl opacity-60 rounded-lg bg-slate-200'>
                     <FaHome></FaHome>
@@ -196,18 +198,18 @@ const ListingCard = ({ p, reFatch }) => {
                             <>
                                 {p.home_address.split(',')[p.home_address.split(',').length - 2]}
                             </>
-                            : '--'}</h1>
+                            : ''}</h1>
                     }
-                    <h1 onClick={() => navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.available_from ? p?.available_from : '--'}</h1>
+                    <h1 onClick={() => navigate(`/home-listing/${p?.id}`)} className='text-base font-medium text-gray-500 pb-4 border-b-2 mb-4'>{p?.available_from ? 'Available from' + ' ' + moment(p?.available_from).format('D MMMM YYYY') : ''}</h1>
 
 
                     <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>
 
-                        <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'> <FaCarSide className='text-lg'></FaCarSide>{p?.parking_option || '--'}</p>
-                        <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'> <FaLandmark className='text-lg'></FaLandmark>{p?.bedroom_type ? p?.bedroom_type?.split(' ')[0] : '--'}</p>
-                        <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'> <FaPeopleArrows className='text-lg'></FaPeopleArrows>{p?.gender?.length > 0 ? p?.gender[0] : '--'}</p>
-                        {/* <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
-                        <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p> */}
+                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <FaCarSide className=''></FaCarSide>{p?.parking_option || ''}</p>
+                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <IoBedSharp className=''></IoBedSharp>{p?.bedroom_type ? p?.bedroom_type?.split(' ')[0] : ''}</p>
+                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'> <FaPeopleArrows className=''></FaPeopleArrows>{p?.gender?.length > 0 ? p?.gender[0] : ''}</p>
+                        {/* <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
+                        <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p> */}
                     </div>
                 </div>
             </div>
@@ -257,8 +259,8 @@ const ListingCard = ({ p, reFatch }) => {
 
     //         <div onClick={() => p?.looking_place ? navigate(`/room-seeker/${p.id}`) : navigate(`/home-listing/${p.id}`)} className='flex items-center justify-between'>
 
-    //             <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
-    //             <p className='font-medium text-slate-600 text-xs md:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p>
+    //             <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico2} alt="" />{p?.bedroom_type || p?.room_type}</p>
+    //             <p className='font-medium text-slate-600 text-xs lg:text-base flex items-center gap-2'><img src={ico9} alt="" />{p?.looking_place ? p?.bed_size + ' ' + 'Bed' : 'Parking' + ' ' + p?.parking_option}</p>
     //         </div>
     //     </div>
     // </div>
