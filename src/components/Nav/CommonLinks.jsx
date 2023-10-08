@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaInbox, FaMapMarkerAlt, FaSearch, FaSignOutAlt, FaTimes, FaUser } from 'react-icons/fa'
+import { FaHome, FaInbox, FaMapMarkerAlt, FaSearch, FaSignOutAlt, FaTimes, FaUser } from 'react-icons/fa'
 import { GrSettingsOption } from 'react-icons/gr'
 import { MdDoubleArrow } from 'react-icons/md'
 import { BsFillPersonFill, BsPerson, BsPersonCheckFill } from 'react-icons/bs'
@@ -77,6 +77,15 @@ export default function CommonLinks({ setUserData, userData, setTf }) {
         </div>} */}
         <input value={''} readOnly type="text" name="" placeholder='Search Listings' className='py-1 px-3 w-full text-lg focus:outline-none bg-transparent' />
       </div>
+      <p onClick={() => {
+        setTf(false)
+        navigate('/')
+      }} className='cursor-pointer lg:hidden'>
+        <div className='text-[#100A55] flex flex-col justify-center items-center gap-1'>
+          <FaHome></FaHome>
+          <p className='font-medium'>Home</p>
+        </div>
+      </p>
       <p onClick={() => {
         setTf(false)
         if (listing) {
