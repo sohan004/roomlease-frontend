@@ -327,7 +327,7 @@ const Rent = () => {
                         <Autocomplete
 
                             className="w-full   rounded-md border border-[#7065F0]  focus:outline-none py-3 px-5 h-[50px]   bg-[#f6f6ff] "
-                            apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+                            apiKey={import.meta.env.VITE_googleApiKey}
 
                             options={{
                                 componentRestrictions: { country: "au" },

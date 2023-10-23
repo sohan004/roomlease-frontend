@@ -580,7 +580,7 @@ const HomeWoner = () => {
                             <Autocomplete
 
                                 className="w-full mt-4 hover:border-2 focus:border-2 py-3  px-4 border focus:outline-none focus:bg-[#f6f6ff] border-[#7065F0] rounded-lg"
-                                apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+                                apiKey={import.meta.env.VITE_googleApiKey}
 
                                 options={{
                                     componentRestrictions: { country: "au" },

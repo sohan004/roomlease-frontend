@@ -375,7 +375,7 @@ const RoomSeeker = () => {
                                 <Autocomplete
 
                                     className="w-full  rounded-lg e rounded-md border-[#7065F0] border-b mb-4  focus:outline-none py-3   px-5   bg-[#f6f6ff] "
-                                    apiKey={`AIzaSyAMJbH4KtMl-oDgAFJXF1teH_Y6vzO4JqA`}
+                                    apiKey={import.meta.env.VITE_googleApiKey}
 
                                     options={{
                                         componentRestrictions: { country: "au" },
